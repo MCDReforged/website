@@ -1,3 +1,5 @@
+// https://github.com/MCDReforged/PluginCatalogue/tree/catalogue
+
 export interface LangDict {
   en_us?: string
   zh_cn?: string

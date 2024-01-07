@@ -1,30 +1,12 @@
-import {AllOfAPlugin, Everything} from "@/types/plugin-catalogue-meta";
-import {Card, CardBody, CardFooter, CardHeader, Chip, Link} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader, Link } from "@nextui-org/react";
 import React from 'react';
-import {FaQuestion, FaToolbox} from "react-icons/fa";
-import {IoMdSettings} from "react-icons/io";
-import {AiOutlineApi, AiOutlineSetting} from "react-icons/ai";
-import {getEverything} from "@/data/utils";
+import { getEverything } from "@/data/utils";
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
+import { PluginLabel } from "@/components/plugins/label";
 
 const everything = getEverything()
-
-function PluginLabel({label}: {label: string}) {
-  let startContent = {
-    'information': <AiOutlineSetting />,
-    'tool': <FaToolbox />,
-    'management': <IoMdSettings />,
-    'api': <AiOutlineApi />,
-  }[label] ?? <FaQuestion />
-  return <Chip
-    className="mx-1"
-    color="primary"
-    startContent={startContent}
-  >
-    {label}
-  </Chip>
-}
 
 function PluginAuthor({author}: {author: string}) {
   const authors = everything.authors.authors
@@ -80,7 +62,7 @@ function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
 export function PluginList() {
   return (
     <div>
-      <h1>PluginList</h1>
+      <p className="h1">PluginList</p>
       {Object.values(everything.plugins).map(plugin => {
         return <PluginCard key={plugin.meta.id} plugin={plugin} />
       })}

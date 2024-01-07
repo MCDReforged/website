@@ -1,8 +1,8 @@
-import {getEverything} from "@/data/utils";
+import { getEverything } from "@/data/utils";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import React from "react";
-import {AllOfAPlugin} from "@/types/plugin-catalogue-meta";
+import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 import "github-markdown-css"
 
 const plugins = getEverything().plugins

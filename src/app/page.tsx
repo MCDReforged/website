@@ -1,8 +1,8 @@
-import {Link} from "@nextui-org/link";
-import {button as buttonStyles} from "@nextui-org/theme";
-import {siteConfig} from "@/config/site";
-import {subtitle, title} from "@/components/primitives";
-import {GithubIcon, ReadTheDocsIcon} from "@/components/icons";
+import { Link } from "@nextui-org/link";
+import { button as buttonStyles } from "@nextui-org/theme";
+import { siteConfig } from "@/config/site";
+import { subtitle, title } from "@/components/primitives";
+import { GithubIcon, ReadTheDocsIcon } from "@/components/icons";
 
 export default function Home() {
   return (

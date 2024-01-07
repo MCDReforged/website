@@ -1,5 +1,5 @@
-import {Link} from "@nextui-org/link";
-import {NextUILogo} from "./icons";
+import { Link } from "@nextui-org/link";
+import { NextUILogo } from "./icons";
 
 export function Footer() {
   const year = new Date().getFullYear()

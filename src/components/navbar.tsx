@@ -9,19 +9,19 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
-import {Kbd} from "@nextui-org/kbd";
-import {Link} from "@nextui-org/link";
-import {isAppleDevice} from "@react-aria/utils";
+import { Kbd } from "@nextui-org/kbd";
+import { Link } from "@nextui-org/link";
+import { isAppleDevice } from "@react-aria/utils";
 
-import {link as linkStyles} from "@nextui-org/theme";
+import { link as linkStyles } from "@nextui-org/theme";
 
 import clsx from "clsx";
 
-import {ThemeSwitch} from "@/components/theme-switch";
-import {GithubIcon, McdrLogo, SearchIcon,} from "@/components/icons";
-import {usePathname} from "next/navigation";
-import {siteConfig} from "../config/site";
-import {Button} from "@nextui-org/button";
+import { ThemeSwitch } from "@/components/theme-switch";
+import { GithubIcon, McdrLogo, SearchIcon, } from "@/components/icons";
+import { usePathname } from "next/navigation";
+import { siteConfig } from "../config/site";
+import { Button } from "@nextui-org/button";
 
 const config = {
   navItems: [

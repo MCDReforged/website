@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IconSvgProps} from "@/types";
+import { IconSvgProps } from "@/types";
 import Image from "next/image";
 
 export const McdrLogo = ({size, ...props}: {size: number}) => (

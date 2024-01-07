@@ -1,9 +1,9 @@
 import "@/styles/globals.css";
-import {Metadata, Viewport} from "next";
-import {Providers} from "./providers";
-import {Navbar} from "@/components/navbar";
+import { Metadata, Viewport } from "next";
+import { Providers } from "./providers";
+import { Navbar } from "@/components/navbar";
 import clsx from "clsx";
-import {Footer} from "@/components/footer";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -36,10 +36,10 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-          <div className="relative flex flex-col h-screen">
+          <div className="relative flex flex-col">
             <Navbar />
 
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+            <main className="container mx-auto max-w-7xl p-6 flex-grow">
               {children}
             </main>
 
