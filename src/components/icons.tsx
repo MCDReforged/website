@@ -2,10 +2,7 @@ import * as React from "react";
 import {IconSvgProps} from "@/types";
 import Image from "next/image";
 
-export const McdrLogo: React.FC<IconSvgProps> = ({
-  size = 36,
-  ...props
-}) => (
+export const McdrLogo = ({size, ...props}: {size: number}) => (
   <Image
     src={"/mcdr.svg"}
     alt={"MCDR LOGO"}

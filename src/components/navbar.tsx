@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/navbar";
 import {Kbd} from "@nextui-org/kbd";
 import {Link} from "@nextui-org/link";
-import {Input} from "@nextui-org/input";
+import {isAppleDevice} from "@react-aria/utils";
 
 import {link as linkStyles} from "@nextui-org/theme";
 
@@ -21,6 +21,7 @@ import {ThemeSwitch} from "@/components/theme-switch";
 import {GithubIcon, McdrLogo, SearchIcon,} from "@/components/icons";
 import {usePathname} from "next/navigation";
 import {siteConfig} from "../config/site";
+import {Button} from "@nextui-org/button";
 
 const config = {
   navItems: [
@@ -34,7 +35,7 @@ const config = {
       label: "Plugins",
       href: "/plugins",
       isExternal: false,
-      checkActive: (pathname: string) => pathname === "/plugins" || pathname.startsWith("/plugin/"),
+      checkActive: (pathname: string) => pathname === "/plugins" || pathname.startsWith("/plugins/"),
     },
     {
       label: "Docs",
@@ -45,34 +46,34 @@ const config = {
   ],
 };
 
+const handleOpenSearch = () => {
+};
+
 export const Navbar = () => {
   const searchInput = (
-    <Input
+    <Button
       aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
+      className="text-sm text-default-500 bg-default-400/20 dark:bg-default-500/20"
       endContent={
-        <Kbd className="hidden md:inline-block" keys={["ctrl"]}>
+        <Kbd className="hidden md:inline-block" keys={[isAppleDevice() ? "command" : "ctrl"]}>
           K
         </Kbd>
       }
-      labelPlacement="outside"
-      placeholder="Search..."
       startContent={
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }
-      type="search"
-    />
+      onPress={handleOpenSearch}
+    >
+      Search...
+    </Button>
   );
 
   const pathname = usePathname();
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar maxWidth="xl" position="sticky" isBordered>
       <NavbarBrand className="gap-3 max-w-fit">
         <Link className="flex justify-start items-center gap-1" color="foreground" href="/">
-          <McdrLogo />
+          <McdrLogo size={36} />
           <p className="font-bold text-inherit">MCDReforged</p>
         </Link>
       </NavbarBrand>
@@ -101,12 +102,12 @@ export const Navbar = () => {
           <GithubIcon className="text-default-500" />
         </Link>
         <ThemeSwitch />
-        <NavbarItem className="hidden sm:flex">{searchInput}</NavbarItem>
+        {/*<NavbarItem className="hidden sm:flex">{searchInput}</NavbarItem>*/}
         <NavbarMenuToggle className="sm:hidden" />
       </NavbarContent>
 
       <NavbarMenu>
-        {searchInput}
+        {/*{searchInput}*/}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {config.navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>

@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import {Metadata, Viewport} from "next";
-import {siteConfig} from "@/config/site";
 import {Providers} from "./providers";
 import {Navbar} from "@/components/navbar";
 import clsx from "clsx";
@@ -8,12 +7,11 @@ import {Footer} from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: 'MCDReforged',
+    template: `%s - MCDReforged`,
   },
-  description: siteConfig.description,
   icons: {
-    icon: "/favicon.svg",
+    icon: "/mcdr.svg",
   },
 };
 
