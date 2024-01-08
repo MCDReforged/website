@@ -22,7 +22,7 @@ export default function Home() {
           href={siteConfig.links.docs}
           className={buttonStyles({variant: "bordered", radius: "full", color: "primary"})}
         >
-          <ReadTheDocsIcon size={20} color={"primary"}/>
+          <ReadTheDocsIcon size={18} color={"primary"}/>
           Documentation
         </Link>
         <Link

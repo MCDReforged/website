@@ -2,18 +2,37 @@ import { FaInfoCircle, FaLink, FaQuestion, FaToolbox, FaUserCog } from "react-ic
 import { Chip } from "@nextui-org/react";
 import React from "react";
 
+const labelConfigs: {[key: string]: any} = {
+  'information': {
+    color: 'primary',
+    icon: <FaInfoCircle />,
+  },
+  'tool': {
+    color: 'secondary',
+    icon: <FaToolbox />,
+  },
+  'management': {
+    color: 'danger',
+    icon: <FaUserCog />,
+  },
+  'api': {
+    color: 'warning',
+    icon: <FaLink />,
+  },
+  '__default': {
+    color: 'default',
+    icon: <FaLink />,
+  },
+}
+
 export function PluginLabel({label}: {label: string}) {
-  let startContent = {
-    'information': <FaInfoCircle />,
-    'tool': <FaToolbox />,
-    'management': <FaUserCog />,
-    'api': <FaLink />,
-  }[label] ?? <FaQuestion />
+  const cfg = labelConfigs[label] ?? labelConfigs['__default']
   return <Chip
     className="mx-1"
-    color="primary"
+    color={cfg.color}
     radius="sm"
-    startContent={<div className="ml-1">{startContent}</div>}
+    variant="bordered"
+    startContent={<div className="ml-1">{cfg.icon}</div>}
   >
     {label}
   </Chip>
