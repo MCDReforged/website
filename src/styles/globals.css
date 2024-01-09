@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 html {
+  /* https://www.bram.us/2021/07/23/prevent-unwanted-layout-shifts-caused-by-scrollbars-with-the-scrollbar-gutter-css-property/ */
   scrollbar-gutter: stable;
 }

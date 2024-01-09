@@ -34,7 +34,7 @@ function PluginReleases({plugin}: {plugin: AllOfAPlugin}) {
 }
 
 export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
-  const tabTitle = (text, icon) => (
+  const tabTitle = (text: string, icon: React.ReactNode) => (
     <div className="flex items-center space-x-2 justify-center mb-1">
       {icon}
       <p>{text}</p>
@@ -54,7 +54,6 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
       >
         <Tab
           key="introduction"
-          color="primary"
           title={tabTitle("Introduction", <GoBook />)}
         >
           <PluginIntroduction plugin={plugin}/>
@@ -62,7 +61,6 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
 
         <Tab
           key="releases"
-          color="primary"
           title={tabTitle("Releases", <GoPackage />)}
         >
           <PluginReleases plugin={plugin}/>
@@ -70,7 +68,6 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
 
         <Tab
           key="dependencies"
-          color="primary"
           title={tabTitle("Dependencies", <GoPackageDependencies />)}
         >
           <PluginDependencies plugin={plugin}/>

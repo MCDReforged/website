@@ -29,7 +29,9 @@ export function PluginLabel({label}: {label: string}) {
   const cfg = labelConfigs[label] ?? labelConfigs['__default']
   return <Chip
     className="mx-1"
-    color={cfg.color}
+    classNames={{
+      base: `border-${cfg.color} text-${cfg.color}`,
+    }}
     radius="sm"
     variant="bordered"
     startContent={<div className="ml-1">{cfg.icon}</div>}
