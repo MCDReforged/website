@@ -1,17 +1,17 @@
 import { Card, Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
 import { FaFilter } from "react-icons/fa";
-import { MyDropdown } from "./dropdown-fix";
 import { pluginLabels } from "@/config/catalogue";
 import { PluginLabel } from "@/components/plugins/label";
+import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 
-export function Sidebar() {
-  const titleClassTop = 'text-xl font-bold mb-3'
-  const titleClassMiddle = "text-xl font-bold my-3"
+export function Sidebar({plugin}: {plugin: AllOfAPlugin}) {
+  const titleClassTop = 'text-xl font-semibold mb-3'
+  const titleClassMiddle = "text-xl font-semibold my-3"
   return (
     <div>
       <Card className="p-5 overflow-hidden" shadow="sm" radius="md">
         <div className="flex flex-col">
-          <p className={titleClassTop}>Plugin filter测试</p>
+          <p className={titleClassTop}>Plugin filter</p>
           <Input
             variant="bordered"
             size="sm"
@@ -26,9 +26,6 @@ export function Sidebar() {
               </Checkbox>
             ))}
           </CheckboxGroup>
-
-          <p className={titleClassMiddle}>Sort order</p>
-          <MyDropdown/>
         </div>
       </Card>
 

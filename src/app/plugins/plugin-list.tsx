@@ -74,7 +74,7 @@ function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
 
 export function PluginList() {
   return (
-    <div className="px-5 mb-5">
+    <div className="mx-5 mb-5">
       <p className="text-2xl font-bold text-center mb-3">Plugin List</p>
       <div className="gap-4 grid grid-cols-1">
         {Object.values(everything.plugins).map(plugin => {
