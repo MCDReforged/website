@@ -6,3 +6,8 @@ html {
   /* https://www.bram.us/2021/07/23/prevent-unwanted-layout-shifts-caused-by-scrollbars-with-the-scrollbar-gutter-css-property/ */
   scrollbar-gutter: stable;
 }
+
+/* Make sure all lists in the markdown content have list-style */
+.markdown-body ol, .markdown-body ul {
+  list-style: revert;
+}

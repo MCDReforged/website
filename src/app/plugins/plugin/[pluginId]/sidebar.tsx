@@ -1,31 +1,21 @@
-import { Card, Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
-import { FaFilter } from "react-icons/fa";
-import { pluginLabels } from "@/config/catalogue";
+import { Card } from "@nextui-org/react";
 import { PluginLabel } from "@/components/plugins/label";
 import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 
 export function Sidebar({plugin}: {plugin: AllOfAPlugin}) {
-  const titleClassTop = 'text-xl font-semibold mb-3'
-  const titleClassMiddle = "text-xl font-semibold my-3"
   return (
     <div>
       <Card className="p-5 overflow-hidden" shadow="sm" radius="md">
         <div className="flex flex-col">
-          <p className={titleClassTop}>Plugin filter</p>
-          <Input
-            variant="bordered"
-            size="sm"
-            startContent={<FaFilter/>}
-          />
-
-          <p className={titleClassMiddle}>Label filter</p>
-          <CheckboxGroup defaultValue={[]}>
-            {pluginLabels.map(label => (
-              <Checkbox key={label} value={label}>
+          <p className="text-2xl font-semibold mb-3">{plugin.meta.name}</p>
+          <p className="mb-3">{plugin.meta.description['en_us']}</p>
+          <div className="flex flex-wrap gap-y-1">
+            {plugin.plugin.labels.map(label => (
+              <div key={label} className="">
                 <PluginLabel label={label}/>
-              </Checkbox>
+              </div>
             ))}
-          </CheckboxGroup>
+          </div>
         </div>
       </Card>
 

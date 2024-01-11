@@ -4,8 +4,8 @@ import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import React from "react";
-import { Card, Divider, Tab, Tabs } from "@nextui-org/react";
-import { GoBook, GoPackage, GoPackageDependencies } from "react-icons/go";
+import { Card, Tab, Tabs } from "@nextui-org/react";
+import { GoBook, GoPackageDependencies, GoTag } from "react-icons/go";
 
 function PluginIntroduction({plugin}: {plugin: AllOfAPlugin}) {
   return (
@@ -49,7 +49,7 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
         className="mx-5 mt-2"
         classNames={{
           cursor: "w-full bg-primary-300",
-          tabContent: "group-data-[selected=true]:text-primary"
+          tabContent: "text-foreground-600 group-data-[selected=true]:text-primary",
         }}
       >
         <Tab
@@ -61,7 +61,7 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
 
         <Tab
           key="releases"
-          title={tabTitle("Releases", <GoPackage />)}
+          title={tabTitle("Releases", <GoTag />)}
         >
           <PluginReleases plugin={plugin}/>
         </Tab>

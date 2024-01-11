@@ -24,7 +24,7 @@ export interface AuthorSummary {
 
 export interface AllOfAPlugin {
   meta: MetaInfo
-  plugin: FormattedPluginInfo
+  plugin: PluginInfo
   release: ReleaseSummary
 }
 
@@ -41,7 +41,7 @@ export interface MetaInfo {
   description: LangDict
 }
 
-export interface FormattedPluginInfo {
+export interface PluginInfo {
   id: string
   authors: string[]
   repository: string
@@ -57,23 +57,23 @@ export interface ReleaseSummary {
   releases: ReleaseInfo[]
 }
 
-export interface ReleaseInfo  {
+export interface ReleaseInfo {
   url: string
   name: string
   tag_name: string
   created_at: string
 
-  assets: {
-    name: string
-    size: number
-    download_count: number
-    created_at: string
-    browser_download_url: string
-  }[]
-
   description: string
   prerelease: string
-  parsed_version: string
 
+  assets: AssetInfo
   meta: MetaInfo
+}
+
+export interface AssetInfo {
+  name: string
+  size: number
+  download_count: number
+  created_at: string
+  browser_download_url: string
 }
