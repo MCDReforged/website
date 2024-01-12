@@ -1,14 +1,15 @@
-import { Card, Checkbox, CheckboxGroup, Input, Radio, RadioGroup } from "@nextui-org/react";
+import { Checkbox, CheckboxGroup, Input, Radio, RadioGroup } from "@nextui-org/react";
 import { FaFilter } from "react-icons/fa";
 import { pluginLabels } from "@/config/catalogue";
 import { PluginLabel } from "@/components/plugins/label";
+import MyCard from "@/components/ui/my-card";
 
 export function Sidebar() {
   const titleClassTop = 'text-lg font-bold mb-1.5'
   const titleClassMiddle = titleClassTop + '  mt-3'
   return (
     <div>
-      <Card className="p-5 overflow-hidden" shadow="sm" radius="md">
+      <MyCard className="p-5 overflow-hidden">
         <div className="flex flex-col">
           <p className={titleClassTop}>Plugin filter</p>
           <Input
@@ -35,9 +36,9 @@ export function Sidebar() {
             <Checkbox radius="sm">Reversed</Checkbox>
           </RadioGroup>
         </div>
-      </Card>
+      </MyCard>
 
-      <Card className="p-5 my-5" shadow="sm" radius="md">
+      <MyCard className="p-5 my-5">
         <div className="flex flex-col">
           <p>Plugin amount: 100</p>
           <p className="font-extrabold">Font字体 font-extrabold</p>
@@ -48,7 +49,7 @@ export function Sidebar() {
           <p className="font-light">Font字体 font-light</p>
           <p className="font-extralight">Font字体 font-extralight</p>
         </div>
-      </Card>
+      </MyCard>
     </div>
   )
 }

@@ -1,11 +1,11 @@
-import { Card } from "@nextui-org/react";
 import { PluginLabel } from "@/components/plugins/label";
 import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
+import MyCard from "@/components/ui/my-card";
 
 export function Sidebar({plugin}: {plugin: AllOfAPlugin}) {
   return (
     <div>
-      <Card className="p-5 overflow-hidden" shadow="sm" radius="md">
+      <MyCard className="p-5 overflow-hidden" shadow="sm" radius="md">
         <div className="flex flex-col">
           <p className="text-2xl font-semibold mb-3">{plugin.meta.name}</p>
           <p className="mb-3">{plugin.meta.description['en_us']}</p>
@@ -17,13 +17,13 @@ export function Sidebar({plugin}: {plugin: AllOfAPlugin}) {
             ))}
           </div>
         </div>
-      </Card>
+      </MyCard>
 
-      <Card className="p-5 my-5" shadow="sm" radius="md">
+      <MyCard className="p-5 my-5" shadow="sm" radius="md">
         <div className="flex flex-col">
           <p>Plugin amount: 100</p>
         </div>
-      </Card>
+      </MyCard>
     </div>
   )
 }

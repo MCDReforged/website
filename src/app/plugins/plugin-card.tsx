@@ -1,4 +1,4 @@
-import { Card, CardBody, Link } from "@nextui-org/react";
+import { CardBody, Link } from "@nextui-org/react";
 import React from 'react';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -7,6 +7,7 @@ import { PluginLabel } from "@/components/plugins/label";
 import { Button } from "@nextui-org/button";
 import { FaDownload, FaGithub } from "react-icons/fa";
 import { getAuthors } from "@/data/utils";
+import MyCard from "@/components/ui/my-card";
 
 const authorSummary = getAuthors()
 
@@ -22,7 +23,7 @@ function PluginAuthor({author}: {author: string}) {
 export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
   const authorCount = plugin.plugin.authors.length
   return (
-    <Card shadow="sm" radius="md">
+    <MyCard>
       <CardBody>
         <div className="flex items-baseline justify-between mb-2">
           <Link href={`/plugins/plugin/${plugin.plugin.id}`} className="text-2xl font-bold text-foreground hover:text-primary ml-1 mr-5">
@@ -68,6 +69,6 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
           </div>
         </div>
       </CardBody>
-    </Card>
+    </MyCard>
   )
 }

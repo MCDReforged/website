@@ -54,6 +54,7 @@ export interface PluginInfo {
 export interface ReleaseSummary {
   id: string
   latest_version: string
+  latest_version_index: string
   releases: ReleaseInfo[]
 }
 
