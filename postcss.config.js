@@ -1,5 +1,7 @@
 module.exports = {
   plugins: {
+    'postcss-import': {},
+    'tailwindcss/nesting': {},
     tailwindcss: {},
     autoprefixer: {},
     // https://mantine.dev/guides/next/#postcss-setup
