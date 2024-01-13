@@ -1,0 +1,16 @@
+{
+  "Home": {
+    "title": "Hello world!"
+  },
+  "Navbar": {
+    "navigation": {
+      "home": "Home",
+      "plugins": "Plugins",
+      "docs": "Docs"
+    },
+    "LocaleSwitch": {
+      "en": "English",
+      "zh": "中文"
+    }
+  }
+}

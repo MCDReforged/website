@@ -1,0 +1,16 @@
+{
+  "Home": {
+    "title": "你好世界！"
+  },
+  "Navbar": {
+    "navigation": {
+      "home": "主页",
+      "plugins": "插件仓库",
+      "docs": "文档"
+    },
+    "LocaleSwitch": {
+      "en": "English",
+      "zh": "中文"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.control {
+  border-radius: var(--mantine-radius-md);
+  border: rem(1px) solid var(--mantine-color-default-border);
+  background-color: var(--mantine-color-default);
+
+  &[data-expanded] {
+    background-color: var(--mantine-color-default-hover);
+  }
+
+  @mixin hover {
+    background-color: var(--mantine-color-default-hover);
+  }
+}
+
+.icon {
+  transition: transform 150ms ease;
+  transform: rotate(0deg);
+
+  [data-expanded] & {
+    transform: rotate(180deg);
+  }
+}

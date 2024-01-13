@@ -9,6 +9,7 @@ import React from 'react';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { PluginCardDownloadButton, PluginCardDownloadButtonDisabled } from "./plugin-card-download-button";
+import { PluginCardPluginLink } from "./plugin-card-plugin-link";
 
 const authorSummary = getAuthors()
 
@@ -47,11 +48,8 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
 
   return (
     <MyCard>
-      <p>{JSON.stringify((release === undefined) || undefined)}</p>
       <div className="flex items-baseline justify-between mb-2">
-        <Link href={`/plugins/p/${plugin.plugin.id}`} className="text-2xl font-bold text-foreground hover:text-primary ml-1 mr-5">
-          {plugin.meta.name}
-        </Link>
+        <PluginCardPluginLink plugin={plugin} />
 
         <div className="flex items-baseline">
           <Text size="sm" c="gray">by</Text>
