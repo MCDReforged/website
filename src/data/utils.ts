@@ -1,21 +1,14 @@
 import { AllOfAPlugin, AuthorSummary, Everything } from "@/types/plugin-catalogue-meta";
-import fs from "fs";
-import path from "path";
-
-function loadEverything(): Everything {
-  const content = fs.readFileSync(path.join(process.cwd(), 'src', 'data', 'everything.json'), 'utf8')
-  const data = JSON.parse(content)
-  return data as Everything
-}
+import everything from "./everything.json"
 
 // TODO: Trim AllOfAPlugin
 
 export function getEverything(): Everything {
-  return loadEverything()
+  return everything as any as Everything
 }
 
 export function getAllPlugins(): { [key: string]: AllOfAPlugin } {
-  return loadEverything().plugins
+  return getEverything().plugins
 }
 
 export function getPlugin(key: string): AllOfAPlugin {
@@ -23,5 +16,5 @@ export function getPlugin(key: string): AllOfAPlugin {
 }
 
 export function getAuthors(): AuthorSummary {
-  return loadEverything().authors
+  return getEverything().authors
 }

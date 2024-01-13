@@ -7,10 +7,11 @@ import { siteConfig } from "@/config/site";
 import Link from "next/link";
 
 import { useState } from 'react';
-import { Container, Group, Burger, getThemeColor, useMantineTheme } from '@mantine/core';
+import { Container, Group, Burger, getThemeColor, useMantineTheme, alpha } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './navbar.module.css';
 import { IconExternalLink } from "@tabler/icons-react";
+import { clsx } from "clsx";
 
 const config = {
   navItems: [
@@ -77,14 +78,14 @@ function HeaderSimple() {
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const theme = useMantineTheme();
+  const [burgerOpened, setBurgerOpened ] = useDisclosure(false);
 
   return (
     <header
-      className="z-40 flex sticky h-auto items-center justify-center top-0 border-solid border-b backdrop-blur-lg backdrop-saturate-150"
-      style={{
-        backgroundColor: getThemeColor('body', theme),
-      }}
+      className={clsx(
+        "z-40 flex sticky h-auto items-center justify-center top-0 border-solid border-b",
+        classes.header,
+      )}
     >
       <div className="z-40 flex flex-row flex-nowrap items-center justify-between max-w-screen-xl gap-6 px-6 w-full h-[3.5rem]">
         <div className="gap-3 max-w-fit">
@@ -94,9 +95,10 @@ export const Navbar = () => {
           </Link>
         </div>
 
-        <div className="hidden sm:flex gap-5 justify-start ml-2 flex-grow">
+        <div className="hidden sm:flex gap-4 justify-start ml-2 flex-grow">
           {config.navItems.map((item) => (
             <Link
+              className={clsx("text-md", classes.link)}
               key={item.href}
               href={item.href}
               data-active={item.checkActive(pathname) || undefined}
@@ -113,13 +115,13 @@ export const Navbar = () => {
           <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
             <GithubIcon className="text-default-500"/>
           </Link>
-          <ThemeSwitch className="ml-3"/>
+          <ThemeSwitch className="mx-3"/>
           {/*<NavbarItem className="hidden sm:flex">{searchInput}</NavbarItem>*/}
           {/*<NavbarMenuToggle className="sm:hidden" />*/}
+          <Burger opened={burgerOpened} onClick={setBurgerOpened.toggle} hiddenFrom="xs" size="sm" />
         </div>
 
       </div>
-
 
       {/*<NavbarMenu>*/}
       {/*  /!*{searchInput}*!/*/}

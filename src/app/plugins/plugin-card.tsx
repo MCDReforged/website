@@ -60,9 +60,9 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
                 </Link>
               </ActionIcon>
               <ActionIcon className="bg-success-200" color="teal">
-                <Link href="/mcdr.svg" download="">
+                <a href="/mcdr.svg" download>
                   <IconDownload stroke={1.5}/>
-                </Link>
+                </a>
               </ActionIcon>
             </div>
           </div>

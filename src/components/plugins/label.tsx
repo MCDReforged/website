@@ -17,7 +17,7 @@ const labelConfigs: {[key: string]: any} = {
     icon: <IconUser style={iconStyle} />,
   },
   'api': {
-    color: 'yellow.6',
+    color: 'yellow.7',
     icon: <IconPlugConnected style={iconStyle} />,
   },
   '__default': {

@@ -4,23 +4,12 @@ import { PluginLabel } from "@/components/plugins/label";
 import MyCard from "@/components/ui/my-card";
 import { IconFilter } from "@tabler/icons-react";
 import { Checkbox, Radio, Stack, TextInput } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { getEverything } from "@/data/utils";
 
 export function Sidebar() {
   const titleClassTop = 'text-lg font-bold mb-1.5'
   const titleClassMiddle = titleClassTop + '  mt-3'
-
-  const [everything, setEverything] = useState(null);
-  useEffect(() => {
-    const url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json'
-    const fetchData = async () => {
-      const response = await fetch(url);
-      setEverything(await response.json());
-    };
-    fetchData().catch(error => {
-      console.error('everything.json download error:', error);
-    })
-  }, [])
+  const everything = getEverything()
 
   return (
     <div>
