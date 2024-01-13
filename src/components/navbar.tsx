@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 import Link from "next/link";
 
 import { useState } from 'react';
-import { Container, Group, Burger } from '@mantine/core';
+import { Container, Group, Burger, getThemeColor, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './navbar.module.css';
 import { IconExternalLink } from "@tabler/icons-react";
@@ -77,8 +77,15 @@ function HeaderSimple() {
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const theme = useMantineTheme();
+
   return (
-    <header className="z-40 flex sticky h-auto items-center justify-center top-0 border-solid border-b backdrop-blur-lg backdrop-saturate-100">
+    <header
+      className="z-40 flex sticky h-auto items-center justify-center top-0 border-solid border-b backdrop-blur-lg backdrop-saturate-150"
+      style={{
+        backgroundColor: getThemeColor('body', theme),
+      }}
+    >
       <div className="z-40 flex flex-row flex-nowrap items-center justify-between max-w-screen-xl gap-6 px-6 w-full h-[3.5rem]">
         <div className="gap-3 max-w-fit">
           <Link className="flex justify-start items-center gap-1" color="foreground" href="/">

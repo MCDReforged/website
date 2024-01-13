@@ -6,7 +6,7 @@ import { PluginLabel } from "@/components/plugins/label";
 import { getAuthors } from "@/data/utils";
 import Link from "next/link";
 import MyCard from "@/components/ui/my-card";
-import { ActionIcon, Button } from "@mantine/core";
+import { ActionIcon } from "@mantine/core";
 import { IconBrandGithub, IconDownload } from "@tabler/icons-react";
 
 const authorSummary = getAuthors()
@@ -45,7 +45,7 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
             <Markdown className="mb-3 ml-1" remarkPlugins={[remarkGfm]}>
               {plugin.meta.description['en_us']}
             </Markdown>
-            <div>
+            <div className="flex gap-1.5">
               {plugin.plugin.labels.map((label, index) =>
                 <PluginLabel key={index} label={label}/>
               )}
@@ -54,14 +54,14 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
 
           <div className="col-span-1 place-self-end flex">
             <div>
-              <ActionIcon className="bg-foreground-200 mx-2">
-                <Link href="https://github.com" color="foreground">
-                  <IconBrandGithub/>
+              <ActionIcon className="mx-2" color="gray">
+                <Link href="https://github.com">
+                  <IconBrandGithub stroke={1.5}/>
                 </Link>
               </ActionIcon>
-              <ActionIcon className="bg-success-200">
-                <Link href="/mcdr.svg" download color="foreground">
-                  <IconDownload/>
+              <ActionIcon className="bg-success-200" color="teal">
+                <Link href="/mcdr.svg" download="">
+                  <IconDownload stroke={1.5}/>
                 </Link>
               </ActionIcon>
             </div>

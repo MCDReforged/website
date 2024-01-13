@@ -1,38 +1,39 @@
 import React from "react";
-import { Badge, Chip } from "@mantine/core";
-import { IconInfoCircle, IconLinkOff, IconQuestionMark, IconTools, IconUser } from "@tabler/icons-react";
+import { Badge, rem } from "@mantine/core";
+import { IconInfoCircle, IconPlugConnected, IconTools, IconUser } from "@tabler/icons-react";
 
+const iconStyle = { width: rem(15), height: rem(15) };
 const labelConfigs: {[key: string]: any} = {
   'information': {
-    color: 'primary',
-    icon: <IconInfoCircle />,
+    color: 'cyan',
+    icon: <IconInfoCircle style={iconStyle} />,
   },
   'tool': {
-    color: 'secondary',
-    icon: <IconTools />,
+    color: 'blue',
+    icon: <IconTools style={iconStyle} />,
   },
   'management': {
-    color: 'danger',
-    icon: <IconUser />,
+    color: 'red',
+    icon: <IconUser style={iconStyle} />,
   },
   'api': {
-    color: 'warning',
-    icon: <IconLinkOff />,
+    color: 'yellow.6',
+    icon: <IconPlugConnected style={iconStyle} />,
   },
   '__default': {
     color: 'default',
-    icon: <IconQuestionMark />,
+    icon: <div>?</div>,
   },
 }
 
 export function PluginLabel({label}: {label: string}) {
   const cfg = labelConfigs[label] ?? labelConfigs['__default']
   return <Badge
-    className="mx-1"
+    classNames={{root: "px-2"}}
     color={cfg.color}
-    radius="sm"
-    variant="outline"
-    leftSection={<div className="ml-1">{cfg.icon}</div>}
+    radius="md"
+    size="md"
+    leftSection={cfg.icon}
   >
     {label}
   </Badge >
