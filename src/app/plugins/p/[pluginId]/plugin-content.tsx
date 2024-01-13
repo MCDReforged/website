@@ -1,12 +1,12 @@
 "use client";
 
+import MyCard from "@/components/ui/my-card";
 import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
+import { rem, Tabs } from "@mantine/core";
+import { IconBook, IconPackageImport, IconTag } from "@tabler/icons-react";
+import React from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import React from "react";
-import MyCard from "@/components/ui/my-card";
-import { rem, Tabs } from "@mantine/core";
-import { IconBook, IconPackage, IconPackageImport, IconTag } from "@tabler/icons-react";
 
 function PluginIntroduction({plugin}: {plugin: AllOfAPlugin}) {
   return (

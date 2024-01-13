@@ -3,13 +3,6 @@
   border-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
-.inner {
-  height: rem(56px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .link {
   padding: rem(4px) rem(8px);
   border-radius: var(--mantine-radius-sm);

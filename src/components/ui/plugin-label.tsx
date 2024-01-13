@@ -1,6 +1,6 @@
-import React from "react";
 import { Badge, rem } from "@mantine/core";
 import { IconInfoCircle, IconPlugConnected, IconTools, IconUser } from "@tabler/icons-react";
+import React from "react";
 
 const iconStyle = { width: rem(15), height: rem(15) };
 const labelConfigs: {[key: string]: any} = {

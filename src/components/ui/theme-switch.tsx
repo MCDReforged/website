@@ -7,6 +7,7 @@ export function ThemeSwitch({...props}) {
     <ActionIcon
       aria-label="Toggle color scheme"
       variant="default"
+      size="lg"
       onClick={toggleColorScheme}
       {...props}
     >

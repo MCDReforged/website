@@ -1,7 +1,7 @@
-import { siteConfig } from "@/config/site";
 import { GithubIcon, ReadTheDocsIcon } from "@/components/icons";
+import { siteConfig } from "@/config/site";
+import { Button, Container, Group, Text } from '@mantine/core';
 import Link from "next/link";
-import { Container, Text, Button, Group } from '@mantine/core';
 
 function HeroTitle() {
   return (

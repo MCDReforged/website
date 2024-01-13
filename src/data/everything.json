@@ -267,6 +267,7 @@
         "schema_version": 8,
         "id": "advanced_calculator",
         "latest_version": "0.3.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/advanced_calculator-v0.3.1",
@@ -279,7 +280,7 @@
               "id": 92299861,
               "name": "AdvancedCalculator-v0.3.1.mcdr",
               "size": 2518,
-              "download_count": 926,
+              "download_count": 938,
               "created_at": "2023-01-19T17:01:07Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/advanced_calculator-v0.3.1/AdvancedCalculator-v0.3.1.mcdr"
             },
@@ -404,8 +405,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -450,6 +451,7 @@
         "schema_version": 8,
         "id": "advanced_whitelist_r",
         "latest_version": "1.0.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/EMUnion/AdvancedWhitelistR/releases/tag/1.0.3",
@@ -605,6 +607,7 @@
         "schema_version": 8,
         "id": "allow_suicide",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/JAs0n319/allow_suicide/releases/tag/allow_suicide-v1.0.0",
@@ -617,7 +620,7 @@
               "id": 94213800,
               "name": "allow_suicide-v1.0.0.mcdr",
               "size": 880,
-              "download_count": 776,
+              "download_count": 782,
               "created_at": "2023-02-03T18:58:31Z",
               "browser_download_url": "https://github.com/JAs0n319/allow_suicide/releases/download/allow_suicide-v1.0.0/allow_suicide-v1.0.0.mcdr"
             },
@@ -696,6 +699,7 @@
         "schema_version": 8,
         "id": "auto_command",
         "latest_version": "1.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/bzyyyyyyyy/MCDR-AutoCommand/releases/tag/v1.3.0",
@@ -825,6 +829,7 @@
         "schema_version": 8,
         "id": "auto_execute",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/GHS-Official/Auto-Execute/releases/tag/v1.1",
@@ -837,7 +842,7 @@
               "id": 124429141,
               "name": "Auto-Execute-v1.1.0.mcdr",
               "size": 20909,
-              "download_count": 32,
+              "download_count": 34,
               "created_at": "2023-09-04T02:25:05Z",
               "browser_download_url": "https://github.com/GHS-Official/Auto-Execute/releases/download/v1.1/Auto-Execute-v1.1.0.mcdr"
             },
@@ -951,6 +956,7 @@
         "schema_version": 8,
         "id": "auto_plugin_reloader",
         "latest_version": "1.1.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/AutoPluginReloader/releases/tag/v1.1.3",
@@ -963,7 +969,7 @@
               "id": 46042978,
               "name": "AutoPluginReloader-v1.1.3.mcdr",
               "size": 18007,
-              "download_count": 1909,
+              "download_count": 1920,
               "created_at": "2021-10-01T18:23:47Z",
               "browser_download_url": "https://github.com/TISUnion/AutoPluginReloader/releases/download/v1.1.3/AutoPluginReloader-v1.1.3.mcdr"
             },
@@ -1174,6 +1180,7 @@
         "schema_version": 8,
         "id": "beep",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/Beep/releases/tag/v1.1.0",
@@ -1186,7 +1193,7 @@
               "id": 43349128,
               "name": "Beep-v1.1.0.mcdr",
               "size": 1777,
-              "download_count": 4091,
+              "download_count": 4101,
               "created_at": "2021-08-26T14:01:49Z",
               "browser_download_url": "https://github.com/TISUnion/Beep/releases/download/v1.1.0/Beep-v1.1.0.mcdr"
             },
@@ -1300,6 +1307,7 @@
         "schema_version": 8,
         "id": "better_backup",
         "latest_version": "2.1.6",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/z0z0r4/better_backup/releases/tag/v2.1.6",
@@ -1312,7 +1320,7 @@
               "id": 123773802,
               "name": "Better_Backup-v2.1.6.mcdr",
               "size": 17993,
-              "download_count": 250,
+              "download_count": 254,
               "created_at": "2023-08-30T12:35:29Z",
               "browser_download_url": "https://github.com/z0z0r4/better_backup/releases/download/v2.1.6/Better_Backup-v2.1.6.mcdr"
             },
@@ -1390,6 +1398,7 @@
         "schema_version": 8,
         "id": "bingo",
         "latest_version": "0.0.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/bingo-v0.0.3",
@@ -1402,7 +1411,7 @@
               "id": 97128676,
               "name": "Bingo-v0.0.3.mcdr",
               "size": 1331,
-              "download_count": 63,
+              "download_count": 65,
               "created_at": "2023-02-26T00:14:39Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/bingo-v0.0.3/Bingo-v0.0.3.mcdr"
             },
@@ -1431,8 +1440,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -1479,6 +1488,7 @@
         "schema_version": 8,
         "id": "bot",
         "latest_version": "1.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/bot-v1.1.1",
@@ -1491,7 +1501,7 @@
               "id": 143140301,
               "name": "Bot-v1.1.1.mcdr",
               "size": 17176,
-              "download_count": 54,
+              "download_count": 58,
               "created_at": "2023-12-31T10:51:38Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/bot-v1.1.1/Bot-v1.1.1.mcdr"
             },
@@ -1847,8 +1857,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -1893,6 +1903,7 @@
         "schema_version": 8,
         "id": "bot_plugin",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/DancingSnow0517/Bot_Manager/releases/tag/1.0.0",
@@ -1905,7 +1916,7 @@
               "id": 53525902,
               "name": "BotPlugin-v1.0.0.mcdr",
               "size": 17657,
-              "download_count": 716,
+              "download_count": 718,
               "created_at": "2022-01-09T04:38:06Z",
               "browser_download_url": "https://github.com/DancingSnow0517/Bot_Manager/releases/download/1.0.0/BotPlugin-v1.0.0.mcdr"
             },
@@ -1984,6 +1995,7 @@
         "schema_version": 8,
         "id": "carpet_bot_manager",
         "latest_version": "0.3.5",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/FAS-Server/CarpetBotManager/releases/tag/v0.3.5",
@@ -1996,7 +2008,7 @@
               "id": 121923560,
               "name": "CarpetBotManager-v0.3.5.pyz",
               "size": 10568,
-              "download_count": 151,
+              "download_count": 159,
               "created_at": "2023-08-17T15:39:44Z",
               "browser_download_url": "https://github.com/FAS-Server/CarpetBotManager/releases/download/v0.3.5/CarpetBotManager-v0.3.5.pyz"
             },
@@ -2255,6 +2267,7 @@
         "schema_version": 8,
         "id": "carpet_tick",
         "latest_version": "1.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Ivan-1F/CarpetTick/releases/tag/v1.1.1",
@@ -2414,6 +2427,7 @@
         "schema_version": 8,
         "id": "carpetbotlist",
         "latest_version": "2.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/BelowZeroKelvin/MCDR-CarpetBotList/releases/tag/v2.1.1",
@@ -2426,7 +2440,7 @@
               "id": 43061606,
               "name": "CarpetBotList-v2.1.1.mcdr",
               "size": 1936,
-              "download_count": 1988,
+              "download_count": 1989,
               "created_at": "2021-08-23T06:17:05Z",
               "browser_download_url": "https://github.com/BelowZeroKelvin/MCDR-CarpetBotList/releases/download/v2.1.1/CarpetBotList-v2.1.1.mcdr"
             },
@@ -2572,6 +2586,7 @@
         "schema_version": 8,
         "id": "cato",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Harry-zklcdc/MCDR-Cato/releases/tag/cato-v1.1.0",
@@ -2698,6 +2713,7 @@
         "schema_version": 8,
         "id": "chatbridge",
         "latest_version": "2.5.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/ChatBridge/releases/tag/v2.5.3",
@@ -2710,7 +2726,7 @@
               "id": 142128857,
               "name": "ChatBridge.pyz",
               "size": 42168,
-              "download_count": 72,
+              "download_count": 78,
               "created_at": "2023-12-23T10:31:21Z",
               "browser_download_url": "https://github.com/TISUnion/ChatBridge/releases/download/v2.5.3/ChatBridge.pyz"
             },
@@ -3249,6 +3265,7 @@
         "schema_version": 8,
         "id": "chatbridgereforged_mc",
         "latest_version": "0.2.7-dev032",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/R1ckyH/ChatBridgeReforged/releases/tag/0.2.7",
@@ -3412,6 +3429,7 @@
         "schema_version": 8,
         "id": "colored_chat",
         "latest_version": "0.0.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/colored_chat-v0.0.3",
@@ -3424,7 +3442,7 @@
               "id": 97128295,
               "name": "ColoredChat-v0.0.3.mcdr",
               "size": 1573,
-              "download_count": 265,
+              "download_count": 266,
               "created_at": "2023-02-26T00:06:36Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/colored_chat-v0.0.3/ColoredChat-v0.0.3.mcdr"
             },
@@ -3453,8 +3471,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -3497,6 +3515,7 @@
         "schema_version": 8,
         "id": "command_exporter",
         "latest_version": "1.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/DancingSnow0517/MCDR-Command-Exporter/releases/tag/1.2.0",
@@ -3654,6 +3673,7 @@
         "schema_version": 8,
         "id": "cpu_temp",
         "latest_version": "3.0.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/R1ckyH/cpu_temp/releases/tag/v3.0.2",
@@ -3666,7 +3686,7 @@
               "id": 47879898,
               "name": "cpu_temp-3.0.2.mcdr",
               "size": 8621,
-              "download_count": 521,
+              "download_count": 523,
               "created_at": "2021-10-26T07:30:51Z",
               "browser_download_url": "https://github.com/R1ckyH/cpu_temp/releases/download/v3.0.2/cpu_temp-3.0.2.mcdr"
             },
@@ -3741,6 +3761,7 @@
         "schema_version": 8,
         "id": "crash_restart",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/CrashRestart/releases/tag/v1.0.0",
@@ -3753,7 +3774,7 @@
               "id": 42998593,
               "name": "CrashRestart-v1.0.0.mcdr",
               "size": 13646,
-              "download_count": 4225,
+              "download_count": 4241,
               "created_at": "2021-08-22T04:31:25Z",
               "browser_download_url": "https://github.com/MCDReforged/CrashRestart/releases/download/v1.0.0/CrashRestart-v1.0.0.mcdr"
             },
@@ -3827,6 +3848,7 @@
         "schema_version": 8,
         "id": "database_api",
         "latest_version": "0.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/database_api-v0.1.1",
@@ -3902,8 +3924,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -3948,6 +3970,7 @@
         "schema_version": 8,
         "id": "daycount_nbt",
         "latest_version": "2.2.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/alex3236/daycount-NBT/releases/tag/v2.2.1",
@@ -3960,7 +3983,7 @@
               "id": 79595271,
               "name": "DayCountNBT-v2.2.1.mcdr",
               "size": 1520,
-              "download_count": 1520,
+              "download_count": 1529,
               "created_at": "2022-10-01T02:10:09Z",
               "browser_download_url": "https://github.com/alex3236/daycount-NBT/releases/download/v2.2.1/DayCountNBT-v2.2.1.mcdr"
             },
@@ -4216,6 +4239,7 @@
         "schema_version": 8,
         "id": "daytime",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/BelowZeroKelvin/MCDR-Daytime/releases/tag/v1.1.0",
@@ -4228,7 +4252,7 @@
               "id": 42697139,
               "name": "Daytime-v1.1.0.mcdr",
               "size": 1100,
-              "download_count": 2160,
+              "download_count": 2164,
               "created_at": "2021-08-18T04:36:17Z",
               "browser_download_url": "https://github.com/BelowZeroKelvin/MCDR-Daytime/releases/download/v1.1.0/Daytime-v1.1.0.mcdr"
             },
@@ -4303,6 +4327,7 @@
         "schema_version": 8,
         "id": "delayexe",
         "latest_version": "1.3.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/kmcsr/delayexe_mcdr/releases/tag/v1.3.2",
@@ -4692,6 +4717,7 @@
         "schema_version": 8,
         "id": "diamond_calc",
         "latest_version": null,
+        "latest_version_index": null,
         "releases": []
       },
       "repository": {
@@ -4745,6 +4771,7 @@
         "schema_version": 8,
         "id": "dict_command_registration",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/dict_command_registration-v1.1.0",
@@ -4890,8 +4917,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -4934,6 +4961,7 @@
         "schema_version": 8,
         "id": "easy_bot_manager",
         "latest_version": "0.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/LiuTed/EasyBotManager/releases/tag/v0.2",
@@ -5058,6 +5086,7 @@
         "schema_version": 8,
         "id": "eulagree",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/HuajiMURsMC/EULAgree/releases/tag/1.0.0",
@@ -5070,7 +5099,7 @@
               "id": 87534907,
               "name": "EULAgree-v1.0.0.mcdr",
               "size": 899,
-              "download_count": 261,
+              "download_count": 263,
               "created_at": "2022-12-09T01:21:21Z",
               "browser_download_url": "https://github.com/HuajiMURsMC/EULAgree/releases/download/1.0.0/EULAgree-v1.0.0.mcdr"
             },
@@ -5147,6 +5176,7 @@
         "schema_version": 8,
         "id": "fastapi_mcdr",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/fastapi_mcdr-v1.0.0",
@@ -5191,8 +5221,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -5239,6 +5269,7 @@
         "schema_version": 8,
         "id": "faster_transfer",
         "latest_version": "0.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/alex3236/FasterTransfer/releases/tag/v0.1",
@@ -5251,7 +5282,7 @@
               "id": 46190669,
               "name": "FasterTransfer-v0.1.0.mcdr",
               "size": 935,
-              "download_count": 493,
+              "download_count": 497,
               "created_at": "2021-10-04T07:59:17Z",
               "browser_download_url": "https://github.com/alex3236/FasterTransfer/releases/download/v0.1/FasterTransfer-v0.1.0.mcdr"
             },
@@ -5323,6 +5354,7 @@
         "schema_version": 8,
         "id": "fbs_plugin",
         "latest_version": "1.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Walkersifolia/FastBotSpawn/releases/tag/1.1.1",
@@ -5375,37 +5407,6 @@
               "id": "fbs_plugin",
               "name": "FastBotSpawn",
               "version": "1.1.0",
-              "link": "https://github.com/Walkersifolia/FastBotSpawn",
-              "authors": [
-                "WalkerTian"
-              ],
-              "dependencies": {},
-              "requirements": [],
-              "description": {
-                "en_us": "A plugin with multiple functions"
-              }
-            }
-          },
-          {
-            "url": "https://github.com/Walkersifolia/FastBotSpawn/releases/tag/1.0.0",
-            "name": "v1.0.0",
-            "tag_name": "1.0.0",
-            "created_at": "2023-07-14T17:12:13Z",
-            "description": "只有一些简单的功能，还在更新，也可以提提issue（如果有的话",
-            "prerelease": false,
-            "asset": {
-              "id": 116946690,
-              "name": "FastBotSpawn-v1.0.0.mcdr",
-              "size": 2182,
-              "download_count": 5,
-              "created_at": "2023-07-14T05:41:43Z",
-              "browser_download_url": "https://github.com/Walkersifolia/FastBotSpawn/releases/download/1.0.0/FastBotSpawn-v1.0.0.mcdr"
-            },
-            "meta": {
-              "schema_version": 4,
-              "id": "my_plugin",
-              "name": "FastBotSpawn",
-              "version": "1.0.0",
               "link": "https://github.com/Walkersifolia/FastBotSpawn",
               "authors": [
                 "WalkerTian"
@@ -5470,6 +5471,7 @@
         "schema_version": 8,
         "id": "gamemode",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/gamemode-v1.1.0",
@@ -5482,7 +5484,7 @@
               "id": 142481189,
               "name": "Gamemode-v1.1.0.mcdr",
               "size": 3243,
-              "download_count": 78,
+              "download_count": 89,
               "created_at": "2023-12-26T11:40:57Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/gamemode-v1.1.0/Gamemode-v1.1.0.mcdr"
             },
@@ -5584,7 +5586,7 @@
               "id": 70132164,
               "name": "Gamemode-v0.1.0.mcdr",
               "size": 3097,
-              "download_count": 357,
+              "download_count": 358,
               "created_at": "2022-06-30T09:29:07Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/gamemode-v0.1.0/Gamemode-v0.1.0.mcdr"
             },
@@ -5615,8 +5617,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -5659,6 +5661,7 @@
         "schema_version": 8,
         "id": "here",
         "latest_version": "1.2.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/Here/releases/tag/v1.2.2",
@@ -5671,7 +5674,7 @@
               "id": 48695276,
               "name": "Here-v1.2.2.mcdr",
               "size": 16084,
-              "download_count": 3821,
+              "download_count": 3831,
               "created_at": "2021-11-05T10:52:58Z",
               "browser_download_url": "https://github.com/TISUnion/Here/releases/download/v1.2.2/Here-v1.2.2.mcdr"
             },
@@ -5886,6 +5889,7 @@
         "schema_version": 8,
         "id": "hibernate_r",
         "latest_version": "0.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/HIM049/MCDR_HibernateR/releases/tag/0.1.0",
@@ -5898,7 +5902,7 @@
               "id": 95489638,
               "name": "HibernateR.mcdr",
               "size": 12042,
-              "download_count": 60,
+              "download_count": 62,
               "created_at": "2023-02-13T17:53:02Z",
               "browser_download_url": "https://github.com/HIM049/MCDR_HibernateR/releases/download/0.1.0/HibernateR.mcdr"
             },
@@ -5975,6 +5979,7 @@
         "schema_version": 8,
         "id": "hooks",
         "latest_version": "2.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/OptiJava/hooks/releases/tag/v2.1.1",
@@ -6267,6 +6272,7 @@
         "schema_version": 8,
         "id": "info",
         "latest_version": "0.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/info-v0.2.0",
@@ -6279,7 +6285,7 @@
               "id": 96726460,
               "name": "Info-v0.2.0.mcdr",
               "size": 2220,
-              "download_count": 788,
+              "download_count": 790,
               "created_at": "2023-02-22T23:35:16Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/info-v0.2.0/Info-v0.2.0.mcdr"
             },
@@ -6345,8 +6351,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -6390,6 +6396,7 @@
         "schema_version": 8,
         "id": "ipanel_mcdreforged",
         "latest_version": "2.3.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/iPanelDev/iPanel-MCDReforged/releases/tag/2.3.0",
@@ -6402,7 +6409,7 @@
               "id": 138562194,
               "name": "iPanel-MCDReforged-v2.3.0.0.mcdr",
               "size": 7114,
-              "download_count": 22,
+              "download_count": 23,
               "created_at": "2023-12-02T10:14:58Z",
               "browser_download_url": "https://github.com/iPanelDev/iPanel-MCDReforged/releases/download/2.3.0/iPanel-MCDReforged-v2.3.0.0.mcdr"
             },
@@ -6509,6 +6516,7 @@
         "schema_version": 8,
         "id": "join_motd",
         "latest_version": "1.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/joinMOTD/releases/tag/v1.3.0",
@@ -6521,7 +6529,7 @@
               "id": 66269360,
               "name": "JoinMOTD-v1.3.0.mcdr",
               "size": 1873,
-              "download_count": 2040,
+              "download_count": 2048,
               "created_at": "2022-05-22T11:07:50Z",
               "browser_download_url": "https://github.com/TISUnion/joinMOTD/releases/download/v1.3.0/JoinMOTD-v1.3.0.mcdr"
             },
@@ -6624,6 +6632,7 @@
         "schema_version": 8,
         "id": "join_motd_next",
         "latest_version": "0.2.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/JOZA-ORANGE/MCDR-joinMOTDnext/releases/tag/0.2.1",
@@ -6636,7 +6645,7 @@
               "id": 119844220,
               "name": "joinMOTDnext-v0.2.1.mcdr",
               "size": 3006,
-              "download_count": 221,
+              "download_count": 223,
               "created_at": "2023-08-03T02:06:04Z",
               "browser_download_url": "https://github.com/JOZA-ORANGE/MCDR-joinMOTDnext/releases/download/0.2.1/joinMOTDnext-v0.2.1.mcdr"
             },
@@ -6750,6 +6759,7 @@
         "schema_version": 8,
         "id": "joinmotd_reforged",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/iXORTech/joinMOTD-Reforged/releases/tag/v1.0.0",
@@ -6762,7 +6772,7 @@
               "id": 141181754,
               "name": "joinMOTD-Reforged-v1.0.0+b93f2ec.mcdr",
               "size": 5652,
-              "download_count": 27,
+              "download_count": 28,
               "created_at": "2023-12-17T23:07:43Z",
               "browser_download_url": "https://github.com/iXORTech/joinMOTD-Reforged/releases/download/v1.0.0/joinMOTD-Reforged-v1.0.0%2Bb93f2ec.mcdr"
             },
@@ -6844,6 +6854,7 @@
         "schema_version": 8,
         "id": "jrrp",
         "latest_version": "3.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/HuajiMURsMC/jrrp/releases/tag/3.0.0",
@@ -6934,105 +6945,9 @@
       "release": {
         "schema_version": 8,
         "id": "jrrps",
-        "latest_version": "2.0.0",
-        "releases": [
-          {
-            "url": "https://github.com/SkyDynamic/jrrps/releases/tag/2.0.0",
-            "name": "Jrrp_MCDR_v2.0.0",
-            "tag_name": "2.0.0",
-            "created_at": "2022-03-12T05:28:56Z",
-            "description": "重写了一点代码\r\n现在可以支持自定义话语啦~\r\n实现高度自定义！\r\n修了非常多的bug！",
-            "prerelease": false,
-            "asset": {
-              "id": 59289630,
-              "name": "jrrp2.0.0.mcdr",
-              "size": 4762,
-              "download_count": 71,
-              "created_at": "2022-03-12T06:40:17Z",
-              "browser_download_url": "https://github.com/SkyDynamic/jrrps/releases/download/2.0.0/jrrp2.0.0.mcdr"
-            },
-            "meta": {
-              "schema_version": 4,
-              "id": "jrrp",
-              "name": "Jrrp Plg",
-              "version": "2.0.0",
-              "link": "https://github.com/SkyDynamic/jrrp",
-              "authors": [
-                "Sky_Dynamic"
-              ],
-              "dependencies": {},
-              "requirements": [],
-              "description": {
-                "en_us": "Test today's luck",
-                "zh_cn": "测试今天的运势"
-              }
-            }
-          },
-          {
-            "url": "https://github.com/SkyDynamic/jrrps/releases/tag/1.1.0",
-            "name": "Jrrp_MCDR_1.1.0",
-            "tag_name": "1.1.0",
-            "created_at": "2022-03-12T02:14:50Z",
-            "description": "Added a little language blessing\r\nOptimized some code）",
-            "prerelease": false,
-            "asset": {
-              "id": 59276912,
-              "name": "jrrp.mcdr",
-              "size": 3734,
-              "download_count": 62,
-              "created_at": "2022-03-12T02:28:12Z",
-              "browser_download_url": "https://github.com/SkyDynamic/jrrps/releases/download/1.1.0/jrrp.mcdr"
-            },
-            "meta": {
-              "schema_version": 4,
-              "id": "jrrp",
-              "name": "Jrrp Plg",
-              "version": "1.1.0",
-              "link": "https://github.com/SkyDynamic/jrrp",
-              "authors": [
-                "Sky_Dynamic"
-              ],
-              "dependencies": {},
-              "requirements": [],
-              "description": {
-                "en_us": "Test today's luck",
-                "zh_cn": "测试今天的运势"
-              }
-            }
-          },
-          {
-            "url": "https://github.com/SkyDynamic/jrrps/releases/tag/1.0.0",
-            "name": "Jrrp_MCDR_1.0.0",
-            "tag_name": "1.0.0",
-            "created_at": "2022-03-12T00:51:22Z",
-            "description": "First Releases\r\nMaybe have some bug ：）",
-            "prerelease": false,
-            "asset": {
-              "id": 59273213,
-              "name": "jrrp.mcdr",
-              "size": 3011,
-              "download_count": 8,
-              "created_at": "2022-03-12T01:03:12Z",
-              "browser_download_url": "https://github.com/SkyDynamic/jrrps/releases/download/1.0.0/jrrp.mcdr"
-            },
-            "meta": {
-              "schema_version": 4,
-              "id": "jrrp",
-              "name": "Jrrp Plg",
-              "version": "1.0.0",
-              "link": "https://github.com/SkyDynamic/jrrp",
-              "authors": [
-                "Sky_Dynamic"
-              ],
-              "dependencies": {},
-              "requirements": [],
-              "description": {
-                "en_us": "Test today's luck",
-                "zh_cn": "测试今天的运势"
-              }
-            }
-          }
-        ]
+        "latest_version": null,
+        "latest_version_index": null,
+        "releases": []
       },
       "repository": {
         "url": "https://github.com/SkyDynamic/jrrps",
@@ -7083,6 +6998,7 @@
         "schema_version": 8,
         "id": "kpi",
         "latest_version": "1.4.8",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/kmcsr/kpi_mcdr/releases/tag/v1.4.8",
@@ -7095,7 +7011,7 @@
               "id": 123249535,
               "name": "KPI-v1.4.8.mcdr",
               "size": 26767,
-              "download_count": 176,
+              "download_count": 178,
               "created_at": "2023-08-26T19:20:34Z",
               "browser_download_url": "https://github.com/kmcsr/kpi_mcdr/releases/download/v1.4.8/KPI-v1.4.8.mcdr"
             },
@@ -7755,6 +7671,7 @@
         "schema_version": 8,
         "id": "lazybing_thb",
         "latest_version": "1.0.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Lazy-Bing-Server/THB-MCDR/releases/tag/1.0.1",
@@ -7767,7 +7684,7 @@
               "id": 139373942,
               "name": "LazyBingTHB-v1.0.1.mcdr",
               "size": 21523,
-              "download_count": 13,
+              "download_count": 16,
               "created_at": "2023-12-07T01:55:01Z",
               "browser_download_url": "https://github.com/Lazy-Bing-Server/THB-MCDR/releases/download/1.0.1/LazyBingTHB-v1.0.1.mcdr"
             },
@@ -7883,6 +7800,7 @@
         "schema_version": 8,
         "id": "leader_reforged",
         "latest_version": "1.1.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Minecraft-AMS/Leader-Reforged/releases/tag/v1.1.2",
@@ -8208,6 +8126,7 @@
         "schema_version": 8,
         "id": "ledger_cleaner",
         "latest_version": "0.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/UnknownBits/LedgerCleaner/releases/tag/v0.1.0",
@@ -8220,7 +8139,7 @@
               "id": 116785741,
               "name": "LedgerCleaner-v0.1.0.mcdr",
               "size": 3394,
-              "download_count": 74,
+              "download_count": 75,
               "created_at": "2023-07-13T05:21:57Z",
               "browser_download_url": "https://github.com/UnknownBits/LedgerCleaner/releases/download/v0.1.0/LedgerCleaner-v0.1.0.mcdr"
             },
@@ -8294,6 +8213,7 @@
         "schema_version": 8,
         "id": "let_me_click_and_send",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/let_me_click_and_send-v1.0.0",
@@ -8306,7 +8226,7 @@
               "id": 97105754,
               "name": "LetMeClickandSend-v1.0.0.mcdr",
               "size": 2369,
-              "download_count": 301,
+              "download_count": 303,
               "created_at": "2023-02-25T19:08:54Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/let_me_click_and_send-v1.0.0/LetMeClickandSend-v1.0.0.mcdr"
             },
@@ -8335,8 +8255,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -8383,6 +8303,7 @@
         "schema_version": 8,
         "id": "lite_file_manager",
         "latest_version": "1.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/LiteFileManager/releases/tag/v1.3.0",
@@ -8548,6 +8469,7 @@
         "schema_version": 8,
         "id": "location_marker",
         "latest_version": "1.3.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/LocationMarker/releases/tag/v1.3.2",
@@ -8560,7 +8482,7 @@
               "id": 111548725,
               "name": "LocationMarker-v1.3.2.mcdr",
               "size": 19325,
-              "download_count": 614,
+              "download_count": 619,
               "created_at": "2023-06-06T16:04:30Z",
               "browser_download_url": "https://github.com/TISUnion/LocationMarker/releases/download/v1.3.2/LocationMarker-v1.3.2.mcdr"
             },
@@ -8673,6 +8595,7 @@
         "schema_version": 8,
         "id": "loginproxy",
         "latest_version": "0.6.4",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/kmcsr/login_proxy_mcdr/releases/tag/v0.6.4",
@@ -8685,7 +8608,7 @@
               "id": 138666252,
               "name": "LoginProxy-v0.6.4.mcdr",
               "size": 30366,
-              "download_count": 34,
+              "download_count": 36,
               "created_at": "2023-12-03T04:57:14Z",
               "browser_download_url": "https://github.com/kmcsr/login_proxy_mcdr/releases/download/v0.6.4/LoginProxy-v0.6.4.mcdr"
             },
@@ -9390,6 +9313,7 @@
         "schema_version": 8,
         "id": "lowercase_mcdr_command",
         "latest_version": "1.2.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/lowercase_mcdr_command-v1.2.2",
@@ -9402,7 +9326,7 @@
               "id": 93642264,
               "name": "LowercaseMCDRCommand-v1.2.2.mcdr",
               "size": 857,
-              "download_count": 687,
+              "download_count": 693,
               "created_at": "2023-01-30T21:16:53Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/lowercase_mcdr_command-v1.2.2/LowercaseMCDRCommand-v1.2.2.mcdr"
             },
@@ -9631,8 +9555,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -9672,6 +9596,7 @@
         "schema_version": 8,
         "id": "mc_uuid",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/HuajiMURsMC/MCUUID/releases/tag/1.0.0",
@@ -9684,7 +9609,7 @@
               "id": 42569082,
               "name": "MinecraftUUIDAPI-v1.0.0.mcdr",
               "size": 1891,
-              "download_count": 2217,
+              "download_count": 2220,
               "created_at": "2021-08-16T15:53:02Z",
               "browser_download_url": "https://github.com/HuajiMURsMC/MCUUID/releases/download/1.0.0/MinecraftUUIDAPI-v1.0.0.mcdr"
             },
@@ -9765,6 +9690,7 @@
         "schema_version": 8,
         "id": "mcd_seen",
         "latest_version": "1.2.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/Seen/releases/tag/1.2.1",
@@ -9939,6 +9865,7 @@
         "schema_version": 8,
         "id": "mcd_task",
         "latest_version": "2.3.5+build.67",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/Task/releases/tag/2.3.5",
@@ -10338,6 +10265,7 @@
         "schema_version": 8,
         "id": "mcdr_announcements",
         "latest_version": "1.2.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/yfy-dodo939/mcdr_announcements/releases/tag/mcdr_announcements-1.2.2",
@@ -10350,7 +10278,7 @@
               "id": 140486382,
               "name": "announcements-1.2.2.mcdr",
               "size": 4450,
-              "download_count": 10,
+              "download_count": 11,
               "created_at": "2023-12-13T15:49:10Z",
               "browser_download_url": "https://github.com/yfy-dodo939/mcdr_announcements/releases/download/mcdr_announcements-1.2.2/announcements-1.2.2.mcdr"
             },
@@ -10493,6 +10421,7 @@
         "schema_version": 8,
         "id": "mcdr_pycraft_bot",
         "latest_version": "1.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/MCDR-bot/releases/tag/v1.2.0",
@@ -10619,6 +10548,7 @@
         "schema_version": 8,
         "id": "mcdreforged_plugin_manager",
         "latest_version": "2.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Ivan-1F/MCDReforgedPluginManager/releases/tag/v2.0.0",
@@ -10631,7 +10561,7 @@
               "id": 103714058,
               "name": "MCDReforgedPluginManager-v2.0.0.mcdr",
               "size": 23188,
-              "download_count": 443,
+              "download_count": 453,
               "created_at": "2023-04-14T16:46:28Z",
               "browser_download_url": "https://github.com/Ivan-1F/MCDReforgedPluginManager/releases/download/v2.0.0/MCDReforgedPluginManager-v2.0.0.mcdr"
             },
@@ -11000,7 +10930,7 @@
         "archived": false,
         "stargazers_count": 5,
         "watchers_count": 5,
-        "forks_count": 1
+        "forks_count": 2
       }
     },
     "mcdrpost": {
@@ -11046,6 +10976,7 @@
         "schema_version": 8,
         "id": "mcdrpost",
         "latest_version": "2.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Flyky/MCDRpost/releases/tag/2.1.0",
@@ -11058,7 +10989,7 @@
               "id": 68689766,
               "name": "MCDRpost-v2.1.0.mcdr",
               "size": 8943,
-              "download_count": 436,
+              "download_count": 438,
               "created_at": "2022-06-16T16:32:20Z",
               "browser_download_url": "https://github.com/Flyky/MCDRpost/releases/download/2.1.0/MCDRpost-v2.1.0.mcdr"
             },
@@ -11139,6 +11070,7 @@
         "schema_version": 8,
         "id": "minecraft_command_register",
         "latest_version": "1.7.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/minecraft_command_register-v1.7.3",
@@ -11256,7 +11188,7 @@
               "id": 139921981,
               "name": "MinecraftCommandRegister-v1.7.0.mcdr",
               "size": 1612,
-              "download_count": 9,
+              "download_count": 10,
               "created_at": "2023-12-10T12:00:22Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/minecraft_command_register-v1.7.0/MinecraftCommandRegister-v1.7.0.mcdr"
             },
@@ -11845,8 +11777,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -11894,6 +11826,7 @@
         "schema_version": 8,
         "id": "minecraft_data_api",
         "latest_version": "1.5.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/MinecraftDataAPI/releases/tag/v1.5.0",
@@ -11906,7 +11839,7 @@
               "id": 116393185,
               "name": "MinecraftDataAPI-v1.5.0.mcdr",
               "size": 18178,
-              "download_count": 1444,
+              "download_count": 1461,
               "created_at": "2023-07-10T18:29:01Z",
               "browser_download_url": "https://github.com/MCDReforged/MinecraftDataAPI/releases/download/v1.5.0/MinecraftDataAPI-v1.5.0.mcdr"
             },
@@ -12023,6 +11956,7 @@
         "schema_version": 8,
         "id": "minecraft_version_api",
         "latest_version": "1.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Ivan-1F/MinecraftVersionAPI/releases/tag/v1.1.1",
@@ -12035,7 +11969,7 @@
               "id": 76033326,
               "name": "MinecraftVersionAPI-v1.1.1.mcdr",
               "size": 3125,
-              "download_count": 170,
+              "download_count": 174,
               "created_at": "2022-08-27T15:59:41Z",
               "browser_download_url": "https://github.com/Ivan-1F/MinecraftVersionAPI/releases/download/v1.1.1/MinecraftVersionAPI-v1.1.1.mcdr"
             },
@@ -12187,6 +12121,7 @@
         "schema_version": 8,
         "id": "mirror_control",
         "latest_version": "1.0.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/charassss/Mirror-Control/releases/tag/v1.0.3",
@@ -12377,6 +12312,7 @@
         "schema_version": 8,
         "id": "mirror_server_reforged",
         "latest_version": "1.0.7",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/EMUnion/MirrorServerReforged/releases/tag/1.0.7",
@@ -12389,7 +12325,7 @@
               "id": 96885316,
               "name": "MirrorServerReforged-v1.0.7.mcdr",
               "size": 15971,
-              "download_count": 537,
+              "download_count": 542,
               "created_at": "2023-02-24T03:17:23Z",
               "browser_download_url": "https://github.com/EMUnion/MirrorServerReforged/releases/download/1.0.7/MirrorServerReforged-v1.0.7.mcdr"
             },
@@ -12702,6 +12638,7 @@
         "schema_version": 8,
         "id": "mirror_server_sync",
         "latest_version": "1.0.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/VisualSpliter/MirrorServerSync/releases/tag/v1.0.1",
@@ -12819,6 +12756,7 @@
         "schema_version": 8,
         "id": "mirror_sync_reforged",
         "latest_version": "1.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Ivan-1F/MirrorSyncReforged/releases/tag/v1.3.0",
@@ -13118,6 +13056,7 @@
         "schema_version": 8,
         "id": "more_command_nodes",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/more_command_nodes-v1.1.0",
@@ -13289,8 +13228,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -13337,6 +13276,7 @@
         "schema_version": 8,
         "id": "mount",
         "latest_version": "0.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/FAS-Server/Mount/releases/tag/v0.3.0",
@@ -13505,6 +13445,7 @@
         "schema_version": 8,
         "id": "multi_rcon_api",
         "latest_version": "2.0.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/FAS-Server/MultiRconAPI/releases/tag/v2.0.1",
@@ -13517,7 +13458,7 @@
               "id": 55629961,
               "name": "MultiRconAPI-V2.0.1.pyz",
               "size": 4421,
-              "download_count": 591,
+              "download_count": 593,
               "created_at": "2022-02-02T13:08:08Z",
               "browser_download_url": "https://github.com/FAS-Server/MultiRconAPI/releases/download/v2.0.1/MultiRconAPI-V2.0.1.pyz"
             },
@@ -13667,6 +13608,7 @@
         "schema_version": 8,
         "id": "multi_whitelist",
         "latest_version": "3.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/R1ckyH/multi_whitelist/releases/tag/v3.0.0",
@@ -13679,7 +13621,7 @@
               "id": 47917024,
               "name": "multi_whitelist-3.0.0.mcdr",
               "size": 17402,
-              "download_count": 362,
+              "download_count": 364,
               "created_at": "2021-10-26T16:12:21Z",
               "browser_download_url": "https://github.com/R1ckyH/multi_whitelist/releases/download/v3.0.0/multi_whitelist-3.0.0.mcdr"
             },
@@ -13755,6 +13697,7 @@
         "schema_version": 8,
         "id": "offline_whitelist",
         "latest_version": "0.1.4",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/skuzow/offline-whitelist/releases/tag/v0.1.4",
@@ -13846,6 +13789,7 @@
         "schema_version": 8,
         "id": "offline_whitelist_reforged",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Aimerny/OfflineWhitelistReforged/releases/tag/v1.0.0",
@@ -13935,6 +13879,7 @@
         "schema_version": 8,
         "id": "onebot_api",
         "latest_version": "1.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/HuajiMURsMC/OneBotAPI/releases/tag/1.1.1",
@@ -14069,6 +14014,7 @@
         "schema_version": 8,
         "id": "online",
         "latest_version": "1.4.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/FAS-Server/Online/releases/tag/v1.4.0",
@@ -14228,6 +14174,7 @@
         "schema_version": 8,
         "id": "online_player_api",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/online_player_api-v1.0.0",
@@ -14240,7 +14187,7 @@
               "id": 94220831,
               "name": "OnlinePlayerAPI-v1.0.0.mcdr",
               "size": 877,
-              "download_count": 982,
+              "download_count": 986,
               "created_at": "2023-02-03T20:33:11Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/online_player_api-v1.0.0/OnlinePlayerAPI-v1.0.0.mcdr"
             },
@@ -14269,8 +14216,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -14316,6 +14263,7 @@
         "schema_version": 8,
         "id": "pcrc",
         "latest_version": "1.4.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Fallen-Breath/PCRC/releases/tag/v1.4.0",
@@ -14328,7 +14276,7 @@
               "id": 79543686,
               "name": "PCRC.pyz",
               "size": 105502,
-              "download_count": 582,
+              "download_count": 584,
               "created_at": "2022-09-30T15:07:46Z",
               "browser_download_url": "https://github.com/Fallen-Breath/PCRC/releases/download/v1.4.0/PCRC.pyz"
             },
@@ -14679,6 +14627,7 @@
         "schema_version": 8,
         "id": "permanent_backup",
         "latest_version": "1.0.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/PermanentBackup/releases/tag/v1.0.3",
@@ -14835,6 +14784,7 @@
         "schema_version": 8,
         "id": "player_last_play",
         "latest_version": "1.0.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Aimerny/playerLastPlay/releases/tag/v1.0.3",
@@ -14847,7 +14797,7 @@
               "id": 108333320,
               "name": "playerLastPlay-v1.0.3.mcdr",
               "size": 3652,
-              "download_count": 274,
+              "download_count": 277,
               "created_at": "2023-05-16T03:42:15Z",
               "browser_download_url": "https://github.com/Aimerny/playerLastPlay/releases/download/v1.0.3/playerLastPlay-v1.0.3.mcdr"
             },
@@ -15033,6 +14983,7 @@
         "schema_version": 8,
         "id": "player_manager",
         "latest_version": "1.2.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/PRcT-Server/MCDRPlugins/releases/tag/player_manager-v1.2.1",
@@ -15177,6 +15128,7 @@
         "schema_version": 8,
         "id": "prime_backup",
         "latest_version": "1.6.3",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/PrimeBackup/releases/tag/v1.6.3",
@@ -15189,7 +15141,7 @@
               "id": 143380828,
               "name": "PrimeBackup-v1.6.3.pyz",
               "size": 144412,
-              "download_count": 80,
+              "download_count": 96,
               "created_at": "2024-01-02T09:28:32Z",
               "browser_download_url": "https://github.com/TISUnion/PrimeBackup/releases/download/v1.6.3/PrimeBackup-v1.6.3.pyz"
             },
@@ -15315,7 +15267,7 @@
               "id": 142018556,
               "name": "PrimeBackup-v1.6.0.pyz",
               "size": 144058,
-              "download_count": 16,
+              "download_count": 17,
               "created_at": "2023-12-22T18:09:21Z",
               "browser_download_url": "https://github.com/TISUnion/PrimeBackup/releases/download/v1.6.0/PrimeBackup-v1.6.0.pyz"
             },
@@ -15736,6 +15688,7 @@
         "schema_version": 8,
         "id": "qq_api",
         "latest_version": "1.3.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/qq_api-v1.3.1",
@@ -15990,8 +15943,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -16041,6 +15994,7 @@
         "schema_version": 8,
         "id": "qq_chat",
         "latest_version": "2.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/qq_chat-v2.1.0",
@@ -16200,8 +16154,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -16247,6 +16201,7 @@
         "schema_version": 8,
         "id": "quick_backup_multi",
         "latest_version": "1.10.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/QuickBackupM/releases/tag/v1.10.1",
@@ -16259,7 +16214,7 @@
               "id": 142020100,
               "name": "QuickBackupM-v1.10.1.mcdr",
               "size": 24309,
-              "download_count": 195,
+              "download_count": 213,
               "created_at": "2023-12-22T18:20:12Z",
               "browser_download_url": "https://github.com/TISUnion/QuickBackupM/releases/download/v1.10.1/QuickBackupM-v1.10.1.mcdr"
             },
@@ -16771,6 +16726,7 @@
         "schema_version": 8,
         "id": "quick_run_cmd",
         "latest_version": "2.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/R1ckyH/quick_run_cmd/releases/tag/2.0.0",
@@ -16858,6 +16814,7 @@
         "schema_version": 8,
         "id": "region_file_updater",
         "latest_version": "1.5.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/RegionFileUpdater/releases/tag/v1.5.2",
@@ -17048,6 +17005,7 @@
         "schema_version": 8,
         "id": "renewability",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Fidelxyz/MCDR-Renewability/releases/tag/v1.1.0",
@@ -17135,6 +17093,7 @@
         "schema_version": 8,
         "id": "restartserver",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Crystal0404/RestartServer/releases/tag/1.0.0",
@@ -17147,7 +17106,7 @@
               "id": 140272680,
               "name": "RestartServer-1.0.0.mcdr",
               "size": 11554,
-              "download_count": 12,
+              "download_count": 14,
               "created_at": "2023-12-12T13:43:10Z",
               "browser_download_url": "https://github.com/Crystal0404/RestartServer/releases/download/1.0.0/RestartServer-1.0.0.mcdr"
             },
@@ -17220,6 +17179,7 @@
         "schema_version": 8,
         "id": "run_some_commands",
         "latest_version": "1.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/FlyingShuriken/MCDR-plugins/releases/tag/v1.0.0",
@@ -17303,6 +17263,7 @@
         "schema_version": 8,
         "id": "seed",
         "latest_version": "1.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/OptiJava/Seed/releases/tag/v1.2.0",
@@ -17491,6 +17452,7 @@
         "schema_version": 8,
         "id": "server_redirect",
         "latest_version": "1.0.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/CmmmmmmLau/ServerRedirect/releases/tag/v1.0.2",
@@ -17611,6 +17573,7 @@
         "schema_version": 8,
         "id": "showshowway",
         "latest_version": "1.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/WhiteXero/ShowShowWay/releases/tag/1.1.0",
@@ -17623,7 +17586,7 @@
               "id": 115810884,
               "name": "ShowShowWay.mcdr",
               "size": 1584,
-              "download_count": 249,
+              "download_count": 251,
               "created_at": "2023-07-06T10:55:22Z",
               "browser_download_url": "https://github.com/WhiteXero/ShowShowWay/releases/download/1.1.0/ShowShowWay.mcdr"
             },
@@ -17697,6 +17660,7 @@
         "schema_version": 8,
         "id": "simple_calculator",
         "latest_version": "1.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/Calculator/releases/tag/v1.2.0",
@@ -17818,6 +17782,7 @@
         "schema_version": 8,
         "id": "simple_op",
         "latest_version": "1.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/SimpleOP/releases/tag/v1.2.0",
@@ -17830,7 +17795,7 @@
               "id": 43347963,
               "name": "SimpleOP-v1.2.0.mcdr",
               "size": 1978,
-              "download_count": 3003,
+              "download_count": 3007,
               "created_at": "2021-08-26T13:44:28Z",
               "browser_download_url": "https://github.com/MCDReforged/SimpleOP/releases/download/v1.2.0/SimpleOP-v1.2.0.mcdr"
             },
@@ -17941,6 +17906,7 @@
         "schema_version": 8,
         "id": "simple_test",
         "latest_version": "3.0.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/R1ckyH/simple_test/releases/tag/v3.0.0",
@@ -17953,7 +17919,7 @@
               "id": 47804230,
               "name": "simple_test-3.0.0.mcdr",
               "size": 6608,
-              "download_count": 480,
+              "download_count": 484,
               "created_at": "2021-10-25T09:03:07Z",
               "browser_download_url": "https://github.com/R1ckyH/simple_test/releases/download/v3.0.0/simple_test-3.0.0.mcdr"
             },
@@ -18031,6 +17997,7 @@
         "schema_version": 8,
         "id": "simple_translator",
         "latest_version": "1.3.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/skuzow/simple-translator/releases/tag/v1.3.1",
@@ -18043,7 +18010,7 @@
               "id": 71330280,
               "name": "SimpleTranslator-v1.3.1.mcdr",
               "size": 13825,
-              "download_count": 98,
+              "download_count": 99,
               "created_at": "2022-07-12T11:30:33Z",
               "browser_download_url": "https://github.com/skuzow/simple-translator/releases/download/v1.3.1/SimpleTranslator-v1.3.1.mcdr"
             },
@@ -18154,6 +18121,7 @@
         "schema_version": 8,
         "id": "smart_backup",
         "latest_version": "1.4.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/kmcsr/smart_backup_mcdr/releases/tag/v1.4.2",
@@ -18268,7 +18236,7 @@
               "id": 63366275,
               "name": "SmartBackup-v1.3.0.mcdr",
               "size": 12855,
-              "download_count": 10,
+              "download_count": 11,
               "created_at": "2022-04-22T20:24:57Z",
               "browser_download_url": "https://github.com/kmcsr/smart_backup_mcdr/releases/download/v1.3.0/SmartBackup-v1.3.0.mcdr"
             },
@@ -18513,6 +18481,7 @@
         "schema_version": 8,
         "id": "smart_servertime",
         "latest_version": "1.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/kmcsr/smart_servertime_mcdr/releases/tag/v1.3.0",
@@ -18860,6 +18829,7 @@
         "schema_version": 8,
         "id": "start_stop_helper_r",
         "latest_version": "0.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/start_stop_helper_r-v0.1.0",
@@ -18872,7 +18842,7 @@
               "id": 70135812,
               "name": "StartStopHelperR-v0.1.0.mcdr",
               "size": 1751,
-              "download_count": 856,
+              "download_count": 859,
               "created_at": "2022-06-30T10:01:17Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/start_stop_helper_r-v0.1.0/StartStopHelperR-v0.1.0.mcdr"
             },
@@ -18902,8 +18872,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -18950,6 +18920,7 @@
         "schema_version": 8,
         "id": "stats_helper",
         "latest_version": "7.5.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/StatsHelper/releases/tag/v7.5.1",
@@ -18962,7 +18933,7 @@
               "id": 65899821,
               "name": "StatsHelper-v7.5.1.mcdr",
               "size": 23699,
-              "download_count": 1955,
+              "download_count": 1959,
               "created_at": "2022-05-18T15:22:34Z",
               "browser_download_url": "https://github.com/TISUnion/StatsHelper/releases/download/v7.5.1/StatsHelper-v7.5.1.mcdr"
             },
@@ -19292,6 +19263,7 @@
         "schema_version": 8,
         "id": "the_offline_ops",
         "latest_version": "1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/ltBerryshdo/the_offline_ops/releases/tag/v1.1",
@@ -19414,6 +19386,7 @@
         "schema_version": 8,
         "id": "timed_quick_backup_multi",
         "latest_version": "1.3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/TISUnion/TimedQBM/releases/tag/v1.3.0",
@@ -19426,7 +19399,7 @@
               "id": 100979488,
               "name": "TimedQBM-v1.3.0.mcdr",
               "size": 18269,
-              "download_count": 1449,
+              "download_count": 1458,
               "created_at": "2023-03-26T04:25:52Z",
               "browser_download_url": "https://github.com/TISUnion/TimedQBM/releases/download/v1.3.0/TimedQBM-v1.3.0.mcdr"
             },
@@ -19603,6 +19576,7 @@
         "schema_version": 8,
         "id": "todolist",
         "latest_version": "1.1.1",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Flash-Z/MCDReforgedPlugins/releases/tag/todolist-v1.1.1",
@@ -19615,7 +19589,7 @@
               "id": 99998715,
               "name": "ToDoList-v1.1.1.mcdr",
               "size": 4116,
-              "download_count": 298,
+              "download_count": 299,
               "created_at": "2023-03-19T05:37:52Z",
               "browser_download_url": "https://github.com/Flash-Z/MCDReforgedPlugins/releases/download/todolist-v1.1.1/ToDoList-v1.1.1.mcdr"
             },
@@ -19815,6 +19789,7 @@
         "schema_version": 8,
         "id": "tpm",
         "latest_version": "0.3.4",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/kmcsr/tpmanager_mcdr/releases/tag/v0.3.4",
@@ -19827,7 +19802,7 @@
               "id": 109149534,
               "name": "TpManager-v0.3.4.mcdr",
               "size": 17146,
-              "download_count": 236,
+              "download_count": 238,
               "created_at": "2023-05-21T16:56:38Z",
               "browser_download_url": "https://github.com/kmcsr/tpmanager_mcdr/releases/download/v0.3.4/TpManager-v0.3.4.mcdr"
             },
@@ -20149,6 +20124,7 @@
         "schema_version": 8,
         "id": "uuid_api",
         "latest_version": "0.1.2",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/tag/uuid_api-v0.1.2",
@@ -20161,7 +20137,7 @@
               "id": 117526817,
               "name": "UUIDAPI-v0.1.2.mcdr",
               "size": 1562,
-              "download_count": 52,
+              "download_count": 54,
               "created_at": "2023-07-18T13:53:49Z",
               "browser_download_url": "https://github.com/AnzhiZhang/MCDReforgedPlugins/releases/download/uuid_api-v0.1.2/UUIDAPI-v0.1.2.mcdr"
             },
@@ -20256,8 +20232,8 @@
         "full_name": "AnzhiZhang/MCDReforgedPlugins",
         "description": "MCDReforged Plugins",
         "archived": false,
-        "stargazers_count": 84,
-        "watchers_count": 84,
+        "stargazers_count": 85,
+        "watchers_count": 85,
         "forks_count": 61
       }
     },
@@ -20301,6 +20277,7 @@
         "schema_version": 8,
         "id": "welcome_msg",
         "latest_version": "1.2.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/JAs0n319/Welcome_MSG/releases/tag/welcome_msg-v1.2.0",
@@ -20457,6 +20434,7 @@
         "schema_version": 8,
         "id": "where_is",
         "latest_version": "2.1.1+build.9",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/Lazy-Bing-Server/WhereIs-MCDR/releases/tag/2.1.1",
@@ -20469,7 +20447,7 @@
               "id": 140232983,
               "name": "WhereIs-v2.1.1+build.9.mcdr",
               "size": 22494,
-              "download_count": 60,
+              "download_count": 63,
               "created_at": "2023-12-12T09:29:58Z",
               "browser_download_url": "https://github.com/Lazy-Bing-Server/WhereIs-MCDR/releases/download/2.1.1/WhereIs-v2.1.1%2Bbuild.9.mcdr"
             },
@@ -20771,6 +20749,7 @@
         "schema_version": 8,
         "id": "whisper",
         "latest_version": "1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/ltBerryshdo/Whisper/releases/tag/v1.0",
@@ -20862,6 +20841,7 @@
         "schema_version": 8,
         "id": "wiki_request",
         "latest_version": "3.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/DrLee-lihr/WikiRequest/releases/tag/v3.0",
@@ -20952,6 +20932,7 @@
         "schema_version": 8,
         "id": "world_copier",
         "latest_version": "0.1.0",
+        "latest_version_index": 0,
         "releases": [
           {
             "url": "https://github.com/MCDReforged/WorldCopier/releases/tag/v0.1.0",
@@ -20964,7 +20945,7 @@
               "id": 61406433,
               "name": "WorldCopier-v0.1.0.mcdr",
               "size": 3144,
-              "download_count": 313,
+              "download_count": 314,
               "created_at": "2022-04-03T07:41:35Z",
               "browser_download_url": "https://github.com/MCDReforged/WorldCopier/releases/download/v0.1.0/WorldCopier-v0.1.0.mcdr"
             },

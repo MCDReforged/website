@@ -1,10 +1,9 @@
-"use client"
-import { pluginLabels } from "@/config/catalogue";
-import { PluginLabel } from "@/components/plugins/label";
 import MyCard from "@/components/ui/my-card";
-import { IconFilter } from "@tabler/icons-react";
-import { Checkbox, Radio, Stack, TextInput } from "@mantine/core";
+import { PluginLabel } from "@/components/ui/plugin-label";
+import { pluginLabels } from "@/config/catalogue";
 import { getEverything } from "@/data/utils";
+import { Checkbox, Radio, RadioGroup, Stack, TextInput } from "@mantine/core";
+import { IconFilter } from "@tabler/icons-react";
 
 export function Sidebar() {
   const titleClassTop = 'text-lg font-bold mb-1.5'
@@ -36,14 +35,14 @@ export function Sidebar() {
 
           <p className={titleClassMiddle}>Sort order</p>
 
-          <Radio.Group defaultValue="name">
+          <RadioGroup defaultValue="name">
             <Stack gap={6}>
               <Radio value="name" label="Plugin Name" />
               <Radio value="updates" label="Last Update" />
               <Radio value="downloads" label="Downloads" />
               <Checkbox radius="sm" label="Reversed"/>
             </Stack>
-          </Radio.Group>
+          </RadioGroup>
         </div>
       </MyCard>
 

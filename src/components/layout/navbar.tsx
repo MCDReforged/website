@@ -1,17 +1,15 @@
 "use client";
 
-import { ThemeSwitch } from "@/components/theme-switch";
 import { GithubIcon, McdrLogo, } from "@/components/icons";
-import { usePathname } from "next/navigation";
+import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { siteConfig } from "@/config/site";
-import Link from "next/link";
-
-import { useState } from 'react';
-import { Container, Group, Burger, getThemeColor, useMantineTheme, alpha } from '@mantine/core';
+import { Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import classes from './navbar.module.css';
 import { IconExternalLink } from "@tabler/icons-react";
 import { clsx } from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import classes from './navbar.module.css';
 
 const config = {
   navItems: [
@@ -36,46 +34,6 @@ const config = {
   ],
 };
 
-const links = [
-  { link: '/about', label: 'Features' },
-  { link: '/pricing', label: 'Pricing' },
-  { link: '/learn', label: 'Learn' },
-  { link: '/community', label: 'Community' },
-];
-
-function HeaderSimple() {
-  const [opened, { toggle }] = useDisclosure(false);
-  const [active, setActive] = useState(links[0].link);
-
-  const items = links.map((link) => (
-    <a
-      key={link.label}
-      href={link.link}
-      className={classes.link}
-      data-active={active === link.link || undefined}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(link.link);
-      }}
-    >
-      {link.label}
-    </a>
-  ));
-
-  return (
-    <header className={classes.header}>
-      <Container size="md" className={classes.inner}>
-        <McdrLogo size={28} />
-        <Group gap={5} visibleFrom="xs">
-          {items}
-        </Group>
-
-        <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-      </Container>
-    </header>
-  );
-}
-
 export const Navbar = () => {
   const pathname = usePathname();
   const [burgerOpened, setBurgerOpened ] = useDisclosure(false);
@@ -89,7 +47,7 @@ export const Navbar = () => {
     >
       <div className="z-40 flex flex-row flex-nowrap items-center justify-between max-w-screen-xl gap-6 px-6 w-full h-[3.5rem]">
         <div className="gap-3 max-w-fit">
-          <Link className="flex justify-start items-center gap-1" color="foreground" href="/">
+          <Link className="flex justify-start items-center gap-1" color="foreground" href="/public">
             <McdrLogo size={36}/>
             <p className="font-bold text-inherit">MCDReforged</p>
           </Link>
