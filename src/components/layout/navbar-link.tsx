@@ -1,5 +1,6 @@
 'use client'
-import { Link, usePathname } from "@/i18n-utils";
+
+import { Link as I18nLink, usePathname } from "@/i18n-utils";
 import { IconExternalLink } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import classes from './navbar.module.css';
@@ -14,7 +15,7 @@ export interface NavItem {
 export function NavbarLink({item}: {item: NavItem}) {
   const pathname = usePathname();
   return (
-    <Link
+    <I18nLink
       className={clsx("text-md", classes.link)}
       href={item.href}
       data-active={item.checkActive(pathname) || undefined}
@@ -23,6 +24,6 @@ export function NavbarLink({item}: {item: NavItem}) {
         {item.label}
         {item.isExternal && <IconExternalLink size={20} strokeWidth={1.4} className="ml-1" />}
       </div>
-    </Link>
+    </I18nLink>
   )
 }

@@ -1,32 +1,65 @@
-import { getAuthors } from "@/catalogue/utils";
+'use client'
+
+import { AuthorInfo, AuthorSummary, ReleaseInfo } from "@/catalogue/types";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
-import { AllOfAPlugin, ReleaseInfo } from "@/types/plugin-catalogue-meta";
-import { ActionIcon, Text } from "@mantine/core";
-import { IconBrandGithub } from "@tabler/icons-react";
+import { Link as I18nLink, translateLangDict } from "@/i18n-utils"
+import { ActionIcon, Text, Tooltip } from "@mantine/core";
+import { IconBrandGithub, IconDownload } from "@tabler/icons-react";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from 'react';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { PluginCardDownloadButton, PluginCardDownloadButtonDisabled } from "./plugin-card-download-button";
-import { PluginCardPluginLink } from "./plugin-card-plugin-link";
+import { SimplePlugin } from "./types";
 
-async function PluginAuthor({author}: {author: string}) {
-  const authors = (await getAuthors()).authors
+function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
+  if (author === undefined) {
+    return null
+  }
   return (
-    <Link href={authors[author].link} className="text-foreground text-sm mx-1 hover:text-primary">
-      {author}
+    <Link href={author.link} className="text-foreground text-sm mx-1 hover:text-primary">
+      {author.name}
     </Link>
   )
 }
 
-export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
-  const authorCount = plugin.plugin.authors.length
-  const release: ReleaseInfo | undefined = plugin.release.releases[plugin.release.latest_version_index]  // latest one
+function PluginCardDownloadButtonDisabled() {
+  return (
+    <ActionIcon disabled title="No release">
+      <IconDownload stroke={1.5}/>
+    </ActionIcon>
+  )
+}
+
+function PluginCardDownloadButton({release}: {release: ReleaseInfo}) {
+  const tooltip = `${release.asset.name} (v${release.meta.version})`
+  return (
+    <Tooltip label={tooltip} offset={4} openDelay={500}>
+      <ActionIcon color="teal">
+        <a href={release.asset.browser_download_url} download>
+          <IconDownload stroke={1.5}/>
+        </a>
+      </ActionIcon>
+    </Tooltip>
+  )
+}
+
+function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginName: string}) {
+  return (
+    <I18nLink href={`/plugins/p/${pluginId}`} className="text-2xl font-bold text-foreground hover:text-primary ml-1 mr-5">
+      {pluginName}
+    </I18nLink>
+  )
+}
+
+export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: AuthorSummary}) {
+  const authorCount = plugin.authors.length
+  const release = plugin.latestRelease
 
   const repositoryButton =
     <ActionIcon className="mx-2" color="#404040">
-      <Link href={plugin.plugin.repository}>
+      <Link href={plugin.repository}>
         <IconBrandGithub stroke={1.5}/>
       </Link>
     </ActionIcon>
@@ -38,13 +71,13 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
   return (
     <MyCard>
       <div className="flex items-baseline justify-between mb-2">
-        <PluginCardPluginLink plugin={plugin} />
+        <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name} />
 
         <div className="flex items-baseline">
           <Text size="sm" c="gray">by</Text>
-          {plugin.plugin.authors.map((author, index) =>
+          {plugin.authors.map((author, index) =>
             <React.Fragment key={index}>
-              <PluginAuthor author={author}/>
+              <PluginAuthor author={authors.authors[author]}/>
               <p>{index < authorCount - 1 && ','}</p>
             </React.Fragment>
           )}
@@ -54,10 +87,10 @@ export function PluginCard({plugin}: {plugin: AllOfAPlugin}) {
       <div className="grid justify-between grid-cols-6">
         <div className="col-span-5">
           <Markdown className="mb-3 ml-1" remarkPlugins={[remarkGfm]}>
-            {plugin.meta.description['en_us']}
+            {translateLangDict(useLocale(), plugin.description, true)}
           </Markdown>
           <div className="flex gap-1.5">
-            {plugin.plugin.labels.map((label, index) =>
+            {plugin.labels.map((label, index) =>
               <PluginLabel key={index} label={label}/>
             )}
           </div>

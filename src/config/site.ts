@@ -10,7 +10,7 @@ export const siteConfig = {
   },
   languages: [
     'en',
-    'zh',
+    'zh-CN',
   ],
   defaultLanguage: 'en',
 }

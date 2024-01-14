@@ -3,6 +3,11 @@
     "title": "Hello world!"
   },
   "Plugins": {
+    "sort_order": {
+      "name": "Plugin Name",
+      "downloads": "Downloads",
+      "recentUpdate": "Last Update"
+    }
   },
   "Navbar": {
     "navigation": {
@@ -10,9 +15,9 @@
       "plugins": "Plugins",
       "docs": "Docs"
     },
-    "LocaleSwitch": {
+    "locale_switch": {
       "en": "English",
-      "zh": "中文"
+      "zh-CN": "简体中文"
     }
   }
 }

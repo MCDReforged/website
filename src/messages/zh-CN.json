@@ -3,6 +3,11 @@
     "title": "你好世界！"
   },
   "Plugins": {
+    "sort_order": {
+      "name": "插件名",
+      "downloads": "下载量",
+      "recentUpdate": "最近更新"
+    }
   },
   "Navbar": {
     "navigation": {
@@ -10,9 +15,9 @@
       "plugins": "插件仓库",
       "docs": "文档"
     },
-    "LocaleSwitch": {
+    "locale_switch": {
       "en": "English",
-      "zh": "中文"
+      "zh-CN": "简体中文"
     }
   }
 }

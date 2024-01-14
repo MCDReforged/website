@@ -1,7 +1,7 @@
 "use client";
 
+import { AllOfAPlugin } from "@/catalogue/types";
 import MyCard from "@/components/ui/my-card";
-import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 import { rem, Tabs } from "@mantine/core";
 import { IconBook, IconPackageImport, IconTag } from "@tabler/icons-react";
 import React from "react";
@@ -41,10 +41,10 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
       <p>{text}</p>
     </div>
   )
-  const iconStyle = { width: rem(16), height: rem(16) };
+  const iconStyle = { width: rem(16), height: rem(16) }
 
   return (
-    <MyCard className="mx-5 pb-6 pt-2">
+    <MyCard className="lg:mx-5 pb-6 pt-2">
       <Tabs defaultValue="introduction">
         <Tabs.List>
           <Tabs.Tab value="introduction">

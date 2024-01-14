@@ -1,8 +1,7 @@
 // https://github.com/MCDReforged/PluginCatalogue/tree/catalogue
 
 export interface LangDict {
-  en_us?: string
-  zh_cn?: string
+  [lang: string]: string
 }
 
 export interface Everything {
@@ -12,13 +11,15 @@ export interface Everything {
   }
 }
 
+export interface AuthorInfo {
+  name: string
+  link: string
+}
+
 export interface AuthorSummary {
   amount: number
   authors: {
-    [key: string]: {
-      name: string
-      link: string
-    }
+    [key: string]: AuthorInfo
   }
 }
 

@@ -1,4 +1,4 @@
-import { AllOfAPlugin, AuthorSummary, Everything } from "@/types/plugin-catalogue-meta";
+import { AllOfAPlugin, AuthorSummary, Everything } from "@/catalogue/types";
 import fs from 'fs/promises'
 import path from "path";
 

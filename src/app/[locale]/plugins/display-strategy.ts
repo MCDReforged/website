@@ -1,13 +1,20 @@
-export const sortOrders = [
+import { Dispatch, SetStateAction } from "react";
+
+export const sortOrders: string[] = [
   'name',
   'downloads',
-  'lastUpdate',
-] as const
-
-export type SortOrder = typeof sortOrders[number];
+  'recentUpdate',
+]
 
 export interface DisplayStrategy {
+  page: number | null
   keyword: string
-  sortOrder: SortOrder
+  selectedLabels: string[]
+  sortOrder: string | null
   sortReversed: boolean
+}
+
+export interface DisplayStrategyContextValue {
+  ds: DisplayStrategy
+  setDs: Dispatch<SetStateAction<DisplayStrategy>>
 }
