@@ -5,6 +5,7 @@ import { theme } from "@/config/theme";
 import { pick } from "@/i18n-utils";
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import "@/styles/globals.css";
+import { Analytics } from '@vercel/analytics/react';
 import { clsx } from "clsx";
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from "next-intl";
@@ -59,6 +60,9 @@ export default async function RootLayout({
             <Footer/>
           </div>
         </MantineProvider>
+
+        {/* https://vercel.com/docs/analytics/quickstart */}
+        <Analytics />
       </body>
     </html>
   )
