@@ -1,9 +1,8 @@
 import "@/styles/globals.css";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
 import { Metadata, Viewport } from "next";
 import { Providers } from "./providers";
-import { Navbar } from "@/components/navbar";
-import clsx from "clsx";
-import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -30,11 +29,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
-        )}
-      >
+      <body className="min-h-screen bg-background font-sans antialiased">
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <div className="relative flex flex-col min-h-screen">
             <Navbar />

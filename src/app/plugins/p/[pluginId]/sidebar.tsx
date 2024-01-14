@@ -1,6 +1,6 @@
-import { PluginLabel } from "@/components/plugins/label";
-import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 import MyCard from "@/components/ui/my-card";
+import { PluginLabel } from "@/components/ui/plugin-label";
+import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
 
 export function Sidebar({plugin}: {plugin: AllOfAPlugin}) {
   return (

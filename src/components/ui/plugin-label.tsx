@@ -1,6 +1,6 @@
-import { FaInfoCircle, FaLink, FaQuestion, FaToolbox, FaUserCog } from "react-icons/fa";
 import { Chip } from "@nextui-org/react";
 import React from "react";
+import { FaInfoCircle, FaLink, FaToolbox, FaUserCog } from "react-icons/fa";
 
 const labelConfigs: {[key: string]: any} = {
   'information': {

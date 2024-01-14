@@ -1,12 +1,12 @@
 "use client";
 
+import MyCard from "@/components/ui/my-card";
 import { AllOfAPlugin } from "@/types/plugin-catalogue-meta";
+import { Tab, Tabs } from "@nextui-org/react";
+import React from "react";
+import { GoBook, GoPackageDependencies, GoTag } from "react-icons/go";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import React from "react";
-import { Tab, Tabs } from "@nextui-org/react";
-import { GoBook, GoPackageDependencies, GoTag } from "react-icons/go";
-import MyCard from "@/components/ui/my-card";
 
 function PluginIntroduction({plugin}: {plugin: AllOfAPlugin}) {
   return (

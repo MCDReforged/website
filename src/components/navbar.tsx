@@ -1,5 +1,9 @@
 "use client";
 
+import { GithubIcon, McdrLogo, } from "@/components/icons";
+
+import { ThemeSwitch } from "@/components/theme-switch";
+import { Link } from "@nextui-org/link";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -9,19 +13,12 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
-import { Kbd } from "@nextui-org/kbd";
-import { Link } from "@nextui-org/link";
-import { isAppleDevice } from "@react-aria/utils";
 
 import { link as linkStyles } from "@nextui-org/theme";
 
 import clsx from "clsx";
-
-import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon, McdrLogo, SearchIcon, } from "@/components/icons";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "../config/site";
-import { Button } from "@nextui-org/button";
 
 const config = {
   navItems: [
@@ -46,29 +43,12 @@ const config = {
   ],
 };
 
-const handleOpenSearch = () => {
-};
-
 export const Navbar = () => {
-  const searchInput = (
-    <Button
-      aria-label="Search"
-      className="text-sm text-default-500 bg-default-400/20 dark:bg-default-500/20"
-      endContent={
-        <Kbd className="hidden md:inline-block" keys={[isAppleDevice() ? "command" : "ctrl"]}>
-          K
-        </Kbd>
-      }
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      onPress={handleOpenSearch}
-    >
-      Search...
-    </Button>
-  );
-
   const pathname = usePathname();
+  const linkStyle = clsx(
+    linkStyles({ color: "foreground" }),
+    "data-[active=true]:text-primary data-[active=true]:font-medium"
+  )
   return (
     <NextUINavbar maxWidth="xl" position="sticky" isBordered>
       <NavbarBrand className="gap-3 max-w-fit">
@@ -78,14 +58,11 @@ export const Navbar = () => {
         </Link>
       </NavbarBrand>
 
-      <NavbarContent className="hidden sm:flex gap-4 justify-start ml-2" justify="start">
+      <NavbarContent className="hidden sm:flex gap-4 justify-start ml-2">
         {config.navItems.map((item) => (
           <NavbarItem key={item.href} as="li">
             <Link
-              className={clsx(
-                linkStyles({ color: "foreground" }),
-                "data-[active=true]:text-primary data-[active=true]:font-medium"
-              )}
+              className={linkStyle}
               data-active={item.checkActive(pathname)}
               href={item.href}
               isExternal={item.isExternal}
@@ -102,16 +79,16 @@ export const Navbar = () => {
           <GithubIcon className="text-default-500" />
         </Link>
         <ThemeSwitch />
-        {/*<NavbarItem className="hidden sm:flex">{searchInput}</NavbarItem>*/}
         <NavbarMenuToggle className="sm:hidden" />
       </NavbarContent>
 
       <NavbarMenu>
-        {/*{searchInput}*/}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {config.navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
+                className={linkStyle}
+                data-active={item.checkActive(pathname)}
                 href={item.href}
                 size="lg"
               >

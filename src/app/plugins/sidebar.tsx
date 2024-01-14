@@ -1,8 +1,8 @@
+import MyCard from "@/components/ui/my-card";
+import { PluginLabel } from "@/components/ui/plugin-label";
+import { pluginLabels } from "@/config/catalogue";
 import { Checkbox, CheckboxGroup, Input, Radio, RadioGroup } from "@nextui-org/react";
 import { FaFilter } from "react-icons/fa";
-import { pluginLabels } from "@/config/catalogue";
-import { PluginLabel } from "@/components/plugins/label";
-import MyCard from "@/components/ui/my-card";
 
 export function Sidebar() {
   const titleClassTop = 'text-lg font-bold mb-1.5'
