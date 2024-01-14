@@ -1,14 +1,17 @@
+'use client'
+
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
-import { getEverything } from "@/data/utils";
+import { Everything } from "@/types/plugin-catalogue-meta";
 import { Checkbox, Radio, RadioGroup, Stack, TextInput } from "@mantine/core";
 import { IconFilter } from "@tabler/icons-react";
+import { clsx } from "clsx";
+import { DisplayStrategy } from "./display-strategy";
 
-export function Sidebar() {
+export async function Sidebar({everything, ds}: {everything: Everything, ds: DisplayStrategy}) {
   const titleClassTop = 'text-lg font-bold mb-1.5'
-  const titleClassMiddle = titleClassTop + '  mt-3'
-  const everything = getEverything()
+  const titleClassMiddle = clsx(titleClassTop, 'mt-3')
 
   return (
     <div>

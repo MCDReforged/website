@@ -1,10 +1,11 @@
-import { getEverything } from "@/data/utils";
+'use server'
+
+import { Everything } from "@/types/plugin-catalogue-meta";
 import React from 'react';
+import { DisplayStrategy } from "./display-strategy";
 import { PluginCard } from "./plugin-card";
 
-const everything = getEverything()
-
-export function PluginList() {
+export async function PluginList({everything, ds}: {everything: Everything, ds: DisplayStrategy}) {
   return (
     <div className="mx-5 mb-5">
       <p className="text-2xl font-bold text-center mb-3">Plugin List</p>

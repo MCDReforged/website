@@ -2,6 +2,8 @@
   "Home": {
     "title": "Hello world!"
   },
+  "Plugins": {
+  },
   "Navbar": {
     "navigation": {
       "home": "Home",

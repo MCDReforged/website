@@ -2,6 +2,8 @@
   "Home": {
     "title": "你好世界！"
   },
+  "Plugins": {
+  },
   "Navbar": {
     "navigation": {
       "home": "主页",

@@ -1,19 +1,20 @@
-import { getAllPlugins, getPlugin } from "@/data/utils";
+import { getAllPlugins, getPlugin } from "@/catalogue/utils";
 import React from "react";
 import "github-markdown-css"
 import { PluginContent } from "./plugin-content";
 import { Sidebar } from "./sidebar";
 
 export async function generateStaticParams() {
-  return Object.keys( getAllPlugins()).map(pluginId => {
+  const allPlugins = await getAllPlugins()
+  return Object.keys(allPlugins).map(pluginId => {
     return {
       pluginId: pluginId
     }
   })
 }
 
-export default function Page({params}: { params: { pluginId: string } }) {
-  const plugin = getPlugin(params.pluginId)
+export default async function Page({params}: { params: { pluginId: string } }) {
+  const plugin = await getPlugin(params.pluginId)
   return (
     <div>
       <div className="lg:fixed lg:w-[18rem]">

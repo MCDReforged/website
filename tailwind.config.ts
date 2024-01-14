@@ -10,7 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         'mantine-text': 'var(--mantine-color-text)',
-        'mantine-background': 'var(--mantine-color-body)',
+        'mantine-hover': 'var(--mantine-color-default-hover)',
+        'mantine-border': 'var(--mantine-color-default-border)',
+        'mantine-background': 'var(--mantine-color-default)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

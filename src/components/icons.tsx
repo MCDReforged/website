@@ -1,6 +1,9 @@
-import { IconSvgProps } from "@/types";
 import Image from "next/image";
 import * as React from "react";
+
+type IconSvgProps = React.SVGProps<SVGSVGElement> & {
+  size?: number;
+}
 
 export const McdrLogo = ({size, ...props}: {size: number}) => (
   <Image
