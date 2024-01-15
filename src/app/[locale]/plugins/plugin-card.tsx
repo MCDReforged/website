@@ -9,8 +9,6 @@ import { IconBrandGithub, IconDownload } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from 'react';
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { SimplePlugin } from "./types";
 
 function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
@@ -47,7 +45,10 @@ function PluginCardDownloadButton({release}: {release: ReleaseInfo}) {
 
 function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginName: string}) {
   return (
-    <I18nLink href={`/plugins/p/${pluginId}`} className="text-2xl font-bold text-foreground hover:text-primary ml-1 mr-5">
+    <I18nLink
+      href={`/plugins/p/${pluginId}`}
+      className="text-2xl font-bold text-foreground break-words hover:text-primary ml-1 mr-5"
+    >
       {pluginName}
     </I18nLink>
   )
@@ -69,7 +70,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     <PluginCardDownloadButtonDisabled />
 
   return (
-    <MyCard>
+    <MyCard className="min-h-24">
       <div className="flex items-baseline justify-between mb-2">
         <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name} />
 
@@ -86,9 +87,9 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
 
       <div className="grid justify-between grid-cols-6">
         <div className="col-span-5">
-          <Markdown className="mb-3 ml-1" remarkPlugins={[remarkGfm]}>
-            {translateLangDict(useLocale(), plugin.description, true)}
-          </Markdown>
+          <div className="mb-3 ml-1">
+            {translateLangDict(useLocale(), plugin.description, true) || ''}
+          </div>
           <div className="flex gap-1.5">
             {plugin.labels.map((label, index) =>
               <PluginLabel key={index} label={label}/>

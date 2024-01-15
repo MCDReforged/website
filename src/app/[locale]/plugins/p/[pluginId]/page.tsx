@@ -1,6 +1,5 @@
 import { getAllPlugins, getPlugin } from "@/catalogue/utils";
 import React from "react";
-import "github-markdown-css"
 import { PluginContent } from "./plugin-content";
 import { Sidebar } from "./sidebar";
 

@@ -2,23 +2,37 @@
 
 import { AllOfAPlugin } from "@/catalogue/types";
 import MyCard from "@/components/ui/my-card";
-import { rem, Tabs } from "@mantine/core";
+import { translateLangDict } from "@/i18n-utils";
+import { rem, Skeleton, Tabs } from "@mantine/core";
 import { IconBook, IconPackageImport, IconTag } from "@tabler/icons-react";
+import { useLocale } from "next-intl";
+import dynamic from "next/dynamic";
 import React from "react";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
-function PluginIntroduction({plugin}: {plugin: AllOfAPlugin}) {
+const DynamicMarkdown = dynamic(
+  () => import('@/components/ui/gfm-markdown'),
+  {
+    loading: () => (
+      <div className="flex flex-col gap-3 pt-2">
+        <Skeleton height="0.8rem"/>
+        <Skeleton height="0.8rem" width="50%"/>
+        <Skeleton height="0.8rem" width="70%"/>
+      </div>
+    )
+  }
+)
+
+function PluginIntroduction({plugin}: { plugin: AllOfAPlugin }) {
   return (
     <div className="mt-3 mx-2">
-      <div className="markdown-body">
-        <Markdown remarkPlugins={[remarkGfm]}>{plugin.plugin.introduction['en_us']}</Markdown>
-      </div>
+      <DynamicMarkdown>
+        {translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''}
+      </DynamicMarkdown>
     </div>
   )
 }
 
-function PluginDependencies({plugin}: {plugin: AllOfAPlugin}) {
+function PluginDependencies({plugin}: { plugin: AllOfAPlugin }) {
   return (
     <div className="mt-3 mx-2">
       PluginDownloads
