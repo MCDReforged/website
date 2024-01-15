@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     default: siteConfig.title,
     template: siteConfig.titleTemplate,
   },
+  description: siteConfig.description,
   icons: {
     icon: siteConfig.favicon,
   },

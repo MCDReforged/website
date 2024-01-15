@@ -1,8 +1,7 @@
-export type SiteConfig = typeof siteConfig;
-
 export const siteConfig = {
   title: 'MCDReforged',
   titleTemplate: '%s - MCDReforged',
+  description: 'MCDReforged official website',
   favicon: "/favicon.svg",
   links: {
     docs: "https://docs.mcdreforged.com",
