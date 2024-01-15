@@ -70,7 +70,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     <PluginCardDownloadButtonDisabled />
 
   return (
-    <MyCard className="min-h-24">
+    <MyCard className="min-h-[8.3rem] flex flex-col">
       <div className="flex items-baseline justify-between mb-2">
         <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name} />
 
@@ -85,8 +85,8 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
         </div>
       </div>
 
-      <div className="grid justify-between grid-cols-6">
-        <div className="col-span-5">
+      <div className="grid grid-cols-6 justify-between grow">
+        <div className="col-span-5 flex flex-col justify-between">
           <div className="mb-3 ml-1">
             {translateLangDict(useLocale(), plugin.description, true) || ''}
           </div>
