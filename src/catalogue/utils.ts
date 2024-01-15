@@ -3,7 +3,7 @@ import fs from 'fs/promises'
 import path from "path";
 
 const useLocalData = process.env.NODE_ENV === 'development'
-const isrInterval = 60
+const isrInterval = 3 * 60
 const everythingUrl = 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json'
 
 async function fileExists(filePath: string) {

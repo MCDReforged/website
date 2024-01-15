@@ -1,5 +1,6 @@
 import { GithubIcon, ReadTheDocsIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
+import { Link as I18nLink } from "@/i18n-utils"
 import { Button, Container, Group, Text } from '@mantine/core';
 import { useTranslations } from "next-intl";
 import { unstable_setRequestLocale } from "next-intl/server";
@@ -66,7 +67,9 @@ export default function Home({params: {locale}}: {params: {locale: string}}) {
           {t('title')}
         </p>
       </div>
-      <Button>Light</Button>
+      <I18nLink href="/plugins">
+        <Button>Plugin Catalogue</Button>
+      </I18nLink>
 
       <div className="flex gap-3">
         <Link

@@ -8,7 +8,6 @@ import { Checkbox, Radio, RadioGroup, Stack, TextInput } from "@mantine/core";
 import { IconFilter } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { DisplayStrategyContextValue, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
@@ -17,11 +16,6 @@ function ControlCard() {
   const titleClassTop = 'text-lg font-bold mb-1.5'
   const titleClassMiddle = clsx(titleClassTop, 'mt-3')
   const {ds, setDs} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
-
-  const params = useSearchParams()
-  useEffect(() => {
-    // TODO: Read params
-  }, [params])
 
   useEffect(() => {
     const queryParams = new URLSearchParams();
