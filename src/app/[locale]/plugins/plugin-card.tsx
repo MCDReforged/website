@@ -22,24 +22,25 @@ function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
   )
 }
 
-function PluginCardDownloadButtonDisabled() {
-  return (
-    <ActionIcon disabled title="No release">
-      <IconDownload stroke={1.5}/>
-    </ActionIcon>
-  )
-}
-
 function PluginCardDownloadButton({release}: {release: ReleaseInfo}) {
-  const tooltip = `${release.asset.name} (v${release.meta.version})`
+  const version = release.meta.version
+  const tooltip = `${release.asset.name} (v${version})`
   return (
     <Tooltip label={tooltip} offset={4} openDelay={500}>
-      <ActionIcon color="teal">
-        <a href={release.asset.browser_download_url} download>
+      <ActionIcon color="teal" aria-label={`Download version ${version}`}>
+        <a href={release.asset.browser_download_url} aria-label={`Download version ${version}`} download>
           <IconDownload stroke={1.5}/>
         </a>
       </ActionIcon>
     </Tooltip>
+  )
+}
+
+function PluginCardDownloadButtonDisabled() {
+  return (
+    <ActionIcon disabled title="No release" aria-label="Download not available">
+      <IconDownload stroke={1.5}/>
+    </ActionIcon>
   )
 }
 
@@ -59,15 +60,15 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
   const release = plugin.latestRelease
 
   const repositoryButton =
-    <ActionIcon className="mx-2" color="#404040">
-      <Link href={plugin.repository}>
+    <ActionIcon className="mx-2" color="#404040" aria-label={`Visit GitHub repository for ${plugin.id}`}>
+      <Link href={plugin.repository} aria-label={`GitHub repository for ${plugin.id}`}>
         <IconBrandGithub stroke={1.5}/>
       </Link>
     </ActionIcon>
 
   const downloadButton = release !== undefined ?
     <PluginCardDownloadButton release={release}/>:
-    <PluginCardDownloadButtonDisabled />
+    <PluginCardDownloadButtonDisabled/>
 
   return (
     <MyCard className="min-h-[8.3rem] flex flex-col">

@@ -1,4 +1,4 @@
-import { getEverything } from "@/catalogue/utils";
+import { getEverything } from "@/catalogue/data";
 import { pick } from "@/i18n-utils";
 import { Divider } from "@mantine/core";
 import { NextIntlClientProvider } from "next-intl";

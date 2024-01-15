@@ -63,7 +63,13 @@ export function Navbar() {
           </Link>
           <LocaleSwitch/>
           <ThemeSwitch/>
-          <Burger opened={burgerOpened} onClick={setBurgerOpened.toggle} hiddenFrom="xs" size="sm" />
+          <Burger
+            opened={burgerOpened}
+            onClick={setBurgerOpened.toggle}
+            hiddenFrom="xs"
+            size="sm"
+            aria-label="Open navigation"
+          />
         </div>
 
       </div>

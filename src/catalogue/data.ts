@@ -18,7 +18,7 @@ async function fileExists(filePath: string) {
 }
 
 async function devReadEverything(): Promise<Everything | null> {
-  if (process.env.NODE_ENV === 'development' || process.env.npm_lifecycle_event === 'build') {
+  if (process.env.NODE_ENV === 'development' || process.env.USE_LOCAL_EVERYTHING === 'true') {
     const localDataPath = path.join(process.cwd(), 'src', 'catalogue', 'everything.json')
     if (await fileExists(localDataPath)) {
       const content = await fs.readFile(localDataPath, 'utf8')

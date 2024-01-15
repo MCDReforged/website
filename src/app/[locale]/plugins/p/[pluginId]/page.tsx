@@ -1,4 +1,4 @@
-import { getEverything, getPlugin } from "@/catalogue/utils";
+import { getEverything, getPlugin } from "@/catalogue/data";
 import React from "react";
 import { PluginContent } from "./plugin-content";
 import { Sidebar } from "./sidebar";

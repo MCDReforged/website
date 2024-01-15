@@ -13,6 +13,6 @@
   }
 
   [data-mantine-color-scheme] &[data-active] {
-    color: var(--mantine-primary-color-filled);
+    color: light-dark(var(--mantine-primary-color-filled), var(--mantine-primary-color-3));
   }
 }

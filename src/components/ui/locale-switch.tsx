@@ -30,7 +30,7 @@ export function LocaleSwitch() {
     <Menu width="6rem" radius="md" withinPortal>
       <Menu.Target>
         <ActionIcon variant="default" size="lg">
-          <IconWorld stroke={1.5}/>
+          <IconWorld aria-label="Language switch" stroke={1.5}/>
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>

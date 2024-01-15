@@ -76,7 +76,7 @@ export function PluginList({everything}: {everything: Everything}) {
       return ret
     })
 
-  const pluginsPerPage = 10
+  const pluginsPerPage = 15
   const totalPages = Math.ceil(plugins.length / pluginsPerPage)
   const effectivePage = Number.isNaN(currentPage) ? 1 : currentPage
   const paginatedPlugins: SimplePlugin[] = plugins.slice((effectivePage - 1) * pluginsPerPage, effectivePage * pluginsPerPage)
@@ -89,7 +89,16 @@ export function PluginList({everything}: {everything: Everything}) {
   }, [currentPage, totalPages])
 
   function Pager() {
-    return <Pagination total={totalPages} value={currentPage} onChange={setPage}/>
+    return <Pagination
+      total={totalPages}
+      value={currentPage}
+      onChange={setPage}
+      getControlProps={(control) => {
+        return {
+          'aria-label': `${control} page`,
+        }
+      }}
+    />
   }
 
   return (

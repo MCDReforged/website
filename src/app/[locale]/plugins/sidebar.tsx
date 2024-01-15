@@ -59,6 +59,7 @@ function ControlCard() {
           size="sm"
           leftSection={<IconFilter stroke={1.5}/>}
           onChange={(event) => onFilterTextChanged(event.currentTarget.value)}
+          aria-label="Plugin filter"
         />
 
         <p className={titleClassMiddle}>Label filter</p>
