@@ -10,6 +10,11 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Make sure all lists in the markdown content have list-style */
+.markdown-body ol, .markdown-body ul {
+  list-style: revert;
+}
+
 /* Make buttons still */
 .mantine-active {
   &:active {
