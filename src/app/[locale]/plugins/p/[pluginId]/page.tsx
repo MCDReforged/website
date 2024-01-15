@@ -17,7 +17,7 @@ export default async function Page({params}: { params: { pluginId: string } }) {
   const plugin = await getPlugin(params.pluginId)
   return (
     <div>
-      <div className="lg:fixed lg:w-[18rem]">
+      <div className="lg:fixed lg:w-[18rem] lg:h-[calc(100vh-5rem)] lg:overflow-y-auto">
         <Sidebar plugin={plugin}/>
       </div>
       <div className="lg:pl-[19rem]">

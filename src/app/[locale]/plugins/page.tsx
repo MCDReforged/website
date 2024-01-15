@@ -16,7 +16,7 @@ export default async function Page({params: {locale}}: {params: {locale: string}
     <div>
       <NextIntlClientProvider locale={locale} messages={pick(messages, 'Plugins')}>
         <DisplayStrategyContextProvider>
-          <div className="lg:fixed lg:w-[18rem]">
+          <div className="lg:fixed lg:w-[18rem] lg:h-[calc(100vh-5rem)] lg:overflow-y-auto">
             <Sidebar everything={everything}/>
           </div>
           <div className="flex lg:hidden">
