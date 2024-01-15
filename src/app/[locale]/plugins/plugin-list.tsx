@@ -89,7 +89,7 @@ export function PluginList({everything}: {everything: Everything}) {
   }, [currentPage, totalPages])
 
   function Pager() {
-    return <Pagination total={totalPages} value={currentPage} onChange={setPage} withEdges/>
+    return <Pagination total={totalPages} value={currentPage} onChange={setPage}/>
   }
 
   return (
