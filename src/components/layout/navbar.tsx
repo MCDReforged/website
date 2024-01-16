@@ -45,7 +45,7 @@ export function Navbar() {
         classes.header,
       )}
     >
-      <div className="z-40 flex flex-row flex-nowrap items-center justify-between max-w-screen-xl gap-6 px-6 w-full h-[3.5rem]">
+      <div className="z-40 flex flex-row flex-nowrap gap-4 items-center justify-between max-w-screen-xl px-6 w-full h-[3.5rem]">
         <div className="gap-3 max-w-fit">
           <NaLink className="flex justify-start items-center gap-1" color="foreground" href="/">
             <McdrLogo size={36}/>
@@ -53,7 +53,7 @@ export function Navbar() {
           </NaLink>
         </div>
 
-        <div className="hidden sm:flex gap-4 justify-start ml-2 flex-grow">
+        <div className="hidden sm:flex gap-2 justify-start ml-2 flex-grow">
           {navItems.map((item) => <NavbarLink key={item.href} item={item} />)}
         </div>
 

@@ -11,8 +11,11 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import '@mantine/core/styles.css'
+import { Inter } from 'next/font/google'
 import styles from './layout.module.css';
 import { VercelScripts } from "./vercel-scripts";
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
@@ -45,7 +48,7 @@ export default async function RootLayout({
       <head>
         <ColorSchemeScript/>
       </head>
-      <body>
+      <body className={inter.className}>
         <MantineProvider theme={theme} defaultColorScheme="light">
           <div className={clsx("relative flex flex-col min-h-screen", styles.background)}>
             <RouterTransition/>
