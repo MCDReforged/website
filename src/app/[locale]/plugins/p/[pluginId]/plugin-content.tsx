@@ -1,33 +1,28 @@
-"use client";
+'use client'
 
 import { AllOfAPlugin } from "@/catalogue/types";
+import DynamicGfmMarkdown from "@/components/ui/dynamic-gfm-markdown";
 import MyCard from "@/components/ui/my-card";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { rem, Skeleton, Tabs } from "@mantine/core";
 import { IconBook, IconPackageImport, IconTag } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
-import dynamic from "next/dynamic";
 import React from "react";
-
-const DynamicMarkdown = dynamic(
-  () => import('@/components/ui/gfm-markdown'),
-  {
-    loading: () => (
-      <div className="flex flex-col gap-3 pt-2">
-        <Skeleton height="0.8rem"/>
-        <Skeleton height="0.8rem" width="50%"/>
-        <Skeleton height="0.8rem" width="70%"/>
-      </div>
-    )
-  }
-)
+import "@/styles/github-markdown.css"
 
 function PluginIntroduction({plugin}: { plugin: AllOfAPlugin }) {
+  const skeleton = (
+    <div className="flex flex-col gap-3 pt-2">
+      <Skeleton height="0.8rem"/>
+      <Skeleton height="0.8rem" width="50%"/>
+      <Skeleton height="0.8rem" width="70%"/>
+    </div>
+  )
   return (
     <div className="mt-3 mx-2">
-      <DynamicMarkdown>
+      <DynamicGfmMarkdown fallback={skeleton}>
         {translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''}
-      </DynamicMarkdown>
+      </DynamicGfmMarkdown>
     </div>
   )
 }
