@@ -1,5 +1,5 @@
 import { getEverything } from "@/catalogue/data";
-import { pick } from "@/i18n-utils";
+import { pick } from "@/utils/i18n-utils";
 import { Divider } from "@mantine/core";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";

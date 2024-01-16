@@ -1,12 +1,5 @@
+import { LangDict } from "@/catalogue/types";
 import { AbstractIntlMessages } from "next-intl";
-import { createSharedPathnamesNavigation } from 'next-intl/navigation';
-import { LangDict } from "./catalogue/types";
-import { siteConfig } from "./config/site";
-
-export const {Link, redirect, usePathname, useRouter} = createSharedPathnamesNavigation({
-  locales: siteConfig.languages,
-  localePrefix: 'always',
-})
 
 export function pick(messages: AbstractIntlMessages, keys: string | string[]): AbstractIntlMessages {
   if (typeof keys === 'string') {

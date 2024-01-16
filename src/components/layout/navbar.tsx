@@ -1,10 +1,10 @@
 'use client'
 
+import { Link as NaLink } from "@/common/navigation";
 import { GithubIcon, McdrLogo, } from "@/components/icons";
 import { LocaleSwitch } from "@/components/ui/locale-switch";
 import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { siteConfig } from "@/config/site";
-import { Link as NavigationLink } from "@/i18n-utils"
 import { Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { clsx } from "clsx";
@@ -47,10 +47,10 @@ export function Navbar() {
     >
       <div className="z-40 flex flex-row flex-nowrap items-center justify-between max-w-screen-xl gap-6 px-6 w-full h-[3.5rem]">
         <div className="gap-3 max-w-fit">
-          <NavigationLink className="flex justify-start items-center gap-1" color="foreground" href="/">
+          <NaLink className="flex justify-start items-center gap-1" color="foreground" href="/">
             <McdrLogo size={36}/>
             <p className="font-bold text-inherit">MCDReforged</p>
-          </NavigationLink>
+          </NaLink>
         </div>
 
         <div className="hidden sm:flex gap-4 justify-start ml-2 flex-grow">

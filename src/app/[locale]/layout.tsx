@@ -1,8 +1,9 @@
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { RouterTransition } from "@/components/layout/router-transition";
 import { siteConfig } from "@/config/site";
 import { theme } from "@/config/theme";
-import { pick } from "@/i18n-utils";
+import { pick } from "@/utils/i18n-utils";
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import "@/styles/globals.css";
 import { clsx } from "clsx";
@@ -47,6 +48,8 @@ export default async function RootLayout({
       <body>
         <MantineProvider theme={theme} defaultColorScheme="light">
           <div className={clsx("relative flex flex-col min-h-screen", styles.background)}>
+            <RouterTransition/>
+
             <NextIntlClientProvider locale={locale} messages={pick(messages, 'Navbar')}>
               <Navbar/>
             </NextIntlClientProvider>

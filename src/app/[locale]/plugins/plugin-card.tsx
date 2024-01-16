@@ -1,9 +1,10 @@
 'use client'
 
 import { AuthorInfo, AuthorSummary, ReleaseInfo } from "@/catalogue/types";
+import { Link as NaLink } from "@/common/navigation";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
-import { Link as I18nLink, translateLangDict } from "@/i18n-utils"
+import { translateLangDict } from "@/utils/i18n-utils"
 import { ActionIcon, Text, Tooltip } from "@mantine/core";
 import { IconBrandGithub, IconDownload } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
@@ -46,12 +47,12 @@ function PluginCardDownloadButtonDisabled() {
 
 function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginName: string}) {
   return (
-    <I18nLink
+    <NaLink
       href={`/plugins/p/${pluginId}`}
       className="text-2xl font-bold text-foreground break-words hover:text-primary ml-1 mr-5"
     >
       {pluginName}
-    </I18nLink>
+    </NaLink>
   )
 }
 

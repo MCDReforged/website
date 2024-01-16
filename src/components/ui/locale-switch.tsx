@@ -1,7 +1,7 @@
 'use client'
 
+import { usePathname, useRouter } from "@/common/navigation";
 import { siteConfig } from "@/config/site";
-import { usePathname, useRouter } from "@/i18n-utils";
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconWorld } from '@tabler/icons-react';
 import { useLocale, useTranslations } from "next-intl";
@@ -11,8 +11,8 @@ export function LocaleSwitch() {
   const currentLocale = useLocale()
   const t = useTranslations('Navbar.locale_switch')
 
-  const router = useRouter()
   const pathname = usePathname()
+  const router = useRouter()
 
   const [isPending, startTransition] = useTransition()
   const [selectedLocale, setSelectedLocale] = useState(currentLocale)

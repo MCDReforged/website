@@ -12,6 +12,7 @@
     "@mantine/code-highlight": "^7.4.1",
     "@mantine/core": "^7.4.1",
     "@mantine/hooks": "^7.4.1",
+    "@mantine/nprogress": "^7.4.1",
     "@next/bundle-analyzer": "^14.0.4",
     "@tabler/icons-react": "^2.45.0",
     "@vercel/analytics": "^1.1.1",

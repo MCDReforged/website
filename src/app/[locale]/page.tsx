@@ -1,6 +1,6 @@
+import { Link as NaLink } from "@/common/navigation";
 import { GithubIcon, ReadTheDocsIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
-import { Link as I18nLink } from "@/i18n-utils"
 import { Button } from '@mantine/core';
 import { useTranslations } from "next-intl";
 import { unstable_setRequestLocale } from "next-intl/server";
@@ -23,9 +23,9 @@ export default function Home({params: {locale}}: {params: {locale: string}}) {
           {t('title')}
         </p>
       </div>
-      <I18nLink href="/plugins">
+      <NaLink href="/plugins">
         <Button>Plugin Catalogue</Button>
-      </I18nLink>
+      </NaLink>
 
       <div className="flex gap-3">
         <Link

@@ -2,7 +2,7 @@
 
 import { AllOfAPlugin } from "@/catalogue/types";
 import MyCard from "@/components/ui/my-card";
-import { translateLangDict } from "@/i18n-utils";
+import { translateLangDict } from "@/utils/i18n-utils";
 import { rem, Skeleton, Tabs } from "@mantine/core";
 import { IconBook, IconPackageImport, IconTag } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
