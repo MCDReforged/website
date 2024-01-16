@@ -13,7 +13,7 @@ export default function Home({params: {locale}}: {params: {locale: string}}) {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <div className="inline-block max-w-lg text-center justify-center">
-        <p className="text-5xl font-semibold">
+        <p className="text-4xl sm:text-5xl font-semibold">
           MCDReforged
         </p>
         <p className="text-xl mt-4">
@@ -27,7 +27,7 @@ export default function Home({params: {locale}}: {params: {locale: string}}) {
         <Button>Plugin Catalogue</Button>
       </NaLink>
 
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3 justify-center">
         <Link
           target="_blank"
           href={siteConfig.links.docs}

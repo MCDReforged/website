@@ -61,7 +61,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
   const release = plugin.latestRelease
 
   const repositoryButton =
-    <ActionIcon className="mx-2" color="#404040" aria-label={`Visit GitHub repository for ${plugin.id}`}>
+    <ActionIcon color="#404040" aria-label={`Visit GitHub repository for ${plugin.id}`}>
       <Link href={plugin.repository} aria-label={`GitHub repository for ${plugin.id}`}>
         <IconBrandGithub stroke={1.5}/>
       </Link>
@@ -73,7 +73,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
 
   return (
     <MyCard className="min-h-[8.3rem] flex flex-col">
-      <div className="flex items-baseline justify-between mb-2">
+      <div className="flex items-baseline justify-between mb-2 flex-col sm:flex-row">
         <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name} />
 
         <div className="flex items-baseline">
@@ -87,19 +87,25 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
         </div>
       </div>
 
-      <div className="grid grid-cols-6 justify-between grow">
+      <div className="flex flex-col sm:flex-row justify-between grow">
         <div className="col-span-5 flex flex-col justify-between">
           <div className="mb-3 ml-1">
             {translateLangDict(useLocale(), plugin.description, true) || ''}
           </div>
-          <div className="flex gap-1.5">
-            {plugin.labels.map((label, index) =>
-              <PluginLabel key={index} label={label}/>
-            )}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap gap-1.5 items-center">
+              {plugin.labels.map((label, index) =>
+                <PluginLabel key={index} label={label}/>
+              )}
+            </div>
+            <div className="sm:hidden flex flex-wrap gap-2">
+              {repositoryButton}
+              {downloadButton}
+            </div>
           </div>
         </div>
 
-        <div className="col-span-1 place-self-end flex">
+        <div className="hidden sm:flex place-self-end flex-wrap gap-2">
           {repositoryButton}
           {downloadButton}
         </div>

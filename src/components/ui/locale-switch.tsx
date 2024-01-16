@@ -27,7 +27,7 @@ export function LocaleSwitch() {
   }
 
   return (
-    <Menu width="6rem" radius="md" withinPortal>
+    <Menu width="6rem" radius="md" trigger="click-hover" openDelay={100} closeDelay={400}>
       <Menu.Target>
         <ActionIcon variant="default" size="lg">
           <IconWorld aria-label="Language switch" stroke={1.5}/>
