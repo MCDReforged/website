@@ -1,0 +1,11 @@
+.sun {
+  @mixin dark {
+    display: none;
+  }
+}
+
+.moon {
+  @mixin light {
+    display: none;
+  }
+}
