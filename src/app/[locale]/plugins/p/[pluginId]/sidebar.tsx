@@ -1,4 +1,4 @@
-import { AllOfAPlugin } from "@/catalogue/types";
+import { AllOfAPlugin } from "@/catalogue/meta-types";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
 

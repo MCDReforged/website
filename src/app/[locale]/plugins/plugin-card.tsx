@@ -1,6 +1,7 @@
 'use client'
 
-import { AuthorInfo, AuthorSummary, ReleaseInfo } from "@/catalogue/types";
+import { AuthorInfo, AuthorSummary } from "@/catalogue/meta-types";
+import { SimplePlugin, SimpleRelease } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
@@ -10,7 +11,6 @@ import { IconBrandGithub, IconDownload } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from 'react';
-import { SimplePlugin } from "./types";
 
 function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
   if (author === undefined) {
@@ -23,13 +23,13 @@ function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
   )
 }
 
-function PluginCardDownloadButton({release}: {release: ReleaseInfo}) {
-  const version = release.meta.version
-  const tooltip = `${release.asset.name} (v${version})`
+function PluginCardDownloadButton({release}: {release: SimpleRelease}) {
+  const version = release.version
+  const tooltip = `${release.assetName} (v${version})`
   return (
     <Tooltip label={tooltip} offset={4} openDelay={500}>
       <ActionIcon color="teal" aria-label={`Download version ${version}`}>
-        <a href={release.asset.browser_download_url} aria-label={`Download version ${version}`} download>
+        <a href={release.assetUrl} aria-label={`Download version ${version}`} download>
           <IconDownload stroke={1.5}/>
         </a>
       </ActionIcon>

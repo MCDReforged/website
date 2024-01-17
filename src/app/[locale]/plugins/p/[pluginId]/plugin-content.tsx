@@ -1,6 +1,6 @@
 'use client'
 
-import { AllOfAPlugin } from "@/catalogue/types";
+import { AllOfAPlugin } from "@/catalogue/meta-types";
 import DynamicGfmMarkdown from "@/components/ui/dynamic-gfm-markdown";
 import MyCard from "@/components/ui/my-card";
 import { translateLangDict } from "@/utils/i18n-utils";

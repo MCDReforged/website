@@ -1,4 +1,4 @@
-import { LangDict } from "@/catalogue/types";
+import { LangDict } from "@/catalogue/meta-types";
 import { AbstractIntlMessages } from "next-intl";
 
 export function pick(messages: AbstractIntlMessages, keys: string | string[]): AbstractIntlMessages {

@@ -1,52 +1,17 @@
 'use client'
 
-import { Everything } from "@/catalogue/types";
+import { SimpleEverything, SimplePlugin } from "@/catalogue/simple-types";
 import { Pagination } from "@mantine/core";
 import React, { useContext, useEffect, useState } from 'react';
 import { DisplayStrategyContextValue } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 import { PluginCard } from "./plugin-card";
-import { SimplePlugin } from "./types";
 
-function formatDate(date: Date | null): string | undefined {
-  return date !== null ? date.toISOString() : undefined;
-}
-
-function formatTimestamp(date: Date | null): number {
-  return date !== null ? date.getTime() : 0;
-}
-
-export function PluginList({everything}: {everything: Everything}) {
+export function PluginList({everything}: {everything: SimpleEverything}) {
   const {ds} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const [currentPage, setPage] = useState(1)
 
   const plugins: SimplePlugin[] = Object.values(everything.plugins)
-    .map((plugin): SimplePlugin =>  {
-      let downloads = 0
-      let latestDate: Date | null = null
-      plugin.release['releases'].forEach(r => {
-        downloads += r.asset.download_count
-        const date: Date = new Date(r.asset.created_at)
-        if (latestDate === null || date > latestDate) {
-          latestDate = date
-        }
-      })
-      const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
-      return {
-        id: plugin.plugin.id,
-        name: plugin.meta.name,
-        version: plugin.meta.version,
-        description: plugin.meta.description,
-        repository: plugin.plugin.repository,
-        labels: plugin.plugin.labels,
-        authors: plugin.plugin.authors,
-        downloads: downloads,
-        recentUpdated: formatDate(latestDate),
-        recentUpdatedTime: formatTimestamp(latestDate),
-        latestRelease: latestRelease,
-        latestVersion: latestRelease?.meta?.version,
-      }
-    })
     .filter(plugin => {
       if (ds.keyword !== '') {
         if (!plugin.id.includes(ds.keyword) && !plugin.name.includes(ds.keyword)) {
@@ -66,7 +31,7 @@ export function PluginList({everything}: {everything: Everything}) {
       if (ds.sortOrder === 'downloads') {
         ret = b.downloads - a.downloads;
       } else if (ds.sortOrder === 'recentUpdate') {
-        ret = b.recentUpdatedTime - a.recentUpdatedTime
+        ret = b.recentUpdatedTimestamp - a.recentUpdatedTimestamp
       } else {
         ret = a.name.localeCompare(b.name);
       }

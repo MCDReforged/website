@@ -1,6 +1,6 @@
 'use client'
 
-import { Everything } from "@/catalogue/types";
+import { SimpleEverything } from "@/catalogue/simple-types";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
@@ -91,11 +91,11 @@ function ControlCard() {
   )
 }
 
-function StatsCard({everything}: {everything: Everything}) {
+function StatsCard({everything}: {everything: SimpleEverything}) {
   return (
     <MyCard className="p-5">
       <div className="flex flex-col">
-        <p>Plugin amount: {everything && Object.keys(everything['plugins']).length || 'N/A'}</p>
+        <p>Plugin amount: {everything && Object.keys(everything.plugins).length || 'N/A'}</p>
         <p className="font-extrabold">Font字体 font-extrabold</p>
         <p className="font-bold">Font字体 font-bold</p>
         <p className="font-semibold">Font字体 font-semibold</p>
@@ -108,7 +108,7 @@ function StatsCard({everything}: {everything: Everything}) {
   )
 }
 
-export function Sidebar({everything}: {everything: Everything}) {
+export function Sidebar({everything}: {everything: SimpleEverything}) {
   return (
     <div className="flex flex-col gap-5">
       <ControlCard />

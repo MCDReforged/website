@@ -1,4 +1,4 @@
-import { getEverything } from "@/catalogue/data";
+import { getSimpleEverything } from "@/catalogue/data";
 import { pick } from "@/utils/i18n-utils";
 import { Divider } from "@mantine/core";
 import { NextIntlClientProvider } from "next-intl";
@@ -10,7 +10,7 @@ import { Sidebar } from "./sidebar";
 export default async function Page({params: {locale}}: {params: {locale: string}}) {
   unstable_setRequestLocale(locale)
   const messages = await getMessages()
-  const everything = await getEverything()
+  const everything = await getSimpleEverything()
 
   return (
     <div>
