@@ -1,5 +1,8 @@
 .header {
   background-color: var(--mantine-color-body);
+}
+
+.navBorderColor {
   border-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
@@ -14,5 +17,13 @@
 
   &[data-active] {
     color: light-dark(var(--mantine-primary-color-filled), var(--mantine-primary-color-3));
+  }
+}
+
+.mobileNavMenu {
+  background-color: var(--mantine-color-body);
+
+  &[data-hidden] {
+    display: none;
   }
 }

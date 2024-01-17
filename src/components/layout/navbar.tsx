@@ -5,142 +5,153 @@ import { GithubIcon, McdrLogo, } from "@/components/icons";
 import { LocaleSwitch } from "@/components/ui/locale-switch";
 import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { siteConfig } from "@/config/site";
-import { Burger, Menu } from '@mantine/core';
+import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconExternalLink } from "@tabler/icons-react";
+import { IconBook2, IconExternalLink, IconHome, IconPackages, TablerIconsProps } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRef } from "react";
+import React from "react";
 import styles from './navbar.module.css';
 
 interface NavItem {
-  label: string
+  icon: (props: TablerIconsProps) => React.ReactNode,
+  key: string
   href: string
   isExternal: boolean
   checkActive: (pathname: string) => boolean
 }
 
-function NavbarLink({item}: {item: NavItem}) {
-  const pathname = usePathname();
-  return (
-    <NaLink
-      className={styles.link}
-      href={item.href}
-      data-active={item.checkActive(pathname) || undefined}
-    >
-      <div className="flex items-center">
-        <p>{item.label}</p>
-        {item.isExternal && <IconExternalLink size={20} strokeWidth={1.4} className="ml-1"/>}
-      </div>
-    </NaLink>
-  )
+const navItems: NavItem[] = [
+  {
+    icon: IconHome,
+    key: 'home',
+    href: '/',
+    isExternal: false,
+    checkActive: (pathname: string) => pathname === '/',
+  },
+  {
+    icon: IconPackages,
+    key: 'plugins',
+    href: '/plugins',
+    isExternal: false,
+    checkActive: (pathname: string) => pathname === '/plugins' || pathname.startsWith('/plugins/'),
+  },
+  {
+    icon: IconBook2,
+    key: 'docs',
+    href: siteConfig.links.docs,
+    isExternal: true,
+    checkActive: (pathname: string) => false,
+  },
+]
+
+interface NavBarLinkProps {
+  className?: string
+  showIcon: boolean
+  item: NavItem
+  [key: string]: any
 }
 
-function NavBarMenuLink({item, ...props}: {item: NavItem, [key: string]: any}) {
-  const pathname = usePathname();
+function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
+  const t = useTranslations('Navbar.navigation');
+  const pathname = usePathname()
+  const Icon = item.icon
   return (
     <NaLink
-      className="w-full"
+      className={clsx(styles.link, className)}
       href={item.href}
       data-active={item.checkActive(pathname) || undefined}
       {...props}
     >
-      <div className="flex items-center h-full">
-        <p>{item.label}</p>
-        {item.isExternal && <IconExternalLink size={20} strokeWidth={1.4} className="ml-1"/>}
+      <div className="flex flex-row gap-1 justify-center items-center h-full">
+        {showIcon && <Icon size={20} strokeWidth={1.4}/>}
+        <p>{t(item.key)}</p>
+        {item.isExternal && <IconExternalLink size={16} strokeWidth={1.4}/>}
       </div>
     </NaLink>
   )
 }
 
-export function Navbar() {
-  const t = useTranslations('Navbar.navigation');
-  const navItems: NavItem[] = [
-    {
-      label: t("home"),
-      href: "/",
-      isExternal: false,
-      checkActive: (pathname: string) => pathname === '/',
-    },
-    {
-      label: t("plugins"),
-      href: "/plugins",
-      isExternal: false,
-      checkActive: (pathname: string) => pathname === "/plugins" || pathname.startsWith("/plugins/"),
-    },
-    {
-      label: t("docs"),
-      href: siteConfig.links.docs,
-      isExternal: true,
-      checkActive: (pathname: string) => false,
-    },
-  ]
+function BurgerNavMenuSwitch({className, opened, toggleOpened}: {className?: string, opened: boolean, toggleOpened: () => void}) {
+  return (
+    <Burger
+      className={className}
+      aria-label="Open navigation"
+      opened={opened} onClick={toggleOpened}
+    />
+  )
+}
 
-  const [opened, opener] = useDisclosure(false);
-  function BurgerMenu({className}: {className?: string}) {
-    const burgerRef = useRef(null)
-    return (
-      <Menu
-        width="full" radius={0}
-        offset={14}
-        shadow="md"
-        transitionProps={{ transition: 'skew-up' }}
-        classNames={{
-          'itemLabel': 'text-center h-full'
-        }}
-        closeOnItemClick
-        // // https://mantine.dev/core/menu/#navigation
-        // loop={false}
-        // withinPortal={false}
-        // trapFocus={false}
-      >
-        <Menu.Target>
-          <Burger className={className} size="sm" aria-label="Open navigation" ref={burgerRef}/>
-        </Menu.Target>
-        <Menu.Dropdown className="w-full absolute bg-mantine-background-body">
-          {navItems.map((item) => (
-            <Menu.Item key={item.href}>
-              <NavBarMenuLink item={item}/>
-            </Menu.Item>
-          ))}
-        </Menu.Dropdown>
-      </Menu>
-    )
-  }
+function MobileNavMenu({className, opened, setClosed}: { className?: string, opened: boolean, setClosed: () => void}) {
+  return (
+    <Box
+      className={clsx(
+        className,
+        "max-w-screen-xl w-full py-3 px-6",
+        "border-solid border-t", styles.navBorderColor,
+        styles.mobileNavMenu,
+      )}
+      mod={{hidden: !opened}}
+    >
+      <div className="flex flex-col gap-2">
+        {navItems.map((item) => (
+          <NavbarLink
+            key={item.href} item={item}
+            className="h-[3rem] w-full"
+            showIcon={true}
+            onClick={setClosed}
+          />
+        ))}
+      </div>
+    </Box>
+  )
+}
+
+export function Navbar() {
+  const [navOpened, navOpener] = useDisclosure(false);
 
   // < 340px:   = [] OOO
   // < sm   :   = []MCDR   OOO
   // >= sm  :   = []MCDR xxx    OOO
   return (
-    <header
-      className={clsx(
-        "z-40 flex sticky h-auto items-center justify-center top-0 border-solid border-b",
-        styles.header,
-      )}
-    >
-      <div className="flex flex-row flex-nowrap gap-4 items-center justify-between max-w-screen-xl w-full h-[3.5rem] px-2 sm:px-6">
-        <BurgerMenu/>
+    <>
+      <header
+        className={clsx(
+          "z-40 flex flex-col sticky h-auto items-center justify-center top-0",
+          "border-solid border-b", styles.navBorderColor,
+          styles.header,
+        )}
+      >
+        <div className={clsx(
+          "flex flex-row flex-nowrap gap-4 items-center justify-between",
+          "max-w-screen-xl w-full h-[3.5rem] px-2 sm:px-6",
+        )}>
+          <BurgerNavMenuSwitch className="sm:hidden" opened={navOpened} toggleOpened={navOpener.toggle}/>
 
-        <div className="gap-3 justify-start max-sm:grow">
-          <NaLink className="flex items-center gap-1" color="foreground" href="/">
-            <McdrLogo size={36}/>
-            <p className="hidden min-[340px]:block font-bold text-inherit">MCDReforged</p>
-          </NaLink>
+          <div className="gap-3 justify-start max-sm:grow">
+            <NaLink className="flex items-center gap-1" color="foreground" href="/">
+              <McdrLogo size={36}/>
+              <p className="hidden min-[340px]:block font-bold text-inherit">MCDReforged</p>
+            </NaLink>
+          </div>
+
+          <div className="hidden sm:flex gap-2 justify-start ml-2 grow">
+            {navItems.map((item) => <NavbarLink key={item.href} item={item} showIcon={false}/>)}
+          </div>
+
+          <div className="justify-end flex gap-2 items-center">
+            <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
+              <GithubIcon className="text-default-500"/>
+            </Link>
+            <LocaleSwitch/>
+            <ThemeSwitch/>
+          </div>
         </div>
 
-        <div className="hidden sm:flex gap-2 justify-start ml-2 grow">
-          {navItems.map((item) => <NavbarLink key={item.href} item={item} />)}
-        </div>
+        <MobileNavMenu opened={navOpened} setClosed={navOpener.close}/>
+      </header>
 
-        <div className="justify-end flex gap-2 items-center min-w-[7rem]">
-          <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
-            <GithubIcon className="text-default-500"/>
-          </Link>
-          <LocaleSwitch/>
-          <ThemeSwitch/>
-        </div>
-      </div>
-    </header>
+    </>
   );
 }
