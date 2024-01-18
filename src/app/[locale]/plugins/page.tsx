@@ -13,7 +13,7 @@ export default async function Page({params: {locale}}: {params: {locale: string}
   const everything = await getSimpleEverything()
 
   return (
-    <div>
+    <>
       <NextIntlClientProvider locale={locale} messages={pick(messages, 'Plugins')}>
         <DisplayStrategyContextProvider>
           <div className="md:fixed md:w-[18rem] md:h-[calc(100vh-5rem)] md:overflow-y-auto">
@@ -27,6 +27,6 @@ export default async function Page({params: {locale}}: {params: {locale: string}
           </div>
         </DisplayStrategyContextProvider>
       </NextIntlClientProvider>
-    </div>
+    </>
   )
 }

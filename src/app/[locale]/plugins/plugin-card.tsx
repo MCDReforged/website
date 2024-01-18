@@ -99,14 +99,14 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
                 <PluginLabel key={index} label={label}/>
               )}
             </div>
-            <div className="sm:hidden flex flex-wrap gap-2">
+            <div className="sm:hidden flex gap-2">
               {repositoryButton}
               {downloadButton}
             </div>
           </div>
         </div>
 
-        <div className="hidden sm:flex place-self-end flex-wrap gap-2">
+        <div className="hidden sm:flex place-self-end gap-2">
           {repositoryButton}
           {downloadButton}
         </div>

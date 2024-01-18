@@ -5,7 +5,9 @@ import { translateLangDict } from "@/utils/i18n-utils";
 import {
   ActionIcon,
   rem,
+  ScrollArea,
   Table,
+  TableScrollContainer,
   TableTbody,
   TableTd,
   TableTh,
@@ -59,7 +61,7 @@ function PluginReleases({plugin}: {plugin: AllOfAPlugin}) {
     return (
       <TableTr key={ri.tag_name}>
         <TableTd>{version}</TableTd>
-        <TableTd>{ri.asset.name}</TableTd>
+        <TableTd className="break-all">{ri.asset.name}</TableTd>
         <TableTd>
           <div className="flex shrink">
             <Tooltip label={`${ri.asset.size} ${t('bytes')}`}>
@@ -80,12 +82,14 @@ function PluginReleases({plugin}: {plugin: AllOfAPlugin}) {
   })
 
   return (
-    <TabBody>
-      <Table>
-        <TableThead>{titles}</TableThead>
-        <TableTbody>{rows}</TableTbody>
-      </Table>
-    </TabBody>
+    <TableScrollContainer minWidth={400} className="pb-0">
+      <TabBody>
+        <Table>
+          <TableThead>{titles}</TableThead>
+          <TableTbody>{rows}</TableTbody>
+        </Table>
+      </TabBody>
+    </TableScrollContainer>
   )
 }
 
@@ -95,13 +99,15 @@ const DynamicPipInstallCodeHighlight = dynamic(
 
 function PluginDependencies({plugin}: { plugin: AllOfAPlugin }) {
   const t = useTranslations('PluginPage.dependencies')
-  const meta = plugin.meta  // TODO: use meta of the latest release
+  const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
+  const meta = latestRelease !== undefined ? latestRelease.meta : plugin.meta
+  const metaSource = latestRelease !== undefined ? `Latest release v${meta.version}` : `${plugin.plugin.branch} branch`
 
   function SectionTitle({children}: {children: React.ReactNode}) {
     return <p className="text-center text-xl font-bold my-1">{children}</p>
   }
 
-  const pipInstallCodeBlock = (
+  const PipInstallCodeBlock = () => (
     <div className="mt-4 border-solid border border-[var(--mantine-color-gray-2)]">
       <DynamicPipInstallCodeHighlight requirements={meta.requirements}/>
     </div>
@@ -110,8 +116,9 @@ function PluginDependencies({plugin}: { plugin: AllOfAPlugin }) {
   return (
     <TabBody className="flex flex-col gap-5">
       <div>
+        <p>Source: {metaSource}</p>
         <SectionTitle>{t('title_plugin')}</SectionTitle>
-        <Table>
+        <Table withTableBorder>
           <TableThead>
             <TableTr>
               <TableTh>{t('plugin_id')}</TableTh>
@@ -133,7 +140,7 @@ function PluginDependencies({plugin}: { plugin: AllOfAPlugin }) {
 
       <div>
         <SectionTitle>{t('title_package')}</SectionTitle>
-        <Table className="mb-2">
+        <Table withTableBorder className="mb-2">
           <TableThead>
             <TableTr>
               <TableTh>{t('py_package')}</TableTh>
@@ -153,7 +160,7 @@ function PluginDependencies({plugin}: { plugin: AllOfAPlugin }) {
             })}
           </TableTbody>
         </Table>
-        {meta.requirements.length > 0 && pipInstallCodeBlock}
+        {meta.requirements.length > 0 && <PipInstallCodeBlock />}
       </div>
     </TabBody>
   )
@@ -172,18 +179,20 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
 
   return (
     <MyCard className="lg:mx-5 pb-6 pt-2">
-      <Tabs defaultValue="introduction">
-        <TabsList>
-          <TabsTab value="introduction">
-            {tabTitle(t("introduction"), <IconBook style={iconStyle}/>)}
-          </TabsTab>
-          <TabsTab value="releases">
-            {tabTitle(t("releases"), <IconTag style={iconStyle} />)}
-          </TabsTab>
-          <TabsTab value="dependencies">
-            {tabTitle(t("dependencies"), <IconPackageImport style={iconStyle} />)}
-          </TabsTab>
-        </TabsList>
+      <Tabs defaultValue="introduction" classNames={{list: ''}}>
+        <ScrollArea scrollbars="x" scrollbarSize={5} offsetScrollbars w="full">
+          <TabsList className="flex-nowrap">
+            <TabsTab value="introduction">
+              {tabTitle(t("introduction"), <IconBook style={iconStyle}/>)}
+            </TabsTab>
+            <TabsTab value="releases">
+              {tabTitle(t("releases"), <IconTag style={iconStyle} />)}
+            </TabsTab>
+            <TabsTab value="dependencies">
+              {tabTitle(t("dependencies"), <IconPackageImport style={iconStyle} />)}
+            </TabsTab>
+          </TabsList>
+        </ScrollArea>
 
         <TabsPanel value="introduction">
           <PluginIntroduction plugin={plugin}/>
