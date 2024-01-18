@@ -22,6 +22,13 @@
       "downloads": "Downloads",
       "actions": "Actions",
       "bytes": "bytes"
+    },
+    "dependencies": {
+      "title_plugin": "MCDR Plugin Dependencies",
+      "title_package": "Python Package Requirements",
+      "plugin_id": "Plugin ID",
+      "py_package": "Python Package",
+      "requirement": "Requirement"
     }
   },
   "Navbar": {

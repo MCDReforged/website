@@ -22,6 +22,13 @@
       "downloads": "下载量",
       "actions": "操作",
       "bytes": "字节"
+    },
+    "dependencies": {
+      "title_plugin": "MCDR插件依赖",
+      "title_package": "Python包依赖",
+      "plugin_id": "插件ID",
+      "py_package": "Python包",
+      "requirement": "版本依赖"
     }
   },
   "Navbar": {
