@@ -21,7 +21,7 @@ const localeToMcdrLang: {[locale: string]: string} = {
   'zh-CN': 'zh_cn',
 }
 
-export function translateLangDict(locale: string, message: LangDict, englishFallback: boolean): string | undefined {
+export function translateLangDict(locale: string, message: LangDict, englishFallback: boolean = true): string | undefined {
   const lang = localeToMcdrLang[locale]
   if (lang === undefined) {
     return undefined

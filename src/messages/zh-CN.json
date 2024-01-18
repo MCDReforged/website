@@ -9,6 +9,21 @@
       "recentUpdate": "最近更新"
     }
   },
+  "PluginPage": {
+    "tabs": {
+      "introduction": "介绍",
+      "releases": "发行版",
+      "dependencies": "依赖"
+    },
+    "releases": {
+      "version": "版本",
+      "file": "文件",
+      "size": "大小",
+      "downloads": "下载量",
+      "actions": "操作",
+      "bytes": "字节"
+    }
+  },
   "Navbar": {
     "navigation": {
       "home": "主页",

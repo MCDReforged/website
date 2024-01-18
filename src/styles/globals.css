@@ -6,8 +6,8 @@
 @tailwind utilities;
 
 html {
-  /* https://www.bram.us/2021/07/23/prevent-unwanted-layout-shifts-caused-by-scrollbars-with-the-scrollbar-gutter-css-property/ */
-  scrollbar-gutter: stable;
+  /* https://dev.to/rashidshamloo/preventing-the-layout-shift-caused-by-scrollbars-2flp */
+  padding-left: calc(100vw - 100%);
 }
 
 /* Make sure all lists in the markdown content have list-style */
@@ -19,5 +19,16 @@ html {
 .mantine-active {
   &:active {
     transform: none;
+  }
+}
+
+.color-link {
+  color: var(--mantine-color-anchor);
+  text-decoration: none
+}
+
+@media (hover: hover) {
+  .color-link:hover {
+    text-decoration:underline
   }
 }

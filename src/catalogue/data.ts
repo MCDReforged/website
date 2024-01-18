@@ -1,5 +1,5 @@
 import { AllOfAPlugin, Everything } from "@/catalogue/meta-types";
-import { SimpleEverything, SimpleRelease } from "@/catalogue/simple-types";
+import { SimpleEverything, SimplePlugin, SimpleRelease } from "@/catalogue/simple-types";
 import fs from 'fs/promises'
 import path from "path";
 
@@ -53,6 +53,40 @@ function formatTimestamp(date: Date | null): number {
   return date !== null ? date.getTime() : 0;
 }
 
+export function createSimplePlugin(plugin: AllOfAPlugin): SimplePlugin {
+  let downloads = 0
+  let latestDate: Date | null = null
+  plugin.release['releases'].forEach(r => {
+    downloads += r.asset.download_count
+    const date: Date = new Date(r.asset.created_at)
+    if (latestDate === null || date > latestDate) {
+      latestDate = date
+    }
+  })
+  const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
+  const latestSimpleRelease: SimpleRelease | undefined = latestRelease === undefined ? undefined : {
+    version: latestRelease.meta.version,
+    assetName: latestRelease.asset.name,
+    assetUrl: latestRelease.asset.browser_download_url,
+  }
+
+  const repos = plugin.plugin.repository.replace(/\/$/, '')
+  return {
+    id: plugin.plugin.id,
+    name: plugin.meta.name,
+    version: plugin.meta.version,
+    description: plugin.meta.description,
+    repos: repos,
+    reposHome: `${repos}/tree/${plugin.plugin.branch}` + (plugin.plugin.related_path !== '.' ? `/${plugin.plugin.related_path}` : ''),
+    labels: plugin.plugin.labels,
+    authors: plugin.plugin.authors,
+    downloads: downloads,
+    recentUpdated: formatDate(latestDate),
+    recentUpdatedTimestamp: formatTimestamp(latestDate),
+    latestRelease: latestSimpleRelease,
+  }
+}
+
 export async function getSimpleEverything(): Promise<SimpleEverything> {
   const everything = await getEverything()
   const simpleEverything: SimpleEverything = {
@@ -60,35 +94,7 @@ export async function getSimpleEverything(): Promise<SimpleEverything> {
     plugins: {},
   }
   Object.entries(everything.plugins).forEach(([pluginId, plugin], _) => {
-    let downloads = 0
-    let latestDate: Date | null = null
-    plugin.release['releases'].forEach(r => {
-      downloads += r.asset.download_count
-      const date: Date = new Date(r.asset.created_at)
-      if (latestDate === null || date > latestDate) {
-        latestDate = date
-      }
-    })
-    const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
-    const latestSimpleRelease: SimpleRelease | undefined = latestRelease === undefined ? undefined : {
-      version: latestRelease.meta.version,
-      assetName: latestRelease.asset.name,
-      assetUrl: latestRelease.asset.browser_download_url,
-    }
-
-    simpleEverything.plugins[pluginId] = {
-      id: plugin.plugin.id,
-      name: plugin.meta.name,
-      version: plugin.meta.version,
-      description: plugin.meta.description,
-      repository: plugin.plugin.repository,
-      labels: plugin.plugin.labels,
-      authors: plugin.plugin.authors,
-      downloads: downloads,
-      recentUpdated: formatDate(latestDate),
-      recentUpdatedTimestamp: formatTimestamp(latestDate),
-      latestRelease: latestSimpleRelease,
-    }
+    simpleEverything.plugins[pluginId] = createSimplePlugin(plugin)
   })
   return simpleEverything
 }

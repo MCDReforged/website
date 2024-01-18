@@ -9,6 +9,21 @@
       "recentUpdate": "Last Update"
     }
   },
+  "PluginPage": {
+    "tabs": {
+      "introduction": "Introduction",
+      "releases": "Releases",
+      "dependencies": "Dependencies"
+    },
+    "releases": {
+      "version": "Version",
+      "file": "File",
+      "size": "Size",
+      "downloads": "Downloads",
+      "actions": "Actions",
+      "bytes": "bytes"
+    }
+  },
   "Navbar": {
     "navigation": {
       "home": "Home",

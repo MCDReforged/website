@@ -12,7 +12,8 @@ export interface SimplePlugin {
   name: string
   version: string
   description: LangDict
-  repository: string
+  repos: string
+  reposHome: string
   labels: string[]
   authors: string[]
   downloads: number

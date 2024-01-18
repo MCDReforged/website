@@ -3,11 +3,12 @@
 import { AuthorInfo, AuthorSummary } from "@/catalogue/meta-types";
 import { SimplePlugin, SimpleRelease } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
+import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils"
 import { ActionIcon, Text, Tooltip } from "@mantine/core";
-import { IconBrandGithub, IconDownload } from "@tabler/icons-react";
+import { IconDownload } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from 'react';
@@ -61,9 +62,9 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
   const release = plugin.latestRelease
 
   const repositoryButton =
-    <ActionIcon color="#404040" aria-label={`Visit GitHub repository for ${plugin.id}`}>
-      <Link href={plugin.repository} aria-label={`GitHub repository for ${plugin.id}`}>
-        <IconBrandGithub stroke={1.5}/>
+    <ActionIcon color="gray.7" aria-label={`Visit GitHub repository for ${plugin.id}`}>
+      <Link href={plugin.repos} aria-label={`GitHub repository for ${plugin.id}`}>
+        <GithubIcon/>
       </Link>
     </ActionIcon>
 
