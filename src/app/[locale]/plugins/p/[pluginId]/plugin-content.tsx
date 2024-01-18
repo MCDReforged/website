@@ -1,28 +1,18 @@
-'use client'
-
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import DynamicGfmMarkdown from "@/components/ui/dynamic-gfm-markdown";
 import MyCard from "@/components/ui/my-card";
 import { translateLangDict } from "@/utils/i18n-utils";
-import { rem, Skeleton, Tabs } from "@mantine/core";
+import { rem, Tabs, TabsList, TabsPanel, TabsTab } from "@mantine/core";
 import { IconBook, IconPackageImport, IconTag } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
 import React from "react";
-import "@/styles/github-markdown.css"
+import PluginIntroductionMarkdown from "./plugin-introduction-markdown";
 
 function PluginIntroduction({plugin}: { plugin: AllOfAPlugin }) {
-  const skeleton = (
-    <div className="flex flex-col gap-3 pt-2">
-      <Skeleton height="0.8rem"/>
-      <Skeleton height="0.8rem" width="50%"/>
-      <Skeleton height="0.8rem" width="70%"/>
-    </div>
-  )
   return (
     <div className="mt-3 mx-2">
-      <DynamicGfmMarkdown fallback={skeleton}>
+      <PluginIntroductionMarkdown>
         {translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''}
-      </DynamicGfmMarkdown>
+      </PluginIntroductionMarkdown>
     </div>
   )
 }
@@ -55,27 +45,27 @@ export function PluginContent({plugin}: {plugin: AllOfAPlugin }) {
   return (
     <MyCard className="lg:mx-5 pb-6 pt-2">
       <Tabs defaultValue="introduction">
-        <Tabs.List>
-          <Tabs.Tab value="introduction">
+        <TabsList>
+          <TabsTab value="introduction">
             {tabTitle("Introduction", <IconBook style={iconStyle}/>)}
-          </Tabs.Tab>
-          <Tabs.Tab value="releases">
+          </TabsTab>
+          <TabsTab value="releases">
             {tabTitle("Releases", <IconTag style={iconStyle} />)}
-          </Tabs.Tab>
-          <Tabs.Tab value="dependencies">
+          </TabsTab>
+          <TabsTab value="dependencies">
             {tabTitle("Dependencies", <IconPackageImport style={iconStyle} />)}
-          </Tabs.Tab>
-        </Tabs.List>
+          </TabsTab>
+        </TabsList>
 
-        <Tabs.Panel value="introduction">
+        <TabsPanel value="introduction">
           <PluginIntroduction plugin={plugin}/>
-        </Tabs.Panel>
-        <Tabs.Panel value="releases">
+        </TabsPanel>
+        <TabsPanel value="releases">
           <PluginReleases plugin={plugin}/>
-        </Tabs.Panel>
-        <Tabs.Panel value="dependencies">
+        </TabsPanel>
+        <TabsPanel value="dependencies">
           <PluginDependencies plugin={plugin}/>
-        </Tabs.Panel>
+        </TabsPanel>
       </Tabs>
     </MyCard>
   )
