@@ -50,7 +50,7 @@ export default async function RootLayout({
       </head>
       <body className={inter.className}>
         <MantineProvider theme={theme} defaultColorScheme="light">
-          <div className={clsx("relative flex flex-col min-h-screen", styles.background)}>
+          <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
             <RouterTransition/>
 
             <NextIntlClientProvider locale={locale} messages={pick(messages, 'Navbar')}>
@@ -58,7 +58,9 @@ export default async function RootLayout({
             </NextIntlClientProvider>
 
             <main className="container mx-auto max-w-6xl px-2 py-6 flex-grow">
-              {children}
+              <div className="mr-[15px]"> {/* assuming scrollbar width is 15px*/}
+                {children}
+              </div>
             </main>
 
             <Footer/>
