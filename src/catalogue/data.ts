@@ -41,14 +41,8 @@ export async function getEverything(): Promise<Everything> {
 }
 
 export async function getPlugin(pluginId: string): Promise<AllOfAPlugin> {
-  const e = await devReadEverything()
-  if (e !== null) {
-    return e.plugins[pluginId]
-  } else {
-    const url: string = `https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/${pluginId}/all.json`
-    const res = await fetch(url, fetchInit)
-    return await res.json() as any as AllOfAPlugin
-  }
+  const e = await getEverything()
+  return e.plugins[pluginId]
 }
 
 function formatDate(date: Date | null): string | undefined {
