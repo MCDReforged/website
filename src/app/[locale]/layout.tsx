@@ -58,9 +58,7 @@ export default async function RootLayout({
             </NextIntlClientProvider>
 
             <main className="container mx-auto max-w-6xl px-2 py-6 flex-grow">
-              <div className="mr-[15px]"> {/* assuming scrollbar width is 15px*/}
-                {children}
-              </div>
+              {children}
             </main>
 
             <Footer/>
