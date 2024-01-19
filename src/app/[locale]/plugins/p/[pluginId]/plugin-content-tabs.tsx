@@ -14,7 +14,7 @@ interface SearchParamsReader {
 function SearchParamsReader({setInitTabValue, newTabValue}: SearchParamsReader) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const router = useRouter()
+  const router = useRouter(false)
 
   useEffect(() => {
     if (searchParams.has('tab')) {
