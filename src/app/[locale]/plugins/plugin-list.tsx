@@ -7,6 +7,10 @@ import { DisplayStrategyContextValue } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 import { PluginCard } from "./plugin-card";
 
+function dateToTimestamp(date?: Date) {
+  return date?.getTime() ?? 0
+}
+
 export function PluginList({everything}: {everything: SimpleEverything}) {
   const {ds} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const [currentPage, setPage] = useState(1)
@@ -27,11 +31,11 @@ export function PluginList({everything}: {everything: SimpleEverything}) {
       return true
     })
     .sort((a: SimplePlugin, b: SimplePlugin) => {
-      let ret = 0
+      let ret: number
       if (ds.sortOrder === 'downloads') {
         ret = b.downloads - a.downloads;
       } else if (ds.sortOrder === 'recentUpdate') {
-        ret = b.recentUpdatedTimestamp - a.recentUpdatedTimestamp
+        ret = dateToTimestamp(b.recentUpdated) - dateToTimestamp(a.recentUpdated)
       } else {
         ret = a.name.localeCompare(b.name);
       }

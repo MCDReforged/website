@@ -1,5 +1,3 @@
-'use client'
-
 import { AuthorInfo, AuthorSummary } from "@/catalogue/meta-types";
 import { SimplePlugin, SimpleRelease } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
@@ -7,8 +5,9 @@ import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils"
+import { formatLocalTime, toTimeAgo } from "@/utils/time-utils";
 import { ActionIcon, Text, Tooltip } from "@mantine/core";
-import { IconDownload } from "@tabler/icons-react";
+import { IconDownload, IconFileDownload, IconRefresh } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from 'react';
@@ -28,7 +27,7 @@ function PluginCardDownloadButton({release}: {release: SimpleRelease}) {
   const version = release.version
   const tooltip = `${release.assetName} (v${version})`
   return (
-    <Tooltip label={tooltip} offset={4} openDelay={500}>
+    <Tooltip label={tooltip} offset={4}>
       <ActionIcon color="teal" aria-label={`Download version ${version}`}>
         <a href={release.assetUrl} aria-label={`Download version ${version}`} download>
           <IconDownload stroke={1.5}/>
@@ -72,6 +71,17 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     <PluginCardDownloadButton release={release}/>:
     <PluginCardDownloadButtonDisabled/>
 
+  function SmallStats({Icon, text, tooltip}: {Icon: typeof IconRefresh, text: any, tooltip: string}) {
+    return (
+      <Tooltip label={tooltip}>
+        <div className="flex flex-row gap-0.5 items-center text-sm">
+          <Icon size="1rem"/>
+          <p className="cursor-default">{text}</p>
+        </div>
+      </Tooltip>
+    )
+  }
+
   return (
     <MyCard className="min-h-[8.3rem] flex flex-col">
       <div className="flex items-baseline justify-between mb-2 flex-col sm:flex-row">
@@ -88,27 +98,30 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-between grow">
+      <div className="grow w-full">
         <div className="col-span-5 flex flex-col justify-between">
           <div className="mb-3 ml-1">
             {translateLangDict(useLocale(), plugin.description, true) || ''}
           </div>
+
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-wrap gap-1.5 items-center">
+            <div className="flex flex-wrap gap-1.5 items-center self-end">
               {plugin.labels.map((label, index) =>
                 <PluginLabel key={index} label={label}/>
               )}
             </div>
-            <div className="sm:hidden flex gap-2">
-              {repositoryButton}
-              {downloadButton}
+
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <div className="flex flex-row gap-3 self-end">
+                <SmallStats Icon={IconRefresh} text={toTimeAgo(plugin.recentUpdated) || 'N/A'} tooltip={`Last update: ${formatLocalTime(plugin.recentUpdated) || 'N/A'}`}/>
+                <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip="Total downloads"/>
+              </div>
+              <div className="flex gap-2">
+                {repositoryButton}
+                {downloadButton}
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="hidden sm:flex place-self-end gap-2">
-          {repositoryButton}
-          {downloadButton}
         </div>
       </div>
     </MyCard>

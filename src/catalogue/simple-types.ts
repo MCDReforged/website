@@ -17,8 +17,7 @@ export interface SimplePlugin {
   labels: string[]
   authors: string[]
   downloads: number
-  recentUpdated: string | undefined
-  recentUpdatedTimestamp: number
+  recentUpdated: Date | undefined
   latestRelease: SimpleRelease | undefined
 }
 

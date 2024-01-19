@@ -45,21 +45,13 @@ export async function getPlugin(pluginId: string): Promise<AllOfAPlugin> {
   return e.plugins[pluginId]
 }
 
-function formatDate(date: Date | null): string | undefined {
-  return date !== null ? date.toISOString() : undefined;
-}
-
-function formatTimestamp(date: Date | null): number {
-  return date !== null ? date.getTime() : 0;
-}
-
 export function createSimplePlugin(plugin: AllOfAPlugin): SimplePlugin {
   let downloads = 0
-  let latestDate: Date | null = null
+  let latestDate: Date | undefined = undefined
   plugin.release['releases'].forEach(r => {
     downloads += r.asset.download_count
     const date: Date = new Date(r.asset.created_at)
-    if (latestDate === null || date > latestDate) {
+    if (latestDate === undefined || date > latestDate) {
       latestDate = date
     }
   })
@@ -81,8 +73,7 @@ export function createSimplePlugin(plugin: AllOfAPlugin): SimplePlugin {
     labels: plugin.plugin.labels,
     authors: plugin.plugin.authors,
     downloads: downloads,
-    recentUpdated: formatDate(latestDate),
-    recentUpdatedTimestamp: formatTimestamp(latestDate),
+    recentUpdated: latestDate,
     latestRelease: latestSimpleRelease,
   }
 }

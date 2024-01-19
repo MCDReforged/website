@@ -4,13 +4,10 @@ import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils";
+import { formatLocalTime } from "@/utils/time-utils";
 import { Tooltip } from "@mantine/core";
 import { IconHome2 } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
-
-function getDateString(s: string | undefined): string | undefined {
-  return s === undefined ? undefined : new Date(s).toLocaleString();
-}
 
 export function Sidebar({plugin}: {plugin: SimplePlugin}) {
   const locale = useLocale()
@@ -32,7 +29,7 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
 
       <MyCard className="p-5">
         <div className="flex flex-col gap-2 break-words">
-          <p>Last update: {getDateString(plugin.recentUpdated) || 'N/A'}</p>
+          <p>Last update: {formatLocalTime(plugin.recentUpdated) || 'N/A'}</p>
           <p>Latest version: v{plugin.latestRelease?.version || 'N/A'}</p>
 
           <Link href={plugin.repos} className="flex gap-1 items-center">
