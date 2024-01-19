@@ -243,7 +243,7 @@ export const CodeHighlightTabs = factory<CodeHighlightTabsFactory>((_props, ref)
         </div>
       )}
 
-      <ScrollArea type="auto" dir="ltr" offsetScrollbars={false}>
+      <ScrollArea type="auto" dir="ltr" offsetScrollbars={true} scrollbarSize="0.6rem">
         <Box {...getStyles('codeWrapper')} mod={{ expanded: _expanded }}>
           <pre {...getStyles('pre')}>
             <code {...getStyles('code')} dangerouslySetInnerHTML={{ __html: highlighted }} />

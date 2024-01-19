@@ -109,7 +109,7 @@ export const CodeHighlight = factory<CodeHighlightFactory>((_props, ref) => {
         </CopyButton>
       )}
 
-      <ScrollArea type="hover" dir="ltr" offsetScrollbars={false}>
+      <ScrollArea type="hover" dir="ltr" offsetScrollbars={true} scrollbarSize="0.6rem">
         <pre {...getStyles('pre')}>
           <code {...getStyles('code')} {...getCodeProps()} />
         </pre>
