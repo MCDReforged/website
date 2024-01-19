@@ -170,7 +170,7 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
   const t = useTranslations('PluginPage.tabs');
 
   const tabTitle = (text: string, icon: React.ReactNode) => (
-    <div className="flex items-center gap-1.5 justify-center mb-1 mt-0.5 pr-1">
+    <div className="flex items-center gap-1.5 justify-center mb-0.5 mt-0.5 pr-1">
       {icon}
       <p>{text}</p>
     </div>
