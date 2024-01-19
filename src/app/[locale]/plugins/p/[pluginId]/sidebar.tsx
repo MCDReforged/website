@@ -2,9 +2,9 @@ import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/ui/my-card";
-import { PluginLabel } from "@/components/ui/plugin-label";
+import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils";
-import { formatLocalTime } from "@/utils/time-utils";
+import { formatTime } from "@/utils/time-utils";
 import { Tooltip } from "@mantine/core";
 import { IconHome2 } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
@@ -29,7 +29,7 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
 
       <MyCard className="p-5">
         <div className="flex flex-col gap-2 break-words">
-          <p>Last update: {formatLocalTime(plugin.recentUpdated) || 'N/A'}</p>
+          <p>Last update: {formatTime(plugin.recentUpdated) || 'N/A'}</p>
           <p>Latest version: v{plugin.latestRelease?.version || 'N/A'}</p>
 
           <Link href={plugin.repos} className="flex gap-1 items-center">

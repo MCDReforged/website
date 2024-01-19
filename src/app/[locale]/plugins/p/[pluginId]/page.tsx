@@ -1,4 +1,5 @@
-import { createSimplePlugin, getEverything, getPlugin } from "@/catalogue/data";
+import { createSimplePlugin } from "@/catalogue/conversion";
+import { getEverything, getPlugin } from "@/catalogue/data";
 import { Divider } from "@mantine/core";
 import React from "react";
 import { PluginContent } from "./plugin-content";

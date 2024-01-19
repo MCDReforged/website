@@ -2,7 +2,7 @@
 
 import { SimpleEverything } from "@/catalogue/simple-types";
 import MyCard from "@/components/ui/my-card";
-import { PluginLabel } from "@/components/ui/plugin-label";
+import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
 import { Checkbox, Radio, RadioGroup, Stack, TextInput } from "@mantine/core";
 import { IconFilter } from "@tabler/icons-react";

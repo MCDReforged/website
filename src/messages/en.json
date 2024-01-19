@@ -18,6 +18,7 @@
     "releases": {
       "version": "Version",
       "file": "File",
+      "date": "Date",
       "size": "Size",
       "downloads": "Downloads",
       "actions": "Actions",

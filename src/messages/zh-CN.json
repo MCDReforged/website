@@ -18,6 +18,7 @@
     "releases": {
       "version": "版本",
       "file": "文件",
+      "date": "日期",
       "size": "大小",
       "downloads": "下载量",
       "actions": "操作",

@@ -1,11 +1,12 @@
 import { AuthorInfo, AuthorSummary } from "@/catalogue/meta-types";
-import { SimplePlugin, SimpleRelease } from "@/catalogue/simple-types";
+import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/ui/my-card";
-import { PluginLabel } from "@/components/ui/plugin-label";
+import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
+import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils"
-import { formatLocalTime, toTimeAgo } from "@/utils/time-utils";
+import { formatTime, toTimeAgo } from "@/utils/time-utils";
 import { ActionIcon, Text, Tooltip } from "@mantine/core";
 import { IconDownload, IconFileDownload, IconRefresh } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
@@ -20,20 +21,6 @@ function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
     <Link href={author.link} className="text-foreground text-sm mx-1 hover:text-primary">
       {author.name}
     </Link>
-  )
-}
-
-function PluginCardDownloadButton({release}: {release: SimpleRelease}) {
-  const version = release.version
-  const tooltip = `${release.assetName} (v${version})`
-  return (
-    <Tooltip label={tooltip} offset={4}>
-      <ActionIcon color="teal" aria-label={`Download version ${version}`}>
-        <a href={release.assetUrl} aria-label={`Download version ${version}`} download>
-          <IconDownload stroke={1.5}/>
-        </a>
-      </ActionIcon>
-    </Tooltip>
   )
 }
 
@@ -68,7 +55,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     </ActionIcon>
 
   const downloadButton = release !== undefined ?
-    <PluginCardDownloadButton release={release}/>:
+    <PluginDownloadButton release={release}/>:
     <PluginCardDownloadButtonDisabled/>
 
   function SmallStats({Icon, text, tooltip}: {Icon: typeof IconRefresh, text: any, tooltip: string}) {
@@ -113,7 +100,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
 
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               <div className="flex flex-row gap-3 self-end">
-                <SmallStats Icon={IconRefresh} text={toTimeAgo(plugin.recentUpdated) || 'N/A'} tooltip={`Last update: ${formatLocalTime(plugin.recentUpdated) || 'N/A'}`}/>
+                <SmallStats Icon={IconRefresh} text={toTimeAgo(plugin.recentUpdated) || 'N/A'} tooltip={`Last update: ${formatTime(plugin.recentUpdated) || 'N/A'}`}/>
                 <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip="Total downloads"/>
               </div>
               <div className="flex gap-2">

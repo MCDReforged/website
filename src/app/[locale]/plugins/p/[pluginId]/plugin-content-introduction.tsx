@@ -1,6 +1,12 @@
+'use client'
+
+import { AllOfAPlugin } from "@/catalogue/meta-types";
+import { translateLangDict } from "@/utils/i18n-utils";
 import { Skeleton } from "@mantine/core";
+import { useLocale } from "next-intl";
 import dynamic from "next/dynamic";
 import React from "react";
+import { TabBody } from "./plugin-content-common";
 
 // import the css here to ensure the GitHub markdown css is loaded
 // workaround for https://github.com/vercel/next.js/issues/17464
@@ -19,10 +25,12 @@ const DynamicMarkdown = dynamic(
   }
 )
 
-export default function PluginIntroductionMarkdown({children, ...props}: {children: string, [key: string]: any}) {
+export function PluginContentIntroduction({plugin}: { plugin: AllOfAPlugin }) {
   return (
-    <DynamicMarkdown {...props}>
-      {children}
-    </DynamicMarkdown>
+    <TabBody>
+      <DynamicMarkdown>
+        {translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''}
+      </DynamicMarkdown>
+    </TabBody>
   )
 }
