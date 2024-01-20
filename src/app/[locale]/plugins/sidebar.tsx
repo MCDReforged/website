@@ -49,7 +49,7 @@ function ControlCard() {
     setDs({...ds})
   }
 
-  const t = useTranslations('Plugins');
+  const t = useTranslations('plugin_list.side_bar');
 
   return (
     <MyCard className="p-5 overflow-hidden">
@@ -110,7 +110,7 @@ function StatsCard({everything}: {everything: SimpleEverything}) {
 
 export function Sidebar({everything}: {everything: SimpleEverything}) {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="mx-[8px] flex flex-col gap-5">
       <ControlCard />
       <StatsCard everything={everything} />
     </div>

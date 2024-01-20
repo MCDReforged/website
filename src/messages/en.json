@@ -1,12 +1,14 @@
 {
-  "Home": {
-    "title": "Hello world!"
+  "home": {
+    "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server"
   },
-  "Plugins": {
-    "sort_order": {
-      "name": "Plugin Name",
-      "downloads": "Downloads",
-      "recentUpdate": "Last Update"
+  "plugin_list": {
+    "side_bar": {
+      "sort_order": {
+        "name": "Plugin Name",
+        "downloads": "Downloads",
+        "recentUpdate": "Last Update"
+      }
     }
   },
   "PluginPage": {

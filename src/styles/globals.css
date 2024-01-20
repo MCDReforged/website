@@ -6,8 +6,9 @@
 @tailwind utilities;
 
 html {
-  /* https://stackoverflow.com/questions/45524214/how-do-i-stop-my-web-content-from-shifting-left-when-the-vertical-scrollbar-appe/45524215#45524215 */
-  overflow-y: scroll;
+  /* https://stackoverflow.com/questions/1417934/how-to-prevent-scrollbar-from-repositioning-web-page/39289453#39289453 */
+  overflow-x: hidden;
+  margin-right: calc(100% - 100vw);
 }
 
 /* Make sure all lists in the markdown content have list-style */

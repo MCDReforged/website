@@ -14,7 +14,7 @@ export default async function Page({params: {locale}}: {params: {locale: string}
 
   return (
     <>
-      <NextIntlClientProvider locale={locale} messages={pick(messages, 'Plugins')}>
+      <NextIntlClientProvider locale={locale} messages={pick(messages, 'plugin_list')}>
         <DisplayStrategyContextProvider>
           <div className="md:fixed md:w-[18rem] md:h-[calc(100vh-5rem)] md:overflow-y-auto">
             <Sidebar everything={everything}/>

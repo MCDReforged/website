@@ -27,7 +27,7 @@ function SidebarBackButton() {
 export function Sidebar({plugin}: {plugin: SimplePlugin}) {
   const locale = useLocale()
   return (
-    <div className="flex flex-col gap-5">
+    <div className="mx-[8px] flex flex-col gap-5">
       <MyCard className="p-5">
         <div className="flex flex-col gap-3 break-words">
           <p className="text-2xl font-semibold">{plugin.name}</p>

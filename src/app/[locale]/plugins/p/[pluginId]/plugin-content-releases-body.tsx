@@ -26,7 +26,6 @@ export function PluginReleaseBodyButton({release}: {release: ReleaseInfo}) {
         opened={opened} onClose={close}
         title={<Title order={3}>{title}</Title>}
         closeButtonProps={{ 'aria-label': 'Close modal' }}
-        removeScrollProps={{ removeScrollBar: false }}
       >
         <div className="pb-1 px-1">
           <DynamicGfmMarkdown>

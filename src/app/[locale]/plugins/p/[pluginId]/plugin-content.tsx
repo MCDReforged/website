@@ -21,7 +21,7 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
   const iconStyle = { width: rem(16), height: rem(16) }
 
   return (
-    <MyCard className="lg:mx-5 pb-6 pt-2">
+    <MyCard className="max-lg:mx-[8px] md:mx-3 pb-6 pt-2">
       <PluginContentTabs>
         <ScrollArea scrollbars="x" scrollbarSize={5} offsetScrollbars w="full">
           <TabsList className="flex-nowrap">

@@ -1,12 +1,14 @@
 {
-  "Home": {
-    "title": "你好世界！"
+  "home": {
+    "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具"
   },
-  "Plugins": {
-    "sort_order": {
-      "name": "插件名",
-      "downloads": "下载量",
-      "recentUpdate": "最近更新"
+  "plugin_list": {
+    "side_bar": {
+      "sort_order": {
+        "name": "插件名",
+        "downloads": "下载量",
+        "recentUpdate": "最近更新"
+      }
     }
   },
   "PluginPage": {

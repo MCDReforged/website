@@ -54,7 +54,7 @@ export default async function RootLayout({
               <Navbar/>
             </NextIntlClientProvider>
 
-            <main className="container mx-auto max-w-6xl px-2 py-6 flex-grow">
+            <main className="flex-grow">
               {children}
             </main>
 
