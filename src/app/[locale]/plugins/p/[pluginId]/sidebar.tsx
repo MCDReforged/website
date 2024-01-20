@@ -1,13 +1,28 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
-import { Link } from "@/common/navigation";
+import { Link as NaLink, Link } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/ui/my-card";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { formatTime } from "@/utils/time-utils";
-import { Tooltip } from "@mantine/core";
-import { IconHome2 } from "@tabler/icons-react";
+import { Button, Tooltip } from "@mantine/core";
+import { IconArrowBackUp, IconHome2 } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
+import styles from './sidebar.module.css'
+
+function SidebarBackButton() {
+  return (
+    <Button
+      className={styles.cardLikeBorder}
+      component={NaLink}
+      href="/plugins"
+      variant="default"
+      leftSection={<IconArrowBackUp size="1rem"/>}
+    >
+      Back to catalogue
+    </Button>
+  )
+}
 
 export function Sidebar({plugin}: {plugin: SimplePlugin}) {
   const locale = useLocale()
@@ -46,6 +61,8 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
           </Link>
         </div>
       </MyCard>
+
+      <SidebarBackButton/>
     </div>
   )
 }

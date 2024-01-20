@@ -9,9 +9,11 @@ import { translateLangDict } from "@/utils/i18n-utils"
 import { formatTime, toTimeAgo } from "@/utils/time-utils";
 import { ActionIcon, Text, Tooltip } from "@mantine/core";
 import { IconDownload, IconFileDownload, IconRefresh } from "@tabler/icons-react";
+import { clsx } from "clsx";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import React from 'react';
+import styles from './plugin-card.module.css'
 
 function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
   if (author === undefined) {
@@ -36,7 +38,10 @@ function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginN
   return (
     <NaLink
       href={`/plugins/p/${pluginId}`}
-      className="text-2xl font-bold text-foreground break-words hover:text-primary ml-1 mr-5"
+      className={clsx(
+        "text-2xl font-bold text-foreground break-words hover:text-primary ml-1 mr-5",
+        styles.pluginLink,
+      )}
     >
       {pluginName}
     </NaLink>
@@ -69,6 +74,9 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     )
   }
 
+  const sinceLastUpdate = toTimeAgo(plugin.recentUpdated) || 'N/A'
+  const lastUpdateDisplay = `Last update: ${formatTime(plugin.recentUpdated) || 'N/A'}`
+
   return (
     <MyCard className="min-h-[8.3rem] flex flex-col">
       <div className="flex items-baseline justify-between mb-2 flex-col sm:flex-row">
@@ -97,10 +105,9 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
                 <PluginLabel key={index} label={label}/>
               )}
             </div>
-
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               <div className="flex flex-row gap-3 self-end">
-                <SmallStats Icon={IconRefresh} text={toTimeAgo(plugin.recentUpdated) || 'N/A'} tooltip={`Last update: ${formatTime(plugin.recentUpdated) || 'N/A'}`}/>
+                <SmallStats Icon={IconRefresh} text={sinceLastUpdate} tooltip={lastUpdateDisplay}/>
                 <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip="Total downloads"/>
               </div>
               <div className="flex gap-2">

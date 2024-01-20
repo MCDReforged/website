@@ -17,16 +17,16 @@ import { IconTag } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { TabBody } from "./plugin-content-common"
+import { PluginReleaseBodyButton } from "./plugin-content-releases-body";
 import { PrettySize } from "./utils";
 
 function PluginReleasePageButton({release}: {release: ReleaseInfo}) {
-  const tooltip = `External release page for ${release.meta.version}`
   const version = release.meta.version
-  const ariaLabel = `See release page for v${version}`
+  const tooltip = `Visit external release page for v${version}`
   return (
     <Tooltip label={tooltip}>
-      <ActionIcon color="blue" aria-label={ariaLabel}>
-        <NaLink href={release.url} aria-label={ariaLabel} target="_blank">
+      <ActionIcon color="blue" aria-label={tooltip}>
+        <NaLink href={release.url} aria-label={tooltip} target="_blank">
           <IconTag stroke={1.5}/>
         </NaLink>
       </ActionIcon>
@@ -68,6 +68,7 @@ export function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
         <TableTd>
           <div className="flex flex-row gap-2">
             <PluginDownloadButton release={ri}/>
+            <PluginReleaseBodyButton release={ri}/>
             <PluginReleasePageButton release={ri}/>
           </div>
         </TableTd>

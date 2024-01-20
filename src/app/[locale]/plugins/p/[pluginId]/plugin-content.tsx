@@ -1,9 +1,9 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import MyCard from "@/components/ui/my-card";
 import { rem, ScrollArea, TabsList, TabsPanel, TabsTab } from "@mantine/core";
-import { IconBook, IconPackageImport, IconTags } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import React from "react";
+import { tabConfig } from "./plugin-content-common";
 import { PluginContentDependencies } from "./plugin-content-dependencies";
 import { PluginContentIntroduction } from "./plugin-content-introduction";
 import { PluginContentReleases } from "./plugin-content-releases";
@@ -25,15 +25,11 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
       <PluginContentTabs>
         <ScrollArea scrollbars="x" scrollbarSize={5} offsetScrollbars w="full">
           <TabsList className="flex-nowrap">
-            <TabsTab value="introduction">
-              {tabTitle(t("introduction"), <IconBook style={iconStyle}/>)}
-            </TabsTab>
-            <TabsTab value="releases">
-              {tabTitle(t("releases"), <IconTags style={iconStyle} />)}
-            </TabsTab>
-            <TabsTab value="dependencies">
-              {tabTitle(t("dependencies"), <IconPackageImport style={iconStyle} />)}
-            </TabsTab>
+            {tabConfig.map((tc) => (
+              <TabsTab key={tc.key} value={tc.key}>
+                {tabTitle(t(tc.key), <tc.icon style={iconStyle}/>)}
+              </TabsTab>
+            ))}
           </TabsList>
         </ScrollArea>
 

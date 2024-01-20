@@ -4,17 +4,17 @@ import { usePathname, useRouter } from "@/common/navigation";
 import { Tabs } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
-import { tabs } from "./plugin-content-common";
+import { tabKeys } from "./plugin-content-common";
 
-const firstTab = tabs[0]
+const firstTab = tabKeys[0]
 
-function ParamsConnectedPluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [key: string]: any}) {
+function ParamsConnectedPluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [_: string]: any}) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter(false)
 
   let defaultTab = searchParams.get('tab') || firstTab
-  if (!tabs.includes(defaultTab)) {
+  if (!tabKeys.includes(defaultTab)) {
     defaultTab = firstTab
   }
 
@@ -35,7 +35,7 @@ function ParamsConnectedPluginContentTabs({children, ...tabProps}: {children: Re
   )
 }
 
-export function PluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [key: string]: any}) {
+export function PluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [_: string]: any}) {
   const suspenseFallback = (
     <Tabs defaultValue={firstTab} {...tabProps}>
       {children}
