@@ -2,7 +2,7 @@
   "metadata": {
     "title": {
       "catalogue": "插件仓库",
-      "plugin": "插件 {name}"
+      "plugin": "插件仓库 - {name}"
     }
   },
   "component": {

@@ -2,7 +2,7 @@
   "metadata": {
     "title": {
       "catalogue": "Plugin Catalogue",
-      "plugin": "Plugin {name}"
+      "plugin": "Plugin Catalogue - {name}"
     }
   },
   "layout": {
@@ -51,7 +51,7 @@
         "sort_reversed": "Reversed",
 
         "stats": "Statistics",
-        "sync_at": "Synchronized at: {date}",
+        "sync_at": "Synced at: {date}",
         "plugin_amount": "Plugin amount: {n}",
         "author_amount": "Author amount: {n}",
         "download_sum": "Download sum: {n}"
