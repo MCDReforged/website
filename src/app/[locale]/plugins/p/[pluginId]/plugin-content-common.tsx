@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import React from "react";
 
-export const tabs = [
+export const tabs: string[] = [
   'introduction',
   'releases',
   'dependencies',
