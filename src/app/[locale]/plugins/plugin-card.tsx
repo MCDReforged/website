@@ -10,7 +10,7 @@ import { formatTime, toTimeAgo } from "@/utils/time-utils";
 import { ActionIcon, Text, Tooltip } from "@mantine/core";
 import { IconDownload, IconFileDownload, IconRefresh } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from 'react';
 import styles from './plugin-card.module.css'
@@ -52,6 +52,9 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
   const authorCount = plugin.authors.length
   const release = plugin.latestRelease
 
+  const locale = useLocale()
+  const t = useTranslations('plugin_list.plugin_card')
+
   const repositoryButton =
     <ActionIcon color="gray.7" aria-label={`Visit GitHub repository for ${plugin.id}`}>
       <Link href={plugin.repos} aria-label={`GitHub repository for ${plugin.id}`}>
@@ -74,8 +77,8 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     )
   }
 
-  const sinceLastUpdate = toTimeAgo(plugin.recentUpdated) || 'N/A'
-  const lastUpdateDisplay = `Last update: ${formatTime(plugin.recentUpdated) || 'N/A'}`
+  const sinceLastUpdate = toTimeAgo(plugin.recentUpdated, locale) || 'N/A'
+  const lastUpdateDisplay = t('last_update', {time_ago: formatTime(plugin.recentUpdated, 'LL', locale) || 'N/A'})
 
   return (
     <MyCard className="min-h-[8.3rem] flex flex-col">
@@ -96,7 +99,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
       <div className="grow w-full">
         <div className="col-span-5 flex flex-col justify-between">
           <div className="mb-3 ml-1">
-            {translateLangDict(useLocale(), plugin.description, true) || ''}
+            {translateLangDict(locale, plugin.description, true) || ''}
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -108,7 +111,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               <div className="flex flex-row gap-3 self-end">
                 <SmallStats Icon={IconRefresh} text={sinceLastUpdate} tooltip={lastUpdateDisplay}/>
-                <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip="Total downloads"/>
+                <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip={t('total_downloads')}/>
               </div>
               <div className="flex gap-2">
                 {repositoryButton}

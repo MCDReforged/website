@@ -9,6 +9,10 @@
         "downloads": "下载量",
         "recentUpdate": "最近更新"
       }
+    },
+    "plugin_card": {
+      "last_update": "上次更新：{time_ago}",
+      "total_downloads": "总下载数"
     }
   },
   "PluginPage": {

@@ -1,10 +1,13 @@
-import moment from "moment";
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
-export function toTimeAgo(date?: Date): string | undefined {
+export function toTimeAgo(date?: Date, locale?: string): string | undefined {
+  moment.locale(locale?.toLowerCase())
   return date === undefined ? undefined : moment(date).fromNow();
 }
 
-export function formatTime(date?: Date, formatter: string = 'YYYY/MM/DD hh:mm:ss'): string | undefined {
+export function formatTime(date?: Date, formatter: string = 'YYYY/MM/DD hh:mm:ss', locale?: string): string | undefined {
+  moment.locale(locale?.toLowerCase())
   return date === undefined ? undefined : moment(date).format(formatter)
 }
 
