@@ -9,8 +9,8 @@ import React from "react";
 
 export function PluginReleaseBodyButton({release}: {release: ReleaseInfo}) {
   const version = release.meta.version
-  const tooltip = `Show release body for v${version}`
-  const title = `Release body for v${version}`
+  const tooltip = `Show release notes for v${version}`
+  const title = `Release notes for version ${version}`
 
   const [opened, { open, close }] = useDisclosure(false)
   return (
@@ -24,10 +24,10 @@ export function PluginReleaseBodyButton({release}: {release: ReleaseInfo}) {
       <Modal
         size="xl"
         opened={opened} onClose={close}
-        title={<Title order={3}>{title}</Title>}
+        title={<Title order={3} className="ml-2">{title}</Title>}
         closeButtonProps={{ 'aria-label': 'Close modal' }}
       >
-        <div className="pb-1 px-1">
+        <div className="mb-2 mx-2">
           <DynamicGfmMarkdown>
             {release.description || ''}
           </DynamicGfmMarkdown>
