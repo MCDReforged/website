@@ -2,17 +2,7 @@ import { AllOfAPlugin, ReleaseInfo } from "@/catalogue/meta-types";
 import { Link as NaLink } from "@/common/navigation";
 import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
 import { formatTime } from "@/utils/time-utils";
-import {
-  ActionIcon,
-  Table,
-  TableScrollContainer,
-  TableTbody,
-  TableTd,
-  TableTh,
-  TableThead,
-  TableTr,
-  Tooltip
-} from "@mantine/core";
+import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import React from "react";
@@ -35,7 +25,7 @@ function PluginReleasePageButton({release}: {release: ReleaseInfo}) {
 }
 
 export function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
-  const t = useTranslations('PluginPage.releases');
+  const t = useTranslations('page.plugin.releases');
 
   const titles = (
     <TableTr>

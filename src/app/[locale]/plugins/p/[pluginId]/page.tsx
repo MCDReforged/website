@@ -6,9 +6,9 @@ import React from "react";
 import { PluginContent } from "./plugin-content";
 import { Sidebar } from "./sidebar";
 
-export async function generateMetadata({params}: {params: {locale: string, pluginId: string}}) {
-  const t = await getTranslations({locale: params.locale, namespace: 'metadata.title'})
-  const plugin = await getPlugin(params.pluginId)
+export async function generateMetadata({params: {locale, pluginId}}: {params: {locale: string, pluginId: string}}) {
+  const t = await getTranslations({locale, namespace: 'metadata.title'})
+  const plugin = await getPlugin(pluginId)
   return {
     title: t('plugin', {name: plugin?.meta?.name || '?'}),
   }

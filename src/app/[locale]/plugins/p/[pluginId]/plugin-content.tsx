@@ -1,16 +1,17 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import MyCard from "@/components/ui/my-card";
+import CommonCard from "@/components/ui/common-card";
 import { rem, ScrollArea, TabsList, TabsPanel, TabsTab } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { tabConfig } from "./plugin-content-common";
 import { PluginContentDependencies } from "./plugin-content-dependencies";
 import { PluginContentIntroduction } from "./plugin-content-introduction";
+import { PluginContentReadme } from "./plugin-content-readme";
 import { PluginContentReleases } from "./plugin-content-releases";
 import { PluginContentTabs } from "./plugin-content-tabs";
 
 export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
-  const t = useTranslations('PluginPage.tabs');
+  const t = useTranslations('page.plugin.tabs');
 
   const tabTitle = (text: string, icon: React.ReactNode) => (
     <div className="flex items-center gap-1.5 justify-center mb-0.5 mt-0.5 pr-1">
@@ -21,7 +22,7 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
   const iconStyle = { width: rem(16), height: rem(16) }
 
   return (
-    <MyCard className="max-lg:mx-[8px] md:mx-3 pb-6 pt-2">
+    <CommonCard className="max-lg:mx-[8px] md:mx-3 pb-6 pt-2">
       <PluginContentTabs>
         <ScrollArea scrollbars="x" scrollbarSize={5} offsetScrollbars w="full">
           <TabsList className="flex-nowrap">
@@ -36,6 +37,9 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
         <TabsPanel value="introduction">
           <PluginContentIntroduction plugin={plugin}/>
         </TabsPanel>
+        <TabsPanel value="readme">
+          <PluginContentReadme plugin={plugin}/>
+        </TabsPanel>
         <TabsPanel value="releases">
           <PluginContentReleases plugin={plugin}/>
         </TabsPanel>
@@ -43,6 +47,6 @@ export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
           <PluginContentDependencies plugin={plugin}/>
         </TabsPanel>
       </PluginContentTabs>
-    </MyCard>
+    </CommonCard>
   )
 }

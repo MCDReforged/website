@@ -1,40 +1,63 @@
-import { Badge, rem } from "@mantine/core";
-import { IconInfoCircle, IconPlugConnected, IconTools, IconUser } from "@tabler/icons-react";
+import { Badge } from "@mantine/core";
+import { IconInfoCircle, IconPlugConnected, IconQuestionMark, IconTools, IconUser } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-const iconStyle = { width: rem(15), height: rem(15) };
-const labelConfigs: {[key: string]: any} = {
-  'information': {
-    color: 'cyan',
-    icon: <IconInfoCircle style={iconStyle} />,
-  },
-  'tool': {
-    color: 'blue',
-    icon: <IconTools style={iconStyle} />,
-  },
-  'management': {
-    color: 'red',
-    icon: <IconUser style={iconStyle} />,
-  },
-  'api': {
-    color: 'yellow.7',
-    icon: <IconPlugConnected style={iconStyle} />,
-  },
-  '__default': {
-    color: 'default',
-    icon: <div>?</div>,
-  },
+interface LabelConfig {
+  id: string
+  color: string
+  icon: typeof IconUser
+}
+interface LabelConfigMapping {
+  [id: string]: LabelConfig
 }
 
+const labelConfigs: LabelConfig[] = [
+  {
+    id: 'information',
+    color: 'cyan',
+    icon: IconInfoCircle,
+  },
+  {
+    id: 'tool',
+    color: 'blue',
+    icon: IconTools,
+  },
+  {
+    id: 'management',
+    color: 'red',
+    icon: IconUser,
+  },
+  {
+    id: 'api',
+    color: 'yellow.7',
+    icon: IconPlugConnected,
+  }
+]
+
+const unknownConfig: LabelConfig = {
+  id: '__unknown',
+  color: 'default',
+  icon: IconQuestionMark,
+}
+
+const labelConfigMapping: LabelConfigMapping = labelConfigs.reduce((obj: LabelConfigMapping, item) => {
+  obj[item.id] = item
+  return obj
+}, {})
+
 export function PluginLabel({label}: {label: string}) {
-  const cfg = labelConfigs[label] ?? labelConfigs['__default']
+  const t = useTranslations('component.plugin_label')
+
+  const cfg = labelConfigMapping[label] ?? unknownConfig
   return <Badge
-    classNames={{root: "px-2"}}
+    classNames={{root: "px-2 border-1 border-solid font-medium text-sm"}}
+    variant="light-bordered"
     color={cfg.color}
     radius="md"
-    size="md"
-    leftSection={cfg.icon}
+    size="22"
+    leftSection={<cfg.icon size={16}/>}
   >
-    {label}
+    {t(cfg.id)}
   </Badge >
 }

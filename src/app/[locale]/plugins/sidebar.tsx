@@ -1,36 +1,64 @@
 'use client'
 
 import { SimpleEverything } from "@/catalogue/simple-types";
-import MyCard from "@/components/ui/my-card";
+import CommonCard from "@/components/ui/common-card";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
-import { Checkbox, Radio, RadioGroup, Stack, TextInput } from "@mantine/core";
-import { IconFilter } from "@tabler/icons-react";
+import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
+import { IconDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { useTranslations } from "next-intl";
-import { useContext, useEffect } from "react";
-import { DisplayStrategyContextValue, sortOrders } from "./display-strategy";
+import { useLocale, useTranslations } from "next-intl";
+import React, { useContext } from "react";
+import { toTimeAgo } from "../../../utils/time-utils";
+import { DisplayStrategyContextValue, filterPlugins, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 
-function ControlCard() {
-  const titleClassTop = 'text-lg font-bold mb-1.5'
-  const titleClassMiddle = clsx(titleClassTop, 'mt-3')
+function SideBarCard({children}: {children: React.ReactNode}) {
+  return (
+    <CommonCard className="p-5 overflow-hidden">
+      <div className="flex flex-col gap-5">
+        {children}
+      </div>
+    </CommonCard>
+  )
+}
+
+function CardSection({title, className, children}: {title: React.ReactNode, children: React.ReactNode, className?: string}) {
+  return (
+    <div className={clsx('flex flex-col', className)}>
+      <p className="text-lg font-bold">{title}</p>
+      {children}
+    </div>
+  )
+}
+
+function FilterTextInput({Icon, onChanged, label, placeholder}: {
+  Icon: typeof IconFilter, onChanged: (_: string) => void, label: string, placeholder: string
+}) {
+  return (
+    <TextInput
+      size="sm"
+      leftSection={<Icon size={20} stroke={1.5}/>}
+      onChange={(event) => onChanged(event.currentTarget.value)}
+      aria-label={label}
+      label={label}
+      placeholder={placeholder}
+      classNames={{label: 'font-normal'}}
+    />
+  )
+}
+
+function ControlCard({everything}: { everything: SimpleEverything }) {
+  const t = useTranslations('page.plugin_list.side_bar')
   const {ds, setDs} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
+  const allPlugins = Object.values(everything.plugins)
+  const filteredPlugins = filterPlugins(allPlugins, ds)
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams();
-    if (ds.keyword) {
-      queryParams.append('keyword', ds.keyword);
-    }
-    if (ds.sortOrder) {
-      queryParams.append('sort', ds.sortOrder);
-    }
-    // TODO: set params
-  }, [ds])
-
-  const onFilterTextChanged = (text: string) => {
-    ds.keyword = text
-    setDs({...ds})
+  const onNameFilterTextChanged = (text: string) => {
+    setDs({...ds, nameKeyword: text})
+  }
+  const onAuthorFilterTextChanged = (text: string) => {
+    setDs({...ds, authorKeyword: text})
   }
   const onLabelFilterCheckboxChanged = (what: string, checked: boolean) => {
     if (checked) {
@@ -41,77 +69,89 @@ function ControlCard() {
     setDs({...ds})
   }
   const onSortOrderRatioSet = (what: string) => {
-    ds.sortOrder = what
-    setDs({...ds})
+    setDs({...ds, sortOrder: what})
   }
   const onSortReversedCheckboxSet = (checked: boolean) => {
-    ds.sortReversed = checked
-    setDs({...ds})
+    setDs({...ds, sortReversed: checked})
   }
 
-  const t = useTranslations('plugin_list.side_bar');
-
   return (
-    <MyCard className="p-5 overflow-hidden">
-      <div className="flex flex-col">
-        <p className={titleClassTop}>Plugin filter</p>
-        <TextInput
-          size="sm"
-          leftSection={<IconFilter stroke={1.5}/>}
-          onChange={(event) => onFilterTextChanged(event.currentTarget.value)}
-          aria-label="Plugin filter"
-        />
+    <SideBarCard>
+      <CardSection title={t('plugin_filter')} className="gap-0.5">
+        <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} label={t('plugin_filter_name')} placeholder="qbm"/>
+        <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} label={t('plugin_filter_author')} placeholder="fallen"/>
+      </CardSection>
 
-        <p className={titleClassMiddle}>Label filter</p>
-        <Stack gap={6}>
-          {pluginLabels.map(label => (
-            <
-              Checkbox
-              key={label} value={label}  // TODO: translate
-              radius="sm"
-              classNames={{body: "items-center", label: "flex items-center"}}
-              label={<PluginLabel label={label}/>}
-              onChange={event => onLabelFilterCheckboxChanged(label, event.currentTarget.checked)}
-            />
-          ))}
-        </Stack>
+      <CardSection title={t('label_filter')} className="gap-1.5">
+        {pluginLabels.map(label => {
+          const amount = filteredPlugins.filter(plugin => plugin.labels.includes(label)).length
+          return (
+            <div key={label} className="flex flex-row justify-between items-center">
+              <
+                Checkbox
+                value={label}
+                radius="sm"
+                label={<PluginLabel label={label}/>}
+                onChange={event => onLabelFilterCheckboxChanged(label, event.currentTarget.checked)}
+              />
+              <p>{amount}x</p>
+            </div>
+          )
+        })}
+      </CardSection>
 
-        <p className={titleClassMiddle}>Sort order</p>
-
-        <RadioGroup defaultValue="name" onChange={onSortOrderRatioSet}>
-          <Stack gap={6}>
+      <CardSection title={t('sort_order')} className="gap-1.5">
+        <RadioGroup defaultValue={sortOrders[0]} onChange={onSortOrderRatioSet}>
+          <div className="flex flex-col gap-1.5">
             {sortOrders.map(so => (
-              <Radio key={so} value={so} label={<p>{t(`sort_order.${so}`)}</p>}/>
+              <Radio key={so} value={so} label={t(`sort_order_type.${so}`)}/>
             ))}
-            <Checkbox radius="sm" label="Reversed" onChange={event => onSortReversedCheckboxSet(event.currentTarget.checked)}/>
-          </Stack>
+          </div>
         </RadioGroup>
-      </div>
-    </MyCard>
+        <Switch
+          className="mt-1"
+          label={t('sort_reversed')}
+          checked={ds.sortReversed}
+          onChange={event => onSortReversedCheckboxSet(event.currentTarget.checked)}
+        />
+      </CardSection>
+    </SideBarCard>
   )
 }
 
-function StatsCard({everything}: {everything: SimpleEverything}) {
+function StatItem({Icon, text}: {Icon: typeof IconRefresh, text: any}) {
   return (
-    <MyCard className="p-5">
-      <div className="flex flex-col">
-        <p>Plugin amount: {everything && Object.keys(everything.plugins).length || 'N/A'}</p>
-        <p className="font-extrabold">Font字体 font-extrabold</p>
-        <p className="font-bold">Font字体 font-bold</p>
-        <p className="font-semibold">Font字体 font-semibold</p>
-        <p className="font-medium">Font字体 font-medium</p>
-        <p className="font-normal">Font字体 font-normal</p>
-        <p className="font-light">Font字体 font-light</p>
-        <p className="font-extralight">Font字体 font-extralight</p>
-      </div>
-    </MyCard>
+    <div className="flex flex-row gap-2 items-center">
+      <Icon size={18} strokeWidth={1.5}/>
+      <p>{text}</p>
+    </div>
   )
 }
 
-export function Sidebar({everything}: {everything: SimpleEverything}) {
+function StatsCard({everything}: { everything: SimpleEverything }) {
+  const t = useTranslations('page.plugin_list.side_bar');
+  const allPlugins = Object.values(everything.plugins)
+  const pluginAmount = allPlugins.length
+  const authorAmount = everything.authors.amount
+  const downloadSum = allPlugins.reduce((s, plugin) => s + plugin.downloads, 0)
+  const syncTimeAgo = toTimeAgo(new Date(everything.timestamp * 1000), useLocale())
+
+  return (
+    <SideBarCard>
+      <CardSection title={t('stats')} className="gap-1">
+        <StatItem Icon={IconRefresh} text={t('sync_at', {date: syncTimeAgo})}/>
+        <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
+        <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
+        <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>
+      </CardSection>
+    </SideBarCard>
+  )
+}
+
+export function Sidebar({everything}: { everything: SimpleEverything }) {
   return (
     <div className="mx-[8px] flex flex-col gap-5">
-      <ControlCard />
+      <ControlCard everything={everything} />
       <StatsCard everything={everything} />
     </div>
   )

@@ -54,7 +54,7 @@ interface NavBarLinkProps {
 }
 
 function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
-  const t = useTranslations('Navbar.navigation');
+  const t = useTranslations('layout.nav_bar.navigation');
   const pathname = usePathname()
   const Icon = item.icon
   return (

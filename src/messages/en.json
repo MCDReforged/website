@@ -5,54 +5,85 @@
       "plugin": "Plugin {name}"
     }
   },
-  "home": {
-    "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server"
+  "layout": {
+    "nav_bar": {
+      "navigation": {
+        "home": "Home",
+        "plugins": "Plugins",
+        "docs": "Document"
+      },
+      "locale_switch": {
+        "en": "English",
+        "zh-CN": "简体中文"
+      }
+    }
   },
-  "plugin_list": {
-    "side_bar": {
-      "sort_order": {
-        "name": "Plugin Name",
-        "downloads": "Downloads",
-        "recentUpdate": "Last Update"
+  "component": {
+    "plugin_label": {
+      "information": "information",
+      "tool": "tool",
+      "management": "management",
+      "api": "API",
+      "__unknown": "unknown"
+    }
+  },
+  "page": {
+    "home": {
+      "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server"
+    },
+    "plugin_list": {
+      "side_bar": {
+        "plugin_filter": "Plugin Filter",
+        "plugin_filter_name": "ID / Name",
+        "plugin_filter_author": "Author",
+        "label_filter": "Label Filter",
+        "sort_order": "Sort order",
+        "sort_order_type": {
+          "name": "Plugin Name",
+          "downloads": "Downloads",
+          "recentUpdate": "Last Update"
+        },
+        "sort_order_desc": {
+          "name": "Plugin Name",
+          "downloads": "Downloads",
+          "recentUpdate": "Last Update"
+        },
+        "sort_reversed": "Reversed",
+
+        "stats": "Statistics",
+        "sync_at": "Synchronized at: {date}",
+        "plugin_amount": "Plugin amount: {n}",
+        "author_amount": "Author amount: {n}",
+        "download_sum": "Download sum: {n}"
+      },
+      "plugin_card": {
+        "last_update": "Last update: {time_ago}",
+        "total_downloads": "Total downloads"
       }
     },
-    "plugin_card": {
-      "last_update": "Last update: {time_ago}",
-      "total_downloads": "Total downloads"
-    }
-  },
-  "PluginPage": {
-    "tabs": {
-      "introduction": "Introduction",
-      "releases": "Releases",
-      "dependencies": "Dependencies"
-    },
-    "releases": {
-      "version": "Version",
-      "file": "File",
-      "date": "Date",
-      "size": "Size",
-      "downloads": "Downloads",
-      "actions": "Actions",
-      "bytes": "bytes"
-    },
-    "dependencies": {
-      "title_plugin": "MCDR Plugin Dependencies",
-      "title_package": "Python Package Requirements",
-      "plugin_id": "Plugin ID",
-      "py_package": "Python Package",
-      "requirement": "Requirement"
-    }
-  },
-  "Navbar": {
-    "navigation": {
-      "home": "Home",
-      "plugins": "Plugins",
-      "docs": "Document"
-    },
-    "locale_switch": {
-      "en": "English",
-      "zh-CN": "简体中文"
+    "plugin": {
+      "tabs": {
+        "introduction": "Introduction",
+        "readme": "README",
+        "releases": "Releases",
+        "dependencies": "Dependencies"
+      },
+      "releases": {
+        "version": "Version",
+        "file": "File",
+        "date": "Date",
+        "size": "Size",
+        "downloads": "Downloads",
+        "actions": "Actions",
+        "bytes": "bytes"
+      },
+      "dependencies": {
+        "title_plugin": "MCDR Plugin Dependencies",
+        "title_package": "Python Package Requirements",
+        "plugin_id": "Plugin ID",
+        "py_package": "Python Package",
+        "requirement": "Requirement"
+      }
     }
   }
 }

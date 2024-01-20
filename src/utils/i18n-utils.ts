@@ -7,11 +7,23 @@ export function pick(messages: AbstractIntlMessages, keys: string | string[]): A
   }
   const newMessages: AbstractIntlMessages = {}
   keys.forEach(key => {
-    const element = messages[key];
-    if (element === undefined) {
+    if (key.includes(".")) {
+      const [base, rest] = key.split(".", 2)
+      const element = messages[base]
+      if (element === undefined) {
+        throw new Error(`Key ${base} not found in provided messages, full key ${key}`)
+      }
+      if (typeof element === 'string') {
+        throw new Error(`Key ${base} is not an object, full key ${key}`)
+      }
+      newMessages[base] = pick(element, rest)
+    } else {
+      const element = messages[key]
+      if (element === undefined) {
         throw new Error('Key ${key} not found in provided messages')
+      }
+      newMessages[key] = element
     }
-    newMessages[key] = element
   })
   return newMessages
 }

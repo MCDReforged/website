@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { unstable_setRequestLocale } from "next-intl/server";
 
 function Hero() {
-  const t = useTranslations('home');
+  const t = useTranslations('page.home');
 
   return (
     <div className="flex flex-col items-center gap-4 py-8 md:py-10 bg-blue-50">

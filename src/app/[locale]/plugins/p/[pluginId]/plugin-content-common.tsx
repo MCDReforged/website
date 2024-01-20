@@ -1,4 +1,4 @@
-import { IconBook, IconPackageImport, IconTags } from "@tabler/icons-react";
+import { IconBook, IconFileDescription, IconPackageImport, IconTags } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import React from "react";
 
@@ -13,6 +13,10 @@ export const tabConfig: TabConfig[] = [
     icon: IconBook,
   },
   {
+    key: 'readme',
+    icon: IconFileDescription,
+  },
+  {
     key: 'releases',
     icon: IconTags,
   },
@@ -25,7 +29,7 @@ export const tabKeys: string[] = tabConfig.map(tc => tc.key)
 
 export function TabBody({children, className, ...props}: {children: React.ReactNode, className?: string, [_: string]: any}) {
   return (
-    <div className={clsx(className, "mt-3 mx-2")} {...props}>
+    <div className={clsx(className, "pt-3 pb-2 px-4")} {...props}>
       {children}
     </div>
   )

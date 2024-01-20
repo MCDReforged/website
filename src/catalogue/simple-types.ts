@@ -1,6 +1,7 @@
 import { AuthorSummary, LangDict } from "@/catalogue/meta-types";
 
 export interface SimpleEverything {
+  timestamp: number
   authors: AuthorSummary
   plugins: {
     [key: string]: SimplePlugin

@@ -1,10 +1,10 @@
 import { Footer } from "@/components/layout/footer";
+import MantineThemeProvider from "@/components/layout/mantine-theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { RouterTransition } from "@/components/layout/router-transition";
 import { siteConfig } from "@/config/site";
-import { theme } from "@/config/theme";
 import { pick } from "@/utils/i18n-utils";
-import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import { ColorSchemeScript } from '@mantine/core'
 import "@/styles/globals.css";
 import { clsx } from "clsx";
 import type { Metadata } from 'next'
@@ -45,12 +45,12 @@ export default async function RootLayout({
       <head>
         <ColorSchemeScript/>
       </head>
-      <body className={styles.fontSetter}>
-        <MantineProvider theme={theme} defaultColorScheme="light">
+      <body>
+        <MantineThemeProvider>
           <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
             <RouterTransition/>
 
-            <NextIntlClientProvider locale={locale} messages={pick(messages, 'Navbar')}>
+            <NextIntlClientProvider locale={locale} messages={pick(messages, 'layout.nav_bar')}>
               <Navbar/>
             </NextIntlClientProvider>
 
@@ -60,7 +60,7 @@ export default async function RootLayout({
 
             <Footer/>
           </div>
-        </MantineProvider>
+        </MantineThemeProvider>
 
         <VercelScripts/>
       </body>

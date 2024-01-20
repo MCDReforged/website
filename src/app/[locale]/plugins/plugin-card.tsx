@@ -2,7 +2,7 @@ import { AuthorInfo, AuthorSummary } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
-import MyCard from "@/components/ui/my-card";
+import CommonCard from "@/components/ui/common-card";
 import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils"
@@ -48,12 +48,23 @@ function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginN
   )
 }
 
+function SmallStats({Icon, text, tooltip}: {Icon: typeof IconRefresh, text: any, tooltip: string}) {
+  return (
+    <Tooltip label={tooltip}>
+      <div className="flex flex-row gap-0.5 items-center text-sm">
+        <Icon size="1rem" stroke={1.8}/>
+        <p className="cursor-default">{text}</p>
+      </div>
+    </Tooltip>
+  )
+}
+
 export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: AuthorSummary}) {
   const authorCount = plugin.authors.length
   const release = plugin.latestRelease
 
   const locale = useLocale()
-  const t = useTranslations('plugin_list.plugin_card')
+  const t = useTranslations('page.plugin_list.plugin_card')
 
   const repositoryButton =
     <ActionIcon color="gray.7" aria-label={`Visit GitHub repository for ${plugin.id}`}>
@@ -66,22 +77,11 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     <PluginDownloadButton release={release}/>:
     <PluginCardDownloadButtonDisabled/>
 
-  function SmallStats({Icon, text, tooltip}: {Icon: typeof IconRefresh, text: any, tooltip: string}) {
-    return (
-      <Tooltip label={tooltip}>
-        <div className="flex flex-row gap-0.5 items-center text-sm">
-          <Icon size="1rem"/>
-          <p className="cursor-default">{text}</p>
-        </div>
-      </Tooltip>
-    )
-  }
-
   const sinceLastUpdate = toTimeAgo(plugin.recentUpdated, locale) || 'N/A'
   const lastUpdateDisplay = t('last_update', {time_ago: formatTime(plugin.recentUpdated, 'LL', locale) || 'N/A'})
 
   return (
-    <MyCard className="min-h-[8.3rem] flex flex-col">
+    <CommonCard className="flex flex-col">
       <div className="flex items-baseline justify-between mb-2 flex-col sm:flex-row">
         <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name} />
 
@@ -98,7 +98,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
 
       <div className="grow w-full">
         <div className="col-span-5 flex flex-col justify-between">
-          <div className="mb-3 ml-1">
+          <div className="mb-3 ml-1 min-h-[25px]">
             {translateLangDict(locale, plugin.description, true) || ''}
           </div>
 
@@ -121,6 +121,6 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
           </div>
         </div>
       </div>
-    </MyCard>
+    </CommonCard>
   )
 }

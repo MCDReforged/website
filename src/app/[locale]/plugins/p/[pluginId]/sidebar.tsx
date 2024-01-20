@@ -1,7 +1,7 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink, Link } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
-import MyCard from "@/components/ui/my-card";
+import CommonCard from "@/components/ui/common-card";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { formatTime } from "@/utils/time-utils";
@@ -28,7 +28,7 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
   const locale = useLocale()
   return (
     <div className="mx-[8px] flex flex-col gap-5">
-      <MyCard className="p-5">
+      <CommonCard className="p-5">
         <div className="flex flex-col gap-3 break-words">
           <p className="text-2xl font-semibold">{plugin.name}</p>
           <p>{translateLangDict(locale, plugin.description) || ''}</p>
@@ -40,9 +40,9 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
             ))}
           </div>
         </div>
-      </MyCard>
+      </CommonCard>
 
-      <MyCard className="p-5">
+      <CommonCard className="p-5">
         <div className="flex flex-col gap-2 break-words">
           <p>Last update: {formatTime(plugin.recentUpdated) || 'N/A'}</p>
           <p>Latest version: v{plugin.latestRelease?.version || 'N/A'}</p>
@@ -60,7 +60,7 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
             <p className="color-link">Repository Plugin Home</p>
           </Link>
         </div>
-      </MyCard>
+      </CommonCard>
 
       <SidebarBackButton/>
     </div>

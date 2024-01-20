@@ -5,6 +5,7 @@ export interface LangDict {
 }
 
 export interface Everything {
+  timestamp: number
   authors: AuthorSummary
   plugins: {
     [key: string]: AllOfAPlugin
@@ -24,6 +25,7 @@ export interface AuthorSummary {
 }
 
 export interface AllOfAPlugin {
+  timestamp: number
   meta: MetaInfo
   plugin: PluginInfo
   release: ReleaseSummary

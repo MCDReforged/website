@@ -4,7 +4,7 @@ export default async function Layout({
   children: React.ReactNode
 }) {
   return (
-    <div className="container mx-auto max-w-6xl px-2 py-6">
+    <div className="container mx-auto max-w-screen-xl px-2 py-6">
       {children}
     </div>
   )

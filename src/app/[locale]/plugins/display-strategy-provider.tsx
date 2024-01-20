@@ -5,7 +5,8 @@ import { DisplayStrategy, DisplayStrategyContextValue } from "./display-strategy
 
 const defaultDisplayStrategy: DisplayStrategy = {
   page: null,
-  keyword: '',
+  nameKeyword: '',
+  authorKeyword: '',
   selectedLabels: [],
   sortOrder: null,
   sortReversed: false,

@@ -10,7 +10,7 @@ const DynamicPipInstallCodeHighlight = dynamic(
 )
 
 export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
-  const t = useTranslations('PluginPage.dependencies')
+  const t = useTranslations('page.plugin.dependencies')
   const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
   const meta = latestRelease !== undefined ? latestRelease.meta : plugin.meta
   const metaSource = latestRelease !== undefined ? `Latest release v${meta.version}` : `${plugin.plugin.branch} branch`
@@ -26,7 +26,7 @@ export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
   )
 
   return (
-    <TabBody className="flex flex-col gap-5">
+    <TabBody className="flex flex-col gap-5 mx-auto max-w-xl">
       <div>
         <p>Source: {metaSource}</p>
         <SectionTitle>{t('title_plugin')}</SectionTitle>

@@ -9,7 +9,7 @@ import { useState, useTransition } from 'react';
 
 export function LocaleSwitch() {
   const currentLocale = useLocale()
-  const t = useTranslations('Navbar.locale_switch')
+  const t = useTranslations('layout.nav_bar.locale_switch')
 
   const pathname = usePathname()
   const router = useRouter()
