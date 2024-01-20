@@ -1,9 +1,18 @@
 import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin } from "@/catalogue/data";
 import { Divider } from "@mantine/core";
+import { getTranslations } from "next-intl/server";
 import React from "react";
 import { PluginContent } from "./plugin-content";
 import { Sidebar } from "./sidebar";
+
+export async function generateMetadata({params}: {params: {locale: string, pluginId: string}}) {
+  const t = await getTranslations({locale: params.locale, namespace: 'metadata.title'})
+  const plugin = await getPlugin(params.pluginId)
+  return {
+    title: t('plugin', {name: plugin?.meta?.name || '?'}),
+  }
+}
 
 export async function generateStaticParams() {
   const everything = await getEverything()

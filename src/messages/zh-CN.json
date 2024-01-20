@@ -1,4 +1,10 @@
 {
+  "metadata": {
+    "title": {
+      "catalogue": "插件仓库",
+      "plugin": "插件 {name}"
+    }
+  },
   "home": {
     "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具"
   },

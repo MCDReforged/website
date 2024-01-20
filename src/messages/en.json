@@ -1,4 +1,10 @@
 {
+  "metadata": {
+    "title": {
+      "catalogue": "Plugin Catalogue",
+      "plugin": "Plugin {name}"
+    }
+  },
   "home": {
     "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server"
   },
