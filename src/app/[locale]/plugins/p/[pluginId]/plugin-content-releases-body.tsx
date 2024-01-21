@@ -1,14 +1,11 @@
 'use client'
 
-import { ReleaseInfo } from "@/catalogue/meta-types";
-import { DynamicGfmMarkdown } from "@/components/ui/dynamic-gfm-markdown";
 import { ActionIcon, Modal, Title, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconFileDescription } from "@tabler/icons-react";
 import React from "react";
 
-export function PluginReleaseBodyButton({release}: {release: ReleaseInfo}) {
-  const version = release.meta.version
+export function PluginReleaseBodyButton({version, children}: {version: string, children: React.ReactNode}) {
   const tooltip = `Show release notes for v${version}`
   const title = `Release notes for version ${version}`
 
@@ -28,9 +25,7 @@ export function PluginReleaseBodyButton({release}: {release: ReleaseInfo}) {
         closeButtonProps={{ 'aria-label': 'Close modal' }}
       >
         <div className="mb-2 mx-2">
-          <DynamicGfmMarkdown allowEmbedHtml>
-            {release.description || ''}
-          </DynamicGfmMarkdown>
+          {children}
         </div>
       </Modal>
     </>

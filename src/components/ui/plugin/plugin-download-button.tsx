@@ -1,14 +1,9 @@
-import { createSimpleRelease } from "@/catalogue/conversion";
-import { ReleaseInfo } from "@/catalogue/meta-types";
 import { SimpleRelease } from "@/catalogue/simple-types";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 import React from "react";
 
-export function PluginDownloadButton({release}: {release: SimpleRelease | ReleaseInfo}) {
-  if ('asset' in release) {
-    release = createSimpleRelease(release)
-  }
+export function PluginDownloadButton({release}: {release: SimpleRelease}) {
   const ariaLabel = `Download version ${release.version}`
   const tooltip = `${release.assetName} (v${release.version})`
   return (

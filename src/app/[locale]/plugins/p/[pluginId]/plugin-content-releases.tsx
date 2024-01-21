@@ -1,17 +1,20 @@
-import { AllOfAPlugin, ReleaseInfo } from "@/catalogue/meta-types";
+import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { Link as NaLink } from "@/common/navigation";
 import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
 import { formatTime } from "@/utils/time-utils";
 import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import React from "react";
+import { createSimpleRelease } from "../../../../../catalogue/conversion";
+import { SimpleRelease } from "../../../../../catalogue/simple-types";
+import GfmMarkdown from "../../../../../components/ui/gfm-markdown";
 import { TabBody } from "./plugin-content-common"
 import { PluginReleaseBodyButton } from "./plugin-content-releases-body";
 import { PrettySize } from "./utils";
 
-function PluginReleasePageButton({release}: {release: ReleaseInfo}) {
-  const version = release.meta.version
+async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
+  const version = release.version
   const tooltip = `Visit external release page for v${version}`
   return (
     <Tooltip label={tooltip}>
@@ -24,8 +27,8 @@ function PluginReleasePageButton({release}: {release: ReleaseInfo}) {
   )
 }
 
-export function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
-  const t = useTranslations('page.plugin.releases');
+export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
+  const t = await getTranslations('page.plugin.releases')
 
   const titles = (
     <TableTr>
@@ -40,6 +43,7 @@ export function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const rows = plugin.release.releases.map((ri) => {
     const version = ri.meta.version
     const date = new Date(ri.asset.created_at)
+    const sr = createSimpleRelease(ri)
     return (
       <TableTr key={ri.tag_name}>
         <TableTd className="whitespace-nowrap">{version}</TableTd>
@@ -57,9 +61,14 @@ export function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
         <TableTd>{ri.asset.download_count}</TableTd>
         <TableTd>
           <div className="flex flex-row gap-2">
-            <PluginDownloadButton release={ri}/>
-            <PluginReleaseBodyButton release={ri}/>
-            <PluginReleasePageButton release={ri}/>
+            <PluginDownloadButton release={sr}/>
+            <PluginReleaseBodyButton version={version}>
+              {/* SSR, no need to dynamic */}
+              <GfmMarkdown allowEmbedHtml>
+                {ri.description || ''}
+              </GfmMarkdown>
+            </PluginReleaseBodyButton>
+            <PluginReleasePageButton release={sr}/>
           </div>
         </TableTd>
       </TableTr>

@@ -24,6 +24,7 @@ export interface SimplePlugin {
 
 export interface SimpleRelease {
   version: string
+  url: string
   assetName: string
   assetUrl: string
 }

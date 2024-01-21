@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from "@/common/navigation";
-import { Tabs } from "@mantine/core";
+import { Skeleton, Tabs } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 import { tabKeys } from "./plugin-content-common";
@@ -37,9 +37,12 @@ function ParamsConnectedPluginContentTabs({children, ...tabProps}: {children: Re
 
 export function PluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [_: string]: any}) {
   const suspenseFallback = (
-    <Tabs defaultValue={firstTab} {...tabProps}>
-      {children}
-    </Tabs>
+    <div className="flex flex-col gap-3 pt-2">
+      <p>DEBUG: Loading PluginContentTabs</p>
+      <Skeleton height="0.8rem"/>
+      <Skeleton height="0.8rem" width="50%"/>
+      <Skeleton height="0.8rem" width="70%"/>
+    </div>
   )
   return (
     <>

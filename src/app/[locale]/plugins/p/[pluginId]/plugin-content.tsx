@@ -1,7 +1,7 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import CommonCard from "@/components/ui/common-card";
 import { rem, ScrollArea, TabsList, TabsPanel, TabsTab } from "@mantine/core";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import React from "react";
 import { tabConfig } from "./plugin-content-common";
 import { PluginContentDependencies } from "./plugin-content-dependencies";
@@ -10,8 +10,8 @@ import { PluginContentReadme } from "./plugin-content-readme";
 import { PluginContentReleases } from "./plugin-content-releases";
 import { PluginContentTabs } from "./plugin-content-tabs";
 
-export function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
-  const t = useTranslations('page.plugin.tabs');
+export async function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
+  const t = await getTranslations('page.plugin.tabs');
 
   const tabTitle = (text: string, icon: React.ReactNode) => (
     <div className="flex items-center gap-1.5 justify-center mb-0.5 mt-0.5 pr-1">

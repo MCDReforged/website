@@ -33,6 +33,7 @@ export function createSimplePlugin(plugin: AllOfAPlugin): SimplePlugin {
 export function createSimpleRelease(release: ReleaseInfo): SimpleRelease {
   return {
     version: release.meta.version,
+    url: release.url,
     assetName: release.asset.name,
     assetUrl: release.asset.browser_download_url,
   }

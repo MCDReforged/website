@@ -3,7 +3,7 @@ import GfmMarkdown from "@/components/ui/gfm-markdown";
 import React from "react";
 import { TabBody } from "./plugin-content-common";
 
-export function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
+export async function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
   const readme = plugin.repository.readme
   return (
     <TabBody>
