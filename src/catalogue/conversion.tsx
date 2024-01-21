@@ -11,7 +11,7 @@ export function createSimplePlugin(plugin: AllOfAPlugin): SimplePlugin {
       latestDate = date
     }
   })
-  const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
+  const latestRelease = plugin.release.releases[plugin.release.latest_version_index ?? -1]
   const latestSimpleRelease: SimpleRelease | undefined = latestRelease === undefined ? undefined : createSimpleRelease(latestRelease)
 
   const repos = plugin.plugin.repository.replace(/\/$/, '')

@@ -11,7 +11,7 @@ const DynamicPipInstallCodeHighlight = dynamic(
 
 export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
   const t = useTranslations('page.plugin.dependencies')
-  const latestRelease = plugin.release.releases[plugin.release.latest_version_index]
+  const latestRelease = plugin.release.releases[plugin.release.latest_version_index ?? -1]
   const meta = latestRelease !== undefined ? latestRelease.meta : plugin.meta
   const metaSource = latestRelease !== undefined ? `Latest release v${meta.version}` : `${plugin.plugin.branch} branch`
 
