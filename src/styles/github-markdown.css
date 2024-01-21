@@ -52,7 +52,7 @@
   /* mantine modified starts */
   --color-fg-muted: #b5bdc5;
   --color-fg-subtle: #9fa6b0;
-  --color-canvas-default: var(--mantine-color-default);
+  --color-canvas-default: #00000000;
   --color-canvas-subtle: var(--mantine-color-dark-7);
   --color-border-default: var(--mantine-color-default-border);
   --color-border-muted: var(--mantine-color-default-border);
@@ -107,7 +107,9 @@
   --color-fg-default: #1F2328;
   --color-fg-muted: #656d76;
   --color-fg-subtle: #6e7781;
-  --color-canvas-default: #ffffff;
+  /* mantine modified starts */
+  --color-canvas-default: #00000000;
+  /* mantine modified ends */
   --color-canvas-subtle: #f6f8fa;
   --color-border-default: #d0d7de;
   --color-border-muted: hsla(210,18%,87%,1);
