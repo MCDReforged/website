@@ -54,7 +54,7 @@ export default async function RootLayout({
               <Navbar/>
             </NextIntlClientProvider>
 
-            <main className="flex-grow">
+            <main className="flex-grow pt-[56px]"> {/* 56px for navbar */}
               {children}
             </main>
 

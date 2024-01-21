@@ -118,7 +118,7 @@ export function Navbar() {
     <>
       <header
         className={clsx(
-          "z-40 flex flex-col sticky h-auto items-center justify-center top-0",
+          "z-40 flex flex-col fixed w-full h-[56px] items-center justify-center top-0",
           "border-solid border-b", styles.navBorderColor,
           styles.header,
         )}
