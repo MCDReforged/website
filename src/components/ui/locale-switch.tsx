@@ -21,7 +21,7 @@ export function LocaleSwitch() {
     if (newLocale !== selectedLocale) {
       setSelectedLocale(newLocale)
       startTransition(() => {
-        router.push(pathname, {locale: newLocale})
+        router.push(pathname, {locale: newLocale, scroll: false})
       })
     }
   }

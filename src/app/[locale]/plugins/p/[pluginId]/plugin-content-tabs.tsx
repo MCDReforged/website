@@ -25,7 +25,7 @@ function ParamsConnectedPluginContentTabs({children, ...tabProps}: {children: Re
         if (value !== null && value !== searchParams.get('tab')) {
           const params = new URLSearchParams(Array.from(searchParams.entries()))
           params.set('tab', value)
-          router.replace(`${pathname}?${params}`)
+          router.replace(`${pathname}?${params}`, {scroll: false})
         }
       }}
       {...tabProps}
