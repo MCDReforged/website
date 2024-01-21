@@ -58,7 +58,7 @@ export async function getSimpleEverything(): Promise<SimpleEverything> {
     plugins: {},
   }
   Object.entries(everything.plugins).forEach(([pluginId, plugin], _) => {
-    simpleEverything.plugins[pluginId] = createSimplePlugin(plugin)
+    simpleEverything.plugins[pluginId] = createSimplePlugin(plugin, everything.authors)
   })
   return simpleEverything
 }

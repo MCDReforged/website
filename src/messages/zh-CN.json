@@ -19,7 +19,7 @@
       "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具"
     },
     "plugin_list": {
-      "side_bar": {
+      "sidebar": {
         "plugin_filter": "插件筛选",
         "plugin_filter_name": "插件 ID / 插件名",
         "plugin_filter_author": "插件作者",
@@ -45,10 +45,20 @@
       },
       "plugin_card": {
         "last_update": "上次更新：{time_ago}",
-        "total_downloads": "总下载数"
+        "total_downloads": "总下载量"
       }
     },
     "plugin": {
+      "sidebar": {
+        "author": "作者",
+        "repository": "代码仓库",
+        "homepage": "插件主页",
+        "last_update": "上次更新",
+        "latest_version": "最新版本",
+        "total_downloads": "总下载量",
+        "sync_at": "数据同步于",
+        "back_button": "返回插件仓库"
+      },
       "tabs": {
         "introduction": "介绍",
         "readme": "自述文件",

@@ -1,31 +1,19 @@
-import { AuthorInfo, AuthorSummary } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
 import CommonCard from "@/components/ui/common-card";
+import { DynamicGfmMarkdown } from "@/components/ui/dynamic-gfm-markdown";
+import { PluginAuthorList } from "@/components/ui/plugin/plugin-author";
 import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils"
-import { formatTime, toTimeAgo } from "@/utils/time-utils";
-import { ActionIcon, Text, Tooltip } from "@mantine/core";
-import { IconDownload, IconFileDownload, IconRefresh } from "@tabler/icons-react";
+import { formatTime, getTimeAgo } from "@/utils/time-utils";
+import { ActionIcon, Tooltip } from "@mantine/core";
+import { IconDownload, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from 'react';
-import { DynamicGfmMarkdown } from "../../../components/ui/dynamic-gfm-markdown";
-import styles from './plugin-card.module.css'
-
-function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
-  if (author === undefined) {
-    return null
-  }
-  return (
-    <Link href={author.link} className="text-foreground text-sm mx-1 hover:text-primary">
-      {author.name}
-    </Link>
-  )
-}
 
 function PluginCardDownloadButtonDisabled() {
   return (
@@ -39,10 +27,7 @@ function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginN
   return (
     <NaLink
       href={`/plugins/p/${pluginId}`}
-      className={clsx(
-        "text-2xl font-bold text-foreground break-words hover:text-primary ml-1 mr-5",
-        styles.pluginLink,
-      )}
+      className="text-2xl font-bold text-foreground break-words hover:text-mantine-primary-7 ml-1 mr-5"
     >
       {pluginName}
     </NaLink>
@@ -66,8 +51,7 @@ function SmallStats({Icon, text, tooltip}: {Icon: typeof IconRefresh, text: any,
   )
 }
 
-export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: AuthorSummary}) {
-  const authorCount = plugin.authors.length
+export function PluginCard({plugin}: {plugin: SimplePlugin}) {
   const release = plugin.latestRelease
 
   const locale = useLocale()
@@ -84,22 +68,16 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
     <PluginDownloadButton release={release}/>:
     <PluginCardDownloadButtonDisabled/>
 
-  const sinceLastUpdate = toTimeAgo(plugin.recentUpdated, locale) || 'N/A'
+  const sinceLastUpdate = getTimeAgo(plugin.recentUpdated, locale) || 'N/A'
   const lastUpdateDisplay = t('last_update', {time_ago: formatTime(plugin.recentUpdated, 'LL', locale) || 'N/A'})
-
   return (
     <CommonCard className="flex flex-col">
       <div className="flex items-baseline justify-between mb-2 flex-col sm:flex-row">
-        <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name} />
+        <PluginCardPluginLink pluginId={plugin.id} pluginName={plugin.name}/>
 
         <div className="flex items-baseline">
-          <Text size="sm" c="gray">by</Text>
-          {plugin.authors.map((author, index) =>
-            <React.Fragment key={index}>
-              <PluginAuthor author={authors.authors[author]}/>
-              <p>{index < authorCount - 1 && ','}</p>
-            </React.Fragment>
-          )}
+          <p className={clsx("text-mantine-gray-text text-sm mr-1")}>by</p>
+          <PluginAuthorList authors={plugin.authors} textClassName="text-sm"/>
         </div>
       </div>
 
@@ -117,7 +95,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               <div className="flex flex-row gap-3 self-end">
-                <SmallStats Icon={IconRefresh} text={sinceLastUpdate} tooltip={lastUpdateDisplay}/>
+                <SmallStats Icon={IconReload} text={sinceLastUpdate} tooltip={lastUpdateDisplay}/>
                 <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip={t('total_downloads')}/>
               </div>
               <div className="flex gap-2">

@@ -4,16 +4,16 @@ import { SimpleEverything } from "@/catalogue/simple-types";
 import CommonCard from "@/components/ui/common-card";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
+import { getTimeAgo } from "@/utils/time-utils";
 import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
 import { IconDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useContext } from "react";
-import { toTimeAgo } from "../../../utils/time-utils";
 import { DisplayStrategyContextValue, filterPlugins, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 
-function SideBarCard({children}: {children: React.ReactNode}) {
+function SidebarCard({children}: {children: React.ReactNode}) {
   return (
     <CommonCard className="p-5 overflow-hidden">
       <div className="flex flex-col gap-5">
@@ -49,7 +49,7 @@ function FilterTextInput({Icon, onChanged, label, placeholder}: {
 }
 
 function ControlCard({everything}: { everything: SimpleEverything }) {
-  const t = useTranslations('page.plugin_list.side_bar')
+  const t = useTranslations('page.plugin_list.sidebar')
   const {ds, setDs} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const allPlugins = Object.values(everything.plugins)
   const filteredPlugins = filterPlugins(allPlugins, ds)
@@ -76,7 +76,7 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
   }
 
   return (
-    <SideBarCard>
+    <SidebarCard>
       <CardSection title={t('plugin_filter')} className="gap-0.5">
         <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} label={t('plugin_filter_name')} placeholder="qbm"/>
         <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} label={t('plugin_filter_author')} placeholder="fallen"/>
@@ -115,7 +115,7 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
           onChange={event => onSortReversedCheckboxSet(event.currentTarget.checked)}
         />
       </CardSection>
-    </SideBarCard>
+    </SidebarCard>
   )
 }
 
@@ -129,22 +129,22 @@ function StatItem({Icon, text}: {Icon: typeof IconRefresh, text: any}) {
 }
 
 function StatsCard({everything}: { everything: SimpleEverything }) {
-  const t = useTranslations('page.plugin_list.side_bar');
+  const t = useTranslations('page.plugin_list.sidebar');
   const allPlugins = Object.values(everything.plugins)
   const pluginAmount = allPlugins.length
   const authorAmount = everything.authors.amount
   const downloadSum = allPlugins.reduce((s, plugin) => s + plugin.downloads, 0)
-  const syncTimeAgo = toTimeAgo(new Date(everything.timestamp * 1000), useLocale())
+  const syncTimeAgo = getTimeAgo(new Date(everything.timestamp * 1000), useLocale())
 
   return (
-    <SideBarCard>
+    <SidebarCard>
       <CardSection title={t('stats')} className="gap-1">
         <StatItem Icon={IconRefresh} text={t('sync_at', {date: syncTimeAgo})}/>
         <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
         <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
         <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>
       </CardSection>
-    </SideBarCard>
+    </SidebarCard>
   )
 }
 

@@ -1,4 +1,4 @@
-import { AuthorSummary, LangDict } from "@/catalogue/meta-types";
+import { AuthorInfo, AuthorSummary, LangDict } from "@/catalogue/meta-types";
 
 export interface SimpleEverything {
   timestamp: number
@@ -16,7 +16,7 @@ export interface SimplePlugin {
   repos: string
   reposHome: string
   labels: string[]
-  authors: string[]
+  authors: AuthorInfo[]
   downloads: number
   recentUpdated: Date | undefined
   latestRelease: SimpleRelease | undefined

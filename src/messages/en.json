@@ -32,7 +32,7 @@
       "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server"
     },
     "plugin_list": {
-      "side_bar": {
+      "sidebar": {
         "plugin_filter": "Plugin Filter",
         "plugin_filter_name": "ID / Name",
         "plugin_filter_author": "Author",
@@ -62,6 +62,16 @@
       }
     },
     "plugin": {
+      "sidebar": {
+        "author": "Author",
+        "repository": "Repository",
+        "homepage": "Homepage",
+        "last_update": "Last update",
+        "latest_version": "Lastest version",
+        "total_downloads": "Total downloads",
+        "sync_at": "Synced at",
+        "back_button": "Back to catalogue"
+      },
       "tabs": {
         "introduction": "Introduction",
         "readme": "README",

@@ -41,7 +41,7 @@
 }
 
 @media (hover: hover) {
-  .color-link:hover {
-    text-decoration:underline
+  .color-link:hover, .underline-hover:hover {
+    text-decoration: underline
   }
 }

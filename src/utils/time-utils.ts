@@ -1,7 +1,7 @@
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
-export function toTimeAgo(date?: Date, locale?: string): string | undefined {
+export function getTimeAgo(date?: Date, locale?: string): string | undefined {
   moment.locale(locale?.toLowerCase())
   return date === undefined ? undefined : moment(date).fromNow();
 }

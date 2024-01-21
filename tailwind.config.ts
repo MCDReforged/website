@@ -9,7 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'mantine-primary-7': 'var(--mantine-primary-color-7)',
+        'mantine-primary': 'var(--mantine-primary-color-filled)',
+        'mantine-dark-text': 'var(--mantine-color-dark-text)',
+        'mantine-gray-text': 'var(--mantine-color-gray-text)',
         'mantine-text': 'var(--mantine-color-text)',
+
         'mantine-hover': 'var(--mantine-color-default-hover)',
         'mantine-border': 'var(--mantine-color-default-border)',
         'mantine-background': 'var(--mantine-color-default)',   // for cards, menus
@@ -17,8 +22,7 @@ const config: Config = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       spacing: {
         'navbar-height': '56px',

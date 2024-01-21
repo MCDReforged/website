@@ -61,7 +61,7 @@ export function PluginList({everything}: {everything: SimpleEverything}) {
       <Pager/>
       <div className="gap-4 flex flex-col w-full">
         {paginatedPlugins.map(plugin => {
-          return <PluginCard key={plugin.id} plugin={plugin} authors={everything.authors}/>
+          return <PluginCard key={plugin.id} plugin={plugin}/>
         })}
       </div>
       <Pager/>

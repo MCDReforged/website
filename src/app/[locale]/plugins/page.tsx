@@ -29,7 +29,7 @@ export default async function Page({params: {locale}}: {params: {locale: string}
           <div className="flex md:hidden">
             <Divider className="w-full m-6" variant="dashed"/>
           </div>
-          <div className="md:pl-[19rem]">
+          <div className="md:pl-[18rem]">
             <PluginList everything={everything}/>
           </div>
         </DisplayStrategyContextProvider>

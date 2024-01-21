@@ -45,7 +45,7 @@ export function filterPlugins(plugins: SimplePlugin[], ds: DisplayStrategy) {
     }
     if (ds.authorKeyword !== '') {
       const kw = ds.authorKeyword.toLowerCase()
-      const filtered = plugin.authors.filter((author) => isSubsequence(kw, author.toLowerCase()))
+      const filtered = plugin.authors.filter((author) => isSubsequence(kw, author.name.toLowerCase()))
       if (filtered.length === 0) {
         return false
       }

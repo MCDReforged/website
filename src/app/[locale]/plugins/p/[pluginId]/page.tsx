@@ -23,19 +23,21 @@ export async function generateStaticParams() {
   })
 }
 
-export default async function Page({params}: { params: { pluginId: string } }) {
-  const plugin = await getPlugin(params.pluginId)
+export default async function Page({params: {locale, pluginId}}: { params: { pluginId: string, locale: string } }) {
+  const everything = await getEverything()
+  const plugin = everything.plugins[pluginId]
+
   return (
-    <div>
+    <>
       <div className="md:fixed md:w-[18rem] md:h-[calc(100vh-5rem)] md:overflow-y-auto">
-        <Sidebar plugin={createSimplePlugin(plugin)}/>
+        <Sidebar plugin={plugin} simplePlugin={createSimplePlugin(plugin, everything.authors)}/>
       </div>
       <div className="flex md:hidden">
         <Divider className="w-full m-6" variant="dashed"/>
       </div>
-      <div className="md:pl-[19rem]">
+      <div className="md:pl-[18rem]">
         <PluginContent plugin={plugin}/>
       </div>
-    </div>
+    </>
   )
 }

@@ -1,14 +1,14 @@
+import { createSimpleRelease } from "@/catalogue/conversion";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
+import { SimpleRelease } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
+import GfmMarkdown from "@/components/ui/gfm-markdown";
 import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
 import { formatTime } from "@/utils/time-utils";
 import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import React from "react";
-import { createSimpleRelease } from "../../../../../catalogue/conversion";
-import { SimpleRelease } from "../../../../../catalogue/simple-types";
-import GfmMarkdown from "../../../../../components/ui/gfm-markdown";
 import { TabBody } from "./plugin-content-common"
 import { PluginReleaseBodyButton } from "./plugin-content-releases-body";
 import { PrettySize } from "./utils";
