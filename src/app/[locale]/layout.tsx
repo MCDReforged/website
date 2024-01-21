@@ -47,14 +47,14 @@ export default async function RootLayout({
       </head>
       <body>
         <MantineThemeProvider>
-          <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
+          <div className={clsx("relative flex flex-col min-h-screen", "scrollbar-shift-fix", styles.mainContainer)}>
             <RouterTransition/>
 
             <NextIntlClientProvider locale={locale} messages={pick(messages, 'layout.nav_bar')}>
               <Navbar/>
             </NextIntlClientProvider>
 
-            <main className="flex-grow pt-[56px]"> {/* 56px for navbar */}
+            <main className="flex-grow pt-navbar-height">
               {children}
             </main>
 

@@ -5,7 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+.scrollbar-shift-fix {
   /* https://stackoverflow.com/questions/1417934/how-to-prevent-scrollbar-from-repositioning-web-page/39289453#39289453 */
   overflow-x: hidden;
   margin-right: calc(100% - 100vw);

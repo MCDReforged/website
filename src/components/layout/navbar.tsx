@@ -83,18 +83,51 @@ function BurgerNavMenuSwitch({className, opened, toggleOpened}: {className?: str
   )
 }
 
-function MobileNavMenu({className, opened, setClosed}: { className?: string, opened: boolean, setClosed: () => void}) {
+function DesktopNavBar({className, navOpened, navToggle}: { className?: string, navOpened: boolean, navToggle: () => void}) {
+  // < 340px:   = [] OOO
+  // < sm   :   = []MCDR   OOO
+  // >= sm  :   = []MCDR xxx    OOO
+  return (
+    <div className={clsx(
+      className,
+      "flex flex-row flex-nowrap gap-4 items-center justify-between",
+      "max-w-screen-xl w-full px-4 sm:px-6",
+    )}>
+      <BurgerNavMenuSwitch className="sm:hidden" opened={navOpened} toggleOpened={navToggle}/>
+
+      <div className="gap-3 justify-start max-sm:grow">
+        <NaLink className="flex items-center gap-1" color="foreground" href="/">
+          <McdrLogo size={36}/>
+          <p className="hidden min-[340px]:block font-bold text-inherit">MCDReforged</p>
+        </NaLink>
+      </div>
+
+      <div className="hidden sm:flex gap-2 justify-start ml-2 grow">
+        {navItems.map((item) => <NavbarLink key={item.href} item={item} showIcon={false}/>)}
+      </div>
+
+      <div className="justify-end flex gap-2 items-center">
+        <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
+          <GithubIcon className="text-default-500"/>
+        </Link>
+        <LocaleSwitch/>
+        <ThemeSwitch/>
+      </div>
+    </div>
+  )
+}
+
+function MobileNavMenu({navOpened, setClosed}: {  navOpened: boolean, setClosed: () => void}) {
   return (
     <Box
       className={clsx(
-        className,
-        "max-w-screen-xl w-full py-3 px-6",
-        "border-solid border-t", styles.navBorderColor,
+        "fixed top-navbar-height w-full py-3 px-6",
+        "border-solid border-b", styles.navBorderColor,
         styles.mobileNavMenu,
       )}
-      mod={{hidden: !opened}}
+      mod={{hidden: !navOpened}}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 max-w-screen-xl mx-auto">
         {navItems.map((item) => (
           <NavbarLink
             key={item.href} item={item}
@@ -110,46 +143,20 @@ function MobileNavMenu({className, opened, setClosed}: { className?: string, ope
 
 export function Navbar() {
   const [navOpened, navOpener] = useDisclosure(false);
-
-  // < 340px:   = [] OOO
-  // < sm   :   = []MCDR   OOO
-  // >= sm  :   = []MCDR xxx    OOO
   return (
     <>
       <header
         className={clsx(
-          "z-40 flex flex-col fixed w-full h-[56px] items-center justify-center top-0",
+          "z-40 top-0 w-full h-navbar-height",
+          "flex flex-row fixed items-center justify-center",
           "border-solid border-b", styles.navBorderColor,
-          styles.header,
+          "bg-mantine-background-body",
         )}
       >
-        <div className={clsx(
-          "flex flex-row flex-nowrap gap-4 items-center justify-between",
-          "max-w-screen-xl w-full h-[3.5rem] px-2 sm:px-6",
-        )}>
-          <BurgerNavMenuSwitch className="sm:hidden" opened={navOpened} toggleOpened={navOpener.toggle}/>
-
-          <div className="gap-3 justify-start max-sm:grow">
-            <NaLink className="flex items-center gap-1" color="foreground" href="/">
-              <McdrLogo size={36}/>
-              <p className="hidden min-[340px]:block font-bold text-inherit">MCDReforged</p>
-            </NaLink>
-          </div>
-
-          <div className="hidden sm:flex gap-2 justify-start ml-2 grow">
-            {navItems.map((item) => <NavbarLink key={item.href} item={item} showIcon={false}/>)}
-          </div>
-
-          <div className="justify-end flex gap-2 items-center">
-            <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
-              <GithubIcon className="text-default-500"/>
-            </Link>
-            <LocaleSwitch/>
-            <ThemeSwitch/>
-          </div>
+        <div className="scrollbar-shift-fix grow flex flex-col items-center">
+          <DesktopNavBar navOpened={navOpened} navToggle={navOpener.toggle}/>
+          <MobileNavMenu navOpened={navOpened} setClosed={navOpener.close}/>
         </div>
-
-        <MobileNavMenu opened={navOpened} setClosed={navOpener.close}/>
       </header>
 
     </>
