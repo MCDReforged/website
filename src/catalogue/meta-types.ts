@@ -29,6 +29,7 @@ export interface AllOfAPlugin {
   meta: MetaInfo
   plugin: PluginInfo
   release: ReleaseSummary
+  repository: RepositoryInfo
 }
 
 export interface MetaInfo {
@@ -56,8 +57,8 @@ export interface PluginInfo {
 
 export interface ReleaseSummary {
   id: string
-  latest_version: string
-  latest_version_index: number
+  latest_version: string | null
+  latest_version_index: number | null
   releases: ReleaseInfo[]
 }
 
@@ -67,7 +68,7 @@ export interface ReleaseInfo {
   tag_name: string
   created_at: string
 
-  description: string
+  description: string | null
   prerelease: string
 
   asset: AssetInfo
@@ -80,4 +81,20 @@ export interface AssetInfo {
   download_count: number
   created_at: string
   browser_download_url: string
+}
+
+export interface RepositoryInfo {
+	timestamp: number
+
+	url: string
+	name: string
+	full_name: string
+	description: string | null
+	archived: boolean
+
+	stargazers_count: number
+	watchers_count: number
+	forks_count: number
+
+	readme: string | null
 }
