@@ -1,5 +1,3 @@
-'use server'
-
 import { fetchReadme } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { DynamicGfmMarkdown } from "@/components/ui/dynamic-gfm-markdown";
