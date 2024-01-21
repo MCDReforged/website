@@ -1,16 +1,18 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import { DynamicGfmMarkdown } from "@/components/ui/dynamic-gfm-markdown";
+import GfmMarkdown from "@/components/ui/gfm-markdown";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { useLocale } from "next-intl";
 import React from "react";
 import { TabBody } from "./plugin-content-common";
 
 export function PluginContentIntroduction({plugin}: { plugin: AllOfAPlugin }) {
+  const introduction = translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''
   return (
     <TabBody>
-      <DynamicGfmMarkdown allowEmbedHtml>
-        {translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''}
-      </DynamicGfmMarkdown>
+      {/* SSR, no need to use DynamicGfmMarkdown */}
+      <GfmMarkdown allowEmbedHtml>
+        {introduction}
+      </GfmMarkdown>
     </TabBody>
   )
 }

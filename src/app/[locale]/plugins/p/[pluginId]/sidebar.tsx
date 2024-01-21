@@ -2,12 +2,14 @@ import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink, Link } from "@/common/navigation";
 import { GithubIcon } from "@/components/icons";
 import CommonCard from "@/components/ui/common-card";
+import GfmMarkdown from "@/components/ui/gfm-markdown";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { formatTime } from "@/utils/time-utils";
 import { Button, Tooltip } from "@mantine/core";
 import { IconArrowBackUp, IconHome2 } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
+import React from "react";
 import styles from './sidebar.module.css'
 
 function SidebarBackButton() {
@@ -24,6 +26,13 @@ function SidebarBackButton() {
   )
 }
 
+function PluginDescription({description}: {description: string}) {
+  // SSR, no need to use DynamicGfmMarkdown
+  return (
+    <GfmMarkdown dgmVariant="tiny">{description}</GfmMarkdown>
+  )
+}
+
 export function Sidebar({plugin}: {plugin: SimplePlugin}) {
   const locale = useLocale()
   return (
@@ -31,7 +40,7 @@ export function Sidebar({plugin}: {plugin: SimplePlugin}) {
       <CommonCard className="p-5">
         <div className="flex flex-col gap-3 break-words">
           <p className="text-2xl font-semibold">{plugin.name}</p>
-          <p>{translateLangDict(locale, plugin.description) || ''}</p>
+          <PluginDescription description={translateLangDict(locale, plugin.description) || ''}/>
           <div className="flex flex-row flex-wrap gap-1">
             {plugin.labels.map(label => (
               <div key={label} className="">

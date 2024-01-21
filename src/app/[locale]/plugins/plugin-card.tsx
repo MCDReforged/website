@@ -13,6 +13,7 @@ import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from 'react';
+import { DynamicGfmMarkdown } from "../../../components/ui/dynamic-gfm-markdown";
 import styles from './plugin-card.module.css'
 
 function PluginAuthor({author}: {author: AuthorInfo | undefined}) {
@@ -45,6 +46,12 @@ function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginN
     >
       {pluginName}
     </NaLink>
+  )
+}
+
+function PluginCardDescription({description}: {description: string}) {
+  return (
+    <DynamicGfmMarkdown dgmVariant="tiny">{description}</DynamicGfmMarkdown>
   )
 }
 
@@ -99,7 +106,7 @@ export function PluginCard({plugin, authors}: {plugin: SimplePlugin, authors: Au
       <div className="grow w-full">
         <div className="col-span-5 flex flex-col justify-between">
           <div className="mb-3 ml-1 min-h-[25px]">
-            {translateLangDict(locale, plugin.description, true) || ''}
+            <PluginCardDescription description={translateLangDict(locale, plugin.description, true) || ''}/>
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-2">

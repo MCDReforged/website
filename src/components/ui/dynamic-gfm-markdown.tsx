@@ -8,7 +8,7 @@ import React from "react";
 // workaround for https://github.com/vercel/next.js/issues/17464
 import "@/styles/github-markdown.css"
 
-const DynamicGfmMarkdownImpl = dynamic(
+const DynamicGfmMarkdownLarge = dynamic(
   () => import('@/components/ui/gfm-markdown'),
   {
     loading: () => (
@@ -21,10 +21,40 @@ const DynamicGfmMarkdownImpl = dynamic(
   }
 )
 
-export function DynamicGfmMarkdown({children, ...markdownProps}: {children: string, [_: string]: any}) {
-  return (
-    <DynamicGfmMarkdownImpl {...markdownProps}>
-      {children}
-    </DynamicGfmMarkdownImpl>
-  )
+const TinyMarkdownChildrenContext = React.createContext('')
+
+function TinyMarkdownLiteralFallback() {
+  const content = React.useContext(TinyMarkdownChildrenContext)
+  return <p>{content}</p>
+}
+
+const DynamicGfmMarkdownTiny = dynamic(
+  () => import('@/components/ui/gfm-markdown'),
+  {
+    loading: TinyMarkdownLiteralFallback,
+  }
+)
+
+interface DynamicGfmMarkdownProps {
+  dgmVariant?: 'large' | 'tiny' | undefined
+  children: string
+  [_: string]: any
+}
+
+export function DynamicGfmMarkdown({dgmVariant, children, ...markdownProps}: DynamicGfmMarkdownProps) {
+  if (dgmVariant === 'tiny') {
+    return (
+      <TinyMarkdownChildrenContext.Provider value={children}>
+        <DynamicGfmMarkdownTiny {...markdownProps}>
+          {children}
+        </DynamicGfmMarkdownTiny>
+      </TinyMarkdownChildrenContext.Provider>
+    )
+  } else {
+    return (
+      <DynamicGfmMarkdownLarge {...markdownProps}>
+        {children}
+      </DynamicGfmMarkdownLarge>
+    )
+  }
 }
