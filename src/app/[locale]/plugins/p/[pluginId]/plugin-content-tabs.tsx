@@ -1,56 +1,64 @@
 'use client'
 
 import { usePathname, useRouter } from "@/common/navigation";
-import { Skeleton, Tabs } from "@mantine/core";
+import { Tabs } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { tabKeys } from "./plugin-content-common";
 
 const firstTab = tabKeys[0]
 
-function ParamsConnectedPluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [_: string]: any}) {
+interface SearchParamsReader {
+  setInitTabValue: (v: string) => void
+  newTabValue?: string
+}
+
+// useSearchParams needs a Suspense wrapper for SSR,
+// and here comes the wrapper component
+function SearchParamsReader({setInitTabValue, newTabValue}: SearchParamsReader) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter(false)
 
-  let defaultTab = searchParams.get('tab') || firstTab
-  if (!tabKeys.includes(defaultTab)) {
-    defaultTab = firstTab
-  }
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab && tabKeys.includes(tab)) {
+      setInitTabValue(tab)
+    }
+  }, [searchParams, setInitTabValue]);
 
-  return (
-    <Tabs
-      defaultValue={defaultTab}
-      onChange={(value) => {
-        if (value !== null && value !== searchParams.get('tab')) {
-          const params = new URLSearchParams(Array.from(searchParams.entries()))
-          params.set('tab', value)
-          router.replace(`${pathname}?${params}`, {scroll: false})
-        }
-      }}
-      {...tabProps}
-    >
-      {children}
-    </Tabs>
-  )
+  useEffect(() => {
+    if (newTabValue !== undefined && newTabValue !== searchParams.get('tab')) {
+      const params = new URLSearchParams(Array.from(searchParams.entries()))
+      params.set('tab', newTabValue)
+      router.replace(`${pathname}?${params}`)
+    }
+  }, [searchParams, pathname, router, newTabValue])
+
+  return <></>
 }
 
-export function PluginContentTabs({children, ...tabProps}: {children: React.ReactNode, [_: string]: any}) {
-  const suspenseFallback = (
-    <div className="flex flex-col gap-3 pt-2">
-      <p>DEBUG: Loading PluginContentTabs</p>
-      <Skeleton height="0.8rem"/>
-      <Skeleton height="0.8rem" width="50%"/>
-      <Skeleton height="0.8rem" width="70%"/>
-    </div>
-  )
+export function PluginContentTabs({children, ...props}: {children: React.ReactNode, [key: string]: any}) {
+  const [initTabValue, setInitTabValue] = useState<string | undefined>(firstTab)
+  const [newTabValue, setNewTabValue] = useState<string | undefined>(undefined)
+
   return (
     <>
-      <Suspense fallback={suspenseFallback}>
-        <ParamsConnectedPluginContentTabs {...tabProps}>
-          {children}
-        </ParamsConnectedPluginContentTabs>
+      <Suspense>
+        <SearchParamsReader setInitTabValue={setInitTabValue} newTabValue={newTabValue}/>
       </Suspense>
+      <Tabs
+        value={initTabValue}
+        defaultValue={initTabValue}
+        onChange={(value) => {
+          if (value !== null) {
+            setNewTabValue(value)
+          }
+        }}
+        {...props}
+      >
+        {children}
+      </Tabs>
     </>
   )
 }

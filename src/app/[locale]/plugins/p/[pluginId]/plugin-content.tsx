@@ -24,7 +24,7 @@ export async function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
   return (
     <CommonCard className="max-lg:mx-[8px] md:mx-3 pb-6 pt-2">
       <PluginContentTabs>
-        <ScrollArea scrollbars="x" scrollbarSize={5} offsetScrollbars w="full">
+        <ScrollArea scrollbars="x" type="never" offsetScrollbars w="full">
           <TabsList className="flex-nowrap">
             {tabConfig.map((tc) => (
               <TabsTab key={tc.key} value={tc.key}>
