@@ -185,8 +185,8 @@ export const CodeHighlightTabs = factory<CodeHighlightTabsFactory>((_props, ref)
 
   const files = nodes.map((node, index) => (
     <UnstyledButton
-      {...getStyles('file')}
       key={node.fileName}
+      {...getStyles('file')}
       mod={{ active: index === value }}
       onClick={() => setValue(index)}
     >

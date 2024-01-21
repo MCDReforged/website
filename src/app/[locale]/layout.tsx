@@ -45,9 +45,9 @@ export default async function RootLayout({
       <head>
         <ColorSchemeScript/>
       </head>
-      <body>
+      <body className="scrollbar-shift-fix">
         <MantineThemeProvider>
-          <div className={clsx("relative flex flex-col min-h-screen", "scrollbar-shift-fix", styles.mainContainer)}>
+          <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
             <RouterTransition/>
 
             <NextIntlClientProvider locale={locale} messages={pick(messages, 'layout.nav_bar')}>

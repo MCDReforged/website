@@ -11,12 +11,24 @@
   margin-right: calc(100% - 100vw);
 }
 
-/* Make sure all lists in the markdown content have list-style */
+/* ============= Revert tailwind preflight modifications on markdown-body -- starts ============= */
+/* https://tailwindcss.com/docs/preflight#lists-are-unstyled */
 .markdown-body ol, .markdown-body ul {
   list-style: revert;
 }
 
-/* Make buttons still */
+.markdown-body img, .markdown-body video {
+  /* https://tailwindcss.com/docs/preflight#images-are-block-level */
+  display: inline;
+  vertical-align: revert;
+
+  /* https://tailwindcss.com/docs/preflight#images-are-constrained-to-the-parent-width */
+  max-width: none;
+  height: initial;
+}
+/* ============= Revert tailwind preflight modifications on markdown-body -- ends ============= */
+
+/* Make mantine buttons still */
 .mantine-active {
   &:active {
     transform: none;

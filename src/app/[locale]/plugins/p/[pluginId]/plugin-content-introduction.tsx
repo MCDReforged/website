@@ -8,7 +8,7 @@ import { TabBody } from "./plugin-content-common";
 export function PluginContentIntroduction({plugin}: { plugin: AllOfAPlugin }) {
   return (
     <TabBody>
-      <DynamicGfmMarkdown>
+      <DynamicGfmMarkdown allowEmbedHtml>
         {translateLangDict(useLocale(), plugin.plugin.introduction, true) || ''}
       </DynamicGfmMarkdown>
     </TabBody>

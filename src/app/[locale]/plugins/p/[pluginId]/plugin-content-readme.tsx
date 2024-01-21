@@ -7,7 +7,7 @@ export function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
   const readme = plugin.repository.readme
   return (
     <TabBody>
-      {readme ? <DynamicGfmMarkdown>{readme}</DynamicGfmMarkdown> : <p>No readme</p>}
+      {readme ? <DynamicGfmMarkdown allowEmbedHtml>{readme}</DynamicGfmMarkdown> : <p>No readme</p>}
     </TabBody>
   )
 }

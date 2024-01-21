@@ -28,7 +28,7 @@ export function PluginReleaseBodyButton({release}: {release: ReleaseInfo}) {
         closeButtonProps={{ 'aria-label': 'Close modal' }}
       >
         <div className="mb-2 mx-2">
-          <DynamicGfmMarkdown>
+          <DynamicGfmMarkdown allowEmbedHtml>
             {release.description || ''}
           </DynamicGfmMarkdown>
         </div>
