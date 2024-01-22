@@ -31,7 +31,7 @@ function SearchParamsReader({setInitTabValue, newTabValue}: SearchParamsReader) 
     if (newTabValue !== undefined && newTabValue !== searchParams.get('tab')) {
       const params = new URLSearchParams(Array.from(searchParams.entries()))
       params.set('tab', newTabValue)
-      router.replace(`${pathname}?${params}`)
+      router.replace(`${pathname}?${params}`, {scroll: false})
     }
   }, [searchParams, pathname, router, newTabValue])
 
