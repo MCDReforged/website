@@ -4,8 +4,8 @@ import { SimpleEverything } from "@/catalogue/simple-types";
 import CommonCard from "@/components/ui/common-card";
 import { PluginLabel } from "@/components/ui/plugin/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
-import { getTimeAgo } from "@/utils/time-utils";
-import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
+import { formatTime, getTimeAgo } from "@/utils/time-utils";
+import { Checkbox, Radio, RadioGroup, Switch, TextInput, Tooltip } from "@mantine/core";
 import { IconDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
@@ -119,27 +119,35 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
   )
 }
 
-function StatItem({Icon, text}: {Icon: typeof IconRefresh, text: any}) {
+function StatItem({Icon, text}: {Icon: typeof IconRefresh, text: React.ReactNode}) {
   return (
     <div className="flex flex-row gap-2 items-center">
       <Icon size={18} strokeWidth={1.5}/>
-      <p>{text}</p>
+      <>{text}</>
     </div>
   )
 }
 
 function StatsCard({everything}: { everything: SimpleEverything }) {
+  const locale = useLocale()
   const t = useTranslations('page.plugin_list.sidebar');
+
   const allPlugins = Object.values(everything.plugins)
   const pluginAmount = allPlugins.length
   const authorAmount = everything.authors.amount
   const downloadSum = allPlugins.reduce((s, plugin) => s + plugin.downloads, 0)
-  const syncTimeAgo = getTimeAgo(new Date(everything.timestamp * 1000), useLocale())
+
+  const syncTimeAgo = getTimeAgo(new Date(everything.timestamp * 1000), locale)
+  const syncTimeFormatted = formatTime(new Date(everything.timestamp * 1000), 'LLL', locale)
 
   return (
     <SidebarCard>
       <CardSection title={t('stats')} className="gap-1">
-        <StatItem Icon={IconRefresh} text={t('sync_at', {date: syncTimeAgo})}/>
+        <StatItem Icon={IconRefresh} text={
+          <Tooltip label={syncTimeFormatted}>
+            <p>{t('sync_at', {date: syncTimeAgo})}</p>
+          </Tooltip>
+        }/>
         <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
         <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
         <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>

@@ -74,7 +74,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
   const lastUpdateFormatted = formatTime(simplePlugin.recentUpdated, 'LL', locale) || 'N/A'
   const lastUpdateAgo = getTimeAgo(simplePlugin.recentUpdated, locale) || 'N/A'
   const syncTimeAgo = getTimeAgo(new Date(timestamp * 1000), locale)
-  const syncTimeFormatted = formatTime(new Date(timestamp * 1000), 'LL', locale)
+  const syncTimeFormatted = formatTime(new Date(timestamp * 1000), 'LLL', locale)
   return (
     <div className="mx-[8px] flex flex-col gap-5">
       <CommonCard className="p-5">
