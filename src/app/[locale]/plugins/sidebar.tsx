@@ -2,8 +2,8 @@
 
 import { SimpleEverything } from "@/catalogue/simple-types";
 import CommonCard from "@/components/common-card";
+import { DynamicTimeAgo } from "@/components/dynamic-time-ago";
 import { PluginLabel } from "@/components/plugin/plugin-label";
-import { TimeAgo } from "@/components/time-ago";
 import { pluginLabels } from "@/config/catalogue";
 import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
 import { IconDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
@@ -140,7 +140,7 @@ function StatsCard({everything}: { everything: SimpleEverything }) {
   return (
     <SidebarCard>
       <CardSection title={t('stats')} className="gap-1">
-        <StatItem Icon={IconRefresh} text={<TimeAgo date={new Date(everything.timestamp * 1000)}/>}/>
+        <StatItem Icon={IconRefresh} text={<DynamicTimeAgo date={new Date(everything.timestamp * 1000)}/>}/>
         <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
         <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
         <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>

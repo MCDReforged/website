@@ -2,11 +2,11 @@ import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
 import CommonCard from "@/components/common-card";
 import { DynamicGfmMarkdown } from "@/components/dynamic-gfm-markdown";
+import { DynamicTimeAgo } from "@/components/dynamic-time-ago";
 import { GithubIcon } from "@/components/icons";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { PluginLabel } from "@/components/plugin/plugin-label";
-import { TimeAgo } from "@/components/time-ago";
 import { translateLangDict } from "@/utils/i18n-utils"
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconDownload, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
@@ -82,7 +82,7 @@ export function PluginCard({plugin}: {plugin: SimplePlugin}) {
     <PluginCardDownloadButtonDisabled/>
 
   const lastUpdateText = plugin.recentUpdated !== undefined
-    ? <TimeAgo date={plugin.recentUpdated}/>
+    ? <DynamicTimeAgo date={plugin.recentUpdated}/>
     : <p>N/A</p>
   return (
     <CommonCard className="flex flex-col">
