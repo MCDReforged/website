@@ -1,6 +1,8 @@
 import { AllOfAPlugin, Everything } from "@/catalogue/meta-types";
 import { SimpleEverything } from "@/catalogue/simple-types";
 import fs from 'fs/promises'
+import { promisify } from "node:util";
+import { gunzip } from "node:zlib";
 import path from "path";
 import { createSimplePlugin } from "./conversion";
 
@@ -30,10 +32,15 @@ async function devReadEverything(): Promise<Everything | null> {
   return null
 }
 
+const gunzipAsync = promisify(gunzip)
+
 export async function fetchEverything(): Promise<Everything> {
-  const url: string = 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json'
-  const res = await fetch(url, fetchInit)
-  return await res.json() as any as Everything
+  const url: string = 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json.gz'
+  const rsp = await fetch(url, fetchInit)
+  const buf = Buffer.from(await rsp.arrayBuffer())
+  const raw = await gunzipAsync(buf);
+  const data = JSON.parse(raw.toString('utf8'))
+  return data as any as Everything
 }
 
 export async function getEverything(): Promise<Everything> {
