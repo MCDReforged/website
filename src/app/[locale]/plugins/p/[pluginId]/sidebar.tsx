@@ -2,11 +2,11 @@ import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink, Link } from "@/common/navigation";
 import CommonCard from "@/components/common-card";
-import { DynamicTimeAgo } from "@/components/dynamic-time-ago";
 import GfmMarkdown from "@/components/gfm-markdown";
 import { GithubIcon } from "@/components/icons";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
+import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
 import { Button, Text } from "@mantine/core";
@@ -34,7 +34,7 @@ async function SidebarBackButton() {
 }
 
 function PluginDescription({description}: {description: string}) {
-  // SSR, no need to use DynamicGfmMarkdown
+  // SSR, no need to use GfmMarkdownDynamic
   return (
     <GfmMarkdown dgmVariant="tiny">{description}</GfmMarkdown>
   )
@@ -73,9 +73,9 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
   const homepage = reposPair + ' @ ' + plugin.plugin.branch
 
   const lastUpdateText = simplePlugin.recentUpdated !== undefined
-    ? <DynamicTimeAgo date={simplePlugin.recentUpdated}/>
+    ? <TimeAgoDynamic date={simplePlugin.recentUpdated}/>
     : <p>N/A</p>
-  const syncTimeText = <DynamicTimeAgo date={new Date(timestamp * 1000)}/>
+  const syncTimeText = <TimeAgoDynamic date={new Date(timestamp * 1000)}/>
 
   return (
     <div className="mx-[8px] flex flex-col gap-5">

@@ -41,7 +41,7 @@ interface DynamicGfmMarkdownProps {
   [_: string]: any
 }
 
-export function DynamicGfmMarkdown({dgmVariant, children, ...markdownProps}: DynamicGfmMarkdownProps) {
+export function GfmMarkdownDynamic({dgmVariant, children, ...markdownProps}: DynamicGfmMarkdownProps) {
   if (dgmVariant === 'tiny') {
     return (
       <TinyMarkdownChildrenContext.Provider value={children}>

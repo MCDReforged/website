@@ -8,7 +8,7 @@ export async function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
   return (
     <TabBody>
       {readme
-        ? <GfmMarkdown allowEmbedHtml>{readme}</GfmMarkdown>  /* SSR, no need to use DynamicGfmMarkdown */
+        ? <GfmMarkdown allowEmbedHtml>{readme}</GfmMarkdown>  /* SSR, no need to use GfmMarkdownDynamic */
         : <p>No readme</p>
       }
     </TabBody>

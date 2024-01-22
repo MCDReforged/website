@@ -9,7 +9,7 @@ export async function PluginContentIntroduction({plugin}: { plugin: AllOfAPlugin
   const introduction = translateLangDict(await getLocale(), plugin.plugin.introduction, true) || ''
   return (
     <TabBody>
-      {/* SSR, no need to use DynamicGfmMarkdown */}
+      {/* SSR, no need to use GfmMarkdownDynamic */}
       <GfmMarkdown allowEmbedHtml>
         {introduction}
       </GfmMarkdown>
