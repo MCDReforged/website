@@ -61,7 +61,7 @@ function AttributeEntry({Icon, label, children, ...containerProps}: AttributeEnt
   )
 }
 
-export async function Sidebar({plugin, simplePlugin}: {plugin: AllOfAPlugin, simplePlugin: SimplePlugin}) {
+export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfAPlugin, simplePlugin: SimplePlugin, timestamp: number}) {
   const locale = useLocale()
   const t = await getTranslations('page.plugin.sidebar')
 
@@ -73,8 +73,8 @@ export async function Sidebar({plugin, simplePlugin}: {plugin: AllOfAPlugin, sim
   const homepageText = reposPair + ' @ ' + plugin.plugin.branch
   const lastUpdateFormatted = formatTime(simplePlugin.recentUpdated, 'LL', locale) || 'N/A'
   const lastUpdateAgo = getTimeAgo(simplePlugin.recentUpdated, locale) || 'N/A'
-  const syncTimeAgo = getTimeAgo(new Date(plugin.timestamp * 1000), locale)
-  const syncTimeFormatted = formatTime(new Date(plugin.timestamp * 1000), 'LL', locale)
+  const syncTimeAgo = getTimeAgo(new Date(timestamp * 1000), locale)
+  const syncTimeFormatted = formatTime(new Date(timestamp * 1000), 'LL', locale)
   return (
     <div className="mx-[8px] flex flex-col gap-5">
       <CommonCard className="p-5">

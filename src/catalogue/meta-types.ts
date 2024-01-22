@@ -25,7 +25,6 @@ export interface AuthorSummary {
 }
 
 export interface AllOfAPlugin {
-  timestamp: number
   meta: MetaInfo
   plugin: PluginInfo
   release: ReleaseSummary
@@ -84,8 +83,6 @@ export interface AssetInfo {
 }
 
 export interface RepositoryInfo {
-	timestamp: number
-
 	url: string
 	name: string
 	full_name: string
