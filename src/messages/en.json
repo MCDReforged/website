@@ -60,7 +60,7 @@
         "download_sum": "Download sum: {n}"
       },
       "plugin_card": {
-        "last_update": "Last update: {time_ago}",
+        "last_update": "Last update",
         "total_downloads": "Total downloads"
       }
     },

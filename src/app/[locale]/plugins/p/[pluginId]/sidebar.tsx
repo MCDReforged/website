@@ -6,10 +6,10 @@ import GfmMarkdown from "@/components/gfm-markdown";
 import { GithubIcon } from "@/components/icons";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
+import { TimeAgo } from "@/components/time-ago";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
-import { formatTime, getTimeAgo } from "@/utils/time-utils";
-import { Button, Text, Tooltip } from "@mantine/core";
+import { Button, Text } from "@mantine/core";
 import { IconArrowBackUp, IconDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale } from "next-intl";
@@ -70,11 +70,13 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
   const linkTextClass = clsx(textClass, linkClass)
 
   const reposPair = getGitHubReposPair(simplePlugin.repos)
-  const homepageText = reposPair + ' @ ' + plugin.plugin.branch
-  const lastUpdateFormatted = formatTime(simplePlugin.recentUpdated, 'LL', locale) || 'N/A'
-  const lastUpdateAgo = getTimeAgo(simplePlugin.recentUpdated, locale) || 'N/A'
-  const syncTimeAgo = getTimeAgo(new Date(timestamp * 1000), locale)
-  const syncTimeFormatted = formatTime(new Date(timestamp * 1000), 'LLL', locale)
+  const homepage = reposPair + ' @ ' + plugin.plugin.branch
+
+  const lastUpdateText = simplePlugin.recentUpdated !== undefined
+    ? <TimeAgo date={simplePlugin.recentUpdated}/>
+    : <p>N/A</p>
+  const syncTimeText = <TimeAgo date={new Date(timestamp * 1000)}/>
+
   return (
     <div className="mx-[8px] flex flex-col gap-5">
       <CommonCard className="p-5">
@@ -103,13 +105,11 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
           </AttributeEntry>
           <AttributeEntry Icon={IconLink} label={t('homepage')}>
             <Link href={simplePlugin.reposHome} className={linkTextClass}>
-              <Text lineClamp={2}>{homepageText}</Text>
+              <Text lineClamp={2}>{homepage}</Text>
             </Link>
           </AttributeEntry>
           <AttributeEntry Icon={IconReload} label={t('last_update')}>
-            <Tooltip label={lastUpdateFormatted}>
-              <p className={textClass}>{lastUpdateAgo}</p>
-            </Tooltip>
+            {lastUpdateText}
           </AttributeEntry>
           <AttributeEntry Icon={IconTag} label={t('latest_version')}>
           {simplePlugin.latestRelease !== undefined
@@ -120,9 +120,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
             <p className={textClass}>{simplePlugin.downloads}</p>
           </AttributeEntry>
           <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>
-            <Tooltip label={syncTimeFormatted}>
-              <p className={textClass}>{syncTimeAgo}</p>
-            </Tooltip>
+            {syncTimeText}
           </AttributeEntry>
         </div>
       </CommonCard>

@@ -1,17 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  BoxProps,
-  CopyButton,
-  ElementProps,
-  factory,
-  Factory,
-  ScrollArea,
-  StylesApiProps,
-  Tooltip,
-  useProps,
-  useStyles,
-} from '@mantine/core';
+import { ActionIcon, Box, BoxProps, CopyButton, ElementProps, factory, Factory, ScrollArea, StylesApiProps, Tooltip, useProps, useStyles, } from '@mantine/core';
 import cx from 'clsx';
 import React from 'react';
 import _classes from './CodeHighlight.module.css';

@@ -3,9 +3,9 @@
 import { SimpleEverything } from "@/catalogue/simple-types";
 import CommonCard from "@/components/common-card";
 import { PluginLabel } from "@/components/plugin/plugin-label";
+import { TimeAgo } from "@/components/time-ago";
 import { pluginLabels } from "@/config/catalogue";
-import { formatTime, getTimeAgo } from "@/utils/time-utils";
-import { Checkbox, Radio, RadioGroup, Switch, TextInput, Tooltip } from "@mantine/core";
+import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
 import { IconDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
@@ -137,17 +137,10 @@ function StatsCard({everything}: { everything: SimpleEverything }) {
   const authorAmount = everything.authors.amount
   const downloadSum = allPlugins.reduce((s, plugin) => s + plugin.downloads, 0)
 
-  const syncTimeAgo = getTimeAgo(new Date(everything.timestamp * 1000), locale)
-  const syncTimeFormatted = formatTime(new Date(everything.timestamp * 1000), 'LLL', locale)
-
   return (
     <SidebarCard>
       <CardSection title={t('stats')} className="gap-1">
-        <StatItem Icon={IconRefresh} text={
-          <Tooltip label={syncTimeFormatted}>
-            <p>{t('sync_at', {date: syncTimeAgo})}</p>
-          </Tooltip>
-        }/>
+        <StatItem Icon={IconRefresh} text={<TimeAgo date={new Date(everything.timestamp * 1000)}/>}/>
         <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
         <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
         <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>

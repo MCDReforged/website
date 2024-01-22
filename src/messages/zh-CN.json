@@ -47,7 +47,7 @@
         "download_sum": "下载量总和：{n}"
       },
       "plugin_card": {
-        "last_update": "上次更新：{time_ago}",
+        "last_update": "上次更新",
         "total_downloads": "总下载量"
       }
     },

@@ -1,20 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  BoxProps,
-  CopyButton,
-  createVarsResolver,
-  ElementProps,
-  factory,
-  Factory,
-  rem,
-  ScrollArea,
-  StylesApiProps,
-  Tooltip,
-  UnstyledButton,
-  useProps,
-  useStyles,
-} from '@mantine/core';
+import { ActionIcon, Box, BoxProps, CopyButton, createVarsResolver, ElementProps, factory, Factory, rem, ScrollArea, StylesApiProps, Tooltip, UnstyledButton, useProps, useStyles, } from '@mantine/core';
 import { useUncontrolled } from '@mantine/hooks';
 import cx from 'clsx';
 import React, { useContext } from 'react';

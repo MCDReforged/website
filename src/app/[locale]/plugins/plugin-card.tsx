@@ -6,8 +6,8 @@ import { GithubIcon } from "@/components/icons";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { PluginLabel } from "@/components/plugin/plugin-label";
+import { TimeAgo } from "@/components/time-ago";
 import { translateLangDict } from "@/utils/i18n-utils"
-import { formatTime, getTimeAgo } from "@/utils/time-utils";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconDownload, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
 import { clsx } from "clsx";
@@ -40,15 +40,28 @@ function PluginCardDescription({description}: {description: string}) {
   )
 }
 
-function SmallStats({Icon, text, tooltip}: {Icon: typeof IconRefresh, text: any, tooltip: string}) {
-  return (
-    <Tooltip label={tooltip}>
-      <div className="flex flex-row gap-0.5 items-center text-sm">
-        <Icon size="1rem" stroke={1.8}/>
-        <p className="cursor-default">{text}</p>
+function SmallStats({Icon, text, tooltip, fullToolTip}: { Icon: typeof IconRefresh, text: React.ReactNode, tooltip: React.ReactNode, fullToolTip: boolean }) {
+  const clazz: string = "flex flex-row gap-0.5 items-center text-sm cursor-default"
+  const icon = <Icon size="1rem" stroke={1.8}/>
+  if (fullToolTip) {
+    return (
+      <Tooltip label={tooltip}>
+        <div className={clazz}>
+          {icon}
+          {text}
+        </div>
+      </Tooltip>
+    )
+  } else {
+    return (
+      <div className={clazz}>
+        <Tooltip label={tooltip}>
+          {icon}
+        </Tooltip>
+        {text}
       </div>
-    </Tooltip>
-  )
+    )
+  }
 }
 
 export function PluginCard({plugin}: {plugin: SimplePlugin}) {
@@ -68,8 +81,9 @@ export function PluginCard({plugin}: {plugin: SimplePlugin}) {
     <PluginDownloadButton release={release}/>:
     <PluginCardDownloadButtonDisabled/>
 
-  const sinceLastUpdate = getTimeAgo(plugin.recentUpdated, locale) || 'N/A'
-  const lastUpdateDisplay = t('last_update', {time_ago: formatTime(plugin.recentUpdated, 'LL', locale) || 'N/A'})
+  const lastUpdateText = plugin.recentUpdated !== undefined
+    ? <TimeAgo date={plugin.recentUpdated}/>
+    : <p>N/A</p>
   return (
     <CommonCard className="flex flex-col">
       <div className="flex items-baseline justify-between mb-2 flex-col sm:flex-row">
@@ -95,8 +109,8 @@ export function PluginCard({plugin}: {plugin: SimplePlugin}) {
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               <div className="flex flex-row gap-3 self-end">
-                <SmallStats Icon={IconReload} text={sinceLastUpdate} tooltip={lastUpdateDisplay}/>
-                <SmallStats Icon={IconFileDownload} text={plugin.downloads} tooltip={t('total_downloads')}/>
+                <SmallStats Icon={IconReload} text={lastUpdateText} tooltip={t('last_update')} fullToolTip={false}/>
+                <SmallStats Icon={IconFileDownload} text={<p>{plugin.downloads}</p>} tooltip={t('total_downloads')} fullToolTip={true}/>
               </div>
               <div className="flex gap-2">
                 {repositoryButton}
