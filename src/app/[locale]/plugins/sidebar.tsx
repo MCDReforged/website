@@ -89,6 +89,7 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
             <div key={label} className="flex flex-row justify-between items-center">
               <
                 Checkbox
+                defaultChecked={ds.selectedLabels.includes(label)}
                 value={label}
                 radius="sm"
                 label={<PluginLabel label={label}/>}
