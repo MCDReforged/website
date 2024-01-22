@@ -24,7 +24,7 @@ export function shouldTriggerStartEvent(currentPath: string, href: string, click
 
   if (clickEvent && isModifiedEvent(clickEvent)) return false; // modified events: fallback to browser behaviour
   if (current.origin !== target.origin) return false; // external URL
-  if (currentPath === target.pathname && current.search === target.search) return false; // same URL
+  if (currentPath === target.pathname) return false; // same URL
 
   return true;
 }
