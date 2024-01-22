@@ -140,7 +140,12 @@ function StatsCard({everything}: { everything: SimpleEverything }) {
   return (
     <SidebarCard>
       <CardSection title={t('stats')} className="gap-1">
-        <StatItem Icon={IconRefresh} text={<TimeAgoDynamic date={new Date(everything.timestamp * 1000)}/>}/>
+        <StatItem Icon={IconRefresh} text={
+          <div className="flex">
+            <p className="whitespace-pre-wrap">{t('sync_at')}</p>
+            <TimeAgoDynamic date={new Date(everything.timestamp * 1000)}/>
+          </div>
+        }/>
         <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
         <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
         <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>

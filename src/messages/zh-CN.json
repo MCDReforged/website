@@ -41,7 +41,7 @@
         "sort_reversed": "逆序",
 
         "stats": "统计信息",
-        "sync_at": "数据同步于：{date}",
+        "sync_at": "数据同步于：",
         "plugin_amount": "插件总数：{n}",
         "author_amount": "作者总数：{n}",
         "download_sum": "下载量总和：{n}"

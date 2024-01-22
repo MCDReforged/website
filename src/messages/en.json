@@ -54,7 +54,7 @@
         "sort_reversed": "Reversed",
 
         "stats": "Statistics",
-        "sync_at": "Synced at: {date}",
+        "sync_at": "Synced at: ",
         "plugin_amount": "Plugin amount: {n}",
         "author_amount": "Author amount: {n}",
         "download_sum": "Download sum: {n}"
