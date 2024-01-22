@@ -1,4 +1,5 @@
 import { Link as NaLink } from "@/common/navigation";
+import { AsciinemaPlayerWrapper } from "@/components/asciinema-player-wrapper";
 import { GithubIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 import { Button } from '@mantine/core';
@@ -60,6 +61,15 @@ export function HomePage() {
   return (
     <div>
       <Hero/>
+      <div className="mx-auto">
+        <AsciinemaPlayerWrapper
+          src="https://asciinema.org/a/569377.cast"
+          cols="64" rows="24"
+          idleTimeLimit={3} preload={true}
+          fit="none"
+          poster="npt:0:3"
+        />
+      </div>
     </div>
   )
 }
