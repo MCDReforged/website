@@ -1,8 +1,7 @@
 'use client'
 
-import { usePathname, useRouter } from "@/common/navigation";
 import { Tabs } from "@mantine/core";
-import { useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
 import React, { Suspense, useEffect, useState } from "react";
 import { tabKeys } from "./plugin-content-common";
 
@@ -16,24 +15,20 @@ interface SearchParamsReader {
 // useSearchParams needs a Suspense wrapper for SSR,
 // and here comes the wrapper component
 function SearchParamsReader({setInitTabValue, newTabValue}: SearchParamsReader) {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const router = useRouter(false)
+  // https://github.com/vercel/next.js/discussions/48110#discussioncomment-7017549
+  const [queryValue, setQueryValue] = useQueryState('tab')
 
   useEffect(() => {
-    const tab = searchParams.get('tab')
-    if (tab && tabKeys.includes(tab)) {
-      setInitTabValue(tab)
+    if (queryValue && tabKeys.includes(queryValue)) {
+      setInitTabValue(queryValue)
     }
-  }, [searchParams, setInitTabValue]);
+  }, [queryValue, setInitTabValue]);
 
   useEffect(() => {
-    if (newTabValue !== undefined && newTabValue !== searchParams.get('tab')) {
-      const params = new URLSearchParams(Array.from(searchParams.entries()))
-      params.set('tab', newTabValue)
-      router.replace(`${pathname}?${params}`, {scroll: false})
+    if (newTabValue !== undefined && newTabValue !== queryValue) {
+      setQueryValue(newTabValue).catch(e => console.log('setQueryValue error', newTabValue, e))
     }
-  }, [searchParams, pathname, router, newTabValue])
+  }, [queryValue, setQueryValue, newTabValue])
 
   return <></>
 }
@@ -48,7 +43,7 @@ export function PluginContentTabs({children, ...props}: {children: React.ReactNo
         <SearchParamsReader setInitTabValue={setInitTabValue} newTabValue={newTabValue}/>
       </Suspense>
       <Tabs
-        value={initTabValue}
+        value={newTabValue || initTabValue}
         defaultValue={initTabValue}
         onChange={(value) => {
           if (value !== null) {
