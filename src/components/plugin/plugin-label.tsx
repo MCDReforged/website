@@ -1,12 +1,12 @@
 import { Badge } from "@mantine/core";
-import { IconInfoCircle, IconPlugConnected, IconQuestionMark, IconTools, IconUser } from "@tabler/icons-react";
+import { Icon, IconInfoCircle, IconPlugConnected, IconQuestionMark, IconTools, IconUserCog } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
 interface LabelConfig {
   id: string
   color: string
-  icon: typeof IconUser
+  icon: Icon
 }
 interface LabelConfigMapping {
   [id: string]: LabelConfig
@@ -26,7 +26,7 @@ const labelConfigs: LabelConfig[] = [
   {
     id: 'management',
     color: 'red',
-    icon: IconUser,
+    icon: IconUserCog,
   },
   {
     id: 'api',

@@ -15,8 +15,8 @@ async function fileExists(filePath: string) {
   }
 }
 
-async function devReadEverything(): Promise<Everything | null> {
-  if (process.env.NODE_ENV === 'development' || process.env.USE_LOCAL_EVERYTHING === 'true') {
+async function devReadLocalEverything(): Promise<Everything | null> {
+  if (process.env.NODE_ENV === 'development' || process.env.MW_USE_LOCAL_EVERYTHING === 'true') {
     const localDataPath = path.join(process.cwd(), 'src', 'catalogue', 'everything.json')
     if (await fileExists(localDataPath)) {
       const content = await fs.readFile(localDataPath, 'utf8')
@@ -29,7 +29,7 @@ async function devReadEverything(): Promise<Everything | null> {
 const gunzipAsync = promisify(gunzip)
 
 async function fetchEverything(): Promise<Everything> {
-  const url: string = process.env.EVERYTHING_JSON_URL || 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json.gz'
+  const url: string = process.env.MW_EVERYTHING_JSON_URL || 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json.gz'
 
   // The 2nd init param cannot be defined as a standalone global constant variable,
   // or the ISR might be broken: fetchEverything() will never be invoked after the first 2 round of requests,
@@ -37,7 +37,7 @@ async function fetchEverything(): Promise<Everything> {
   // See https://github.com/vercel/next.js/blob/4125069840ca98981f0e7796f55265af04f3e903/packages/next/src/server/lib/patch-fetch.ts#L685 for the stupidness
   const rsp = await fetch(url, {
     next: {
-      revalidate: 60  // ISR 1min
+      revalidate: 60,  // ISR 1min
     }
   })
 
@@ -53,7 +53,7 @@ async function fetchEverything(): Promise<Everything> {
 }
 
 export async function getEverything(): Promise<Everything> {
-  const e = await devReadEverything()
+  const e = await devReadLocalEverything()
   if (e !== null) {
     return e
   } else {
@@ -62,8 +62,8 @@ export async function getEverything(): Promise<Everything> {
 }
 
 export async function getPlugin(pluginId: string): Promise<AllOfAPlugin> {
-  const e = await getEverything()
-  return e.plugins[pluginId]
+  const everything = await getEverything()
+  return everything.plugins[pluginId]
 }
 
 export async function getSimpleEverything(): Promise<SimpleEverything> {

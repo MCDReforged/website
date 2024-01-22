@@ -16,11 +16,7 @@ export async function generateMetadata({params: {locale, pluginId}}: {params: {l
 
 export async function generateStaticParams() {
   const everything = await getEverything()
-  return Object.keys(everything.plugins).map(pluginId => {
-    return {
-      pluginId: pluginId
-    }
-  })
+  return Object.keys(everything.plugins).map(pluginId => ({pluginId}))
 }
 
 export default async function Page({params: {locale, pluginId}}: { params: { pluginId: string, locale: string } }) {
