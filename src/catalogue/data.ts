@@ -4,7 +4,7 @@ import fs from 'fs/promises'
 import { promisify } from "node:util";
 import { gunzip } from "node:zlib";
 import path from "path";
-import { createSimplePlugin } from "./conversion";
+import { createSimpleEverything } from "./conversion";
 
 const fetchInit = {
   next: {
@@ -59,13 +59,5 @@ export async function getPlugin(pluginId: string): Promise<AllOfAPlugin> {
 
 export async function getSimpleEverything(): Promise<SimpleEverything> {
   const everything = await getEverything()
-  const simpleEverything: SimpleEverything = {
-    timestamp: everything.timestamp,
-    authors: everything.authors,
-    plugins: {},
-  }
-  Object.entries(everything.plugins).forEach(([pluginId, plugin], _) => {
-    simpleEverything.plugins[pluginId] = createSimplePlugin(plugin, everything.authors)
-  })
-  return simpleEverything
+  return createSimpleEverything(everything)
 }

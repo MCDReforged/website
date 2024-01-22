@@ -1,5 +1,17 @@
-import { AllOfAPlugin, AuthorSummary, ReleaseInfo } from "./meta-types";
-import { SimplePlugin, SimpleRelease } from "./simple-types";
+import { AllOfAPlugin, AuthorSummary, Everything, ReleaseInfo } from "./meta-types";
+import { SimpleEverything, SimplePlugin, SimpleRelease } from "./simple-types";
+
+export function createSimpleEverything(everything: Everything): SimpleEverything {
+  const simpleEverything: SimpleEverything = {
+    timestamp: everything.timestamp,
+    authors: everything.authors,
+    plugins: {},
+  }
+  Object.entries(everything.plugins).forEach(([pluginId, plugin], _) => {
+    simpleEverything.plugins[pluginId] = createSimplePlugin(plugin, everything.authors)
+  })
+  return simpleEverything
+}
 
 export function createSimplePlugin(plugin: AllOfAPlugin, authorData: AuthorSummary): SimplePlugin {
   let downloads = 0
