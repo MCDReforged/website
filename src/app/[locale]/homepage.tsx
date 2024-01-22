@@ -24,6 +24,8 @@ function Hero() {
           {t('description')}
         </p>
       </div>
+      <p className="text-lg italic">Note: This website is still under development</p>
+
       <Button leftSection={<IconPackages size={18} strokeWidth={1.4}/>} component={NaLink} href="/plugins">
         {t('catalogue')}
       </Button>
