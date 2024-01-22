@@ -15,7 +15,7 @@ interface LabelConfigMapping {
 const labelConfigs: LabelConfig[] = [
   {
     id: 'information',
-    color: 'cyan',
+    color: 'green.7',
     icon: IconInfoCircle,
   },
   {
