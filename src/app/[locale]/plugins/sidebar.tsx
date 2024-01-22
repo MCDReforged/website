@@ -1,8 +1,8 @@
 'use client'
 
 import { SimpleEverything } from "@/catalogue/simple-types";
-import CommonCard from "@/components/ui/common-card";
-import { PluginLabel } from "@/components/ui/plugin/plugin-label";
+import CommonCard from "@/components/common-card";
+import { PluginLabel } from "@/components/plugin/plugin-label";
 import { pluginLabels } from "@/config/catalogue";
 import { formatTime, getTimeAgo } from "@/utils/time-utils";
 import { Checkbox, Radio, RadioGroup, Switch, TextInput, Tooltip } from "@mantine/core";

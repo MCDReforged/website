@@ -1,11 +1,11 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink, Link } from "@/common/navigation";
+import CommonCard from "@/components/common-card";
+import GfmMarkdown from "@/components/gfm-markdown";
 import { GithubIcon } from "@/components/icons";
-import CommonCard from "@/components/ui/common-card";
-import GfmMarkdown from "@/components/ui/gfm-markdown";
-import { PluginAuthorList } from "@/components/ui/plugin/plugin-author";
-import { PluginLabel } from "@/components/ui/plugin/plugin-label";
+import { PluginAuthorList } from "@/components/plugin/plugin-author";
+import { PluginLabel } from "@/components/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
 import { formatTime, getTimeAgo } from "@/utils/time-utils";

@@ -1,5 +1,5 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import CommonCard from "@/components/ui/common-card";
+import CommonCard from "@/components/common-card";
 import { rem, ScrollArea, TabsList, TabsPanel, TabsTab } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import React from "react";

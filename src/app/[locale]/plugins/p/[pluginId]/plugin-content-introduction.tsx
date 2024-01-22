@@ -1,5 +1,5 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import GfmMarkdown from "@/components/ui/gfm-markdown";
+import GfmMarkdown from "@/components/gfm-markdown";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getLocale } from "next-intl/server";
 import React from "react";

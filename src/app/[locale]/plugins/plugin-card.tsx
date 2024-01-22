@@ -1,11 +1,11 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link as NaLink } from "@/common/navigation";
+import CommonCard from "@/components/common-card";
+import { DynamicGfmMarkdown } from "@/components/dynamic-gfm-markdown";
 import { GithubIcon } from "@/components/icons";
-import CommonCard from "@/components/ui/common-card";
-import { DynamicGfmMarkdown } from "@/components/ui/dynamic-gfm-markdown";
-import { PluginAuthorList } from "@/components/ui/plugin/plugin-author";
-import { PluginDownloadButton } from "@/components/ui/plugin/plugin-download-button";
-import { PluginLabel } from "@/components/ui/plugin/plugin-label";
+import { PluginAuthorList } from "@/components/plugin/plugin-author";
+import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
+import { PluginLabel } from "@/components/plugin/plugin-label";
 import { translateLangDict } from "@/utils/i18n-utils"
 import { formatTime, getTimeAgo } from "@/utils/time-utils";
 import { ActionIcon, Tooltip } from "@mantine/core";

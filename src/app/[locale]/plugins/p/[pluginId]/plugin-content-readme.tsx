@@ -1,5 +1,5 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import GfmMarkdown from "@/components/ui/gfm-markdown";
+import GfmMarkdown from "@/components/gfm-markdown";
 import React from "react";
 import { TabBody } from "./plugin-content-common";
 
