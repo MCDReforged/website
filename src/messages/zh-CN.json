@@ -16,7 +16,10 @@
   },
   "page": {
     "home": {
-      "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具"
+      "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具",
+      "catalogue": "探索插件",
+      "docs": "阅读文档",
+      "github": "GitHub"
     },
     "plugin_list": {
       "sidebar": {

@@ -29,7 +29,10 @@
   },
   "page": {
     "home": {
-      "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server"
+      "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server",
+      "catalogue": "Explore plugins",
+      "docs": "Read the docs",
+      "github": "GitHub"
     },
     "plugin_list": {
       "sidebar": {
