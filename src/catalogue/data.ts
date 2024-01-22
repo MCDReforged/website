@@ -6,12 +6,6 @@ import { gunzip } from "node:zlib";
 import path from "path";
 import { createSimpleEverything } from "./conversion";
 
-const fetchInit = {
-  next: {
-    revalidate: 3 * 60  // ISR 3min
-  }
-}
-
 async function fileExists(filePath: string) {
   try {
     await fs.access(filePath)
@@ -34,13 +28,28 @@ async function devReadEverything(): Promise<Everything | null> {
 
 const gunzipAsync = promisify(gunzip)
 
-export async function fetchEverything(): Promise<Everything> {
-  const url: string = 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json.gz'
-  const rsp = await fetch(url, fetchInit)
-  const buf = Buffer.from(await rsp.arrayBuffer())
-  const raw = await gunzipAsync(buf);
-  const data = JSON.parse(raw.toString('utf8'))
-  return data as any as Everything
+async function fetchEverything(): Promise<Everything> {
+  const url: string = process.env.EVERYTHING_JSON_URL || 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json.gz'
+
+  // The 2nd init param cannot be defined as a standalone global constant variable,
+  // or the ISR might be broken: fetchEverything() will never be invoked after the first 2 round of requests,
+  // because the init variable itself will be modified to an empty object after the fetch call :(
+  // See https://github.com/vercel/next.js/blob/4125069840ca98981f0e7796f55265af04f3e903/packages/next/src/server/lib/patch-fetch.ts#L685 for the stupidness
+  const rsp = await fetch(url, {
+    next: {
+      revalidate: 60  // ISR 1min
+    }
+  })
+
+  if (url.endsWith('.gz')) {
+    const buf = Buffer.from(await rsp.arrayBuffer())
+    const raw = await gunzipAsync(buf);
+    const data = JSON.parse(raw.toString('utf8'))
+    return data as any as Everything
+  } else {
+    const data = await rsp.json()
+    return data as any as Everything
+  }
 }
 
 export async function getEverything(): Promise<Everything> {
