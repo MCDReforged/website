@@ -2,8 +2,8 @@
 
 import { Link as NaLink, usePathname } from "@/common/navigation";
 import { GithubIcon, McdrLogo, } from "@/components/icons";
-import { LocaleSwitch } from "@/components/ui/locale-switch";
-import { ThemeSwitch } from "@/components/ui/theme-switch";
+import { LocaleSwitch } from "@/components/ui/navbar/locale-switch";
+import { ThemeSwitch } from "@/components/ui/navbar/theme-switch";
 import { siteConfig } from "@/config/site";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
