@@ -51,8 +51,8 @@ export function filterPlugins(plugins: SimplePlugin[], ds: DisplayStrategy) {
       }
     }
     if (ds.selectedLabels.length > 0) {
-      const set = new Set(ds.selectedLabels);
-      if (!plugin.labels.some(item => set.has(item))) {
+      const set = new Set(plugin.labels);
+      if (!ds.selectedLabels.every(item => set.has(item))) {
         return false
       }
     }
