@@ -82,7 +82,7 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
         <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} label={t('plugin_filter_author')} placeholder="fallen"/>
       </CardSection>
 
-      <CardSection title={t('label_filter')} className="gap-1.5">
+      <CardSection title={t('label_filter')} className="gap-1">
         {pluginLabels.map(label => {
           const amount = filteredPlugins.filter(plugin => plugin.labels.includes(label)).length
           return (
@@ -105,7 +105,11 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
         <RadioGroup defaultValue={sortOrders[0]} onChange={onSortOrderRatioSet}>
           <div className="flex flex-col gap-1.5">
             {sortOrders.map(so => (
-              <Radio key={so} value={so} label={t(`sort_order_type.${so}`)}/>
+              <Radio
+                key={so} value={so}
+                classNames={{label: 'text-[15px]'}}
+                label={t(`sort_order_type.${so}`)}
+              />
             ))}
           </div>
         </RadioGroup>
@@ -123,7 +127,7 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
 function StatItem({Icon, text}: {Icon: typeof IconRefresh, text: React.ReactNode}) {
   return (
     <div className="flex flex-row gap-2 items-center">
-      <Icon size={18} strokeWidth={1.5}/>
+      <Icon size={18} stroke={1.5}/>
       <>{text}</>
     </div>
   )

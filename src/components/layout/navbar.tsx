@@ -65,9 +65,9 @@ function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
       {...props}
     >
       <div className="flex flex-row gap-1 justify-center items-center h-full">
-        {showIcon && <Icon size={20} strokeWidth={1.4}/>}
+        {showIcon && <Icon size={20} stroke={1.4}/>}
         <p>{t(item.key)}</p>
-        {item.isExternal && <IconExternalLink size={16} strokeWidth={1.4}/>}
+        {item.isExternal && <IconExternalLink size={16} stroke={1.4}/>}
       </div>
     </NaLink>
   )

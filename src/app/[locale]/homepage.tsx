@@ -26,13 +26,13 @@ function Hero() {
       </div>
       <p className="text-lg italic">Note: This website is still under development</p>
 
-      <Button leftSection={<IconPackages size={18} strokeWidth={1.4}/>} component={NaLink} href="/plugins">
+      <Button leftSection={<IconPackages size={18} stroke={1.4}/>} component={NaLink} href="/plugins">
         {t('catalogue')}
       </Button>
 
       <div className="flex flex-wrap gap-3 justify-center">
         <Button
-          leftSection={<IconBook2 size={20} strokeWidth={1.6}/>}
+          leftSection={<IconBook2 size={20} stroke={1.6}/>}
           rightSection={<IconExternalLink size={16} stroke={1.6}/>}
           variant="default"
           component={NaLink}

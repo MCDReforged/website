@@ -9,7 +9,7 @@ import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils"
 import { ActionIcon, Tooltip } from "@mantine/core";
-import { IconDownload, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
+import { IconDownloadOff, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -18,7 +18,7 @@ import React from 'react';
 function PluginCardDownloadButtonDisabled() {
   return (
     <ActionIcon disabled title="No release" aria-label="Download not available">
-      <IconDownload stroke={1.5}/>
+      <IconDownloadOff stroke={1.5}/>
     </ActionIcon>
   )
 }
