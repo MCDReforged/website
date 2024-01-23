@@ -27,7 +27,7 @@ function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginN
   return (
     <NaLink
       href={`/plugins/p/${pluginId}`}
-      className="text-2xl font-bold text-foreground break-words hover:text-mantine-primary-7 ml-1 mr-5"
+      className="text-2xl font-bold text-foreground break-words hover:text-mantine-primary-7 mx-1"
     >
       {pluginName}
     </NaLink>

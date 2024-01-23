@@ -17,9 +17,18 @@
   "page": {
     "home": {
       "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具",
+      "description_alt": "这是一个基于 Python 的 Minecraft 服务端控制工具",
       "catalogue": "探索插件",
       "docs": "阅读文档",
-      "github": "GitHub"
+      "github": "GitHub",
+      "feature": {
+        "vanilla_t": "忠于原版",
+        "vanilla": "运行于服务端之上，无需修改服务端即实现各种插件功能，保留原汁原味的 Minecraft 原版特性",
+        "plugins_t": "插件丰富",
+        "plugins": "丰富的插件生态，各类插件应有尽有；可热重载的插件系统，无需重启服务端即可更新插件",
+        "compatibility_t": "兼容性广",
+        "compatibility": "多平台/服务端的兼容性，支持在 Linux / Windows 下运行 vanilla、paper 以及 bungeecord 等命令行服务端"
+      }
     },
     "plugin_list": {
       "sidebar": {
