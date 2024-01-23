@@ -6,7 +6,7 @@ import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { pluginLabels } from "@/config/catalogue";
 import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
-import { IconDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
+import { IconFileDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useContext } from "react";
@@ -149,7 +149,7 @@ function StatsCard({everything}: { everything: SimpleEverything }) {
         }/>
         <StatItem Icon={IconPackages} text={t('plugin_amount', {n: pluginAmount})}/>
         <StatItem Icon={IconUsers} text={t('author_amount', {n: authorAmount})}/>
-        <StatItem Icon={IconDownload} text={t('download_sum', {n: downloadSum})}/>
+        <StatItem Icon={IconFileDownload} text={t('download_sum', {n: downloadSum})}/>
       </CardSection>
     </SidebarCard>
   )

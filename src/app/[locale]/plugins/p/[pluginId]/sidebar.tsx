@@ -10,7 +10,7 @@ import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
 import { Button, Text } from "@mantine/core";
-import { IconArrowBackUp, IconDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
+import { IconArrowBackUp, IconFileDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
@@ -116,7 +116,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
               ? <Link href={simplePlugin.latestRelease.url} className={linkTextClass}>{simplePlugin.latestRelease.version}</Link>
               : <p className={textClass}>N/A</p> }
           </AttributeEntry>
-          <AttributeEntry Icon={IconDownload} label={t('total_downloads')}>
+          <AttributeEntry Icon={IconFileDownload} label={t('total_downloads')}>
             <p className={textClass}>{simplePlugin.downloads}</p>
           </AttributeEntry>
           <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>
