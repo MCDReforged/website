@@ -26,6 +26,7 @@ const config: Config = {
       },
       spacing: {
         'navbar-height': '56px',
+        'sidebar-width': '20rem',
       }
     },
   },

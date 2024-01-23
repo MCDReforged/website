@@ -23,13 +23,13 @@ export default async function Page({params: {locale}}: {params: {locale: string}
     <>
       <NextIntlClientProvider locale={locale} messages={pick(messages, ['page.plugin_list', 'component'])}>
         <DisplayStrategyContextProvider>
-          <div className="md:fixed md:w-[18rem] md:h-[calc(100vh-5rem)] md:overflow-y-auto">
+          <div className="md:fixed md:w-sidebar-width md:h-[calc(100vh-5rem)] md:overflow-y-auto">
             <Sidebar everything={everything}/>
           </div>
           <div className="flex md:hidden">
             <Divider className="w-full m-6" variant="dashed"/>
           </div>
-          <div className="md:pl-[18rem]">
+          <div className="md:pl-sidebar-width">
             <PluginList everything={everything}/>
           </div>
         </DisplayStrategyContextProvider>

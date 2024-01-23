@@ -26,13 +26,13 @@ export default async function Page({params: {locale, pluginId}}: { params: { plu
 
   return (
     <>
-      <div className="md:fixed md:w-[18rem] md:h-[calc(100vh-5rem)] md:overflow-y-auto">
+      <div className="md:fixed md:w-sidebar-width md:h-[calc(100vh-5rem)] md:overflow-y-auto">
         <Sidebar plugin={plugin} simplePlugin={createSimplePlugin(plugin, everything.authors)} timestamp={timestamp}/>
       </div>
       <div className="flex md:hidden">
         <Divider className="w-full m-6" variant="dashed"/>
       </div>
-      <div className="md:pl-[18rem]">
+      <div className="md:pl-sidebar-width">
         <PluginContent plugin={plugin}/>
       </div>
     </>
