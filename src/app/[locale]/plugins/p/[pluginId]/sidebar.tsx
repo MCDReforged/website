@@ -33,7 +33,7 @@ async function SidebarBackButton() {
   )
 }
 
-function PluginDescription({description}: {description: string}) {
+async function PluginDescription({description}: {description: string}) {
   // SSR, no need to use GfmMarkdownDynamic
   return (
     <GfmMarkdown dgmVariant="tiny">{description}</GfmMarkdown>
@@ -41,16 +41,17 @@ function PluginDescription({description}: {description: string}) {
 }
 
 interface AttributeEntryProps {
+  className?: string
   Icon: React.ElementType
   label: string
   children: React.ReactNode
   [containerPropKey: string]: any
 }
 
-function AttributeEntry({Icon, label, children, ...containerProps}: AttributeEntryProps) {
+function AttributeEntry({className, Icon, label, children, ...containerProps}: AttributeEntryProps) {
   return (
-    <div>
-      <p className={clsx("text-lg font-semibold mb-0.5", styles.attributeEntryTitle)}>{label}</p>
+    <div className={className}>
+      <p className={clsx("font-semibold mb-0.5 min-w-[80px]", styles.attributeEntryTitle)}>{label}</p>
       <div className="flex gap-1.5 items-start" {...containerProps}>
         <div className="w-[22px] h-[22px] mt-[2px]">
           <Icon stroke={1.5} size={22}/>
@@ -94,19 +95,22 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
       </CommonCard>
 
       <CommonCard className="p-5">
-        <div className="flex flex-col gap-3">
-          <AttributeEntry Icon={IconUser} label={t('author')}>
+        <div className="grid grid-cols-2 gap-3 justify-between">
+          <AttributeEntry Icon={IconUser} label={t('author')} className="col-span-2">
             <PluginAuthorList authors={simplePlugin.authors} linkClassName={linkClass} wrap/>
           </AttributeEntry>
-          <AttributeEntry Icon={GithubIcon} label={t('repository')}>
+          <AttributeEntry Icon={GithubIcon} label={t('repository')} className="col-span-2">
             <Link href={simplePlugin.repos} className={linkTextClass}>
               <Text lineClamp={2}>{reposPair}</Text>
             </Link>
           </AttributeEntry>
-          <AttributeEntry Icon={IconLink} label={t('homepage')}>
+          <AttributeEntry Icon={IconLink} label={t('homepage')} className="col-span-2">
             <Link href={simplePlugin.reposHome} className={linkTextClass}>
               <Text lineClamp={2}>{homepage}</Text>
             </Link>
+          </AttributeEntry>
+          <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>
+            {syncTimeText}
           </AttributeEntry>
           <AttributeEntry Icon={IconReload} label={t('last_update')}>
             {lastUpdateText}
@@ -118,9 +122,6 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
           </AttributeEntry>
           <AttributeEntry Icon={IconFileDownload} label={t('total_downloads')}>
             <p className={textClass}>{simplePlugin.downloads}</p>
-          </AttributeEntry>
-          <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>
-            {syncTimeText}
           </AttributeEntry>
         </div>
       </CommonCard>

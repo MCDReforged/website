@@ -3,5 +3,5 @@
 }
 
 .attributeEntryTitle {
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-gray-5));
+  color: light-dark(darken(var(--mantine-color-gray-6), 0.1), var(--mantine-color-gray-6));
 }

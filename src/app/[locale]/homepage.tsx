@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 import { Button, Divider, Text, ThemeIcon, Title } from '@mantine/core';
 import { Icon, IconBook2, IconDevicesCheck, IconExternalLink, IconPackage, IconPackages, IconPlant2 } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Poppins } from "next/font/google";
 import React from "react";
 import styles from './homepage.module.css';
@@ -34,13 +34,14 @@ const features: FeatureItem[] = [
   },
 ]
 
-function Hero() {
-  const t = useTranslations('page.home')
+async function Hero() {
+  const t = await getTranslations('page.home')
 
+  const buttonWidth = 180
   return (
-    <div className={clsx("w-full py-[3rem] sm:py-[6rem]")}>
+    <div className={clsx("w-full pt-[3rem] pb-[5rem] sm:py-[8rem]", "bg-[var(--mantine-color-white-filled)]")}>
       <div className="max-w-screen-lg mx-auto px-8">
-        <div className="max-lg:flex max-lg:flex-col lg:grid lg:grid-cols-2 gap-12">
+        <div className="max-lg:flex max-lg:flex-col lg:grid lg:grid-cols-2 gap-16">
 
           <div className="max-lg:*:text-center max-w-[600px] mx-auto">
             <Title className={clsx(
@@ -54,15 +55,15 @@ function Hero() {
               </Text>
             </Title>
 
-            <p className="text-md text-mantine-gray-text">{t('description_alt')}</p>
-            <p className="text-xl mt-3">{t('description')}</p>
+            <Text c="gray" size="md">{t('description_alt')}</Text>
+            <Text size="xl" className="mt-3">{t('description')}</Text>
 
             <div className="mt-5 sm:mt-10 flex flex-wrap gap-x-5 gap-y-3 justify-center">
-              <Button w={160} leftSection={<IconPackages size={18} stroke={1.4}/>} component={NaLink} href="/plugins">
+              <Button w={buttonWidth} leftSection={<IconPackages size={18} stroke={1.4}/>} component={NaLink} href="/plugins">
                 {t('catalogue')}
               </Button>
               <Button
-                w={160}
+                w={buttonWidth}
                 leftSection={<IconBook2 size={20} stroke={1.6}/>}
                 rightSection={<IconExternalLink size={16} stroke={1.6}/>}
                 variant="default"
@@ -103,7 +104,7 @@ function Hero() {
   );
 }
 
-export function HomePage() {
+export async function HomePage() {
   return (
     <div>
       <Hero/>
