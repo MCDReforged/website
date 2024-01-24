@@ -1,5 +1,5 @@
-.heroBackground {
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7), 0.3);
+.featureBackground {
+  background-color: light-dark(var(--mantine-primary-color-0), darken(var(--mantine-primary-color-2), 0.75));
 }
 
 .title {

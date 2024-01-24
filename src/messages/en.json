@@ -36,11 +36,11 @@
       "github": "GitHub",
       "feature": {
         "vanilla_t": "Faithful to Vanilla",
-        "vanilla": "It's running above the server. It doesn't need to modify the server at all which keep everything vanilla",
-        "plugins_t": "Plugin-Rich",
-        "plugins": "Hot-reloadable plugin system. You don't need to shut down the server to update the plugins",
+        "vanilla": "It's running above the server. It doesn't need to modify the server at all, which keeps everything vanilla",
+        "plugins_t": "Feature Rich",
+        "plugins": "From an in-game calculator, player highlighter, and Twitch chat bot, to a scoreboard manipulator, file manager, and backup system, all of them can be implemented with MCDReforged plugins",
         "compatibility_t": "Broad Compatibility",
-        "compatibility": "Multi platform / server compatibility. Supports vanilla, paper, bungeecord etc. on Linux / Windows"
+        "compatibility": "Supports running various types of servers, including but not limited to vanilla, fabric, paper, and bungeecord, on Linux / Windows"
       }
     },
     "plugin_list": {

@@ -23,11 +23,11 @@
       "github": "GitHub",
       "feature": {
         "vanilla_t": "忠于原版",
-        "vanilla": "运行于服务端之上，无需修改服务端即实现各种插件功能，保留原汁原味的 Minecraft 原版特性",
-        "plugins_t": "插件丰富",
-        "plugins": "丰富的插件生态，各类插件应有尽有；可热重载的插件系统，无需重启服务端即可更新插件",
+        "vanilla": "运行于服务端之上，仅接管服务端输入输出，无需修改服务端即可实现各种插件功能。保留原汁原味的 Minecraft 原版特性",
+        "plugins_t": "功能丰富",
+        "plugins": "小至计算器、高亮玩家、b 站弹幕姬，大至操控计分板、管理结构文件、自助备份回档，都可以通过编写 MCDReforged 的插件实现",
         "compatibility_t": "兼容性广",
-        "compatibility": "多平台/服务端的兼容性，支持在 Linux / Windows 下运行 vanilla、paper 以及 bungeecord 等命令行服务端"
+        "compatibility": "支持在 Linux / Windows 等平台上运行任意种类的服务端，包括但不限于 vanilla、fabric、paper 以及 bungeecord 等"
       }
     },
     "plugin_list": {
