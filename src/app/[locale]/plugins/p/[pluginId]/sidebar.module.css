@@ -1,7 +1,3 @@
-.cardLikeBorder {
-  border-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-}
-
 .attributeEntryTitle {
   color: light-dark(darken(var(--mantine-color-gray-6), 0.1), var(--mantine-color-gray-6));
 }

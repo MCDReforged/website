@@ -104,7 +104,13 @@
         "title_package": "Python Package Requirements",
         "plugin_id": "Plugin ID",
         "py_package": "Python Package",
-        "requirement": "Requirement"
+        "requirement": "Requirement",
+
+        "py_package_command": "Python Package Installation Command",
+
+        "meta_source": "Metadata source: {src}",
+        "meta_source_latest_release": "Latest version {version}",
+        "meta_source_branch": "Git branch {branch}"
       }
     }
   }

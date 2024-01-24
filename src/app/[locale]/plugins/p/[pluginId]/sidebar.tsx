@@ -9,7 +9,7 @@ import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
-import { Button, Text } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { IconArrowBackUp, IconFileDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale } from "next-intl";
@@ -22,7 +22,7 @@ async function SidebarBackButton() {
 
   return (
     <Button
-      className={styles.cardLikeBorder}
+      className="border-mantine-border-card"
       component={NaLink}
       href="/plugins"
       variant="default"
@@ -101,12 +101,12 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
           </AttributeEntry>
           <AttributeEntry Icon={GithubIcon} label={t('repository')} className="col-span-2">
             <Link href={simplePlugin.repos} className={linkTextClass}>
-              <Text lineClamp={2}>{reposPair}</Text>
+              <p className="line-clamp-2">{reposPair}</p>
             </Link>
           </AttributeEntry>
           <AttributeEntry Icon={IconLink} label={t('homepage')} className="col-span-2">
             <Link href={simplePlugin.reposHome} className={linkTextClass}>
-              <Text lineClamp={2}>{homepage}</Text>
+              <p className="line-clamp-2">{homepage}</p>
             </Link>
           </AttributeEntry>
           <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>

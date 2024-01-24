@@ -39,7 +39,7 @@ async function Hero() {
 
   const buttonWidth = 180
   return (
-    <div className={clsx("w-full pt-[3rem] pb-[5rem] sm:py-[8rem]", "bg-[var(--mantine-color-white-filled)]")}>
+    <div className={clsx("w-full pt-[3rem] pb-[5rem] sm:py-[8rem]", "bg-mantine-background")}>
       <div className="max-w-screen-lg mx-auto px-8">
         <div className="max-lg:flex max-lg:flex-col lg:grid lg:grid-cols-2 gap-16">
 

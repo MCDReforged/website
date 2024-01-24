@@ -11,12 +11,14 @@ const config: Config = {
       colors: {
         'mantine-primary-7': 'var(--mantine-primary-color-7)',
         'mantine-primary': 'var(--mantine-primary-color-filled)',
+        'mantine-dimmed': 'var(--mantine-color-dimmed)',
         'mantine-dark-text': 'var(--mantine-color-dark-text)',
         'mantine-gray-text': 'var(--mantine-color-gray-text)',
         'mantine-text': 'var(--mantine-color-text)',
 
         'mantine-hover': 'var(--mantine-color-default-hover)',
         'mantine-border': 'var(--mantine-color-default-border)',
+        'mantine-border-card': 'light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4))',
         'mantine-background': 'var(--mantine-color-default)',   // for cards, menus
         'mantine-background-body': 'var(--mantine-color-body)',  // for the most-outer body
       },

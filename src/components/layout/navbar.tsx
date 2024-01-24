@@ -122,7 +122,7 @@ function MobileNavMenu({navOpened, setClosed}: {  navOpened: boolean, setClosed:
     <Box
       className={clsx(
         "fixed top-navbar-height w-full py-3 px-6",
-        "border-solid border-b", styles.navBorderColor,
+        "border-solid border-b border-mantine-border-card",
         styles.mobileNavMenu,
       )}
       mod={{hidden: !navOpened}}
@@ -149,7 +149,7 @@ export function Navbar() {
         className={clsx(
           "z-40 top-0 w-full h-navbar-height",
           "flex flex-row fixed items-center justify-center",
-          "border-solid border-b", styles.navBorderColor,
+          "border-solid border-b border-mantine-border-card",
           "bg-mantine-background-body",
         )}
       >
