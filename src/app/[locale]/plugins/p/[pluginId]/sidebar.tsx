@@ -75,7 +75,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
 
   const lastUpdateText = simplePlugin.recentUpdated !== undefined
     ? <TimeAgoDynamic date={simplePlugin.recentUpdated}/>
-    : <p>N/A</p>
+    : <p className="text-mantine-gray-text">N/A</p>
   const syncTimeText = <TimeAgoDynamic date={new Date(timestamp * 1000)}/>
 
   return (

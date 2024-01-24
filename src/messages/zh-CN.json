@@ -92,12 +92,13 @@
         "plugin_id": "插件 ID",
         "py_package": "Python 包",
         "requirement": "依赖版本",
+        "none": "无",
 
         "py_package_command": "Python 包安装指令",
 
         "meta_source": "元数据来源：{src}",
         "meta_source_latest_release": "最新版本 {version}",
-        "meta_source_branch": "Git 分支 {branch}"
+        "meta_source_branch": "Git 的 {branch} 分支"
       }
     }
   },

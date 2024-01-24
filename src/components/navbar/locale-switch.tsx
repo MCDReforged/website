@@ -30,7 +30,7 @@ export function LocaleSwitch() {
     <Menu width="6rem" radius="md" trigger="click-hover" openDelay={100} closeDelay={400}>
       <Menu.Target>
         <ActionIcon variant="default" size="lg">
-          <IconWorld aria-label="Language switch" stroke={1.5}/>
+          <IconWorld aria-label="Language switch" stroke={1.5} className="text-mantine-text"/>
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>

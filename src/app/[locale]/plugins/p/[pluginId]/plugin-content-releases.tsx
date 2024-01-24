@@ -60,7 +60,7 @@ export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
         </TableTd>
         <TableTd>{ri.asset.download_count}</TableTd>
         <TableTd>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row gap-2 *:text-mantine-icon-white">
             <PluginDownloadButton release={sr}/>
             <PluginReleaseBodyButton version={version}>
               {/* SSR, no need to dynamic */}

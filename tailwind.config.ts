@@ -12,9 +12,11 @@ const config: Config = {
         'mantine-primary-7': 'var(--mantine-primary-color-7)',
         'mantine-primary': 'var(--mantine-primary-color-filled)',
         'mantine-dimmed': 'var(--mantine-color-dimmed)',
+        'mantine-gray': 'var(--mantine-color-gray-filled)',
         'mantine-dark-text': 'var(--mantine-color-dark-text)',
-        'mantine-gray-text': 'var(--mantine-color-gray-text)',
+        'mantine-gray-text': 'light-dark(var(--mantine-color-gray-6), var(--mantine-color-gray-6))',
         'mantine-text': 'var(--mantine-color-text)',
+        'mantine-icon-white': 'light-dark(white, var(--mantine-color-text))',
 
         'mantine-hover': 'var(--mantine-color-default-hover)',
         'mantine-border': 'var(--mantine-color-default-border)',

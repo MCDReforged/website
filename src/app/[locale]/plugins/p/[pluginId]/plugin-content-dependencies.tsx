@@ -24,6 +24,12 @@ export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
       <DynamicPipInstallCodeHighlight requirements={meta.requirements}/>
     </div>
   )
+  const noneRow = (
+    <TableTr>
+      <TableTd><i className="text-mantine-dimmed select-none">{t('none')}</i></TableTd>
+      <TableTd/>
+    </TableTr>
+  )
 
   return (
     <TabBody className="flex flex-col gap-5">
@@ -46,6 +52,7 @@ export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
                   </TableTr>
                 )
               })}
+              {Object.keys(meta.dependencies).length == 0 && noneRow}
             </TableTbody>
           </Table>
         </div>
@@ -70,16 +77,19 @@ export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
                   </TableTr>
                 )
               })}
+              {meta.requirements.length == 0 && noneRow}
             </TableTbody>
           </Table>
         </div>
 
       </div>
 
-      <div>
-        <SectionTitle>{t('py_package_command')}</SectionTitle>
-        {meta.requirements.length > 0 && <PipInstallCodeBlock/>}
-      </div>
+      {meta.requirements.length > 0 &&
+        <div>
+          <SectionTitle>{t('py_package_command')}</SectionTitle>
+          <PipInstallCodeBlock/>
+        </div>
+      }
       <div>
         <p className="text-end text-sm text-mantine-dimmed">
           {t('meta_source', {

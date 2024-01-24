@@ -102,7 +102,7 @@ function DesktopNavBar({className, navOpened, navToggle}: { className?: string, 
         </NaLink>
       </div>
 
-      <div className="hidden sm:flex gap-2 justify-start ml-2 grow">
+      <div className="hidden sm:flex gap-3 justify-start ml-2 grow">
         {navItems.map((item) => <NavbarLink key={item.href} item={item} showIcon={false}/>)}
       </div>
 

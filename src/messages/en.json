@@ -105,6 +105,7 @@
         "plugin_id": "Plugin ID",
         "py_package": "Python Package",
         "requirement": "Requirement",
+        "none": "none",
 
         "py_package_command": "Python Package Installation Command",
 
