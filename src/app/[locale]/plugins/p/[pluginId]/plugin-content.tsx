@@ -1,6 +1,6 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import CommonCard from "@/components/common-card";
-import { rem, ScrollArea, TabsList, TabsPanel, TabsTab } from "@mantine/core";
+import { ScrollArea, TabsList, TabsPanel, TabsTab } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import { tabConfig } from "./plugin-content-common";
@@ -19,7 +19,6 @@ export async function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
       <p>{text}</p>
     </div>
   )
-  const iconStyle = { width: rem(16), height: rem(16) }
 
   return (
     <CommonCard className="max-lg:mx-[8px] md:mx-3 pb-6 pt-2">
@@ -28,7 +27,7 @@ export async function PluginContent({plugin}: { plugin: AllOfAPlugin }) {
           <TabsList className="flex-nowrap">
             {tabConfig.map((tc) => (
               <TabsTab key={tc.key} value={tc.key}>
-                {tabTitle(t(tc.key), <tc.icon style={iconStyle}/>)}
+                {tabTitle(t(tc.key), <tc.icon size={16} stroke={1.8}/>)}
               </TabsTab>
             ))}
           </TabsList>

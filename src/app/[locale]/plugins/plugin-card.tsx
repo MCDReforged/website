@@ -1,8 +1,8 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
-import { Link as NaLink } from "@/common/navigation";
 import CommonCard from "@/components/common-card";
 import { GfmMarkdownDynamic } from "@/components/gfm-markdown-dynamic";
 import { GithubIcon } from "@/components/icons";
+import { NaLink } from "@/components/na-link";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { PluginLabel } from "@/components/plugin/plugin-label";
@@ -27,7 +27,8 @@ function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginN
   return (
     <NaLink
       href={`/plugins/p/${pluginId}`}
-      className="text-2xl font-bold text-foreground break-words hover:text-mantine-primary-7 mx-1"
+      className="text-2xl font-bold text-foreground break-words mx-1"
+      hoverColor
     >
       {pluginName}
     </NaLink>

@@ -1,8 +1,8 @@
 import { createSimpleRelease } from "@/catalogue/conversion";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimpleRelease } from "@/catalogue/simple-types";
-import { Link as NaLink } from "@/common/navigation";
 import GfmMarkdown from "@/components/gfm-markdown";
+import { NaLink } from "@/components/na-link";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { formatTime } from "@/utils/time-utils";
 import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
@@ -19,7 +19,7 @@ async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
   return (
     <Tooltip label={tooltip}>
       <ActionIcon color="blue" aria-label={tooltip}>
-        <NaLink href={release.url} aria-label={tooltip} target="_blank">
+        <NaLink href={release.url} aria-label={tooltip}>
           <IconTag stroke={1.5}/>
         </NaLink>
       </ActionIcon>
@@ -48,13 +48,13 @@ export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
       <TableTr key={ri.tag_name}>
         <TableTd className="whitespace-nowrap">{version}</TableTd>
         <TableTd>
-          <Tooltip label={ri.asset.name}><p>{ri.asset.name}</p></Tooltip>
+          <Tooltip label={ri.asset.name} openDelay={500}><p>{ri.asset.name}</p></Tooltip>
         </TableTd>
         <TableTd className="whitespace-nowrap">
           {formatTime(date , 'YYYY/MM/DD')}
         </TableTd>
         <TableTd>
-          <Tooltip label={`${ri.asset.size} ${t('bytes')}`}>
+          <Tooltip label={`${ri.asset.size} ${t('bytes')}`} openDelay={500}>
             <p>{PrettySize(ri.asset.size)}</p>
           </Tooltip>
         </TableTd>

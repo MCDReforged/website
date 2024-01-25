@@ -1,7 +1,8 @@
 'use client'
 
-import { Link as NaLink, usePathname } from "@/common/navigation";
+import { usePathname } from "@/common/navigation";
 import { GithubIcon, McdrLogo, } from "@/components/icons";
+import { NaLink } from "@/components/na-link";
 import { LocaleSwitch } from "@/components/navbar/locale-switch";
 import { ThemeSwitch } from "@/components/navbar/theme-switch";
 import { siteConfig } from "@/config/site";

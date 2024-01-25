@@ -1,10 +1,10 @@
-import { IconBook, IconFileDescription, IconPackageImport, IconTags } from "@tabler/icons-react";
+import { Icon, IconBook, IconFileDescription, IconPackageImport, IconTags } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import React from "react";
 
 interface TabConfig {
   key: string
-  icon: typeof IconBook
+  icon: Icon
 }
 
 export const tabConfig: TabConfig[] = [

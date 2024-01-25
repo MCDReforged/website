@@ -1,6 +1,6 @@
 import { AuthorInfo } from "@/catalogue/meta-types";
+import { NaLink } from "@/components/na-link";
 import { clsx } from "clsx";
-import Link from "next/link";
 import React from "react";
 
 export function PluginAuthor({author, className}: {author: AuthorInfo, className: string}) {
@@ -8,9 +8,9 @@ export function PluginAuthor({author, className}: {author: AuthorInfo, className
     return null
   }
   return (
-    <Link href={author.link} className={clsx("hover:text-mantine-primary-7", className)}>
+    <NaLink href={author.link} className={className} hoverColor>
       {author.name}
-    </Link>
+    </NaLink>
   )
 }
 
@@ -23,7 +23,7 @@ interface PluginAuthorListProps {
 
 export function PluginAuthorList({authors, wrap, textClassName, linkClassName}: PluginAuthorListProps) {
   return (
-    <div className={clsx("flex flex-row", wrap ? "flex-wrap" : undefined)}>
+    <div className={clsx("flex flex-row", wrap && "flex-wrap")}>
       {authors.map((author, index) =>
         <div className="flex flex-row" key={index}>
           <PluginAuthor author={author} className={clsx(textClassName, linkClassName)}/>

@@ -1,9 +1,10 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
-import { Link as NaLink, Link } from "@/common/navigation";
+import { Link } from "@/common/navigation";
 import CommonCard from "@/components/common-card";
 import GfmMarkdown from "@/components/gfm-markdown";
 import { GithubIcon } from "@/components/icons";
+import { NaLink } from "@/components/na-link";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
@@ -23,7 +24,7 @@ async function SidebarBackButton() {
   return (
     <Button
       className="border-mantine-border-card"
-      component={NaLink}
+      component={Link}
       href="/plugins"
       variant="default"
       leftSection={<IconArrowBackUp size="1rem"/>}
@@ -66,9 +67,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
   const locale = useLocale()
   const t = await getTranslations('page.plugin.sidebar')
 
-  const linkClass = 'hover:text-mantine-primary-7'
   const textClass = 'overflow-hidden overflow-ellipsis break-words'
-  const linkTextClass = clsx(textClass, linkClass)
 
   const reposPair = getGitHubReposPair(simplePlugin.repos)
   const homepage = reposPair + ' @ ' + plugin.plugin.branch
@@ -97,17 +96,17 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
       <CommonCard className="p-5">
         <div className="grid grid-cols-2 gap-3 justify-between">
           <AttributeEntry Icon={IconUser} label={t('author')} className="col-span-2">
-            <PluginAuthorList authors={simplePlugin.authors} linkClassName={linkClass} wrap/>
+            <PluginAuthorList authors={simplePlugin.authors} wrap/>
           </AttributeEntry>
-          <AttributeEntry Icon={GithubIcon} label={t('repository')} className="col-span-2">
-            <Link href={simplePlugin.repos} className={linkTextClass}>
+          <AttributeEntry Icon={GithubIcon} label={t('repository')} className="col-span-2 break-all">
+            <NaLink href={simplePlugin.repos} className={textClass} hoverColor>
               <p className="line-clamp-2">{reposPair}</p>
-            </Link>
+            </NaLink>
           </AttributeEntry>
-          <AttributeEntry Icon={IconLink} label={t('homepage')} className="col-span-2">
-            <Link href={simplePlugin.reposHome} className={linkTextClass}>
+          <AttributeEntry Icon={IconLink} label={t('homepage')} className="col-span-2 break-all">
+            <NaLink href={simplePlugin.reposHome} className={textClass} hoverColor>
               <p className="line-clamp-2">{homepage}</p>
-            </Link>
+            </NaLink>
           </AttributeEntry>
           <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>
             {syncTimeText}
@@ -117,7 +116,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
           </AttributeEntry>
           <AttributeEntry Icon={IconTag} label={t('latest_version')}>
           {simplePlugin.latestRelease !== undefined
-              ? <Link href={simplePlugin.latestRelease.url} className={linkTextClass}>{simplePlugin.latestRelease.version}</Link>
+              ? <NaLink href={simplePlugin.latestRelease.url} className={textClass} hoverColor>{simplePlugin.latestRelease.version}</NaLink>
               : <p className={textClass}>N/A</p> }
           </AttributeEntry>
           <AttributeEntry Icon={IconFileDownload} label={t('total_downloads')}>

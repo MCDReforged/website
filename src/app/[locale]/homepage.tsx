@@ -1,4 +1,5 @@
-import { Link as NaLink } from "@/common/navigation";
+import { Link } from "@/common/navigation";
+import { McdrLogo } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 import { Button, Text, ThemeIcon, Title } from '@mantine/core';
 import { Icon, IconBook2, IconDevicesCheck, IconExternalLink, IconPackage, IconPackages, IconPlant2 } from "@tabler/icons-react";
@@ -6,7 +7,6 @@ import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
 import { Poppins } from "next/font/google";
 import React from "react";
-import { McdrLogo } from "../../components/icons";
 import styles from './homepage.module.css';
 
 const titleFont = Poppins({ subsets: ['latin'], weight: ['700'] })
@@ -58,7 +58,7 @@ async function Hero() {
         <Button
           w={buttonWidth}
           leftSection={<IconPackages size={18} stroke={1.4}/>}
-          component={NaLink}
+          component={Link}
           href="/plugins"
         >
           {t('catalogue')}
@@ -68,7 +68,7 @@ async function Hero() {
           leftSection={<IconBook2 size={20} stroke={1.6}/>}
           rightSection={<IconExternalLink size={16} stroke={1.6}/>}
           variant="default"
-          component={NaLink}
+          component={Link}
           target="_blank"
           href={siteConfig.links.docs}
         >

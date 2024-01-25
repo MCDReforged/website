@@ -1,7 +1,9 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
+import { NaLink } from "@/components/na-link";
+import { siteConfig } from "@/config/site";
 import { Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
 import { clsx } from "clsx";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import dynamic from "next/dynamic";
 import React from "react";
 import { TabBody } from "./plugin-content-common";
@@ -10,8 +12,8 @@ const DynamicPipInstallCodeHighlight = dynamic(
   () => import('./pip-install-code-highlight'),
 )
 
-export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
-  const t = useTranslations('page.plugin.dependencies')
+export async function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
+  const t = await getTranslations('page.plugin.dependencies')
   const latestRelease = plugin.release.releases[plugin.release.latest_version_index ?? -1]
   const meta = latestRelease !== undefined ? latestRelease.meta : plugin.meta
 
@@ -45,9 +47,18 @@ export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
             </TableThead>
             <TableTbody>
               {Object.entries(meta.dependencies).map(([pluginId, requirement], index) => {
+                const id = pluginId.match(/^[a-zA-Z0-9_]+$/)?.toString()
+                const pluginUrl = id === 'mcdreforged'
+                  ? siteConfig.links.github
+                  : (id !== undefined ? `/plugins/p/${pluginId}` : undefined)
                 return (
                   <TableTr key={index}>
-                    <TableTd>{pluginId}</TableTd>
+                    <TableTd>
+                      {pluginUrl !== undefined
+                        ? <NaLink href={pluginUrl} hoverColor>{pluginId}</NaLink>
+                        : pluginId
+                      }
+                    </TableTd>
                     <TableTd>{requirement}</TableTd>
                   </TableTr>
                 )
@@ -68,11 +79,17 @@ export function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
             </TableThead>
             <TableTbody>
               {meta.requirements.map((line, index) => {
-                const pkg = line.match(/^[a-zA-z0-9._[\],-]+/)?.toString() || line
-                const req = line.substring(pkg.length).trimStart()
+                const pkg = line.match(/^[a-zA-z0-9._[\],-]+/)?.toString()
+                const req = pkg !== undefined ? line.substring(pkg.length).trimStart() : ''
+                const pkgUrl = pkg !== undefined ? `https://pypi.org/project/${pkg.match(/^[a-zA-Z0-9._-]+/)}/` : undefined
                 return (
                   <TableTr key={index}>
-                    <TableTd>{pkg}</TableTd>
+                    <TableTd>
+                      {pkgUrl !== undefined
+                        ? <NaLink href={pkgUrl} hoverColor>{pkg}</NaLink>
+                        : pkg || line
+                      }
+                    </TableTd>
                     <TableTd>{req}</TableTd>
                   </TableTr>
                 )
