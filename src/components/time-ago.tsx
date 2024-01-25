@@ -29,7 +29,7 @@ export function TimeAgo({date, className, component: Component = 'p'}: { date: D
           setTimeTexts(newTexts)
         }
       },
-      60 * 1000
+      60 * 1000,
     )
     return () => clearInterval(interval)
   }, [date, locale, timeTexts])

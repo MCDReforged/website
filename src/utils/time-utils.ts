@@ -1,14 +1,25 @@
-import moment from 'moment';
-import 'moment/locale/zh-cn';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-cn'
+
+dayjs.extend(localizedFormat)
+dayjs.extend(relativeTime)
+
+function get(date: Date, locale?: string) {
+  let dj = dayjs(date)
+  if (locale) {
+    dj = dj.locale(locale.toLowerCase())
+  }
+  return dj
+}
 
 // NOTES: if SSR, the result might be wrong
 export function getTimeAgo(date: Date, locale?: string): string {
-  moment.locale(locale?.toLowerCase())
-  return moment(date).fromNow()
+  return get(date, locale).fromNow()
 }
 
 export function formatTime(date: Date, formatter: string = 'YYYY/MM/DD hh:mm:ss', locale?: string): string {
-  moment.locale(locale?.toLowerCase())
-  return moment(date).format(formatter)
+  return get(date, locale).format(formatter)
 }
 
