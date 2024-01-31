@@ -30,7 +30,7 @@ export default async function Page({params: {locale, pluginId}}: { params: { plu
         <Sidebar plugin={plugin} simplePlugin={createSimplePlugin(plugin, everything.authors)} timestamp={timestamp}/>
       </div>
       <div className="flex md:hidden">
-        <Divider className="w-full m-6" variant="dashed"/>
+        <Divider className="w-full m-6 relative bottom-[1px]" variant="dashed"/>
       </div>
       <div className="md:pl-sidebar-width">
         <PluginContent plugin={plugin}/>

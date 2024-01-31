@@ -27,7 +27,7 @@ export default async function Page({params: {locale}}: {params: {locale: string}
             <Sidebar everything={everything}/>
           </div>
           <div className="flex md:hidden">
-            <Divider className="w-full m-6" variant="dashed"/>
+            <Divider className="w-full m-6 relative bottom-[1px]" variant="dashed"/>
           </div>
           <div className="md:pl-sidebar-width">
             <PluginList everything={everything}/>

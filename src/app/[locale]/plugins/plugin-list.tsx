@@ -2,6 +2,7 @@
 
 import { SimpleEverything, SimplePlugin } from "@/catalogue/simple-types";
 import { Pagination } from "@mantine/core";
+import { useScrollIntoView } from "@mantine/hooks";
 import React, { useContext, useEffect, useState } from 'react';
 import { DisplayStrategyContextValue, filterPlugins } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
@@ -43,11 +44,21 @@ export function PluginList({everything}: {everything: SimpleEverything}) {
     }
   }, [currentPage, totalPages])
 
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
+    offset: 56 + 24,  // 56px navbar + 24px padding-top
+    duration: 0,
+    easing: (t) => 1,
+    cancelable: true,
+  })
+
   function Pager() {
     return <Pagination
       total={totalPages}
       value={currentPage}
-      onChange={setPage}
+      onChange={p => {
+        setPage(p)
+        scrollIntoView()
+      }}
       getControlProps={(control) => {
         return {
           'aria-label': `${control} page`,
@@ -58,7 +69,9 @@ export function PluginList({everything}: {everything: SimpleEverything}) {
 
   return (
     <div className="max-lg:mx-[8px] md:mx-3 mb-5 flex flex-col gap-4 items-center">
-      <Pager/>
+      <div ref={targetRef}>
+        <Pager/>
+      </div>
       <div className="gap-4 flex flex-col w-full">
         {paginatedPlugins.map(plugin => {
           return <PluginCard key={plugin.id} plugin={plugin}/>
