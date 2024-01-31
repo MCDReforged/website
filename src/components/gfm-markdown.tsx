@@ -5,33 +5,26 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 import "@/styles/github-markdown.css"
+import { visit } from "unist-util-visit";
 
 // fix for https://github.com/tailwindlabs/tailwindcss/pull/7742#issuecomment-1061332148
 function imageFixer(): (tree: Root) => Root {
-  function fixTree(node: Root | Element) {
-    if (node.type === 'element' && 'tagName' in node && node.tagName === 'img') {
-      const height = node.properties['height']
-      if (height !== undefined) {
-        let prevStyle = node.properties.style
-        if (typeof prevStyle !== 'string') {
-          prevStyle = ''
+  return (tree: Root): Root => {
+    visit(tree, 'element', (node: Element) => {
+      if ('tagName' in node && node.tagName === 'img') {
+        const height = node.properties['height']
+        if (height !== undefined) {
+          let prevStyle = node.properties.style
+          if (typeof prevStyle !== 'string') {
+            prevStyle = ''
+          }
+          if (prevStyle && !/;\s*/.test(prevStyle)) {
+            prevStyle += '; '
+          }
+          node.properties.style = `${prevStyle}height: ${height}px;`
         }
-        if (prevStyle && !/;\s*/.test(prevStyle)) {
-          prevStyle += '; '
-        }
-        node.properties.style = `${prevStyle}height: ${height}px;`
       }
-    }
-
-    for (const child of node.children) {
-      if (child.type === 'element') {
-        fixTree(child)
-      }
-    }
-  }
-
-  return (tree: Root) => {
-    fixTree(tree)
+    })
     return tree
   }
 }
