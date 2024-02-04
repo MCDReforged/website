@@ -2,7 +2,7 @@
   "metadata": {
     "title": {
       "catalogue": "Plugin Catalogue",
-      "plugin": "Plugin Catalogue - {name}"
+      "plugin": "{name} - Plugin Catalogue"
     }
   },
   "layout": {
