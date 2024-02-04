@@ -1,15 +1,18 @@
 import { SimpleRelease } from "@/catalogue/simple-types";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
+import { clsx } from "clsx";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-export function PluginDownloadButton({release}: {release: SimpleRelease}) {
-  const ariaLabel = `Download version ${release.version}`
-  const tooltip = `${release.assetName} (v${release.version})`
+export function PluginDownloadButton({release, variant = 'filled'}: {release: SimpleRelease, variant?: string}) {
+  const t = useTranslations('component.plugin_download_button')
+
+  const tooltip = t('tooltip', {name: release.assetName, version: release.version})
   return (
     <Tooltip label={tooltip}>
-      <ActionIcon color="teal" aria-label={ariaLabel}>
-        <a href={release.assetUrl} aria-label={ariaLabel} download>
+      <ActionIcon color="teal" variant={variant} aria-label={tooltip} className={clsx(variant === 'filled' && 'text-mantine-icon-white')}>
+        <a href={release.assetUrl} aria-label={tooltip} download>
           <IconDownload stroke={1.5}/>
         </a>
       </ActionIcon>

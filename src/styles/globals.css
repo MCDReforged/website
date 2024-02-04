@@ -1,3 +1,5 @@
+/* ============= Basic setups ============= */
+
 /* https://github.com/orgs/mantinedev/discussions/1672#discussioncomment-7870643 */
 @layer tailwind {
   @tailwind base;
@@ -11,7 +13,8 @@
   margin-right: calc(100% - 100vw);
 }
 
-/* ============= Revert tailwind preflight modifications on markdown-body -- starts ============= */
+/* ============= Revert tailwind preflight modifications on markdown-body ============= */
+
 /* https://tailwindcss.com/docs/preflight#lists-are-unstyled */
 .markdown-body ol, .markdown-body ul {
   list-style: revert;
@@ -26,7 +29,8 @@
   max-width: none;
   height: initial;
 }
-/* ============= Revert tailwind preflight modifications on markdown-body -- ends ============= */
+
+/* ============= Mantine tweaks ============= */
 
 /* Make mantine buttons still */
 .mantine-active {
@@ -34,6 +38,8 @@
     transform: none;
   }
 }
+
+/* ============= Utility classes ============= */
 
 .color-link {
   color: var(--mantine-color-anchor);

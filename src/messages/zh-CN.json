@@ -12,6 +12,9 @@
       "management": "管理",
       "api": "API",
       "__unknown": "未知"
+    },
+    "plugin_download_button": {
+      "tooltip": "下载 {name} (v{version})"
     }
   },
   "page": {
@@ -84,7 +87,11 @@
         "size": "大小",
         "downloads": "下载量",
         "actions": "操作",
-        "bytes": "字节"
+        "bytes": "字节",
+        "button_release_body_tooltip": "显示 v{version} 的完整更新日志",
+        "button_release_body_title": "v{version} 的更新日志",
+        "button_release_body_nothing": "v{version} 的更新日志为空",
+        "button_release_page_tooltip": "前往发行版 v{version} 的 GitHub 页面"
       },
       "dependencies": {
         "title_plugin": "MCDR 插件依赖",

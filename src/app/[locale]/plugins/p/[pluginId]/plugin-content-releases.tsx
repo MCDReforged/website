@@ -4,21 +4,24 @@ import { SimpleRelease } from "@/catalogue/simple-types";
 import GfmMarkdown from "@/components/gfm-markdown";
 import { NaLink } from "@/components/na-link";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
+import { pick } from "@/utils/i18n-utils";
 import { formatTime } from "@/utils/time-utils";
 import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
-import { getTranslations } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import React from "react";
 import { TabBody } from "./plugin-content-common"
 import { PluginReleaseBodyButton } from "./plugin-content-releases-body";
 import { PrettySize } from "./utils";
 
 async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
-  const version = release.version
-  const tooltip = `Visit external release page for v${version}`
+  const t = await getTranslations('page.plugin.releases')
+
+  const tooltip = t('button_release_page_tooltip', {version: release.version})
   return (
     <Tooltip label={tooltip}>
-      <ActionIcon color="blue" aria-label={tooltip}>
+      <ActionIcon color="grape" variant="light" aria-label={tooltip}>
         <NaLink href={release.url} aria-label={tooltip}>
           <IconTag stroke={1.5}/>
         </NaLink>
@@ -29,6 +32,8 @@ async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
 
 export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const t = await getTranslations('page.plugin.releases')
+  const locale = await getLocale()
+  const messages = await getMessages()
 
   const titles = (
     <TableTr>
@@ -60,16 +65,18 @@ export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
         </TableTd>
         <TableTd>{ri.asset.download_count}</TableTd>
         <TableTd>
-          <div className="flex flex-row gap-2 *:text-mantine-icon-white">
-            <PluginDownloadButton release={sr}/>
-            <PluginReleaseBodyButton version={version}>
-              {/* SSR, no need to dynamic */}
-              <GfmMarkdown allowEmbedHtml>
-                {ri.description || ''}
-              </GfmMarkdown>
-            </PluginReleaseBodyButton>
-            <PluginReleasePageButton release={sr}/>
-          </div>
+          <NextIntlClientProvider locale={locale} messages={pick(messages, ['page.plugin.releases', 'component'])}>
+            <div className="flex flex-row gap-2">
+              <PluginDownloadButton release={sr} variant="light"/>
+              <PluginReleaseBodyButton version={version} releaseUrl={sr.url} hasDescription={!!ri.description}>
+                {/* SSR, no need to dynamic */}
+                <GfmMarkdown allowEmbedHtml>
+                  {ri.description || ''}
+                </GfmMarkdown>
+              </PluginReleaseBodyButton>
+              <PluginReleasePageButton release={sr}/>
+            </div>
+          </NextIntlClientProvider>
         </TableTd>
       </TableTr>
     )

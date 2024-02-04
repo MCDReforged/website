@@ -25,6 +25,9 @@
       "management": "management",
       "api": "API",
       "__unknown": "unknown"
+    },
+    "plugin_download_button": {
+      "tooltip": "Download {name} (v{version})"
     }
   },
   "page": {
@@ -97,7 +100,11 @@
         "size": "Size",
         "downloads": "Downloads",
         "actions": "Actions",
-        "bytes": "bytes"
+        "bytes": "bytes",
+        "button_release_body_tooltip": "Show full release notes for v{version}",
+        "button_release_body_title": "Release notes for v{version}",
+        "button_release_body_nothing": "No release notes for v{version}",
+        "button_release_page_tooltip": "Visit GitHub release page for v{version}"
       },
       "dependencies": {
         "title_plugin": "MCDR Plugin Dependencies",
