@@ -95,7 +95,7 @@ async function Hero() {
       <div className="px-8 mx-auto flex gap-12 items-center justify-center">
         <div className="max-w-[500px] max-lg:*:text-center">
           {intro}
-          <p className="text-lg italic bg-red-200 text-black rounded mt-3 text-center">Note: This website is still under development</p>
+          <p className="text-lg italic bg-red-200 dark:bg-red-800 rounded mt-3 text-center">Note: This website is still under development</p>
         </div>
         <div className="max-lg:hidden">
           {logo}
