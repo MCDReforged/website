@@ -4,11 +4,9 @@ import { SimpleRelease } from "@/catalogue/simple-types";
 import GfmMarkdown from "@/components/gfm-markdown";
 import { NaLink } from "@/components/na-link";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
-import { pick } from "@/utils/i18n-utils";
 import { formatTime } from "@/utils/time-utils";
 import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
-import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import React from "react";
 import { TabBody } from "./plugin-content-common"
@@ -65,18 +63,23 @@ export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
         </TableTd>
         <TableTd>{ri.asset.download_count}</TableTd>
         <TableTd>
-          <NextIntlClientProvider locale={locale} messages={pick(messages, ['page.plugin.releases', 'component'])}>
-            <div className="flex flex-row gap-2">
-              <PluginDownloadButton release={sr} variant="light"/>
-              <PluginReleaseBodyButton version={version} releaseUrl={sr.url} hasDescription={!!ri.description}>
-                {/* SSR, no need to dynamic */}
-                <GfmMarkdown allowEmbedHtml>
-                  {ri.description || ''}
-                </GfmMarkdown>
-              </PluginReleaseBodyButton>
-              <PluginReleasePageButton release={sr}/>
-            </div>
-          </NextIntlClientProvider>
+          <div className="flex flex-row gap-2">
+            <PluginDownloadButton release={sr} variant="light"/>
+            <PluginReleaseBodyButton
+              releaseUrl={sr.url} hasDescription={!!ri.description}
+              texts={{
+                tooltip: t('button_release_body_tooltip', {version}),
+                title: t('button_release_body_title', {version}),
+                nothing: t('button_release_body_nothing', {version}),
+              }}
+            >
+              {/* SSR, no need to dynamic */}
+              <GfmMarkdown allowEmbedHtml>
+                {ri.description || ''}
+              </GfmMarkdown>
+            </PluginReleaseBodyButton>
+            <PluginReleasePageButton release={sr}/>
+          </div>
         </TableTd>
       </TableTr>
     )

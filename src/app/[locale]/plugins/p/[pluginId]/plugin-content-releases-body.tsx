@@ -4,24 +4,25 @@ import { NaLink } from "@/components/na-link";
 import { ActionIcon, Modal, Popover, Title, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconExternalLink, IconFileDescription } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
 import React from "react";
 
 interface PluginReleaseBodyButtonProps {
-  version: string
   releaseUrl: string
   hasDescription: boolean
+  texts: {
+    tooltip: string
+    title: string
+    nothing: string
+  }
   children: React.ReactNode
 }
 
-export function PluginReleaseBodyButton({version, releaseUrl, hasDescription, children}: PluginReleaseBodyButtonProps) {
-  const t = useTranslations('page.plugin.releases')
-
+export function PluginReleaseBodyButton({releaseUrl, hasDescription, texts, children}: PluginReleaseBodyButtonProps) {
   const [modalOpened, modalOpener] = useDisclosure(false)
   const [popoverOpened, popoverOpener] = useDisclosure(false)
 
   if (!hasDescription) {
-    const tooltip = t('button_release_body_nothing', {version})
+    const tooltip = texts.nothing
     return (
       <Tooltip label={tooltip}>
         <ActionIcon color="blue" variant="light" aria-label={tooltip} disabled>
@@ -31,8 +32,7 @@ export function PluginReleaseBodyButton({version, releaseUrl, hasDescription, ch
     )
   }
 
-  const tooltip = t('button_release_body_tooltip', {version})
-  const title = t('button_release_body_title', {version})
+  const {tooltip, title} = texts
   return (
     <>
       <Popover opened={popoverOpened} position="left-start" width={300}>
