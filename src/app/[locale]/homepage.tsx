@@ -5,8 +5,8 @@ import { Button, Text, ThemeIcon, Title } from '@mantine/core';
 import { Icon, IconBook2, IconDevicesCheck, IconExternalLink, IconPackage, IconPackages, IconPlant2 } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
-import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import React from "react";
 import styles from './homepage.module.css';
 
@@ -44,7 +44,7 @@ async function Hero() {
   const intro = (
     <>
       <Title className={clsx(
-        "font-bold text-4xl min-[400px]:text-5xl sm:text-6xl mb-7",
+        "font-bold text-4xl min-[420px]:text-5xl sm:text-6xl mb-7",
         styles.title, titleFont.className,
       )}>
         MCD
@@ -81,23 +81,28 @@ async function Hero() {
   )
 
   const logo = (
-    <div className="flex flex-col items-center gap-5">
-      <McdrLogo size={240}/>
-      <div className={clsx(mcFont.className)}>
-        <p className="text-[#BC7749] text-4xl">MCDaemon</p>
-        <p className="text-[#646464] text-4xl">Reforged</p>
+    <div className="flex flex-row lg:flex-col items-center gap-x-2 gap-y-5">
+      <div className="w-[64px] min-[420px]:w-[96px] lg:w-[240px]">
+        <McdrLogo size="full"/>
+      </div>
+      <div className={clsx(mcFont.className, "text-center text-[32px] min-[420px]:text-[48px] leading-none")}>
+        <p className="text-[#C8723F]">MCDaemon</p>
+        <p className="text-[#646464]">Reforged</p>
       </div>
     </div>
   )
 
   return (
-    <div className={clsx("w-full py-[3rem] sm:pt-[6rem] sm:pb-[8rem]", "bg-mantine-background")}>
-      <div className="px-8 mx-auto flex gap-12 items-center justify-center">
+    <div className={clsx(
+      "w-full py-[3rem] sm:pt-[6rem] sm:pb-[8rem]",
+      "bg-mantine-background"
+    )}>
+      <div className="px-8 mx-auto flex max-lg:flex-col gap-12 items-center justify-center">
         <div className="max-w-[500px] max-lg:*:text-center">
           {intro}
           <p className="text-lg italic bg-red-200 dark:bg-red-800 rounded mt-3 text-center">Note: This website is still under development</p>
         </div>
-        <div className="max-lg:hidden">
+        <div>
           {logo}
         </div>
       </div>
@@ -109,7 +114,7 @@ export async function FeatureList() {
   const t = await getTranslations('page.home')
 
   return (
-    <div className={clsx("w-full py-[3rem]", styles.featureBackground)}>
+    <div className={clsx("w-full py-[3rem] mb-5", styles.featureBackground)}>
       <div className="max-w-[576px] lg:max-w-screen-lg px-8 mx-auto">
         <div className="flex flex-col lg:grid lg:grid-cols-3 gap-10">
           {features.map(feat => (

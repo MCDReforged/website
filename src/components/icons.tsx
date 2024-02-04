@@ -1,7 +1,7 @@
 import * as React from "react";
 
 type IconSvgProps = React.SVGProps<SVGSVGElement> & {
-  size?: number;
+  size?: number | string | undefined;
 }
 
 export const McdrLogo: React.FC<IconSvgProps> = ({
