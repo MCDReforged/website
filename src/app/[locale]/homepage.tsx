@@ -5,11 +5,13 @@ import { Button, Text, ThemeIcon, Title } from '@mantine/core';
 import { Icon, IconBook2, IconDevicesCheck, IconExternalLink, IconPackage, IconPackages, IconPlant2 } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
+import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 import React from "react";
 import styles from './homepage.module.css';
 
 const titleFont = Poppins({ subsets: ['latin'], weight: ['700'] })
+const mcFont = localFont({ src: './Minecrafter.Reg.ttf' })
 
 interface FeatureItem {
   id: string
@@ -78,17 +80,26 @@ async function Hero() {
     </>
   )
 
+  const logo = (
+    <div className="flex flex-col items-center gap-5">
+      <McdrLogo size={240}/>
+      <div className={clsx(mcFont.className)}>
+        <p className="text-[#BC7749] text-4xl">MCDaemon</p>
+        <p className="text-[#646464] text-4xl">Reforged</p>
+      </div>
+    </div>
+  )
+
   return (
-    <div className={clsx("w-full py-[3rem] sm:py-[8rem]", "bg-mantine-background")}>
+    <div className={clsx("w-full py-[3rem] sm:pt-[6rem] sm:pb-[8rem]", "bg-mantine-background")}>
       <div className="px-8 mx-auto flex gap-12 items-center justify-center">
         <div className="max-w-[500px] max-lg:*:text-center">
           {intro}
           <p className="text-lg italic bg-red-200 text-black rounded mt-3 text-center">Note: This website is still under development</p>
         </div>
         <div className="max-lg:hidden">
-          <McdrLogo size={280}/>
+          {logo}
         </div>
-
       </div>
     </div>
   );
