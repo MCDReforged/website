@@ -184,8 +184,13 @@ export const CodeHighlightTabs = factory<CodeHighlightTabsFactory>((_props, ref)
     </UnstyledButton>
   ));
 
+  const boxStyles = {
+    ...getStyles('root'),
+    mod: {collapsed: !_expanded},
+  }
+
   return (
-    <Box {...getStyles('root')} mod={{ collapsed: !_expanded }} ref={ref} {...others} dir="ltr">
+    <Box {...boxStyles} ref={ref} {...others} dir="ltr">
       {withHeader && (
         <div {...getStyles('header')}>
           <ScrollArea type="never" dir="ltr" offsetScrollbars={false}>
