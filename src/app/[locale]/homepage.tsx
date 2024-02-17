@@ -37,7 +37,7 @@ const features: FeatureItem[] = [
   },
 ]
 
-async function ClassicLongLogo({className}: {classname?: string}) {
+async function ClassicLongLogo({className}: {className?: string}) {
   return (
     <div className={clsx(className, "flex flex-row lg:flex-col items-center gap-x-2 gap-y-5")}>
       <div className="w-[64px] min-[450px]:w-[96px] lg:w-[240px]">

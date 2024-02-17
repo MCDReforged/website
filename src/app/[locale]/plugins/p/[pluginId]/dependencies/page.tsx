@@ -1,18 +1,18 @@
+import { getPlugin } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
 import { siteConfig } from "@/config/site";
 import { Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
 import { clsx } from "clsx";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import dynamic from "next/dynamic";
 import React from "react";
-import { TabBody } from "./plugin-content-common";
 
 const DynamicPipInstallCodeHighlight = dynamic(
   () => import('./pip-install-code-highlight'),
 )
 
-export async function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
+async function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
   const t = await getTranslations('page.plugin.dependencies')
   const latestRelease = plugin.release.releases[plugin.release.latest_version_index ?? -1]
   const meta = latestRelease !== undefined ? latestRelease.meta : plugin.meta
@@ -34,7 +34,7 @@ export async function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin
   )
 
   return (
-    <TabBody className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5">
       <div className="max-lg:flex max-lg:flex-col lg:grid lg:grid-cols-2 gap-5">
         <div>
           <SectionTitle className="mb-2">{t('title_plugin')}</SectionTitle>
@@ -116,6 +116,15 @@ export async function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin
           })}
         </p>
       </div>
-    </TabBody>
+    </div>
+  )
+}
+
+export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
+  unstable_setRequestLocale(locale);
+  const plugin = await getPlugin(pluginId)
+
+  return (
+    <PluginContentDependencies plugin={plugin}/>
   )
 }

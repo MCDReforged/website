@@ -1,4 +1,5 @@
 import { createSimpleRelease } from "@/catalogue/conversion";
+import { getPlugin } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimpleRelease } from "@/catalogue/simple-types";
 import GfmMarkdown from "@/components/gfm-markdown";
@@ -7,10 +8,9 @@ import { PluginDownloadButton } from "@/components/plugin/plugin-download-button
 import { formatTime } from "@/utils/time-utils";
 import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
-import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import { getLocale, getMessages, getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
-import { TabBody } from "./plugin-content-common"
-import { PluginReleaseBodyButton } from "./plugin-content-releases-body";
+import { PluginReleaseBodyButton } from "./release-body";
 import { PrettySize } from "./utils";
 
 async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
@@ -28,7 +28,7 @@ async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
   )
 }
 
-export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
+async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const t = await getTranslations('page.plugin.releases')
   const locale = await getLocale()
   const messages = await getMessages()
@@ -87,12 +87,19 @@ export async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
 
   return (
     <TableScrollContainer minWidth={400} className="pb-0">
-      <TabBody>
-        <Table>
-          <TableThead className="whitespace-nowrap">{titles}</TableThead>
-          <TableTbody>{rows}</TableTbody>
-        </Table>
-      </TabBody>
+      <Table>
+        <TableThead className="whitespace-nowrap">{titles}</TableThead>
+        <TableTbody>{rows}</TableTbody>
+      </Table>
     </TableScrollContainer>
+  )
+}
+
+export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
+  unstable_setRequestLocale(locale);
+  const plugin = await getPlugin(pluginId)
+
+  return (
+    <PluginContentReleases plugin={plugin}/>
   )
 }
