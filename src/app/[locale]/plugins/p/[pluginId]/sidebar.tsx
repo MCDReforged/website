@@ -81,7 +81,9 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
     <div className="mx-[8px] flex flex-col gap-5">
       <CommonCard className="p-5">
         <div className="flex flex-col gap-3 break-words">
-          <p className="text-2xl font-semibold">{simplePlugin.name}</p>
+          <NaLink href={`/plugins/p/${simplePlugin.id}`} hoverColor>
+            <p className="text-2xl font-semibold">{simplePlugin.name}</p>
+          </NaLink>
           <PluginDescription description={translateLangDict(locale, simplePlugin.description) || ''}/>
           <div className="flex flex-row flex-wrap gap-1">
             {simplePlugin.labels.map(label => (
