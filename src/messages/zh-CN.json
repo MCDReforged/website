@@ -88,7 +88,7 @@
         "downloads": "下载量",
         "actions": "操作",
         "bytes": "字节",
-        "button_release_body_tooltip": "显示 v{version} 的完整更新日志",
+        "button_release_body_tooltip": "显示 v{version} 的更新日志",
         "button_release_body_title": "v{version} 的更新日志",
         "button_release_body_nothing": "v{version} 的更新日志为空",
         "button_release_page_tooltip": "前往发行版 v{version} 的 GitHub 页面"

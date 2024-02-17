@@ -101,7 +101,7 @@
         "downloads": "Downloads",
         "actions": "Actions",
         "bytes": "bytes",
-        "button_release_body_tooltip": "Show full release notes for v{version}",
+        "button_release_body_tooltip": "Show release notes for v{version}",
         "button_release_body_title": "Release notes for v{version}",
         "button_release_body_nothing": "No release notes for v{version}",
         "button_release_page_tooltip": "Visit GitHub release page for v{version}"
