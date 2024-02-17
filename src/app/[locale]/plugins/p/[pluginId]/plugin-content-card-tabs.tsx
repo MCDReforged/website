@@ -56,7 +56,7 @@ export function PluginContentCardTabs({pluginId}: { pluginId: string }) {
         <Tabs.List className="flex-nowrap">
           {
             tabConfig.map((cfg) => (
-              <NaLink key={cfg.key} href={pathFor(cfg)}>
+              <NaLink key={cfg.key} href={pathFor(cfg)} replace>
                 <Tabs.Tab value={cfg.key}>
                   <div className="flex items-center gap-1.5 justify-center mb-0.5 mt-0.5 pr-1">
                     <cfg.icon size={16} stroke={1.8}/>
