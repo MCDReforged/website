@@ -37,6 +37,20 @@ const features: FeatureItem[] = [
   },
 ]
 
+async function ClassicLongLogo({className}: {classname?: string}) {
+  return (
+    <div className={clsx(className, "flex flex-row lg:flex-col items-center gap-x-2 gap-y-5")}>
+      <div className="w-[64px] min-[450px]:w-[96px] lg:w-[240px]">
+        <McdrLogo size="full"/>
+      </div>
+      <div className={clsx(mcFont.className, "text-center text-[32px] min-[450px]:text-[48px] leading-none")}>
+        <p className="text-[#C8723F]">MCDaemon</p>
+        <p className="text-[#646464]">Reforged</p>
+      </div>
+    </div>
+  )
+}
+
 async function Hero() {
   const t = await getTranslations('page.home')
 
@@ -44,7 +58,7 @@ async function Hero() {
   const intro = (
     <>
       <Title className={clsx(
-        "font-bold text-4xl min-[420px]:text-5xl sm:text-6xl mb-7",
+        "font-bold text-4xl min-[450px]:text-5xl sm:text-6xl mb-7",
         styles.title, titleFont.className,
       )}>
         MCD
@@ -80,18 +94,6 @@ async function Hero() {
     </>
   )
 
-  const logo = (
-    <div className="flex flex-row lg:flex-col items-center gap-x-2 gap-y-5">
-      <div className="w-[64px] min-[420px]:w-[96px] lg:w-[240px]">
-        <McdrLogo size="full"/>
-      </div>
-      <div className={clsx(mcFont.className, "text-center text-[32px] min-[420px]:text-[48px] leading-none")}>
-        <p className="text-[#C8723F]">MCDaemon</p>
-        <p className="text-[#646464]">Reforged</p>
-      </div>
-    </div>
-  )
-
   return (
     <div className={clsx(
       "w-full py-[3rem] sm:pt-[6rem] sm:pb-[8rem]",
@@ -102,15 +104,16 @@ async function Hero() {
           {intro}
           <p className="text-lg italic bg-red-200 dark:bg-red-800 rounded mt-3 text-center">Note: This website is still under development</p>
         </div>
-        <div>
-          {logo}
+        <div className="max-lg:hidden">
+          {/* See also: <StandaloneLongLogo/> for small screens */}
+          <ClassicLongLogo/>
         </div>
       </div>
     </div>
   );
 }
 
-export async function FeatureList() {
+async function FeatureList() {
   const t = await getTranslations('page.home')
 
   return (
@@ -136,11 +139,21 @@ export async function FeatureList() {
   )
 }
 
+async function StandaloneLongLogo() {
+  // See also: <Hero/> for small screens
+  return (
+    <div className="lg:hidden w-full my-[3rem]">
+      <ClassicLongLogo className="justify-center"/>
+    </div>
+  )
+}
+
 export async function HomePage() {
   return (
     <div>
       <Hero/>
       <FeatureList/>
+      <StandaloneLongLogo/>
     </div>
   )
 }
