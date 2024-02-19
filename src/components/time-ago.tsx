@@ -18,6 +18,10 @@ function createTimeTexts(date: Date, locale: string): TimeTexts {
 }
 
 export function TimeAgo({date, className, component: Component = 'p'}: { date: Date, className?: string, component?: React.ElementType }) {
+  // https://nextjs.org/docs/messages/react-hydration-error
+  const [isClient, setIsClient] = useState(false)
+  useEffect(() => setIsClient(true), [])
+
   const locale = useLocale()
   const [timeTexts, setTimeTexts] = useState<TimeTexts>(createTimeTexts(date, locale))
 
@@ -35,8 +39,8 @@ export function TimeAgo({date, className, component: Component = 'p'}: { date: D
   }, [date, locale, timeTexts])
 
   return (
-    <Tooltip label={timeTexts.timeFormatted}>
-      <Component className={className}>{timeTexts.timeAgo}</Component>
+    <Tooltip label={isClient ? timeTexts.timeFormatted : date.toISOString()}>
+      <Component className={className}>{isClient ? timeTexts.timeAgo : '...'}</Component>
     </Tooltip>
   )
 }
