@@ -2,11 +2,12 @@ import { createSimpleRelease } from "@/catalogue/conversion";
 import { getPlugin } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimpleRelease } from "@/catalogue/simple-types";
+import { ClickableTooltip } from "@/components/clickable-tooltip";
 import GfmMarkdown from "@/components/gfm-markdown";
 import { NaLink } from "@/components/na-link";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { formatTime } from "@/utils/time-utils";
-import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr, Tooltip } from "@mantine/core";
+import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
 import { IconTag } from "@tabler/icons-react";
 import { getLocale, getMessages, getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
@@ -18,13 +19,13 @@ async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
 
   const tooltip = t('button_release_page_tooltip', {version: release.version})
   return (
-    <Tooltip label={tooltip}>
+    <ClickableTooltip label={tooltip}>
       <ActionIcon color="grape" variant="light" aria-label={tooltip}>
         <NaLink href={release.url} aria-label={tooltip}>
           <IconTag stroke={1.5}/>
         </NaLink>
       </ActionIcon>
-    </Tooltip>
+    </ClickableTooltip>
   )
 }
 
@@ -51,15 +52,19 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
       <TableTr key={ri.tag_name}>
         <TableTd className="whitespace-nowrap">{version}</TableTd>
         <TableTd>
-          <Tooltip label={ri.asset.name} openDelay={500}><p>{ri.asset.name}</p></Tooltip>
+          <ClickableTooltip label={ri.asset.name} openDelay={500}>
+            <p>{ri.asset.name}</p>
+          </ClickableTooltip>
         </TableTd>
         <TableTd className="whitespace-nowrap">
-          {formatTime(date , 'YYYY/MM/DD')}
+          <ClickableTooltip label={formatTime(date , 'YYYY/MM/DD hh:mm:ss')} openDelay={500}>
+            <p>{formatTime(date , 'YYYY/MM/DD')}</p>
+          </ClickableTooltip>
         </TableTd>
         <TableTd>
-          <Tooltip label={`${ri.asset.size} ${t('bytes')}`} openDelay={500}>
+          <ClickableTooltip label={`${ri.asset.size} ${t('bytes')}`} openDelay={500}>
             <p>{PrettySize(ri.asset.size)}</p>
-          </Tooltip>
+          </ClickableTooltip>
         </TableTd>
         <TableTd>{ri.asset.download_count}</TableTd>
         <TableTd>

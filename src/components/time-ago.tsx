@@ -1,9 +1,9 @@
 'use client'
 
 import { formatTime, getTimeAgo } from "@/utils/time-utils";
-import { Tooltip } from "@mantine/core";
 import { useLocale } from "next-intl";
 import React, { Component, useEffect, useState } from "react";
+import { ClickableTooltip } from "./clickable-tooltip";
 
 interface TimeTexts {
   timeAgo: string
@@ -39,8 +39,8 @@ export function TimeAgo({date, className, component: Component = 'p'}: { date: D
   }, [date, locale, timeTexts])
 
   return (
-    <Tooltip label={isClient ? timeTexts.timeFormatted : date.toISOString()}>
+    <ClickableTooltip label={isClient ? timeTexts.timeFormatted : date.toISOString()}>
       <Component className={className}>{isClient ? timeTexts.timeAgo : '...'}</Component>
-    </Tooltip>
+    </ClickableTooltip>
   )
 }

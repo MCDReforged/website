@@ -1,4 +1,5 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
+import { ClickableTooltip } from "@/components/clickable-tooltip";
 import CommonCard from "@/components/common-card";
 import { GfmMarkdownDynamic } from "@/components/gfm-markdown-dynamic";
 import { GithubIcon } from "@/components/icons";
@@ -8,7 +9,7 @@ import { PluginDownloadButton } from "@/components/plugin/plugin-download-button
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils"
-import { ActionIcon, Tooltip } from "@mantine/core";
+import { ActionIcon } from "@mantine/core";
 import { IconDownloadOff, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
@@ -46,19 +47,19 @@ function SmallStats({Icon, text, tooltip, fullToolTip}: { Icon: typeof IconRefre
   const icon = <Icon size="1rem" stroke={1.8}/>
   if (fullToolTip) {
     return (
-      <Tooltip label={tooltip}>
+      <ClickableTooltip label={tooltip}>
         <div className={clazz}>
           {icon}
           {text}
         </div>
-      </Tooltip>
+      </ClickableTooltip>
     )
   } else {
     return (
       <div className={clazz}>
-        <Tooltip label={tooltip}>
+        <ClickableTooltip label={tooltip}>
           {icon}
-        </Tooltip>
+        </ClickableTooltip>
         {text}
       </div>
     )

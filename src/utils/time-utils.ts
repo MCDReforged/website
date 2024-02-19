@@ -19,7 +19,7 @@ export function getTimeAgo(date: Date, locale?: string): string {
   return get(date, locale).fromNow()
 }
 
-export function formatTime(date: Date, formatter: string = 'YYYY/MM/DD hh:mm:ss', locale?: string): string {
+export function formatTime(date: Date, formatter: string, locale?: string): string {
   return get(date, locale).format(formatter)
 }
 
