@@ -4,7 +4,7 @@ import { SimpleEverything, SimplePlugin } from "@/catalogue/simple-types";
 import { Pagination } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
 import React, { useContext, useEffect, useState } from 'react';
-import { DisplayStrategyContextValue, filterPlugins } from "./display-strategy";
+import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 import { PluginCard } from "./plugin-card";
 
@@ -19,9 +19,9 @@ export function PluginList({everything}: {everything: SimpleEverything}) {
   const plugins: SimplePlugin[] = filterPlugins(Object.values(everything.plugins), ds)
     .sort((a: SimplePlugin, b: SimplePlugin) => {
       let ret: number
-      if (ds.sortOrder === 'downloads') {
+      if (ds.sortOrder === 'downloads' || !ds.sortOrder && 'downloads' == sortOrderDefault) {
         ret = b.downloads - a.downloads;
-      } else if (ds.sortOrder === 'recentUpdate') {
+      } else if (ds.sortOrder === 'recentUpdate' || !ds.sortOrder && 'recentUpdate' == sortOrderDefault) {
         ret = dateToTimestamp(b.recentUpdated) - dateToTimestamp(a.recentUpdated)
       } else {
         ret = a.name.localeCompare(b.name);

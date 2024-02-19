@@ -10,7 +10,7 @@ import { IconFileDownload, IconFilter, IconPackages, IconRefresh, IconUser, Icon
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useContext } from "react";
-import { DisplayStrategyContextValue, filterPlugins, sortOrders } from "./display-strategy";
+import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 
 function SidebarCard({children}: {children: React.ReactNode}) {
@@ -102,7 +102,7 @@ function ControlCard({everything}: { everything: SimpleEverything }) {
       </CardSection>
 
       <CardSection title={t('sort_order')} className="gap-1.5">
-        <RadioGroup defaultValue={sortOrders[0]} onChange={onSortOrderRatioSet}>
+        <RadioGroup defaultValue={sortOrderDefault} onChange={onSortOrderRatioSet}>
           <div className="flex flex-col gap-1.5">
             {sortOrders.map(so => (
               <Radio

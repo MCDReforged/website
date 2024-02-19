@@ -1,11 +1,18 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Dispatch, SetStateAction } from "react";
 
-export const sortOrders: string[] = [
-  'name',
-  'downloads',
-  'recentUpdate',
+interface SortOrderConfig {
+  key: string
+  default?: boolean
+}
+
+const sortOrderConfig: SortOrderConfig[] = [
+  {key: 'name'},
+  {key: 'downloads'},
+  {key: 'recentUpdate', default: true},
 ]
+export const sortOrders: string[] = sortOrderConfig.map(cfg => cfg.key)
+export const sortOrderDefault: string = sortOrderConfig.filter(cfg => cfg.default)[0].key
 
 export interface DisplayStrategy {
   page: number | null
