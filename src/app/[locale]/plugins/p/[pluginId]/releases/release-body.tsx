@@ -53,6 +53,7 @@ export function PluginReleaseBodyButton({releaseUrl, hasDescription, texts, chil
           </div>
         }
         closeButtonProps={{ 'aria-label': 'Close modal' }}
+        zIndex={400 /* tooltip has zIndex==300, cover it */}
       >
         <div className="mb-2 mx-2">
           {children}
