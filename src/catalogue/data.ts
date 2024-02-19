@@ -16,7 +16,7 @@ async function fileExists(filePath: string) {
 }
 
 async function devReadLocalEverything(): Promise<Everything | null> {
-  if (process.env.NODE_ENV === 'development' || process.env.MW_USE_LOCAL_EVERYTHING === 'true') {
+  if (process.env.MW_USE_LOCAL_EVERYTHING === 'true') {
     const localDataPath = path.join(process.cwd(), 'src', 'catalogue', 'everything.json')
     if (await fileExists(localDataPath)) {
       const content = await fs.readFile(localDataPath, 'utf8')
@@ -38,6 +38,7 @@ async function fetchEverything(): Promise<Everything> {
   const rsp = await fetch(url, {
     next: {
       revalidate: 60,  // ISR 1min
+      tags: ['catalogue'],
     }
   })
 
