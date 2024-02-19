@@ -3,6 +3,7 @@ import { getEverything, getPlugin } from "@/catalogue/data";
 import { Divider } from "@mantine/core";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
+import { LayoutScrollFix } from "./layout-scroll-fix";
 import { PluginContentCard } from "./plugin-content-card";
 import { Sidebar } from "./sidebar";
 
@@ -32,6 +33,7 @@ export default async function Layout({children, params: {locale, pluginId}}: Lay
 
   return (
     <>
+      <LayoutScrollFix pluginId={pluginId}/>
       <div className="md:fixed md:w-sidebar-width md:h-[calc(100vh-5rem)] md:overflow-y-auto">
         <Sidebar plugin={plugin} simplePlugin={createSimplePlugin(plugin, everything.authors)} timestamp={timestamp}/>
       </div>
