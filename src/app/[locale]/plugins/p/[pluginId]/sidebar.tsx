@@ -29,7 +29,7 @@ async function SidebarBackButton() {
       variant="default"
       leftSection={<IconArrowBackUp size="1rem"/>}
     >
-      {t('back_button')}
+      <p className="text-mantine-text">{t('back_button')}</p>
     </Button>
   )
 }
