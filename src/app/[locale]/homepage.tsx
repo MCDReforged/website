@@ -41,7 +41,7 @@ async function ClassicLongLogo({className}: {className?: string}) {
   return (
     <div className={clsx(className, "flex flex-row lg:flex-col items-center gap-x-2 gap-y-5")}>
       <div className="w-[64px] min-[450px]:w-[96px] lg:w-[240px]">
-        <McdrLogo size="full"/>
+        <McdrLogo size="100%"/>
       </div>
       <div className={clsx(mcFont.className, "text-center text-[32px] min-[450px]:text-[48px] leading-none")}>
         <p className="text-[#C8723F]">MCDaemon</p>
