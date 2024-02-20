@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import Link from "next/link";
 import React from "react";
 
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear()
   return (
     <footer className={clsx(
