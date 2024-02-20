@@ -8,8 +8,8 @@ export function MermaidHook() {
 
   useEffect(() => {
     import('mermaid')
-      .then(lib => {
-        const mermaid = lib.default
+      .then(mod => mod.default)
+      .then(mermaid => {
         mermaid.initialize({
           theme: colorScheme == 'dark' ? 'dark' : 'default',
           darkMode: colorScheme == 'dark',
@@ -23,22 +23,25 @@ export function MermaidHook() {
         mermaid.run({
           querySelector: '.mermaid-diagram',
           postRenderCallback: id => {
+            // hide source, show diagram
             const diagramNode = document.getElementById(id)?.parentElement
             const holderNode = diagramNode?.parentNode
-            if (diagramNode && holderNode) {
-              // hide source, show diagram
+            if (diagramNode) {
+              diagramNode.style.cssText = ''
+            }
+            if (holderNode) {
               Array.from(holderNode.children).forEach(child => {
                 if (child instanceof HTMLElement && child.classList.contains('mermaid-source')) {
                   child.style.display = 'none'
                 }
               })
-              diagramNode.style.cssText = ''
             }
           },
-        }).catch(e => console.log('mermaid run failed', e))
+        })
+          .catch(e => console.log('mermaid run failed', e))
       })
       .catch(e => console.log('mermaid load failed', e))
-  }, [])
+  })
 
   return <></>
 }

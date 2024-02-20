@@ -10,7 +10,6 @@ import "@/styles/github-markdown.css"
 interface GfmMarkdownProps {
   children: string,
   allowEmbedHtml?: boolean
-
   [_: string]: any
 }
 
