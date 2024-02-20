@@ -93,6 +93,9 @@
         "releases": "Releases",
         "dependencies": "Dependencies"
       },
+      "readme": {
+        "readme_source": "README source: "
+      },
       "releases": {
         "version": "Version",
         "file": "File",

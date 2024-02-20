@@ -80,6 +80,9 @@
         "releases": "发行版",
         "dependencies": "依赖"
       },
+      "readme": {
+        "readme_source": "自述文件来源："
+      },
       "releases": {
         "version": "版本",
         "file": "文件",

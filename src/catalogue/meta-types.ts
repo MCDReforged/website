@@ -94,4 +94,5 @@ export interface RepositoryInfo {
 	forks_count: number
 
 	readme: string | null
+	readme_url: string | null
 }

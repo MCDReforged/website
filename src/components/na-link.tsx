@@ -4,7 +4,7 @@ import React from "react";
 
 interface NaLinkProps {
   className?: string
-  href?: string
+  href: string
   target?: string
   children?: React.ReactNode
 
