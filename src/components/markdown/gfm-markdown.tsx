@@ -1,5 +1,5 @@
-import { GfmMarkdownMermaidHook } from "@/components/gfm-markdown-mermaid-hook";
-import { imageHeightFixer, mermaidTransformer } from "@/components/gfm-markdown-rehype-plugins";
+import { MermaidHook } from "@/components/markdown/mermaid-hook";
+import { imageHeightFixer, mermaidTransformer } from "@/components/markdown/rehype-plugins";
 import { clsx } from "clsx";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -30,7 +30,7 @@ export default function GfmMarkdown({children, allowEmbedHtml, ...markdownProps}
       >
         {children}
       </Markdown>
-      {hasMermaid && <GfmMarkdownMermaidHook/>}
+      {hasMermaid && <MermaidHook/>}
     </div>
   )
 }

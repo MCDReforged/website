@@ -1,8 +1,8 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import CommonCard from "@/components/common-card";
-import { GfmMarkdownDynamic } from "@/components/gfm-markdown-dynamic";
 import { GithubIcon } from "@/components/icons";
+import { GfmMarkdownDynamic } from "@/components/markdown/gfm-markdown-dynamic";
 import { NaLink } from "@/components/na-link";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";

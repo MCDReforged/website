@@ -3,7 +3,7 @@ import { getPlugin } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimpleRelease } from "@/catalogue/simple-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
-import GfmMarkdown from "@/components/gfm-markdown";
+import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { NaLink } from "@/components/na-link";
 import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { formatTime } from "@/utils/time-utils";

@@ -9,7 +9,7 @@ import React from "react";
 import "@/styles/github-markdown.css"
 
 const DynamicGfmMarkdownLarge = dynamic(
-  () => import('@/components/gfm-markdown'),
+  () => import('@/components/markdown/gfm-markdown'),
   {
     loading: () => (
       <div className="flex flex-col gap-3 pt-2">
@@ -29,7 +29,7 @@ function TinyMarkdownLiteralFallback() {
 }
 
 const DynamicGfmMarkdownTiny = dynamic(
-  () => import('@/components/gfm-markdown'),
+  () => import('@/components/markdown/gfm-markdown'),
   {
     loading: TinyMarkdownLiteralFallback,
   }

@@ -3,7 +3,7 @@
 import { useMantineColorScheme } from "@mantine/core";
 import React, { useEffect } from 'react';
 
-export function GfmMarkdownMermaidHook() {
+export function MermaidHook() {
   const { colorScheme } = useMantineColorScheme()
 
   useEffect(() => {

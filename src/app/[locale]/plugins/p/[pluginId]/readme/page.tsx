@@ -1,6 +1,6 @@
 import { getPlugin } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import GfmMarkdown from "@/components/gfm-markdown";
+import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { NaLink } from "@/components/na-link";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
