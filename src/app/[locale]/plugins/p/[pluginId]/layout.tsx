@@ -1,5 +1,5 @@
 import { createSimplePlugin } from "@/catalogue/conversion";
-import { getEverything, getPlugin } from "@/catalogue/data";
+import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { Divider } from "@mantine/core";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
@@ -11,7 +11,9 @@ export async function generateMetadata({params: {locale, pluginId}}: {params: {l
   const t = await getTranslations({locale, namespace: 'metadata.title'})
   const plugin = await getPlugin(pluginId)
   return {
-    title: t('plugin', {name: plugin?.meta?.name || '?'}),
+    title: plugin
+      ? t('plugin', {name: plugin?.meta?.name || '?'})
+      : t('catalogue')
   }
 }
 
@@ -26,9 +28,9 @@ interface LayoutProps {
 }
 
 export default async function Layout({children, params: {locale, pluginId}}: LayoutProps) {
-  unstable_setRequestLocale(locale);
+  unstable_setRequestLocale(locale)
+  const plugin = await getPluginOr404(pluginId)
   const everything = await getEverything()
-  const plugin = everything.plugins[pluginId]
   const timestamp = everything.timestamp
 
   return (

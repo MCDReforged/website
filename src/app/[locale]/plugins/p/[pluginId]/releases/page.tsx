@@ -1,5 +1,5 @@
 import { createSimpleRelease } from "@/catalogue/conversion";
-import { getPlugin } from "@/catalogue/data";
+import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimpleRelease } from "@/catalogue/simple-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
@@ -102,7 +102,7 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
 
 export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
   unstable_setRequestLocale(locale);
-  const plugin = await getPlugin(pluginId)
+  const plugin = await getPluginOr404(pluginId)
 
   return (
     <PluginContentReleases plugin={plugin}/>

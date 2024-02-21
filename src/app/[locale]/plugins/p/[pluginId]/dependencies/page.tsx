@@ -1,4 +1,4 @@
-import { getPlugin } from "@/catalogue/data";
+import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin, MetaInfo } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
 import { siteConfig } from "@/config/site";
@@ -138,7 +138,7 @@ async function PluginContentDependencies({plugin}: { plugin: AllOfAPlugin }) {
 
 export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
   unstable_setRequestLocale(locale);
-  const plugin = await getPlugin(pluginId)
+  const plugin = await getPluginOr404(pluginId)
 
   return (
     <PluginContentDependencies plugin={plugin}/>

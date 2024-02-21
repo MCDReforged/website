@@ -1,4 +1,4 @@
-import { getPlugin } from "@/catalogue/data";
+import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { NaLink } from "@/components/na-link";
@@ -45,7 +45,7 @@ async function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
 
 export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
   unstable_setRequestLocale(locale);
-  const plugin = await getPlugin(pluginId)
+  const plugin = await getPluginOr404(pluginId)
 
   return (
     <PluginContentReadme plugin={plugin}/>

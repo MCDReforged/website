@@ -1,6 +1,7 @@
 import { AllOfAPlugin, Everything } from "@/catalogue/meta-types";
 import { SimpleEverything } from "@/catalogue/simple-types";
 import fs from 'fs/promises'
+import { notFound } from "next/navigation";
 import { promisify } from "node:util";
 import { gunzip } from "node:zlib";
 import path from "path";
@@ -62,9 +63,17 @@ export async function getEverything(): Promise<Everything> {
   }
 }
 
-export async function getPlugin(pluginId: string): Promise<AllOfAPlugin> {
+export async function getPlugin(pluginId: string): Promise<AllOfAPlugin | undefined> {
   const everything = await getEverything()
   return everything.plugins[pluginId]
+}
+
+export async function getPluginOr404(pluginId: string): Promise<AllOfAPlugin> {
+  const plugin = await getPlugin(pluginId)
+  if (plugin === undefined) {
+    notFound()
+  }
+  return plugin
 }
 
 export async function getSimpleEverything(): Promise<SimpleEverything> {
