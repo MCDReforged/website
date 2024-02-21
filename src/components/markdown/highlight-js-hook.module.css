@@ -1,0 +1,157 @@
+/*
+From https://github.com/highlightjs/highlight.js
+Version: v11.9.0
+
+Made with a mixture of
+  highlight.js/styles/github.css
+  highlight.js/styles/github-dark.css
+
+BSD 3-Clause License
+
+Copyright (c) 2006, Ivan Sagalaev.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+.root {
+  :global(.hljs) {
+    color: #24292e;
+    background: #fff;
+    @mixin dark {
+      color: #c9d1d9;
+      background: #0d1117;
+    }
+  }
+
+  :global(.hljs-doctag), :global(.hljs-keyword), :global(.hljs-meta .hljs-keyword), :global(.hljs-template-tag), :global(.hljs-template-variable), :global(.hljs-type), :global(.hljs-variable.language_) {
+    color: #d73a49;
+    @mixin dark {
+      color: #ff7b72;
+    }
+  }
+
+  :global(.hljs-title), :global(.hljs-title.class_), :global(.hljs-title.class_.inherited__), :global(.hljs-title.function_) {
+    color: #6f42c1;
+    @mixin dark {
+      color: #d2a8ff;
+    }
+  }
+
+  :global(.hljs-attr), :global(.hljs-attribute), :global(.hljs-literal), :global(.hljs-meta), :global(.hljs-number), :global(.hljs-operator), :global(.hljs-selector-attr), :global(.hljs-selector-class), :global(.hljs-selector-id), :global(.hljs-variable) {
+    color: #005cc5;
+    @mixin dark {
+      color: #79c0ff;
+    }
+  }
+
+  :global(.hljs-meta .hljs-string), :global(.hljs-regexp), :global(.hljs-string) {
+    color: #032f62;
+    @mixin dark {
+      color: #a5d6ff;
+    }
+  }
+
+  :global(.hljs-built_in), :global(.hljs-symbol) {
+    color: #e36209;
+    @mixin dark {
+      color: #ffa657;
+    }
+  }
+
+  :global(.hljs-code), :global(.hljs-comment), :global(.hljs-formula) {
+    color: #6a737d;
+    @mixin dark {
+      color: #8b949e;
+    }
+  }
+
+  :global(.hljs-name), :global(.hljs-quote), :global(.hljs-selector-pseudo), :global(.hljs-selector-tag) {
+    color: #22863a;
+    @mixin dark {
+      color: #7ee787;
+    }
+  }
+
+  :global(.hljs-subst) {
+    color: #24292e;
+    @mixin dark {
+      color: #c9d1d9;
+    }
+  }
+
+  :global(.hljs-section) {
+    color: #005cc5;
+    font-weight: 700;
+    @mixin dark {
+      color: #1f6feb;
+      font-weight: 700;
+    }
+  }
+
+  :global(.hljs-bullet) {
+    color: #735c0f;
+    @mixin dark {
+      color: #f2cc60;
+    }
+  }
+
+  :global(.hljs-emphasis) {
+    color: #24292e;
+    font-style: italic;
+    @mixin dark {
+      color: #c9d1d9;
+      font-style: italic;
+    }
+  }
+
+  :global(.hljs-strong) {
+    color: #24292e;
+    font-weight: 700;
+    @mixin dark {
+      color: #c9d1d9;
+      font-weight: 700;
+    }
+  }
+
+  :global(.hljs-addition) {
+    color: #22863a;
+    background-color: #f0fff4;
+    @mixin dark {
+      color: #aff5b4;
+      background-color: #033a16;
+    }
+  }
+
+  :global(.hljs-deletion) {
+    color: #b31d28;
+    background-color: #ffeef0;
+    @mixin dark {
+      color: #ffdcd7;
+      background-color: #67060c;
+    }
+  }
+}
