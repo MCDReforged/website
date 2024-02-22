@@ -10,12 +10,12 @@ export async function PluginContentCard({pluginId, children}: { pluginId: string
   const messages = await getMessages()
 
   return (
-    <CommonCard className="max-lg:mx-[8px] md:mx-3 pb-6 pt-2">
+    <CommonCard className="mx-[8px] md:mx-3 pb-6 pt-2">
       <div>
         <NextIntlClientProvider locale={locale} messages={pick(messages, 'page.plugin.tabs')}>
           <PluginContentCardTabs pluginId={pluginId}/>
         </NextIntlClientProvider>
-        <div className="pt-3 pb-2 px-4">
+        <div className="pt-3 pb-2 px-1 sm:px-4">
           {children}
         </div>
       </div>
