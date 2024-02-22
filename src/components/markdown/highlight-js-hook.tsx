@@ -1,22 +1,31 @@
 'use client'
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./highlight-js-hook.module.css"
 
 export function HighlightJsHook({ignoredLanguages}: {ignoredLanguages?: string[]}) {
+  const ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const highlightCodes = async () => {
+      const markdownHolderNode = ref.current?.parentNode
+      if (!markdownHolderNode) {
+        console.error('HighlightJsHook markdownHolderNode unavailable')
+        return
+      }
+
       const elements: {el: HTMLElement, lang: string}[] = []
       const languages = new Set<string>()
-      document.querySelectorAll('pre code').forEach((el) => {
+      markdownHolderNode.querySelectorAll('pre code').forEach((el) => {
         if (el instanceof HTMLElement) {
-          el.classList.forEach(clazz => {
+          for (let clazz of Array.from(el.classList.values())) {
             const match = clazz.match(/^language-(\w+)$/)
-            if (match && !(ignoredLanguages || []).includes(match[1])) {
+            if (match && !(ignoredLanguages || []).includes(match[1]) && el.dataset['highlighted'] !== 'yes') {
               elements.push({el: el, lang: match[1]})
               languages.add(match[1])
+              break
             }
-          })
+          }
         }
       })
 
@@ -29,7 +38,7 @@ export function HighlightJsHook({ignoredLanguages}: {ignoredLanguages?: string[]
       hljs.registerAliases(['json5', 'hjson'], {languageName: 'json'})
 
       for (const {el, lang} of elements) {
-        if (hljs.getLanguage(lang)) {
+        if (hljs.getLanguage(lang) && el.dataset['highlighted'] !== 'yes') {
           hljs.highlightElement(el)
           el.classList.add(styles.root)
         }
@@ -38,5 +47,6 @@ export function HighlightJsHook({ignoredLanguages}: {ignoredLanguages?: string[]
 
     highlightCodes().catch(e => console.error('highlight codes error', e))
   })
-  return <></>
+
+  return <div ref={ref}></div>
 }

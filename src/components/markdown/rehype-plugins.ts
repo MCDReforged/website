@@ -1,6 +1,7 @@
 import { ElementContent, Root } from "hast";
 import "@/styles/github-markdown.css"
 import { visit } from "unist-util-visit";
+import { classes } from "./common";
 
 // fix for https://github.com/tailwindlabs/tailwindcss/pull/7742#issuecomment-1061332148
 export function imageHeightFixer(): (tree: Root) => Root {
@@ -67,7 +68,7 @@ export function mermaidTransformer(): (tree: Root) => Root {
         type: 'element',
         tagName: 'div',
         properties: {
-          className: ['mermaid-diagram'],
+          className: [classes.mermaidDiagram],
           style: 'display: none',
         },
         children: [{
@@ -76,12 +77,12 @@ export function mermaidTransformer(): (tree: Root) => Root {
         }],
       }
 
-      node.properties.className = ['mermaid-source']
+      node.properties.className = [classes.mermaidSource]
       parent.children[idx] = {
         type: 'element',
         tagName: 'div',
         properties: {
-          className: ['mermaid-holder'],
+          className: [classes.mermaidHolder],
         },
         children: [
           diagramNode,
