@@ -43,7 +43,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <head>
-        <ColorSchemeScript/>
+        <ColorSchemeScript defaultColorScheme="auto"/>
       </head>
       <body className="scrollbar-shift-fix">
         <MantineThemeProvider>

@@ -8,7 +8,7 @@ export default function MantineThemeProvider({children}: {children: React.ReactN
   // the theme variable contains a function, which is not serializable,
   // so we need to wrap this provider in a client component
   return (
-    <MantineProvider theme={theme} defaultColorScheme="light">
+    <MantineProvider theme={theme} defaultColorScheme="auto">
       {children}
     </MantineProvider>
   );

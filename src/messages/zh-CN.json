@@ -5,6 +5,19 @@
       "plugin": "{name} - 插件仓库"
     }
   },
+  "layout": {
+    "nav_bar": {
+      "navigation": {
+        "home": "主页",
+        "plugins": "插件仓库",
+        "docs": "文档"
+      },
+      "locale_switch": {
+        "en": "English",
+        "zh-CN": "简体中文"
+      }
+    }
+  },
   "component": {
     "plugin_label": {
       "information": "信息",
@@ -109,19 +122,6 @@
         "meta_source": "元数据来源：{src}",
         "meta_source_latest_release": "最新版本 {version}",
         "meta_source_branch": "Git 的 {branch} 分支"
-      }
-    }
-  },
-  "layout": {
-    "nav_bar": {
-      "navigation": {
-        "home": "主页",
-        "plugins": "插件仓库",
-        "docs": "文档"
-      },
-      "locale_switch": {
-        "en": "English",
-        "zh-CN": "简体中文"
       }
     }
   }
