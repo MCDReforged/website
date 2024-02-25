@@ -19,6 +19,7 @@ export function getTimeAgo(date: Date, locale?: string): string {
   return get(date, locale).fromNow()
 }
 
+// NOTES: if SSR, the result might be wrong
 export function formatTime(date: Date, formatter: string, locale?: string): string {
   return get(date, locale).format(formatter)
 }

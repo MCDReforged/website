@@ -23,6 +23,8 @@ const config: Config = {
         'mantine-border-card': 'light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4))',
         'mantine-background': 'var(--mantine-color-default)',   // for cards, menus
         'mantine-background-body': 'var(--mantine-color-body)',  // for the most-outer body
+
+        'attribute-entry-title': 'light-dark(darken(var(--mantine-color-gray-6), 0.2), var(--mantine-color-gray-6))',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

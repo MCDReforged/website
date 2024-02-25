@@ -9,25 +9,26 @@ interface NaLinkProps {
   children?: React.ReactNode
 
   external?: boolean | 'auto'
+  colored?: boolean
   hoverColor?: boolean
   hoverUnderline?: boolean
 
   [_: string]: any
 }
 
-export function NaLink({ className, href, target, children, external, hoverColor, hoverUnderline, ...props }: NaLinkProps) {
+export function NaLink({ className, href, target, children, external, colored, hoverColor, hoverUnderline, ...props }: NaLinkProps) {
   if (external === undefined) {
     external = 'auto'
   }
   if (typeof external === 'boolean' && external || typeof external === 'string' && external === 'auto' && !href?.startsWith('/')) {
     target = '_blank'
   }
-  if (hoverColor) {
-    className = clsx(className, 'hover:text-mantine-primary-7')
-  }
-  if (hoverUnderline) {
-    className = clsx(className, 'hover:underline')
-  }
+  className = clsx(
+    className,
+    colored && 'text-mantine-primary-7',
+    hoverColor && 'hover:text-mantine-primary-7',
+    hoverUnderline && 'hover:underline',
+  )
   return (
     <Link
       className={className}

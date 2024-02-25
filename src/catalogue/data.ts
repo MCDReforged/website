@@ -38,7 +38,7 @@ async function fetchEverything(): Promise<Everything> {
   // See https://github.com/vercel/next.js/blob/4125069840ca98981f0e7796f55265af04f3e903/packages/next/src/server/lib/patch-fetch.ts#L685 for the stupidness
   const rsp = await fetch(url, {
     next: {
-      revalidate: 60,  // ISR 1min
+      revalidate: 10 * 60,  // ISR 10min
       tags: ['catalogue'],
     }
   })

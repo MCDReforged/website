@@ -1,26 +1,57 @@
-import { SimplePlugin } from "@/catalogue/simple-types";
+import { SimplePlugin, SimpleRelease } from "@/catalogue/simple-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import CommonCard from "@/components/common-card";
 import { GithubIcon } from "@/components/icons";
 import { GfmMarkdownDynamic } from "@/components/markdown/gfm-markdown-dynamic";
 import { NaLink } from "@/components/na-link";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
-import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils"
+import { locPluginRelease } from "@/utils/locations";
 import { ActionIcon } from "@mantine/core";
-import { IconDownloadOff, IconFileDownload, IconRefresh, IconReload } from "@tabler/icons-react";
+import { IconFileDownload, IconRefresh, IconReload, IconTag, IconTagOff } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from 'react';
 
-function PluginCardDownloadButtonDisabled() {
+interface PluginDownloadButton {
+  pluginId: string
+  release: SimpleRelease
+  variant?: string
+}
+
+function PluginDownloadButton({pluginId, release, variant = 'filled'}: PluginDownloadButton) {
+  const t = useTranslations('page.plugin_list.plugin_card.download_button')
+
+  const tooltip = t('tooltip', {version: release.version})
   return (
-    <ActionIcon disabled title="No release" aria-label="Download not available">
-      <IconDownloadOff stroke={1.5}/>
-    </ActionIcon>
+    <ClickableTooltip label={tooltip}>
+      <ActionIcon
+        color="teal"
+        variant={variant}
+        aria-label={tooltip}
+        className={clsx(variant === 'filled' && 'text-mantine-icon-white')}
+      >
+        <NaLink href={locPluginRelease(pluginId, release.version)}>
+          <IconTag stroke={1.5}/>
+        </NaLink>
+      </ActionIcon>
+    </ClickableTooltip>
+  )
+}
+
+function PluginCardDownloadButtonDisabled() {
+  const t = useTranslations('page.plugin_list.plugin_card.download_button')
+
+  // https://mantine.dev/core/action-icon/#disabled-button-with-tooltip
+  return (
+    <ClickableTooltip label={t('tooltip_disabled')}>
+      <ActionIcon data-disabled aria-label="Download not available">
+        <IconTagOff stroke={1.5}/>
+      </ActionIcon>
+    </ClickableTooltip>
   )
 }
 
@@ -80,7 +111,7 @@ export function PluginCard({plugin}: {plugin: SimplePlugin}) {
     </ActionIcon>
 
   const downloadButton = release !== undefined ?
-    <PluginDownloadButton release={release}/>:
+    <PluginDownloadButton pluginId={plugin.id} release={release}/>:
     <PluginCardDownloadButtonDisabled/>
 
   const lastUpdateText = plugin.recentUpdated !== undefined

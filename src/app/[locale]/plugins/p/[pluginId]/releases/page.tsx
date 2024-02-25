@@ -1,56 +1,50 @@
-import { createSimpleRelease } from "@/catalogue/conversion";
 import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import { SimpleRelease } from "@/catalogue/simple-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
-import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { NaLink } from "@/components/na-link";
-import { PluginDownloadButton } from "@/components/plugin/plugin-download-button";
+import { locPluginRelease } from "@/utils/locations";
 import { formatTime } from "@/utils/time-utils";
-import { ActionIcon, Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
-import { IconTag } from "@tabler/icons-react";
-import { getLocale, getMessages, getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { prettySize } from "@/utils/unit-utils";
+import { Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
+import { Icon, IconCalendar, IconFile, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
-import { PluginReleaseBodyButton } from "./release-body";
-import { PrettySize } from "./utils";
-
-async function PluginReleasePageButton({release}: {release: SimpleRelease}) {
-  const t = await getTranslations('page.plugin.releases')
-
-  const tooltip = t('button_release_page_tooltip', {version: release.version})
-  return (
-    <ClickableTooltip label={tooltip}>
-      <ActionIcon color="grape" variant="light" aria-label={tooltip}>
-        <NaLink href={release.url} aria-label={tooltip}>
-          <IconTag stroke={1.5}/>
-        </NaLink>
-      </ActionIcon>
-    </ClickableTooltip>
-  )
-}
 
 async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const t = await getTranslations('page.plugin.releases')
-  const locale = await getLocale()
-  const messages = await getMessages()
+
+  function Head(props: {icon: Icon, label: string}) {
+    return (
+      <TableTh>
+        <div className="flex gap-1 items-center">
+          <props.icon size={16}/>
+          <p>{props.label}</p>
+        </div>
+      </TableTh>
+    )
+  }
 
   const titles = (
     <TableTr>
-      <TableTh>{t('version')}</TableTh>
-      <TableTh>{t('file')}</TableTh>
-      <TableTh>{t('date')}</TableTh>
-      <TableTh>{t('size')}</TableTh>
-      <TableTh>{t('downloads')}</TableTh>
-      <TableTh>{t('actions')}</TableTh>
+      <Head icon={IconTag} label={t('version')} />
+      <Head icon={IconFile} label={t('file')} />
+      <Head icon={IconCalendar} label={t('date')} />
+      <Head icon={IconWeight} label={t('size')} />
+      <Head icon={IconFileDownload} label={t('downloads')} />
     </TableTr>
   )
+
   const rows = plugin.release.releases.map((ri) => {
     const version = ri.meta.version
     const date = new Date(ri.asset.created_at)
-    const sr = createSimpleRelease(ri)
+    const href = locPluginRelease(plugin.meta.id, version)
     return (
       <TableTr key={ri.tag_name}>
-        <TableTd className="whitespace-nowrap">{version}</TableTd>
+        <TableTd>
+          <NaLink href={href} hoverColor>
+            {version}
+          </NaLink>
+        </TableTd>
         <TableTd>
           <ClickableTooltip label={ri.asset.name} openDelay={500}>
             <p>{ri.asset.name}</p>
@@ -63,29 +57,10 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
         </TableTd>
         <TableTd>
           <ClickableTooltip label={`${ri.asset.size} ${t('bytes')}`} openDelay={500}>
-            <p>{PrettySize(ri.asset.size)}</p>
+            <p>{prettySize(ri.asset.size)}</p>
           </ClickableTooltip>
         </TableTd>
         <TableTd>{ri.asset.download_count}</TableTd>
-        <TableTd>
-          <div className="flex flex-row gap-2">
-            <PluginDownloadButton release={sr} variant="light"/>
-            <PluginReleaseBodyButton
-              releaseUrl={sr.url} hasDescription={!!ri.description}
-              texts={{
-                tooltip: t('button_release_body_tooltip', {version}),
-                title: t('button_release_body_title', {version}),
-                nothing: t('button_release_body_nothing', {version}),
-              }}
-            >
-              {/* SSR, no need to dynamic */}
-              <GfmMarkdown allowEmbedHtml>
-                {ri.description || ''}
-              </GfmMarkdown>
-            </PluginReleaseBodyButton>
-            <PluginReleasePageButton release={sr}/>
-          </div>
-        </TableTd>
       </TableTr>
     )
   })

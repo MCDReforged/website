@@ -2,7 +2,8 @@
   "metadata": {
     "title": {
       "catalogue": "Plugin Catalogue",
-      "plugin": "{name} - Plugin Catalogue"
+      "plugin": "{name} - Plugin Catalogue",
+      "plugin_release": "{name} v{version} - Plugin Catalogue"
     }
   },
   "layout": {
@@ -26,8 +27,15 @@
       "api": "API",
       "__unknown": "unknown"
     },
-    "plugin_download_button": {
-      "tooltip": "Download {name} (v{version})"
+    "plugin_dependencies": {
+      "title_plugin": "MCDR Plugin Dependencies",
+      "title_package": "Python Package Requirements",
+      "plugin_id": "Plugin ID",
+      "py_package": "Python Package",
+      "requirement": "Requirement",
+      "none": "none",
+
+      "py_package_command": "Python Package Installation Command"
     }
   },
   "page": {
@@ -73,7 +81,11 @@
       },
       "plugin_card": {
         "last_update": "Last update",
-        "total_downloads": "Total downloads"
+        "total_downloads": "Total downloads",
+        "download_button": {
+          "tooltip": "Latest version: v{version}",
+          "tooltip_disabled": "No release"
+        }
       }
     },
     "plugin": {
@@ -102,23 +114,25 @@
         "date": "Date",
         "size": "Size",
         "downloads": "Downloads",
-        "actions": "Actions",
+        "bytes": "bytes"
+      },
+      "release": {
+        "visit_release": "Visit release page",
+        "download": "Download",
+        "proxy_switch": "Use GitHub Proxy",
+        "proxy_switch_tooltip": "Use https://mirror.ghproxy.com/ to speed up plugin download in China mainland",
+
+        "version": "Version",
+        "date": "Date",
+        "size": "Size",
+        "downloads": "Downloads",
         "bytes": "bytes",
-        "button_release_body_tooltip": "Show release notes for v{version}",
-        "button_release_body_title": "Release notes for v{version}",
-        "button_release_body_nothing": "No release notes for v{version}",
-        "button_release_page_tooltip": "Visit GitHub release page for v{version}"
+
+        "dependencies": "Dependencies",
+        "release_notes": "Release notes",
+        "release_body_nothing": "No release notes"
       },
       "dependencies": {
-        "title_plugin": "MCDR Plugin Dependencies",
-        "title_package": "Python Package Requirements",
-        "plugin_id": "Plugin ID",
-        "py_package": "Python Package",
-        "requirement": "Requirement",
-        "none": "none",
-
-        "py_package_command": "Python Package Installation Command",
-
         "meta_source": "Metadata source: {src}",
         "meta_source_latest_release": "Latest version {version}",
         "meta_source_branch": "Git branch {branch}"

@@ -1,6 +1,7 @@
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link } from "@/common/navigation";
+import { AttributeEntry } from "@/components/attribute-entry";
 import CommonCard from "@/components/common-card";
 import { GithubIcon } from "@/components/icons";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
@@ -9,14 +10,13 @@ import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils";
+import { locPluginRelease } from "@/utils/locations";
 import { getGitHubReposPair } from "@/utils/repos-utils";
 import { Button } from "@mantine/core";
 import { IconArrowBackUp, IconFileDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
-import { clsx } from "clsx";
 import { useLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import React from "react";
-import styles from './sidebar.module.css'
 
 async function SidebarBackButton() {
   const t = await getTranslations('page.plugin.sidebar')
@@ -38,28 +38,6 @@ async function PluginDescription({description}: {description: string}) {
   // SSR, no need to use GfmMarkdownDynamic
   return (
     <GfmMarkdown dgmVariant="tiny">{description}</GfmMarkdown>
-  )
-}
-
-interface AttributeEntryProps {
-  className?: string
-  Icon: React.ElementType
-  label: string
-  children: React.ReactNode
-  [containerPropKey: string]: any
-}
-
-function AttributeEntry({className, Icon, label, children, ...containerProps}: AttributeEntryProps) {
-  return (
-    <div className={className}>
-      <p className={clsx("font-semibold mb-0.5 min-w-[80px]", styles.attributeEntryTitle)}>{label}</p>
-      <div className="flex gap-1.5 items-start" {...containerProps}>
-        <div className="w-[22px] h-[22px] mt-[2px]">
-          <Icon stroke={1.5} size={22}/>
-        </div>
-        {children}
-      </div>
-    </div>
   )
 }
 
@@ -117,9 +95,17 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
             {lastUpdateText}
           </AttributeEntry>
           <AttributeEntry Icon={IconTag} label={t('latest_version')}>
-          {simplePlugin.latestRelease !== undefined
-              ? <NaLink href={simplePlugin.latestRelease.url} className={textClass} hoverColor>{simplePlugin.latestRelease.version}</NaLink>
-              : <p className={textClass}>N/A</p> }
+            {
+              simplePlugin.latestRelease !== undefined
+                ? <NaLink
+                  href={locPluginRelease(simplePlugin.id, simplePlugin.latestRelease.version)}
+                  className={textClass}
+                  hoverColor
+                >
+                  {simplePlugin.latestRelease.version}
+                </NaLink>
+                : <p className={textClass}>N/A</p>
+            }
           </AttributeEntry>
           <AttributeEntry Icon={IconFileDownload} label={t('total_downloads')}>
             <p className={textClass}>{simplePlugin.downloads}</p>

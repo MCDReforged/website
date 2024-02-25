@@ -10,29 +10,24 @@ import React from "react";
 interface TabConfig {
   key: string
   icon: Icon
-  default: boolean
 }
 
 const tabConfig: TabConfig[] = [
   {
     key: 'introduction',
     icon: IconBook,
-    default: true,
   },
   {
     key: 'readme',
     icon: IconFileDescription,
-    default: false,
   },
   {
     key: 'releases',
     icon: IconTags,
-    default: false,
   },
   {
     key: 'dependencies',
     icon: IconPackageImport,
-    default: false,
   },
 ]
 
@@ -45,7 +40,11 @@ export function PluginContentCardTabs({pluginId}: { pluginId: string }) {
 
   let tabValue = ''
   for (let cfg of tabConfig) {
-    if (cfg.default && pathname === pathBase || pathname === pathFor(cfg)) {
+    if (
+      cfg.key === 'introduction' && pathname === pathBase
+      || pathname === pathFor(cfg)
+      || cfg.key === 'releases' && pathname.startsWith(`${pathBase}/release/`)
+    ) {
       tabValue = cfg.key
     }
   }

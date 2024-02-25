@@ -2,7 +2,8 @@
   "metadata": {
     "title": {
       "catalogue": "插件仓库",
-      "plugin": "{name} - 插件仓库"
+      "plugin": "{name} - 插件仓库",
+      "plugin_release": "{name} v{version} - 插件仓库"
     }
   },
   "layout": {
@@ -26,8 +27,15 @@
       "api": "API",
       "__unknown": "未知"
     },
-    "plugin_download_button": {
-      "tooltip": "下载 {name} (v{version})"
+    "plugin_dependencies": {
+      "title_plugin": "MCDR 插件依赖",
+      "title_package": "Python 包依赖",
+      "plugin_id": "插件 ID",
+      "py_package": "Python 包",
+      "requirement": "依赖版本",
+      "none": "无",
+
+      "py_package_command": "Python 包安装指令"
     }
   },
   "page": {
@@ -73,7 +81,11 @@
       },
       "plugin_card": {
         "last_update": "上次更新",
-        "total_downloads": "总下载量"
+        "total_downloads": "总下载量",
+        "download_button": {
+          "tooltip": "最新版本：v{version}",
+          "tooltip_disabled": "无发行版"
+        }
       }
     },
     "plugin": {
@@ -102,23 +114,25 @@
         "date": "日期",
         "size": "大小",
         "downloads": "下载量",
-        "actions": "操作",
+        "bytes": "字节"
+      },
+      "release": {
+        "visit_release": "前往发行版源页面",
+        "download": "下载插件",
+        "proxy_switch": "使用 GitHub Proxy",
+        "proxy_switch_tooltip": "使用 https://mirror.ghproxy.com/ 来优化中国大陆地区的下载速度",
+
+        "version": "版本",
+        "date": "日期",
+        "size": "大小",
+        "downloads": "下载量",
         "bytes": "字节",
-        "button_release_body_tooltip": "显示 v{version} 的更新日志",
-        "button_release_body_title": "v{version} 的更新日志",
-        "button_release_body_nothing": "v{version} 的更新日志为空",
-        "button_release_page_tooltip": "前往发行版 v{version} 的 GitHub 页面"
+
+        "dependencies": "依赖",
+        "release_notes": "更新日志",
+        "release_body_nothing": "更新日志为空"
       },
       "dependencies": {
-        "title_plugin": "MCDR 插件依赖",
-        "title_package": "Python 包依赖",
-        "plugin_id": "插件 ID",
-        "py_package": "Python 包",
-        "requirement": "依赖版本",
-        "none": "无",
-
-        "py_package_command": "Python 包安装指令",
-
         "meta_source": "元数据来源：{src}",
         "meta_source_latest_release": "最新版本 {version}",
         "meta_source_branch": "Git 的 {branch} 分支"
