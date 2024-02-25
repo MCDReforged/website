@@ -20,7 +20,7 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
   const date = new Date(release.asset.created_at)
   return (
     <div className={clsx(className, "flex flex-col gap-6")}>
-      <div className="flex flex-row flex-wrap gap-x-8 gap-y-4">
+      <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 mx-auto">
         <AttributeEntry label={t("version")} Icon={IconTag}>
           <p>{release.meta.version}</p>
         </AttributeEntry>
@@ -39,7 +39,7 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
         </AttributeEntry>
       </div>
 
-      <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 items-center">
+      <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 items-center mx-auto">
         <DownloadSectionButton
           color="blue"
           rightSection={<IconExternalLink size={16} stroke={1.6}/>}
@@ -102,7 +102,7 @@ export async function ReleaseDisplay({plugin, release}: { plugin: SimplePlugin, 
   return (
     <>
       <div className="">
-        <Title order={1} className="break-all">{release.asset.name}</Title>
+        <Title order={1} className="break-all text-center">{release.asset.name}</Title>
 
         <DownloadSection className="mt-5" release={release}/>
 
