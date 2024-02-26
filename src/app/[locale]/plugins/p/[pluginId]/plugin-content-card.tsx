@@ -15,7 +15,7 @@ export async function PluginContentCard({pluginId, children}: { pluginId: string
         <NextIntlClientProvider locale={locale} messages={pick(messages, 'page.plugin.tabs')}>
           <PluginContentCardTabs pluginId={pluginId}/>
         </NextIntlClientProvider>
-        <div className="pt-3 pb-2 px-1 sm:px-4">
+        <div className="py-2 px-1 sm:px-4">
           {children}
         </div>
       </div>

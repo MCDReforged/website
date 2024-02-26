@@ -15,6 +15,7 @@ const config: Config = {
         'mantine-gray': 'var(--mantine-color-gray-filled)',
         'mantine-dark-text': 'var(--mantine-color-dark-text)',
         'mantine-gray-text': 'light-dark(var(--mantine-color-gray-6), var(--mantine-color-gray-6))',
+        'mantine-gray-hover-background': 'light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6))',
         'mantine-text': 'var(--mantine-color-text)',
         'mantine-icon-white': 'light-dark(white, var(--mantine-color-text))',
 

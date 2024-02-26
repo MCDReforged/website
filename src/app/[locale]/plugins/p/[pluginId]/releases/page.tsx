@@ -2,76 +2,100 @@ import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import { NaLink } from "@/components/na-link";
-import { routes } from "@/utils/route-utils";
+import { routes } from "@/config/routes";
 import { formatTime } from "@/utils/time-utils";
 import { prettySize } from "@/utils/unit-utils";
-import { Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
-import { Icon, IconCalendar, IconFile, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { ActionIcon, ScrollArea } from "@mantine/core";
+import { Icon, IconCalendar, IconDownload, IconFileDownload, IconInfoCircle, IconTag, IconWeight } from "@tabler/icons-react";
+import { clsx } from "clsx";
+import { getLocale, getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
+import { ReleaseRows, TitleRow } from "./release-rows";
+
+interface IconTextProps {
+  className?: string
+  icon: Icon
+  iconSize?: number
+  iconStroke?: number
+  children: React.ReactNode
+}
+
+async function IconText(props: IconTextProps) {
+  return (
+    <div className={clsx(props.className, 'flex flex-row gap-1 items-center')}>
+      <props.icon size={props.iconSize || 18} stroke={props.iconStroke || 1.6}/>
+      {props.children}
+    </div>
+  )
+}
+
+async function TitleText(props: Omit<IconTextProps, 'iconSize' | 'iconStroke'>) {
+  return (
+    <IconText icon={props.icon} iconSize={18} iconStroke={2}>
+      <p className="font-bold">
+        {props.children}
+      </p>
+    </IconText>
+  )
+}
 
 async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const t = await getTranslations('page.plugin.releases')
-
-  function Head(props: {icon: Icon, label: string}) {
-    return (
-      <TableTh>
-        <div className="flex gap-1 items-center">
-          <props.icon size={16}/>
-          <p>{props.label}</p>
-        </div>
-      </TableTh>
-    )
-  }
-
-  const titles = (
-    <TableTr>
-      <Head icon={IconTag} label={t('version')} />
-      <Head icon={IconFile} label={t('file')} />
-      <Head icon={IconCalendar} label={t('date')} />
-      <Head icon={IconWeight} label={t('size')} />
-      <Head icon={IconFileDownload} label={t('downloads')} />
-    </TableTr>
-  )
-
-  const rows = plugin.release.releases.map((ri) => {
-    const version = ri.meta.version
-    const date = new Date(ri.asset.created_at)
-    const href = routes.pluginRelease(plugin.meta.id, version)
-    return (
-      <TableTr key={ri.tag_name}>
-        <TableTd>
-          <NaLink href={href} hoverColor>
-            {version}
-          </NaLink>
-        </TableTd>
-        <TableTd>
-          <ClickableTooltip label={ri.asset.name} openDelay={500}>
-            <p>{ri.asset.name}</p>
-          </ClickableTooltip>
-        </TableTd>
-        <TableTd className="whitespace-nowrap">
-          <ClickableTooltip label={formatTime(date , 'YYYY/MM/DD hh:mm:ss')} openDelay={500}>
-            <p>{formatTime(date , 'YYYY/MM/DD')}</p>
-          </ClickableTooltip>
-        </TableTd>
-        <TableTd>
-          <ClickableTooltip label={`${ri.asset.size} ${t('bytes')}`} openDelay={500}>
-            <p>{prettySize(ri.asset.size)}</p>
-          </ClickableTooltip>
-        </TableTd>
-        <TableTd>{ri.asset.download_count}</TableTd>
-      </TableTr>
-    )
-  })
+  const locale = await getLocale()
 
   return (
-    <TableScrollContainer minWidth={400} className="pb-0">
-      <Table>
-        <TableThead className="whitespace-nowrap">{titles}</TableThead>
-        <TableTbody>{rows}</TableTbody>
-      </Table>
-    </TableScrollContainer>
+    <ScrollArea scrollbars="x" className="w-full">
+      <div className="flex flex-col min-w-[400px]">
+        <TitleRow>
+          <p/>
+          <TitleText icon={IconTag}>{t('release')}</TitleText>
+          <TitleText icon={IconInfoCircle}>{t('information')}</TitleText>
+        </TitleRow>
+
+        {
+          plugin.release.releases.map((ri) => {
+            const version = ri.meta.version
+            const date = new Date(ri.asset.created_at)
+            const href = routes.pluginRelease(plugin.meta.id, version)
+            return (
+              <ReleaseRows key={version} href={href}>
+                <div className="place-self-center">
+                  <ActionIcon
+                    color="teal"
+                    component="a"
+                    href={ri.asset.browser_download_url}  // TODO: gh proxy
+                    download
+                  >
+                    <IconDownload stroke={1.6}/>
+                  </ActionIcon>
+                </div>
+
+                <NaLink href={href}>
+                  <p className="break-all font-bold">{ri.asset.name}</p>
+                  <p className="break-all">v{version}</p>
+                </NaLink>
+
+                <NaLink href={href}>
+                  <IconText icon={IconCalendar}>
+                    <ClickableTooltip label={formatTime(date, 'LLL', locale)} openDelay={500}>
+                      <p>{formatTime(date, 'LL', locale)}</p>
+                    </ClickableTooltip>
+                  </IconText>
+                  <div className="flex gap-3">
+                    <IconText icon={IconWeight}>
+                      <p>{prettySize(ri.asset.size, 0)}</p>
+                    </IconText>
+                    <IconText icon={IconFileDownload}>
+                      <p>{ri.asset.download_count}</p>
+                    </IconText>
+                  </div>
+                </NaLink>
+              </ReleaseRows>
+            )
+          })
+        }
+      </div>
+    </ScrollArea>
   )
 }
 
@@ -80,6 +104,8 @@ export default async function Page({params: {pluginId, locale}}: { params: { plu
   const plugin = await getPluginOr404(pluginId)
 
   return (
-    <PluginContentReleases plugin={plugin}/>
+    <div>
+      <PluginContentReleases plugin={plugin}/>
+    </div>
   )
 }

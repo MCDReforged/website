@@ -9,9 +9,9 @@ import { NaLink } from "@/components/na-link";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
+import { routes } from "@/config/routes";
 import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
-import { routes } from "@/utils/route-utils";
 import { Button } from "@mantine/core";
 import { IconArrowBackUp, IconFileDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
@@ -23,7 +23,7 @@ async function SidebarBackButton() {
 
   return (
     <Button
-      className="border-mantine-border-card"
+      className="border-mantine-border-card rounded-lg"
       component={Link}
       href="/plugins"
       variant="default"

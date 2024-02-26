@@ -1,7 +1,7 @@
 import { MetaInfo } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
+import { routes } from "@/config/routes";
 import { siteConfig } from "@/config/site";
-import { routes } from "@/utils/route-utils";
 import { Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
 import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";

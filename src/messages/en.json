@@ -109,12 +109,8 @@
         "readme_source": "README source: "
       },
       "releases": {
-        "version": "Version",
-        "file": "File",
-        "date": "Date",
-        "size": "Size",
-        "downloads": "Downloads",
-        "bytes": "bytes"
+        "release": "Release",
+        "information": "Information"
       },
       "release": {
         "visit_release": "Visit release page",
