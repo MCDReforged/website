@@ -2,6 +2,7 @@
 
 import { usePathname } from "@/common/navigation";
 import { NaLink } from "@/components/na-link";
+import { routes } from "@/utils/route-utils";
 import { ScrollArea, Tabs } from "@mantine/core";
 import { Icon, IconBook, IconFileDescription, IconPackageImport, IconTags } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
@@ -35,7 +36,7 @@ export function PluginContentCardTabs({pluginId}: { pluginId: string }) {
   const t = useTranslations('page.plugin.tabs');
   const pathname = usePathname()
 
-  const pathBase = `/plugins/p/${pluginId}`
+  const pathBase = routes.plugin(pluginId)
   const pathFor = (cfg: TabConfig) => `${pathBase}/${cfg.key}`
 
   let tabValue = ''

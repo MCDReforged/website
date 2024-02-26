@@ -2,7 +2,7 @@ import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import { NaLink } from "@/components/na-link";
-import { locPluginRelease } from "@/utils/locations";
+import { routes } from "@/utils/route-utils";
 import { formatTime } from "@/utils/time-utils";
 import { prettySize } from "@/utils/unit-utils";
 import { Table, TableScrollContainer, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
@@ -37,7 +37,7 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const rows = plugin.release.releases.map((ri) => {
     const version = ri.meta.version
     const date = new Date(ri.asset.created_at)
-    const href = locPluginRelease(plugin.meta.id, version)
+    const href = routes.pluginRelease(plugin.meta.id, version)
     return (
       <TableTr key={ri.tag_name}>
         <TableTd>

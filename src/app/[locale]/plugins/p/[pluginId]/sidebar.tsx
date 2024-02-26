@@ -10,8 +10,8 @@ import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils";
-import { locPluginRelease } from "@/utils/locations";
 import { getGitHubReposPair } from "@/utils/repos-utils";
+import { routes } from "@/utils/route-utils";
 import { Button } from "@mantine/core";
 import { IconArrowBackUp, IconFileDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
 import { useLocale } from "next-intl";
@@ -59,7 +59,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
     <div className="mx-[8px] flex flex-col gap-5">
       <CommonCard className="p-5">
         <div className="flex flex-col gap-3 break-words">
-          <NaLink href={`/plugins/p/${simplePlugin.id}`} hoverColor>
+          <NaLink href={routes.plugin(simplePlugin.id)} hoverColor>
             <p className="text-2xl font-semibold">{simplePlugin.name}</p>
           </NaLink>
           <PluginDescription description={translateLangDict(locale, simplePlugin.description) || ''}/>
@@ -98,7 +98,7 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
             {
               simplePlugin.latestRelease !== undefined
                 ? <NaLink
-                  href={locPluginRelease(simplePlugin.id, simplePlugin.latestRelease.version)}
+                  href={routes.pluginRelease(simplePlugin.id, simplePlugin.latestRelease.version)}
                   className={textClass}
                   hoverColor
                 >

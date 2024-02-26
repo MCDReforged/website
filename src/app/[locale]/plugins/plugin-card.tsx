@@ -8,7 +8,7 @@ import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { translateLangDict } from "@/utils/i18n-utils"
-import { locPluginRelease } from "@/utils/locations";
+import { routes } from "@/utils/route-utils";
 import { ActionIcon } from "@mantine/core";
 import { IconFileDownload, IconRefresh, IconReload, IconTag, IconTagOff } from "@tabler/icons-react";
 import { clsx } from "clsx";
@@ -34,7 +34,7 @@ function PluginDownloadButton({pluginId, release, variant = 'filled'}: PluginDow
         aria-label={tooltip}
         className={clsx(variant === 'filled' && 'text-mantine-icon-white')}
       >
-        <NaLink href={locPluginRelease(pluginId, release.version)}>
+        <NaLink href={routes.pluginRelease(pluginId, release.version)}>
           <IconTag stroke={1.5}/>
         </NaLink>
       </ActionIcon>
@@ -58,7 +58,7 @@ function PluginCardDownloadButtonDisabled() {
 function PluginCardPluginLink({pluginId, pluginName}: {pluginId: string, pluginName: string}) {
   return (
     <NaLink
-      href={`/plugins/p/${pluginId}`}
+      href={routes.plugin(pluginId)}
       className="text-2xl font-bold text-foreground break-words mx-1"
       hoverColor
     >

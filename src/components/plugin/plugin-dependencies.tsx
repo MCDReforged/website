@@ -1,6 +1,7 @@
 import { MetaInfo } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
 import { siteConfig } from "@/config/site";
+import { routes } from "@/utils/route-utils";
 import { Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
 import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
@@ -50,7 +51,7 @@ export async function PluginRequirementTable({dependencies}: {dependencies: {[_:
             const id = pluginId.match(/^[a-zA-Z0-9_]+$/)?.toString()
             const pluginUrl = id === 'mcdreforged'
               ? siteConfig.links.github
-              : (id !== undefined ? `/plugins/p/${pluginId}` : undefined)
+              : (id !== undefined ? routes.plugin(pluginId) : undefined)
             return (
               <TableTr key={index}>
                 <TableTd>
