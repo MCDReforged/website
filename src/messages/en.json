@@ -109,8 +109,6 @@
         "readme_source": "README source: "
       },
       "releases": {
-        "release": "Release",
-        "information": "Information"
       },
       "release": {
         "visit_release": "Visit release page",
