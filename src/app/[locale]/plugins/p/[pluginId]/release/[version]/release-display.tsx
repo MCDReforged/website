@@ -3,6 +3,7 @@ import { SimplePlugin } from "@/catalogue/simple-types";
 import { AttributeEntry } from "@/components/attribute-entry";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
+import { GithubProxySwitchServer } from "@/components/plugin/github-proxy-switch-server";
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
 import { TimeFormatted } from "@/components/time-formatted";
 import { prettySize } from "@/utils/unit-utils";
@@ -47,14 +48,13 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
         >
           {t('visit_release')}
         </DownloadSectionButton>
-        <ProxyableDownloadButton
-          url={release.asset.browser_download_url}
-          texts={{
-            download: t('download'),
-            proxySwitch: t('proxy_switch'),
-            proxySwitchTooltip: t('proxy_switch_tooltip'),
-          }}
-        />
+
+        <ProxyableDownloadButton rawUrl={release.asset.browser_download_url}>
+          {t('download')}
+        </ProxyableDownloadButton>
+
+        <div className="grow max-[800px]:hidden"/>
+        <GithubProxySwitchServer />
       </div>
     </div>
   )

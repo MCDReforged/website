@@ -36,6 +36,10 @@
       "none": "none",
 
       "py_package_command": "Python Package Installation Command"
+    },
+    "github_proxy_switch": {
+      "label": "Use GitHub Proxy",
+      "tooltip": "Use https://mirror.ghproxy.com/ to speed up plugin download in China mainland"
     }
   },
   "page": {
@@ -82,7 +86,7 @@
       "plugin_card": {
         "last_update": "Last update",
         "total_downloads": "Total downloads",
-        "download_button": {
+        "release_button": {
           "tooltip": "Latest version: v{version}",
           "tooltip_disabled": "No release"
         }
@@ -109,12 +113,11 @@
         "readme_source": "README source: "
       },
       "releases": {
+        "download": "Download {name} (v{version})"
       },
       "release": {
         "visit_release": "Visit release page",
         "download": "Download",
-        "proxy_switch": "Use GitHub Proxy",
-        "proxy_switch_tooltip": "Use https://mirror.ghproxy.com/ to speed up plugin download in China mainland",
 
         "version": "Version",
         "date": "Date",

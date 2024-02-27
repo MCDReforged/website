@@ -1,14 +1,16 @@
 import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
+import { GithubProxySwitchServer } from "@/components/plugin/github-proxy-switch-server";
 import { TimeFormatted } from "@/components/time-formatted";
 import { routes } from "@/site/routes";
 import { prettySize } from "@/utils/unit-utils";
-import { ActionIcon, ScrollArea } from "@mantine/core";
-import { Icon, IconCalendar, IconDownload, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";
+import { ScrollArea } from "@mantine/core";
+import { Icon, IconCalendar, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { getLocale, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
+import { AssetDownloadButton } from "./asset-download-button";
 import { ReleaseRow } from "./release-row";
 
 interface IconTextProps {
@@ -35,11 +37,11 @@ async function IconText(props: IconTextProps) {
 }
 
 async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
-  const locale = await getLocale()
+  const t = await getTranslations('page.plugin.releases')
 
   return (
     <ScrollArea scrollbars="x" className="w-full">
-      <div className="flex flex-col min-w-[350px]">
+      <div className="min-w-[360px] mb-3">
         {
           plugin.release.releases.map((ri) => {
             const version = ri.meta.version
@@ -48,15 +50,11 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
             return (
               <ReleaseRow key={version} href={href}>
                 <div className="flex flex-row items-center gap-4">
-                  <ActionIcon
-                    color="teal"
-                    size="lg"
-                    component="a"
-                    href={ri.asset.browser_download_url}  // TODO: gh proxy
-                    download
-                  >
-                    <IconDownload stroke={1.6}/>
-                  </ActionIcon>
+                  <AssetDownloadButton
+                    className="place-self-start relative top-2"
+                    href={ri.asset.browser_download_url}
+                    tooltip={t('download', {name: ri.asset.name, version})}
+                  />
 
                   <div className={clsx(
                     "grow",
@@ -100,8 +98,9 @@ export default async function Page({params: {pluginId, locale}}: { params: { plu
   const plugin = await getPluginOr404(pluginId)
 
   return (
-    <div>
+    <div className="flex flex-col gap-1">
       <PluginContentReleases plugin={plugin}/>
+      <GithubProxySwitchServer className="place-self-end" />
     </div>
   )
 }

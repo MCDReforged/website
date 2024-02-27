@@ -36,6 +36,10 @@
       "none": "无",
 
       "py_package_command": "Python 包安装指令"
+    },
+    "github_proxy_switch": {
+      "label": "使用 GitHub Proxy 加速",
+      "tooltip": "使用 https://mirror.ghproxy.com/ 来优化中国大陆地区的下载速度"
     }
   },
   "page": {
@@ -82,7 +86,7 @@
       "plugin_card": {
         "last_update": "上次更新",
         "total_downloads": "总下载量",
-        "download_button": {
+        "release_button": {
           "tooltip": "最新版本：v{version}",
           "tooltip_disabled": "无发行版"
         }
@@ -109,12 +113,11 @@
         "readme_source": "自述文件来源："
       },
       "releases": {
+        "download": "下载 {name} (v{version})"
       },
       "release": {
         "visit_release": "前往发行版源页面",
         "download": "下载插件",
-        "proxy_switch": "使用 GitHub Proxy",
-        "proxy_switch_tooltip": "使用 https://mirror.ghproxy.com/ 来优化中国大陆地区的下载速度",
 
         "version": "版本",
         "date": "日期",

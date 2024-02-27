@@ -10,6 +10,13 @@ interface TimeTexts {
   hover?: string
 }
 
+function createTimeTexts(date: Date, format: string, hoverFormat: string | undefined, locale: string, utc: boolean): TimeTexts {
+  return {
+    text: formatTime(date, format, locale, utc),
+    hover: hoverFormat ? formatTime(date, hoverFormat, locale, utc) : undefined,
+  }
+}
+
 interface TimeFormattedProps {
   date: Date
   format: string,
@@ -22,18 +29,13 @@ interface TimeFormattedProps {
 export function TimeFormatted({date, format, hoverFormat, hoverOpenDelay, className, component: Component = 'p'}: TimeFormattedProps) {
   const locale = useLocale()
 
-  function createTimeTexts(utc: boolean): TimeTexts {
-    return {
-      text: formatTime(date, format, locale, utc),
-      hover: hoverFormat ? formatTime(date, hoverFormat, locale, utc) : undefined,
-    }
-  }
-
-  const [texts, setTexts] = useState<TimeTexts>(createTimeTexts(true))
+  const [texts, setTexts] = useState<TimeTexts>(
+    createTimeTexts(date, format, hoverFormat, locale, true)
+  )
 
   // rebuild texts on client
   useEffect(
-    () => setTexts(createTimeTexts(false)),
+    () => setTexts(createTimeTexts(date, format, hoverFormat, locale, false)),
     [date, format, hoverFormat, locale]
   )
 

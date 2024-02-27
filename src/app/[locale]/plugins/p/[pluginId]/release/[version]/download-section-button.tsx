@@ -9,7 +9,6 @@ export function DownloadSectionButton({children, ...rest}: {children: React.Reac
         label: 'text-sm font-medium',
       }}
       variant="filled"
-      size="xs"
       {...rest}
     >
       {children}

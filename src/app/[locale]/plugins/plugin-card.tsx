@@ -16,14 +16,14 @@ import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React from 'react';
 
-interface PluginDownloadButton {
+interface PluginCardReleaseButtonProps {
   pluginId: string
   release: SimpleRelease
   variant?: string
 }
 
-function PluginDownloadButton({pluginId, release, variant = 'filled'}: PluginDownloadButton) {
-  const t = useTranslations('page.plugin_list.plugin_card.download_button')
+function PluginCardReleaseButton({pluginId, release, variant = 'filled'}: PluginCardReleaseButtonProps) {
+  const t = useTranslations('page.plugin_list.plugin_card.release_button')
 
   const tooltip = t('tooltip', {version: release.version})
   return (
@@ -42,8 +42,8 @@ function PluginDownloadButton({pluginId, release, variant = 'filled'}: PluginDow
   )
 }
 
-function PluginCardDownloadButtonDisabled() {
-  const t = useTranslations('page.plugin_list.plugin_card.download_button')
+function PluginCardReleaseButtonDisabled() {
+  const t = useTranslations('page.plugin_list.plugin_card.release_button')
 
   // https://mantine.dev/core/action-icon/#disabled-button-with-tooltip
   return (
@@ -111,8 +111,8 @@ export function PluginCard({plugin}: {plugin: SimplePlugin}) {
     </ActionIcon>
 
   const downloadButton = release !== undefined ?
-    <PluginDownloadButton pluginId={plugin.id} release={release}/>:
-    <PluginCardDownloadButtonDisabled/>
+    <PluginCardReleaseButton pluginId={plugin.id} release={release}/>:
+    <PluginCardReleaseButtonDisabled/>
 
   const lastUpdateText = plugin.recentUpdated !== undefined
     ? <TimeAgoDynamic date={plugin.recentUpdated}/>
