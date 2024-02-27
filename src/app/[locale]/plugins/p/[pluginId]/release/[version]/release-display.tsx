@@ -4,7 +4,7 @@ import { AttributeEntry } from "@/components/attribute-entry";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
-import { formatTime } from "@/utils/time-utils";
+import { TimeFormatted } from "@/components/time-formatted";
 import { prettySize } from "@/utils/unit-utils";
 import { Divider, Title } from "@mantine/core";
 import { IconCalendar, IconExternalLink, IconFileDescription, IconFileDownload, IconPackageImport, IconTag, IconWeight } from "@tabler/icons-react";
@@ -19,15 +19,13 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
 
   const date = new Date(release.asset.created_at)
   return (
-    <div className={clsx(className, "flex flex-col gap-6")}>
-      <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 mx-auto">
+    <div className={clsx(className, 'flex flex-col gap-6')}>
+      <div className="flex flex-row flex-wrap gap-x-8 gap-y-4">
         <AttributeEntry label={t("version")} Icon={IconTag}>
           <p>{release.meta.version}</p>
         </AttributeEntry>
         <AttributeEntry label={t("date")} Icon={IconCalendar}>
-          <ClickableTooltip label={formatTime(date, 'YYYY/MM/DD hh:mm:ss')} openDelay={500}>
-            <p>{formatTime(date, 'YYYY/MM/DD')}</p>
-          </ClickableTooltip>
+          <TimeFormatted date={date} format="LL" hoverFormat="LLLL" hoverOpenDelay={500}/>
         </AttributeEntry>
         <AttributeEntry label={t("size")} Icon={IconWeight}>
           <ClickableTooltip label={`${release.asset.size} ${t('bytes')}`} openDelay={500}>
@@ -39,7 +37,7 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
         </AttributeEntry>
       </div>
 
-      <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 items-center mx-auto">
+      <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 items-center">
         <DownloadSectionButton
           color="blue"
           rightSection={<IconExternalLink size={16} stroke={1.6}/>}
@@ -50,7 +48,6 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
           {t('visit_release')}
         </DownloadSectionButton>
         <ProxyableDownloadButton
-          className="grow"
           url={release.asset.browser_download_url}
           texts={{
             download: t('download'),
@@ -102,7 +99,7 @@ export async function ReleaseDisplay({plugin, release}: { plugin: SimplePlugin, 
   return (
     <>
       <div className="">
-        <Title order={1} className="break-all text-center">{release.asset.name}</Title>
+        <Title order={1} className="break-all">{release.asset.name}</Title>
 
         <DownloadSection className="mt-5" release={release}/>
 

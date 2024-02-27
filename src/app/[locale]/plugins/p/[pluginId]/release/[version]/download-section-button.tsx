@@ -4,8 +4,10 @@ import React from "react";
 export function DownloadSectionButton({children, ...rest}: {children: React.ReactNode, [_: string]: any}) {
   return (
     <Button
-      classNames={{label: 'text-sm font-medium'}}
-      w={170}
+      classNames={{
+        root: 'w-full min-[800px]:w-[170px]',
+        label: 'text-sm font-medium',
+      }}
       variant="filled"
       size="xs"
       {...rest}

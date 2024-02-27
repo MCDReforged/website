@@ -7,7 +7,6 @@ import React from "react";
 import { DownloadSectionButton } from "./download-section-button";
 
 interface ProxyableDownloadButtonProps {
-  className?: string
   url: string
   texts: {
     download: string
@@ -16,7 +15,7 @@ interface ProxyableDownloadButtonProps {
   }
 }
 
-export function ProxyableDownloadButton({className, url, texts}: ProxyableDownloadButtonProps) {
+export function ProxyableDownloadButton({url, texts}: ProxyableDownloadButtonProps) {
   const [proxied, setProxied] = useLocalStorage<boolean>({
     key: 'mcdr-website-plugin-download-proxied',
     defaultValue: false,
@@ -36,6 +35,8 @@ export function ProxyableDownloadButton({className, url, texts}: ProxyableDownlo
       >
         {texts.download}
       </DownloadSectionButton>
+
+      <div className="grow max-[800px]:hidden"/>
 
       <Switch
         classNames={{label: 'select-none'}}

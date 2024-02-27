@@ -1,12 +1,11 @@
 import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
-import { ClickableTooltip } from "@/components/clickable-tooltip";
 import { NaLink } from "@/components/na-link";
+import { TimeFormatted } from "@/components/time-formatted";
 import { routes } from "@/config/routes";
-import { formatTime } from "@/utils/time-utils";
 import { prettySize } from "@/utils/unit-utils";
 import { ActionIcon, ScrollArea } from "@mantine/core";
-import { Icon, IconCalendar, IconDownload, IconFileDownload, IconWeight } from "@tabler/icons-react";
+import { Icon, IconCalendar, IconDownload, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { getLocale, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
@@ -15,17 +14,21 @@ import { ReleaseRow } from "./release-row";
 interface IconTextProps {
   className?: string
   icon: Icon
+  size?: 'sm' | 'md'
   children: React.ReactNode
 }
 
 async function IconText(props: IconTextProps) {
+  const { size = 'sm' } = props
+  const isSmall = size === 'sm'
+
   return (
     <div className={clsx(
       props.className,
       'flex flex-row gap-0.5 items-center',
-      'text-sm'
+      isSmall && 'text-sm',
     )}>
-      <props.icon size={16} stroke={1.5}/>
+      <props.icon size={isSmall ? 16 : 18} stroke={1.5}/>
       {props.children}
     </div>
   )
@@ -62,15 +65,15 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
                     "gap-x-2 gap-y-1",
                   )}>
                     <NaLink href={href}>
-                      <p className="break-all font-bold">{ri.asset.name}</p>
-                      <p className="break-all">v{version}</p>
+                      <p className="font-bold">{ri.asset.name}</p>
+                      <IconText icon={IconTag} size="md">
+                        <p>{version}</p>
+                      </IconText>
                     </NaLink>
 
                     <NaLink href={href} className="flex flex-row lg:flex-col gap-x-3 gap-y-0.5">
                       <IconText icon={IconCalendar}>
-                        <ClickableTooltip label={formatTime(date, 'LLL', locale)} openDelay={500}>
-                          <p>{formatTime(date, 'LL', locale)}</p>
-                        </ClickableTooltip>
+                        <TimeFormatted date={date} format="LL" hoverFormat="LLL" hoverOpenDelay={500}/>
                       </IconText>
                       <div className="flex gap-3">
                         <IconText icon={IconWeight}>
