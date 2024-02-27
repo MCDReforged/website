@@ -1,6 +1,6 @@
 import { Link } from "@/common/navigation";
 import { McdrLogo } from "@/components/icons";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import { Button, Text, ThemeIcon, Title } from '@mantine/core';
 import { Icon, IconBook2, IconDevicesCheck, IconExternalLink, IconPackage, IconPackages, IconPlant2 } from "@tabler/icons-react";
 import { clsx } from "clsx";

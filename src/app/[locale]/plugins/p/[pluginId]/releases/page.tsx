@@ -2,7 +2,7 @@ import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
 import { TimeFormatted } from "@/components/time-formatted";
-import { routes } from "@/config/routes";
+import { routes } from "@/site/routes";
 import { prettySize } from "@/utils/unit-utils";
 import { ActionIcon, ScrollArea } from "@mantine/core";
 import { Icon, IconCalendar, IconDownload, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";

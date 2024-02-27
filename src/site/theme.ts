@@ -19,7 +19,7 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
   return result;
 }
 
-export const theme = createTheme({
+export const siteTheme = createTheme({
   // github-like fonts
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
   primaryColor: 'indigo',

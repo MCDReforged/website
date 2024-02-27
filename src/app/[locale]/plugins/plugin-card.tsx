@@ -7,7 +7,7 @@ import { NaLink } from "@/components/na-link";
 import { PluginAuthorList } from "@/components/plugin/plugin-author";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
-import { routes } from "@/config/routes";
+import { routes } from "@/site/routes";
 import { translateLangDict } from "@/utils/i18n-utils"
 import { ActionIcon } from "@mantine/core";
 import { IconFileDownload, IconRefresh, IconReload, IconTag, IconTagOff } from "@tabler/icons-react";

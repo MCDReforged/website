@@ -1,4 +1,4 @@
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import { clsx } from "clsx";
 import Link from "next/link";
 import React from "react";

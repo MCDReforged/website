@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from "@/common/navigation";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconWorld } from '@tabler/icons-react';
 import { useLocale, useTranslations } from "next-intl";

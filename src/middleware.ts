@@ -1,4 +1,4 @@
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import createMiddleware from 'next-intl/middleware';
 
 export default createMiddleware({

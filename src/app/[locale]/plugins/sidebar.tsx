@@ -4,7 +4,7 @@ import { SimpleEverything } from "@/catalogue/simple-types";
 import CommonCard from "@/components/common-card";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
-import { pluginLabels } from "@/config/catalogue";
+import { pluginLabels } from "@/site/catalogue";
 import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
 import { IconFileDownload, IconFilter, IconPackages, IconRefresh, IconUser, IconUsers } from "@tabler/icons-react";
 import { clsx } from "clsx";

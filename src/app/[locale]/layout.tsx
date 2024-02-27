@@ -1,8 +1,7 @@
 import { Footer } from "@/components/layout/footer";
-import MantineThemeProvider from "@/components/layout/mantine-theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { RouterTransition } from "@/components/layout/router-transition";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import { pick } from "@/utils/i18n-utils";
 import { ColorSchemeScript } from '@mantine/core'
 import "@/styles/globals.css";
@@ -12,6 +11,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import '@mantine/core/styles.css'
 import styles from './layout.module.css';
+import MantineThemeProvider from "./mantine-theme-provider";
 import { VercelScripts } from "./vercel-scripts";
 
 export const metadata: Metadata = {

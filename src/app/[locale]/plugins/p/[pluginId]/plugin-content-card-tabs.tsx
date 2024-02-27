@@ -2,7 +2,7 @@
 
 import { usePathname } from "@/common/navigation";
 import { NaLink } from "@/components/na-link";
-import { routes } from "@/config/routes";
+import { routes } from "@/site/routes";
 import { ScrollArea, Tabs } from "@mantine/core";
 import { Icon, IconBook, IconFileDescription, IconPackageImport, IconTags } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";

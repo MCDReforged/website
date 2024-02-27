@@ -5,7 +5,7 @@ import { GithubIcon, McdrLogo, } from "@/components/icons";
 import { NaLink } from "@/components/na-link";
 import { LocaleSwitch } from "@/components/navbar/locale-switch";
 import { ThemeSwitch } from "@/components/navbar/theme-switch";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconBook2, IconExternalLink, IconHome, IconPackages, TablerIconsProps } from "@tabler/icons-react";

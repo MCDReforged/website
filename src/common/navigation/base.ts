@@ -1,4 +1,4 @@
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/site/config";
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
 
 export const i18nNavigation = createSharedPathnamesNavigation({
