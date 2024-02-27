@@ -53,7 +53,7 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
               <ReleaseRow key={version} href={href}>
                 <div className="flex flex-row items-center gap-4">
                   <AssetDownloadButton
-                    className="place-self-start relative top-2"
+                    className="place-self-start mt-2"
                     href={ri.asset.browser_download_url}
                     tooltip={t('download', {name: ri.asset.name, version})}
                   />

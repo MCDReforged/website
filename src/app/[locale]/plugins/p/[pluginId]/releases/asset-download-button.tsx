@@ -10,7 +10,7 @@ export function AssetDownloadButton({className, href, tooltip}: { className: str
   const {url, proxied} = useGithubProxyUrl(href)
 
   return (
-    <ClickableTooltip className={className} label={tooltip} openDelay={500}>
+    <ClickableTooltip className={className} label={tooltip} openDelay={500} offset={12}>
       <ActionIcon
         color="teal"
         size={36}
