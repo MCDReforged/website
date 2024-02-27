@@ -11,7 +11,6 @@ export interface SimpleEverything {
 export interface SimplePlugin {
   id: string
   name: string
-  version: string
   description: LangDict
   repos: string
   reposHome: string

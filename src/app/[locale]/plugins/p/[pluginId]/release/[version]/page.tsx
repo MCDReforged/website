@@ -1,8 +1,8 @@
-import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin, ReleaseInfo } from "@/catalogue/meta-types";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { createSimplePlugin } from "../../../../../../../catalogue/conversion";
 import { ReleaseDisplay } from "./release-display";
 
 interface PageParams {
@@ -12,7 +12,11 @@ interface PageParams {
 }
 
 function getRelease(plugin: AllOfAPlugin, version: string): ReleaseInfo | undefined {
-  return plugin.release.releases.filter(r => r.meta.version === version)[0]
+  if (plugin.release) {
+    return plugin.release.releases.filter(r => r.meta.version === version)[0]
+  } else {
+    return undefined
+  }
 }
 
 export async function generateMetadata({params}: {params: PageParams}) {
@@ -38,9 +42,13 @@ export async function generateMetadata({params}: {params: PageParams}) {
 
 export async function generateStaticParams({params}: {params: {pluginId: string}}) {
   const plugin = await getPluginOr404(params.pluginId)
-  return plugin.release.releases.map(r => {
-    return {version: r.meta.version}
-  })
+  if (plugin.release) {
+    return plugin.release.releases.map(r => {
+      return {version: r.meta.version}
+    })
+  } else {
+    return []
+  }
 }
 
 export default async function Page({params}: {params: PageParams}) {
@@ -49,7 +57,7 @@ export default async function Page({params}: {params: PageParams}) {
   const version = decodeURIComponent(params.version)
 
   const plugin = await getPluginOr404(params.pluginId)
-  const release = plugin.release.releases.filter(r => r.meta.version === version)[0]
+  const release = getRelease(plugin, version)
   if (!release) {
     notFound()
   }

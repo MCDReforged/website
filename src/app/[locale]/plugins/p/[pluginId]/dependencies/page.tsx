@@ -1,13 +1,18 @@
 import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
+import { NoneText } from "@/components/none-text";
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
 
 async function PageContent({plugin}: { plugin: AllOfAPlugin }) {
   const t = await getTranslations('page.plugin.dependencies')
-  const latestRelease = plugin.release.releases[plugin.release.latest_version_index ?? -1]
+  const latestRelease = plugin.release ? plugin.release.releases[plugin.release.latest_version_index ?? -1] : undefined
   const meta = latestRelease !== undefined ? latestRelease.meta : plugin.meta
+
+  if (!meta) {
+    return <NoneText>{t('meta_unavailable')}</NoneText>
+  }
 
   return (
     <div>

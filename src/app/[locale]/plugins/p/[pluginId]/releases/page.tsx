@@ -39,14 +39,16 @@ async function IconText(props: IconTextProps) {
 async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
   const t = await getTranslations('page.plugin.releases')
 
+  const releases = plugin.release?.releases || []
+
   return (
     <ScrollArea scrollbars="x" className="w-full">
       <div className="min-w-[360px] mb-3">
         {
-          plugin.release.releases.map((ri) => {
+          releases.map((ri) => {
             const version = ri.meta.version
             const date = new Date(ri.asset.created_at)
-            const href = routes.pluginRelease(plugin.meta.id, version)
+            const href = routes.pluginRelease(plugin.plugin.id, version)
             return (
               <ReleaseRow key={version} href={href}>
                 <div className="flex flex-row items-center gap-4">

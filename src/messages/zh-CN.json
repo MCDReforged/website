@@ -110,6 +110,7 @@
         "dependencies": "依赖"
       },
       "readme": {
+        "no_readme": "无自述文件",
         "readme_source": "自述文件来源："
       },
       "releases": {
@@ -130,6 +131,7 @@
         "release_body_nothing": "更新日志为空"
       },
       "dependencies": {
+        "meta_unavailable": "元数据不可用",
         "meta_source": "元数据来源：{src}",
         "meta_source_latest_release": "最新版本 {version}",
         "meta_source_branch": "Git 的 {branch} 分支"

@@ -1,4 +1,4 @@
-import { AllOfAPlugin, AuthorSummary, Everything, ReleaseInfo } from "./meta-types";
+import { AllOfAPlugin, AuthorSummary, Everything, MetaInfo, ReleaseInfo } from "./meta-types";
 import { SimpleEverything, SimplePlugin, SimpleRelease } from "./simple-types";
 
 export function createSimpleEverything(everything: Everything): SimpleEverything {
@@ -16,15 +16,18 @@ export function createSimpleEverything(everything: Everything): SimpleEverything
 export function createSimplePlugin(plugin: AllOfAPlugin, authorData: AuthorSummary): SimplePlugin {
   let downloads = 0
   let latestDate: Date | undefined = undefined
-  plugin.release['releases'].forEach(r => {
+  const releases = plugin.release?.releases || []
+  releases.forEach(r => {
     downloads += r.asset.download_count
     const date: Date = new Date(r.asset.created_at)
     if (latestDate === undefined || date > latestDate) {
       latestDate = date
     }
   })
-  const latestRelease = plugin.release.releases[plugin.release.latest_version_index ?? -1]
+  const latestRelease: ReleaseInfo | undefined = releases[plugin.release?.latest_version_index ?? -1]
   const latestSimpleRelease: SimpleRelease | undefined = latestRelease === undefined ? undefined : createSimpleRelease(latestRelease)
+
+  const latestMeta: MetaInfo | undefined = latestRelease?.meta || plugin.meta || undefined
 
   const repos = plugin.plugin.repository.replace(/\/$/, '')
   const authors = plugin.plugin.authors
@@ -32,9 +35,8 @@ export function createSimplePlugin(plugin: AllOfAPlugin, authorData: AuthorSumma
     .filter((a) => a !== undefined)
   return {
     id: plugin.plugin.id,
-    name: plugin.meta.name,
-    version: plugin.meta.version,
-    description: plugin.meta.description,
+    name: latestMeta?.name ?? plugin.plugin.id,
+    description: latestMeta?.description ?? {},
     repos: repos,
     reposHome: `${repos}/tree/${plugin.plugin.branch}` + (plugin.plugin.related_path !== '.' ? `/${plugin.plugin.related_path}` : ''),
     labels: plugin.plugin.labels,

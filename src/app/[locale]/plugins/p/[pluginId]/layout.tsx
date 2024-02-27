@@ -1,8 +1,8 @@
-import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { Divider } from "@mantine/core";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
+import { createSimplePlugin } from "../../../../../catalogue/conversion";
 import { LayoutScrollFix } from "./layout-scroll-fix";
 import { PluginContentCard } from "./plugin-content-card";
 import { Sidebar } from "./sidebar";

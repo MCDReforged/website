@@ -2,17 +2,19 @@ import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { NaLink } from "@/components/na-link";
+import { NoneText } from "@/components/none-text";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
 
 async function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
-  const readme = plugin.repository.readme
-  const readmeUrl = plugin.repository.readme_url
-  if (!readme) {
-    return <p>No readme</p>
+  const t = await getTranslations('page.plugin.readme')
+
+  const readme = plugin.repository?.readme
+  const readmeUrl = plugin.repository?.readme_url
+  if (!readme || !readmeUrl) {
+    return <NoneText>{t('no_readme')}</NoneText>
   }
 
-  const t = await getTranslations('page.plugin.readme')
   let readmeSrc: React.ReactNode = <span>N/A</span>
   if (readmeUrl) {
     // TISUnion/QuickBackupM/master/README.md

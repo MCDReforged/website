@@ -110,6 +110,7 @@
         "dependencies": "Dependencies"
       },
       "readme": {
+        "no_readme": "No README",
         "readme_source": "README source: "
       },
       "releases": {
@@ -130,6 +131,7 @@
         "release_body_nothing": "No release notes"
       },
       "dependencies": {
+        "meta_unavailable": "Meta unavailable",
         "meta_source": "Metadata source: {src}",
         "meta_source_latest_release": "Latest version {version}",
         "meta_source_branch": "Git branch {branch}"

@@ -1,5 +1,6 @@
 import { MetaInfo } from "@/catalogue/meta-types";
 import { NaLink } from "@/components/na-link";
+import { NoneText } from "@/components/none-text";
 import { siteConfig } from "@/site/config";
 import { routes } from "@/site/routes";
 import { Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
@@ -16,7 +17,9 @@ async function NoneRow() {
   const t = await getTranslations('component.plugin_dependencies')
   return(
     <TableTr>
-      <TableTd><i className="text-mantine-dimmed select-none">{t('none')}</i></TableTd>
+      <TableTd>
+        <NoneText>{t('none')}</NoneText>
+      </TableTd>
       <TableTd/>
     </TableTr>
   )

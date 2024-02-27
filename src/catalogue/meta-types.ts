@@ -25,10 +25,10 @@ export interface AuthorSummary {
 }
 
 export interface AllOfAPlugin {
-  meta: MetaInfo
+  meta: MetaInfo | null
   plugin: PluginInfo
-  release: ReleaseSummary
-  repository: RepositoryInfo
+  release: ReleaseSummary | null
+  repository: RepositoryInfo | null
 }
 
 export interface MetaInfo {

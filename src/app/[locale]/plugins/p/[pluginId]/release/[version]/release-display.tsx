@@ -3,6 +3,7 @@ import { SimplePlugin } from "@/catalogue/simple-types";
 import { AttributeEntry } from "@/components/attribute-entry";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
+import { NoneText } from "@/components/none-text";
 import { GithubProxySwitchServer } from "@/components/plugin/github-proxy-switch-server";
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
 import { TimeFormatted } from "@/components/time-formatted";
@@ -63,13 +64,7 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
 async function ReleaseDescription({description}: { description: string | undefined | null }) {
   const t = await getTranslations('page.plugin.release')
   if (description === null || description === undefined) {
-    return (
-      <p>
-        <i className="text-mantine-dimmed select-none">
-          {t('release_body_nothing')}
-        </i>
-      </p>
-    )
+    return <NoneText>{t('release_body_nothing')}</NoneText>
   }
 
   return (
