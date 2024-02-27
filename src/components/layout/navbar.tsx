@@ -3,8 +3,7 @@
 import { usePathname } from "@/common/navigation";
 import { GithubIcon, McdrLogo, } from "@/components/icons";
 import { NaLink } from "@/components/na-link";
-import { LocaleSwitch } from "@/components/navbar/locale-switch";
-import { ThemeSwitch } from "@/components/navbar/theme-switch";
+import { NavbarSwitches } from "@/components/navbar/navbar-switches";
 import { siteConfig } from "@/site/config";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -111,8 +110,7 @@ function DesktopNavBar({className, navOpened, navToggle}: { className?: string, 
         <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
           <GithubIcon className="text-default-500"/>
         </Link>
-        <LocaleSwitch/>
-        <ThemeSwitch/>
+        <NavbarSwitches />
       </div>
     </div>
   )

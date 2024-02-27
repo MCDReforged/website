@@ -3,6 +3,8 @@
 import { ActionIcon, MantineColorScheme, Menu, useMantineColorScheme } from "@mantine/core";
 import { Icon, IconDeviceDesktop, IconMoon, IconSunHigh, IconSunMoon } from "@tabler/icons-react";
 import { clsx } from "clsx";
+import { useContext } from "react";
+import { NavbarSwitchStateContext, NavbarSwitchStateContextValue } from "./navbar-switch-state";
 import styles from "./theme-switch.module.css"
 
 const config: {[colorTheme in MantineColorScheme]: Icon} = {
@@ -19,9 +21,15 @@ function ThemeIcon({colorTheme, className}: {colorTheme: MantineColorScheme, cla
 
 export function ThemeSwitch() {
   const { colorScheme, setColorScheme } = useMantineColorScheme()
+  const ctx = useContext<NavbarSwitchStateContextValue>(NavbarSwitchStateContext)
 
   return (
-    <Menu radius="md" trigger="click-hover" openDelay={100} closeDelay={400}>
+    <Menu
+      radius="md"
+      trigger="click-hover"
+      openDelay={100} closeDelay={400}
+      opened={ctx.shouldOpen('theme')} onChange={o => ctx.setOpen('theme', o)}
+    >
       <Menu.Target>
         <ActionIcon aria-label="Theme switch" variant="default" size="lg">
           <ThemeIcon colorTheme="light" className="dark:hidden"/>

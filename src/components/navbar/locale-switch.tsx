@@ -5,11 +5,13 @@ import { siteConfig } from "@/site/config";
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconWorld } from '@tabler/icons-react';
 import { useLocale, useTranslations } from "next-intl";
-import { useState, useTransition } from 'react';
+import { useContext, useState, useTransition } from 'react';
+import { NavbarSwitchStateContext, NavbarSwitchStateContextValue } from "./navbar-switch-state";
 
 export function LocaleSwitch() {
   const currentLocale = useLocale()
   const t = useTranslations('layout.nav_bar.locale_switch')
+  const ctx = useContext<NavbarSwitchStateContextValue>(NavbarSwitchStateContext)
 
   const pathname = usePathname()
   const router = useRouter()
@@ -27,7 +29,12 @@ export function LocaleSwitch() {
   }
 
   return (
-    <Menu width="6rem" radius="md" trigger="click-hover" openDelay={100} closeDelay={400}>
+    <Menu
+      width="6rem" radius="md"
+      trigger="click-hover"
+      openDelay={100} closeDelay={400}
+      opened={ctx.shouldOpen('locale')} onChange={o => ctx.setOpen('locale', o)}
+    >
       <Menu.Target>
         <ActionIcon variant="default" size="lg">
           <IconWorld aria-label="Language switch" stroke={1.5} className="text-mantine-text"/>
