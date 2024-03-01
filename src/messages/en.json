@@ -78,10 +78,10 @@
         "sort_reversed": "Reversed",
 
         "stats": "Statistics",
-        "sync_at": "Synced at: ",
-        "plugin_amount": "Plugin amount: {n}",
-        "author_amount": "Author amount: {n}",
-        "download_sum": "Download sum: {n}"
+        "sync_at": "Synced at",
+        "author_amount": "Author amount",
+        "plugin_amount": "Plugin amount",
+        "download_sum": "Download sum"
       },
       "plugin_card": {
         "last_update": "Last update",
