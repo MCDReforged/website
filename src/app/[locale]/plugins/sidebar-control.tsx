@@ -63,7 +63,7 @@ export function ControlCard({everything}: { everything: SimpleEverything }) {
   return (
     <SidebarCard>
       <CardSection title={t('plugin_filter')} className="gap-0.5">
-        <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} defaultValue={ds.nameKeyword} label={t('plugin_filter_name')} placeholder="qbm"/>
+        <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} defaultValue={ds.nameKeyword} label={t('plugin_filter_name')} placeholder="backup"/>
         <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} defaultValue={ds.authorKeyword} label={t('plugin_filter_author')} placeholder="fallen"/>
       </CardSection>
 
