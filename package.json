@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^7.5.3",
-    "@mantine/hooks": "^7.5.3",
-    "@mantine/nprogress": "^7.5.3",
+    "@mantine/core": "^7.6.1",
+    "@mantine/hooks": "^7.6.1",
+    "@mantine/nprogress": "^7.6.1",
     "@next/bundle-analyzer": "^14.1.0",
     "@tabler/icons-react": "^2.47.0",
     "@vercel/analytics": "^1.2.2",
@@ -22,7 +22,7 @@
     "highlight.js": "^11.9.0",
     "mermaid": "^10.8.0",
     "next": "14.1.0",
-    "next-intl": "^3.9.0",
+    "next-intl": "^3.9.1",
     "nuqs": "^1.17.0",
     "react": "^18",
     "react-dom": "^18",
