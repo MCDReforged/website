@@ -12,9 +12,16 @@ function dateToTimestamp(date?: Date) {
   return date?.getTime() ?? 0
 }
 
+let defaultCurrentPage = 1
+
 export function PluginList({everything}: {everything: SimpleEverything}) {
   const {dsHolder: {value: ds}} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
-  const [currentPage, setPage] = useState(1)
+  const [currentPage, setPageDirect] = useState(defaultCurrentPage)
+
+  function setPage(p: number) {
+    defaultCurrentPage = p
+    setPageDirect(p)
+  }
 
   const plugins: SimplePlugin[] = filterPlugins(Object.values(everything.plugins), ds)
     .sort((a: SimplePlugin, b: SimplePlugin) => {
