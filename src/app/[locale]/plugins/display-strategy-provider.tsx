@@ -1,26 +1,28 @@
 'use client'
 
-import { createContext, useState } from "react";
-import { DisplayStrategy, DisplayStrategyContextValue } from "./display-strategy";
+import React, { createContext, useState } from "react";
+import { DisplayStrategyContextValue, DisplayStrategyHolder } from "./display-strategy";
 
-const defaultDisplayStrategy: DisplayStrategy = {
-  page: null,
-  nameKeyword: '',
-  authorKeyword: '',
-  selectedLabels: [],
-  sortOrder: null,
-  sortReversed: false,
+const defaultDisplayStrategy: DisplayStrategyHolder = {
+  value: {
+    page: null,
+    nameKeyword: '',
+    authorKeyword: '',
+    selectedLabels: [],
+    sortOrder: null,
+    sortReversed: false,
+  }
 }
 
 export const DisplayStrategyContext = createContext<DisplayStrategyContextValue>({
-  ds: defaultDisplayStrategy,
-  setDs: _ => {},
+  dsHolder: defaultDisplayStrategy,
+  setDsHolder: _ => {},
 })
 
 export function DisplayStrategyContextProvider({ children }: {children: React.ReactNode}) {
-  const [ds, setDs] = useState<DisplayStrategy>(defaultDisplayStrategy)
+  const [dsHolder, setDsHolder] = useState<DisplayStrategyHolder>(defaultDisplayStrategy)
   return (
-    <DisplayStrategyContext.Provider value={{ds, setDs}}>
+    <DisplayStrategyContext.Provider value={{dsHolder, setDsHolder}}>
       {children}
     </DisplayStrategyContext.Provider>
   )

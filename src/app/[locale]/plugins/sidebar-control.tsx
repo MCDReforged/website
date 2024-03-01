@@ -11,8 +11,8 @@ import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault, sortOrder
 import { DisplayStrategyContext } from "./display-strategy-provider";
 import { CardSection, SidebarCard } from "./sidebar-common";
 
-function FilterTextInput({Icon, onChanged, label, placeholder}: {
-  Icon: typeof IconFilter, onChanged: (_: string) => void, label: string, placeholder: string
+function FilterTextInput({Icon, onChanged, label, placeholder, defaultValue}: {
+  Icon: typeof IconFilter, onChanged: (_: string) => void, label: string, placeholder: string, defaultValue: string
 }) {
   return (
     <TextInput
@@ -22,6 +22,7 @@ function FilterTextInput({Icon, onChanged, label, placeholder}: {
       aria-label={label}
       label={label}
       placeholder={placeholder}
+      defaultValue={defaultValue}
       classNames={{label: 'font-normal'}}
     />
   )
@@ -29,15 +30,18 @@ function FilterTextInput({Icon, onChanged, label, placeholder}: {
 
 export function ControlCard({everything}: { everything: SimpleEverything }) {
   const t = useTranslations('page.plugin_list.sidebar')
-  const {ds, setDs} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
+  const {dsHolder: {value: ds}, setDsHolder} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const allPlugins = Object.values(everything.plugins)
   const filteredPlugins = filterPlugins(allPlugins, ds)
 
+  const updateDs = () => setDsHolder({value: ds})
   const onNameFilterTextChanged = (text: string) => {
-    setDs({...ds, nameKeyword: text})
+    ds.nameKeyword = text
+    updateDs()
   }
   const onAuthorFilterTextChanged = (text: string) => {
-    setDs({...ds, authorKeyword: text})
+    ds.authorKeyword = text
+    updateDs()
   }
   const onLabelFilterCheckboxChanged = (what: string, checked: boolean) => {
     if (checked) {
@@ -45,20 +49,22 @@ export function ControlCard({everything}: { everything: SimpleEverything }) {
     } else {
       ds.selectedLabels = ds.selectedLabels.filter(l => l !== what)
     }
-    setDs({...ds})
+    updateDs()
   }
   const onSortOrderRatioSet = (what: string) => {
-    setDs({...ds, sortOrder: what})
+    ds.sortOrder = what
+    updateDs()
   }
   const onSortReversedCheckboxSet = (checked: boolean) => {
-    setDs({...ds, sortReversed: checked})
+    ds.sortReversed = checked
+    updateDs()
   }
 
   return (
     <SidebarCard>
       <CardSection title={t('plugin_filter')} className="gap-0.5">
-        <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} label={t('plugin_filter_name')} placeholder="qbm"/>
-        <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} label={t('plugin_filter_author')} placeholder="fallen"/>
+        <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} defaultValue={ds.nameKeyword} label={t('plugin_filter_name')} placeholder="qbm"/>
+        <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} defaultValue={ds.authorKeyword} label={t('plugin_filter_author')} placeholder="fallen"/>
       </CardSection>
 
       <CardSection title={t('label_filter')} className="gap-1">
@@ -81,7 +87,7 @@ export function ControlCard({everything}: { everything: SimpleEverything }) {
       </CardSection>
 
       <CardSection title={t('sort_order')} className="gap-1.5">
-        <RadioGroup defaultValue={sortOrderDefault} onChange={onSortOrderRatioSet}>
+        <RadioGroup defaultValue={ds.sortOrder ?? sortOrderDefault} onChange={onSortOrderRatioSet}>
           <div className="flex flex-col gap-1.5">
             {sortOrders.map(so => (
               <Radio

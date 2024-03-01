@@ -24,10 +24,13 @@ export interface DisplayStrategy {
   sortOrder: string | null
   sortReversed: boolean
 }
+export interface DisplayStrategyHolder {
+  value: DisplayStrategy
+}
 
 export interface DisplayStrategyContextValue {
-  ds: DisplayStrategy
-  setDs: Dispatch<SetStateAction<DisplayStrategy>>
+  dsHolder: DisplayStrategyHolder
+  setDsHolder: Dispatch<SetStateAction<DisplayStrategyHolder>>
 }
 
 function isSubsequence(keyword: string, s: string) {

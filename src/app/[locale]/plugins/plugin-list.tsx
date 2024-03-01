@@ -13,7 +13,7 @@ function dateToTimestamp(date?: Date) {
 }
 
 export function PluginList({everything}: {everything: SimpleEverything}) {
-  const {ds} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
+  const {dsHolder: {value: ds}} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const [currentPage, setPage] = useState(1)
 
   const plugins: SimplePlugin[] = filterPlugins(Object.values(everything.plugins), ds)
