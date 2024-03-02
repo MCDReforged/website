@@ -12,6 +12,7 @@ import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import '@mantine/core/styles.css'
 import styles from './layout.module.css';
 import MantineThemeProvider from "./mantine-theme-provider";
+import { StatsScripts } from "./stats-scripts";
 import { VercelScripts } from "./vercel-scripts";
 
 export const metadata: Metadata = {
@@ -44,6 +45,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <head>
         <ColorSchemeScript defaultColorScheme="auto"/>
+        <StatsScripts/>
       </head>
       <body className="scrollbar-shift-fix">
         <MantineThemeProvider>
