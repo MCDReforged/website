@@ -96,7 +96,7 @@ async function Hero() {
 
   return (
     <div className={clsx(
-      "w-full py-[3rem] sm:pt-[6rem] sm:pb-[8rem]",
+      "w-full py-[3rem] sm:pt-[6rem] sm:pb-[7rem]",
       "bg-mantine-background"
     )}>
       <div className="px-8 mx-auto flex max-lg:flex-col gap-12 items-center justify-center">

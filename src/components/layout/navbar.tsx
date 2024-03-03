@@ -108,7 +108,7 @@ function DesktopNavBar({className, navOpened, navToggle}: { className?: string, 
       </div>
 
       <div className="justify-end flex gap-2 items-center">
-        <Link target="_blank" href={siteConfig.links.github} aria-label="Github">
+        <Link target="_blank" href={siteConfig.links.githubMcdr} aria-label="Github">
           <GithubIcon className="text-default-500"/>
         </Link>
         <NavbarSwitches />

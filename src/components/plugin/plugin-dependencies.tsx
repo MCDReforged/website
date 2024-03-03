@@ -53,7 +53,7 @@ export async function PluginRequirementTable({dependencies}: {dependencies: {[_:
           {Object.entries(dependencies).map(([pluginId, requirement], index) => {
             const id = pluginId.match(/^[a-zA-Z0-9_]+$/)?.toString()
             const pluginUrl = id === 'mcdreforged'
-              ? siteConfig.links.github
+              ? siteConfig.links.githubMcdr
               : (id !== undefined ? routes.plugin(pluginId) : undefined)
             return (
               <TableTr key={index}>

@@ -1,6 +1,6 @@
+import { NaLink } from "@/components/na-link";
 import { siteConfig } from "@/site/config";
 import { clsx } from "clsx";
-import Link from "next/link";
 import React from "react";
 
 export async function Footer() {
@@ -13,11 +13,11 @@ export async function Footer() {
       <div className="flex flex-col sm:flex-row gap-x-20 gap-y-2 items-center justify-center *:text-sm">
         <div>
           <span className="mr-2">Copyright © {year}</span>
-          <Link target="_blank" href="https://fallenbreath.me">Fallen_Breath</Link>
+          <NaLink href="https://fallenbreath.me" hoverColor>Fallen_Breath</NaLink>
         </div>
-        <div className="flex flex-row gap-5">
-          <Link href={siteConfig.links.github} target="_blank">GitHub</Link>
-          <Link href={siteConfig.links.githubWebsite} target="_blank">Source code</Link>
+        <div className="flex gap-5">
+          <NaLink href={siteConfig.links.githubMcdr} hoverColor>MCDReforged</NaLink>
+          <NaLink href={siteConfig.links.githubWebsite} hoverColor>Website source</NaLink>
         </div>
       </div>
     </footer>
