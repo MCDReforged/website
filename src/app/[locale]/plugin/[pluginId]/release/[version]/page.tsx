@@ -1,8 +1,8 @@
+import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin, ReleaseInfo } from "@/catalogue/meta-types";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { createSimplePlugin } from "../../../../../../../catalogue/conversion";
 import { ReleaseDisplay } from "./release-display";
 
 interface PageParams {

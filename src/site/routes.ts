@@ -5,7 +5,7 @@ class Routes {
   catalogue = () => '/plugins'
 
   plugin(pluginId: string) {
-    return this.catalogue() + '/p/' + pluginId;
+    return '/plugin/' + pluginId;
   }
 
   pluginTab(pluginId: string, tab: PluginTab) {
