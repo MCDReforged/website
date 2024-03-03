@@ -5,6 +5,7 @@ import { GithubIcon, McdrLogo, } from "@/components/icons";
 import { NaLink } from "@/components/na-link";
 import { NavbarSwitches } from "@/components/navbar/navbar-switches";
 import { siteConfig } from "@/site/config";
+import { routes } from "@/site/routes";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconBook2, IconExternalLink, IconHome, IconPackages, TablerIconsProps } from "@tabler/icons-react";
@@ -35,7 +36,7 @@ const navItems: NavItem[] = [
     key: 'plugins',
     href: '/plugins',
     isExternal: false,
-    checkActive: (pathname: string) => pathname === '/plugins' || pathname.startsWith('/plugins/'),
+    checkActive: (pathname: string) => pathname === routes.catalogue() || pathname.startsWith(routes.pluginBase() + '/'),
   },
   {
     icon: IconBook2,

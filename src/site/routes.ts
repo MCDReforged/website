@@ -4,8 +4,9 @@ class Routes {
   home = () => '/'
   catalogue = () => '/plugins'
 
+  pluginBase = () => '/plugin'
   plugin(pluginId: string) {
-    return '/plugin/' + pluginId;
+    return this.pluginBase() + '/' + pluginId;
   }
 
   pluginTab(pluginId: string, tab: PluginTab) {
