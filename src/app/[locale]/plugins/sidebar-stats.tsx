@@ -1,19 +1,12 @@
 import { SimpleEverything } from "@/catalogue/simple-types";
 import { AttributeEntry } from "@/components/attribute-entry";
+import { ClickableTooltip } from "@/components/clickable-tooltip";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
+import { prettyNumber } from "@/utils/unit-utils";
 import { IconFileDownload, IconPackages, IconRefresh, IconUsers } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import { CardSection, SidebarCard } from "./sidebar-common";
-
-async function StatItem({Icon, text}: {Icon: typeof IconRefresh, text: React.ReactNode}) {
-  return (
-    <div className="flex flex-row gap-2 items-center">
-      <Icon size={18} stroke={1.5}/>
-      <>{text}</>
-    </div>
-  )
-}
 
 export async function StatsCard({everything}: { everything: SimpleEverything }) {
   const t = await getTranslations('page.plugin_list.sidebar')
@@ -22,6 +15,7 @@ export async function StatsCard({everything}: { everything: SimpleEverything }) 
   const authorAmount = everything.authors.amount
   const pluginAmount = allPlugins.length
   const downloadSum = allPlugins.reduce((s, plugin) => s + plugin.downloads, 0)
+  const downloadSumNeat = prettyNumber(downloadSum, 1)
 
   return (
     <SidebarCard>
@@ -37,7 +31,9 @@ export async function StatsCard({everything}: { everything: SimpleEverything }) 
             {pluginAmount}
           </AttributeEntry>
           <AttributeEntry Icon={IconFileDownload} label={t('download_sum')}>
-            {downloadSum}
+            <ClickableTooltip label={downloadSum}>
+              <p>{downloadSumNeat}</p>
+            </ClickableTooltip>
           </AttributeEntry>
         </div>
       </CardSection>
