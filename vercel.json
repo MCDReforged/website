@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/stats/:match*",
-      "destination": "https://umami.mcdreforged.com/:match*"
+      "destination": "https://umami.fallenbreath.me/:match*"
     }
   ]
 }
