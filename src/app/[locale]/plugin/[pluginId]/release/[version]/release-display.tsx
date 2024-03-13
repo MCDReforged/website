@@ -14,9 +14,22 @@ import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import { DownloadSectionButton } from "./download-section-button";
+import { HashCopyButton } from "./hash-copy-button";
 import { ProxyableDownloadButton } from "./proxyable-download-button";
 
-async function DownloadSection({release, className}: {release: ReleaseInfo, className?: string}) {
+async function HashDisplay({kind, hash}: {kind: string, hash: string}) {
+  return (
+    <div className="flex gap-1 items-center align-center">
+      <p className="min-[300px]:min-w-[70px] font-bold text-color-attribute-entry">{kind}</p>
+      <div className="overflow-hidden overflow-ellipsis whitespace-nowrap align-center">
+        <code className="block text-sm px-[4px] py-[1px] rounded bg-mantine-light-gray-background">{hash}</code>
+      </div>
+      <HashCopyButton value={hash}/>
+    </div>
+  )
+}
+
+async function DownloadSection({release, className}: { release: ReleaseInfo, className?: string }) {
   const t = await getTranslations('page.plugin.release')
 
   const date = new Date(release.asset.created_at)
@@ -55,7 +68,12 @@ async function DownloadSection({release, className}: {release: ReleaseInfo, clas
         </ProxyableDownloadButton>
 
         <div className="grow max-[800px]:hidden"/>
-        <GithubProxySwitchServer />
+        <GithubProxySwitchServer/>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <HashDisplay kind="MD5" hash={release.asset.hash_md5}/>
+        <HashDisplay kind="SHA256" hash={release.asset.hash_sha256}/>
       </div>
     </div>
   )

@@ -20,7 +20,7 @@ export function ReleaseRow({className, children, href}: ReleaseRowProps) {
         className,
         "w-full px-3",
         "py-2 rounded-lg",
-        "cursor-pointer hover:bg-mantine-gray-hover-background",
+        "cursor-pointer hover:bg-mantine-light-gray-background",
       )}
       onClick={() => router.push(href)}
     >

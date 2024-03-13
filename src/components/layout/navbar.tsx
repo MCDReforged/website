@@ -60,7 +60,7 @@ function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
   const Icon = item.icon
   return (
     <NaLink
-      className={clsx(styles.link, className, "hover:bg-mantine-gray-hover-background")}
+      className={clsx(styles.link, className, "hover:bg-mantine-light-gray-background")}
       href={item.href}
       data-active={item.checkActive(pathname) || undefined}
       {...props}

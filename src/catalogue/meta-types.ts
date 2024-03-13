@@ -80,6 +80,8 @@ export interface AssetInfo {
   download_count: number
   created_at: string
   browser_download_url: string
+  hash_md5: string
+  hash_sha256: string
 }
 
 export interface RepositoryInfo {
