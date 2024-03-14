@@ -3,9 +3,11 @@ import { NaLink } from "@/components/na-link";
 import { NoneText } from "@/components/none-text";
 import { siteConfig } from "@/site/config";
 import { routes } from "@/site/routes";
+import { pick } from "@/utils/i18n-utils";
 import { Table, TableTbody, TableTd, TableTh, TableThead, TableTr } from "@mantine/core";
 import { clsx } from "clsx";
-import { getTranslations } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -26,9 +28,13 @@ async function NoneRow() {
 }
 
 async function PipInstallCodeBlock({requirements}: {requirements: string[]}) {
+  const locale = await getLocale()
+  const messages = await getMessages()
   return (
     <div className="mt-4 border-solid border border-mantine-border-card">
-      <DynamicPipInstallCodeHighlight requirements={requirements}/>
+      <NextIntlClientProvider locale={locale} messages={pick(messages, 'component.pip_install_code_highlight')}>
+        <DynamicPipInstallCodeHighlight requirements={requirements}/>
+      </NextIntlClientProvider>
     </div>
   )
 }

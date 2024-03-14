@@ -20,6 +20,10 @@
     }
   },
   "component": {
+    "pip_install_code_highlight": {
+      "copy": "复制代码",
+      "copied": "已复制"
+    },
     "plugin_label": {
       "information": "信息",
       "tool": "工具",

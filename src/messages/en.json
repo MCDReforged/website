@@ -20,6 +20,10 @@
     }
   },
   "component": {
+    "pip_install_code_highlight": {
+      "copy": "Copy code",
+      "copied": "Copied"
+    },
     "plugin_label": {
       "information": "information",
       "tool": "tool",
