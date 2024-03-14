@@ -219,7 +219,8 @@ export const CodeHighlightTabs = factory<CodeHighlightTabsFactory>((_props, ref)
                 <Tooltip label={copied ? copiedLabel : copyLabel} fz="sm" position="left">
                   <ActionIcon
                     onClick={copy}
-                    variant="none"
+                    variant="transparent"
+                    color="gray"
                     {...getStyles('control')}
                     aria-label={copied ? copiedLabel : copyLabel}
                   >

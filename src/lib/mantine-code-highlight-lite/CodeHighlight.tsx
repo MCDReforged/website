@@ -88,7 +88,7 @@ export const CodeHighlight = factory<CodeHighlightFactory>((_props, ref) => {
         <CopyButton value={code.trim()}>
           {({ copied, copy }) => (
             <Tooltip label={copied ? copiedLabel : copyLabel} fz="sm" position="left">
-              <ActionIcon onClick={copy} variant="none" {...getStyles('copy')}>
+              <ActionIcon onClick={copy} variant="transparent" color="gray" {...getStyles('copy')}>
                 <CopyIcon copied={copied} />
               </ActionIcon>
             </Tooltip>
