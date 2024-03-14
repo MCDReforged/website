@@ -58,9 +58,14 @@ export async function PluginRequirementTable({dependencies}: {dependencies: {[_:
         <TableTbody>
           {Object.entries(dependencies).map(([pluginId, requirement], index) => {
             const id = pluginId.match(/^[a-zA-Z0-9_]+$/)?.toString()
-            const pluginUrl = id === 'mcdreforged'
-              ? siteConfig.links.githubMcdr
-              : (id !== undefined ? routes.plugin(pluginId) : undefined)
+            let pluginUrl: string | undefined
+            if (id === 'mcdreforged') {
+              pluginUrl = siteConfig.links.githubMcdr
+            } else if (id === 'python') {
+              pluginUrl = 'https://www.python.org'
+            } else {
+              pluginUrl = id !== undefined ? routes.plugin(pluginId) : undefined
+            }
             return (
               <TableTr key={index}>
                 <TableTd>
