@@ -125,6 +125,8 @@
         "size": "Size",
         "downloads": "Downloads",
         "bytes": "bytes",
+        "copy_hash": "Copy hash",
+        "copied_hash": "Copied hash",
 
         "dependencies": "Dependencies",
         "release_notes": "Release notes",

@@ -14,9 +14,13 @@ export function pick(messages: AbstractIntlMessages, keys: string | string[]): A
         throw new Error(`Key ${base} not found in provided messages, full key ${key}`)
       }
       if (typeof element === 'string') {
-        throw new Error(`Key ${base} is not an object, full key ${key}`)
+        if (rest) {
+          throw new Error(`Key ${base} is not an object, full key ${key}, rest ${rest}`)
+        }
+        newMessages[base] = element
+      } else {
+        newMessages[base] = pick(element, rest)
       }
-      newMessages[base] = pick(element, rest)
     } else {
       const element = messages[key]
       if (element === undefined) {

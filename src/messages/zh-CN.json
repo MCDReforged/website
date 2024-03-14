@@ -125,6 +125,8 @@
         "size": "大小",
         "downloads": "下载量",
         "bytes": "字节",
+        "copy_hash": "复制哈希值",
+        "copied_hash": "已复制哈希值",
 
         "dependencies": "依赖",
         "release_notes": "更新日志",

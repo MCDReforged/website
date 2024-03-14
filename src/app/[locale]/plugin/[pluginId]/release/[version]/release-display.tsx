@@ -14,17 +14,17 @@ import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import { DownloadSectionButton } from "./download-section-button";
-import { HashCopyButton } from "./hash-copy-button";
+import { HashCopyButtonServer } from "./hash-copy-button-server";
 import { ProxyableDownloadButton } from "./proxyable-download-button";
 
 async function HashDisplay({kind, hash}: {kind: string, hash: string}) {
   return (
     <div className="flex gap-1 items-center align-center">
       <p className="min-[300px]:min-w-[70px] font-bold text-color-attribute-entry">{kind}</p>
-      <div className="overflow-hidden overflow-ellipsis whitespace-nowrap align-center">
-        <code className="block text-sm px-[4px] py-[1px] rounded bg-mantine-light-gray-background">{hash}</code>
+      <div className="overflow-hidden overflow-ellipsis whitespace-nowrap relative bottom-[1px]">
+        <code className="text-[14px] px-[4px] py-[1px] rounded bg-mantine-light-gray-background">{hash}</code>
       </div>
-      <HashCopyButton value={hash}/>
+      <HashCopyButtonServer value={hash}/>
     </div>
   )
 }
