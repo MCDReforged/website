@@ -8,8 +8,8 @@ import { GithubProxySwitchServer } from "@/components/plugin/github-proxy-switch
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
 import { TimeFormatted } from "@/components/time-formatted";
 import { prettySize } from "@/utils/unit-utils";
-import { Divider, Title } from "@mantine/core";
-import { IconCalendar, IconExternalLink, IconFileDescription, IconFileDownload, IconPackageImport, IconTag, IconWeight } from "@tabler/icons-react";
+import { ActionIcon, Divider, Title } from "@mantine/core";
+import { IconCalendar, IconExternalLink, IconFileDescription, IconFileDownload, IconPackageImport, IconSparkles, IconTag, IconWeight } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
 import React from "react";
@@ -35,7 +35,7 @@ async function DownloadSection({release, className}: { release: ReleaseInfo, cla
   const date = new Date(release.asset.created_at)
   return (
     <div className={clsx(className, 'flex flex-col gap-6')}>
-      <div className="flex flex-row flex-wrap gap-x-8 gap-y-4">
+      <div className="flex flex-row flex-wrap gap-x-8 gap-y-4 mx-auto">
         <AttributeEntry label={t("version")} Icon={IconTag}>
           <p>{release.meta.version}</p>
         </AttributeEntry>
@@ -52,8 +52,9 @@ async function DownloadSection({release, className}: { release: ReleaseInfo, cla
         </AttributeEntry>
       </div>
 
-      <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 items-center">
+      <div className="grid grid-cols-2 flex-wrap gap-x-4 gap-y-2 items-center">
         <DownloadSectionButton
+          className="max-sm:col-span-2 place-self-end"
           color="blue"
           rightSection={<IconExternalLink size={16} stroke={1.6}/>}
           component="a"
@@ -63,15 +64,17 @@ async function DownloadSection({release, className}: { release: ReleaseInfo, cla
           {t('visit_release')}
         </DownloadSectionButton>
 
-        <ProxyableDownloadButton rawUrl={release.asset.browser_download_url}>
-          {t('download')}
-        </ProxyableDownloadButton>
+        <div className="max-sm:col-span-2 flex flex-col gap-2">
+          <ProxyableDownloadButton rawUrl={release.asset.browser_download_url}>
+            {t('download')}
+          </ProxyableDownloadButton>
+        </div>
 
-        <div className="grow max-[800px]:hidden"/>
-        <GithubProxySwitchServer/>
+        <div className="max-lg:hidden"/>
+        <GithubProxySwitchServer className="max-sm:justify-end max-lg:justify-center max-lg:col-span-2"/>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 sm:px-6">
         <HashDisplay kind="MD5" hash={release.asset.hash_md5}/>
         <HashDisplay kind="SHA256" hash={release.asset.hash_sha256}/>
       </div>
@@ -108,11 +111,20 @@ async function ContentDivider({children, ...rest}: { children: React.ReactNode, 
 
 export async function ReleaseDisplay({plugin, release}: { plugin: SimplePlugin, release: ReleaseInfo }) {
   const t = await getTranslations('page.plugin.release')
-  const version = release.meta.version
+  const isLatest = release.meta.version === plugin.latestRelease?.version
   return (
     <>
-      <div className="">
-        <Title order={1} className="break-all">{release.asset.name}</Title>
+      <div>
+        <div className="flex gap-2 items-center justify-center">
+          <Title order={1} className="break-all">{release.asset.name}</Title>
+          {isLatest &&
+            <ClickableTooltip label={t('latest_label')} position="right">
+              <ActionIcon color="teal" variant="transparent" size={36} component="div" className="hover:cursor-default">
+                <IconSparkles stroke={1.6} size={36}/>
+              </ActionIcon>
+            </ClickableTooltip>
+          }
+        </div>
 
         <DownloadSection className="mt-5" release={release}/>
 

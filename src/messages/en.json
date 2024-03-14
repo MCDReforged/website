@@ -98,7 +98,7 @@
         "repository": "Repository",
         "homepage": "Homepage",
         "last_update": "Last update",
-        "latest_version": "Lastest version",
+        "latest_version": "Latest version",
         "total_downloads": "Total downloads",
         "sync_at": "Synced at",
         "back_button": "Back to catalogue"
@@ -117,8 +117,9 @@
         "download": "Download {name} (v{version})"
       },
       "release": {
+        "latest_label": "latest version",
         "visit_release": "Visit release page",
-        "download": "Download",
+        "download": "Download plugin",
 
         "version": "Version",
         "date": "Date",

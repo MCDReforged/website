@@ -117,6 +117,7 @@
         "download": "下载 {name} (v{version})"
       },
       "release": {
+        "latest_label": "最新版本",
         "visit_release": "前往发行版源页面",
         "download": "下载插件",
 

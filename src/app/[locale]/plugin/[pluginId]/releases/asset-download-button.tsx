@@ -15,7 +15,7 @@ export function AssetDownloadButton({className, href, tooltip}: { className: str
       label={tooltip}
       openDelay={500}
       offset={12}
-      onClick={(event: MouseEvent) => event.stopPropagation()}
+      onClick={(event) => event.stopPropagation()}
     >
       <ActionIcon
         color="teal"

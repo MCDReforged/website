@@ -1,18 +1,10 @@
 'use client'
 
-import { Tooltip, useDelayedHover } from "@mantine/core";
+import { Tooltip, TooltipProps, useDelayedHover } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 
-interface ClickableTooltipProps {
-  children: React.ReactNode
-  label: React.ReactNode
-  openDelay?: number
-  closeDelay?: number
-  [_: string]: any
-}
-
-export function ClickableTooltip({children, openDelay, closeDelay, ...rest}: ClickableTooltipProps) {
+export function ClickableTooltip({children, openDelay, closeDelay, ...rest}: TooltipProps) {
   const [opened, {open, close}] = useDisclosure(false);
 
   // should use floating-ui instead for a proper usage, but why not just reuse mantine's
@@ -21,10 +13,10 @@ export function ClickableTooltip({children, openDelay, closeDelay, ...rest}: Cli
 
   return (
     <Tooltip
+      {...rest}
       opened={opened}
       onMouseEnter={opener.openDropdown}
       onMouseLeave={opener.closeDropdown}
-      {...rest}
     >
       {children}
     </Tooltip>
