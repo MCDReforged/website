@@ -7,14 +7,12 @@ export function StatsScripts() {
   }
 
   // https://umami.is/docs/collect-data
-  // see REPOS_ROOT/vercel.json for rewrite rule
   return (
-    <>
-      <Script
-        defer
-        src="/stats/script.js"
-        data-website-id="a6e9aacd-d83f-4b6b-bff4-1eccde37e68c"
-      />
-    </>
+    <Script
+      defer
+      async
+      src="https://umami.fallenbreath.me/script.js"
+      data-website-id="a6e9aacd-d83f-4b6b-bff4-1eccde37e68c"
+    />
   )
 }
