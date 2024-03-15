@@ -8,7 +8,7 @@ import { GithubProxySwitchServer } from "@/components/plugin/github-proxy-switch
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
 import { TimeFormatted } from "@/components/time-formatted";
 import { prettySize } from "@/utils/unit-utils";
-import { ActionIcon, Divider, Title } from "@mantine/core";
+import { Divider, Title } from "@mantine/core";
 import { IconCalendar, IconExternalLink, IconFileDescription, IconFileDownload, IconPackageImport, IconSparkles, IconTag, IconWeight } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { getTranslations } from "next-intl/server";
@@ -119,9 +119,7 @@ export async function ReleaseDisplay({plugin, release}: { plugin: SimplePlugin, 
           <Title order={1} className="break-all">{release.asset.name}</Title>
           {isLatest &&
             <ClickableTooltip label={t('latest_label')} position="right">
-              <ActionIcon color="teal" variant="transparent" size={36} component="div" className="hover:cursor-default">
-                <IconSparkles stroke={1.6} size={36}/>
-              </ActionIcon>
+              <IconSparkles stroke={1.6} size={36} color="var(--mantine-color-teal-text)"/>
             </ClickableTooltip>
           }
         </div>
