@@ -1,9 +1,16 @@
 import { Card } from "@mantine/core";
+import { clsx } from "clsx";
 import React from "react";
 
-export default function CommonCard({children, ...props}: {children: React.ReactNode, [_: string]: any}) {
+export default function CommonCard({children, className, ...props}: {children: React.ReactNode, className?: string, [_: string]: any}) {
   return (
-    <Card shadow="none" radius="md" withBorder {...props}>
+    <Card
+      className={clsx('bg-mantine-background', className)}
+      shadow="none"
+      radius="md"
+      withBorder
+      {...props}
+    >
       {children}
     </Card>
   )

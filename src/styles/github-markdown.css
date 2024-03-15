@@ -54,7 +54,7 @@
   --color-fg-muted: #b5bdc5;
   --color-fg-subtle: #9fa6b0;
   --color-canvas-default: #00000000;
-  --color-canvas-subtle: var(--mantine-color-dark-7);
+  --color-canvas-subtle: var(--mantine-color-dark-6);
   --color-border-default: var(--mantine-color-default-border);
   --color-border-muted: var(--mantine-color-default-border);
   /* mantine modified ends */
