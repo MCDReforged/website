@@ -6,7 +6,7 @@ export const siteConfig = {
   links: {
     docs: "https://docs.mcdreforged.com",
     githubMcdr: "https://github.com/Fallen-Breath/MCDReforged",
-    githubWebsite: "https://github.com/Fallen-Breath/MCDReforged-Website",
+    githubWebsite: "https://github.com/MCDReforged/website",
     githubCatalogue: "https://github.com/MCDReforged/PluginCatalogue",
     pypi: "https://pypi.org/project/mcdreforged",
     dockerhub: "https://hub.docker.com/r/mcdreforged/mcdreforged",
