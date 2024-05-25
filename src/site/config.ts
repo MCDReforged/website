@@ -5,7 +5,7 @@ export const siteConfig = {
   favicon: "/favicon.svg",
   links: {
     docs: "https://docs.mcdreforged.com",
-    githubMcdr: "https://github.com/Fallen-Breath/MCDReforged",
+    githubMcdr: "https://github.com/MCDReforged/MCDReforged",
     githubWebsite: "https://github.com/MCDReforged/website",
     githubCatalogue: "https://github.com/MCDReforged/PluginCatalogue",
     pypi: "https://pypi.org/project/mcdreforged",
