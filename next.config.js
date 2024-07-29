@@ -14,6 +14,7 @@ const nextConfig = withBundleAnalyzer(withNextIntl({
       fullUrl: true,
     },
   },
+  output: process.env.VERCEL ? undefined : 'standalone',
 }))
 
 module.exports = nextConfig

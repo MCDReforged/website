@@ -1,0 +1,11 @@
+# https://github.com/vercel/next.js/blob/33c91d9fc3299a6e24c65f26ddb5bec0ec7ea3f7/examples/with-docker/.dockerignore
+.dockerignore
+.git
+.gitignore
+.github
+.next
+!.next/standalone
+!.next/static
+Dockerfile
+/*.md
+node_modules
