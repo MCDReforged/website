@@ -12,6 +12,20 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+RUN <<EOT
+set -eux
+
+cp -r /app/.next/standalone /out
+cp -r /app/.next/static /out/.next/static
+cp -r /app/public /out/public
+ls -la /out
+
+mv /out/.next /out_next
+mv /out /out_common
+ls -la /out_next
+ls -la /out_common
+EOT
+
 FROM base AS prod
 
 ENV NODE_ENV=production
@@ -19,11 +33,49 @@ ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 EXPOSE $PORT
 
-COPY --from=builder /app/public ./public
+COPY --from=builder /out_common ./
+COPY --from=builder /out_next /data/.next
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+RUN <<EOT
+# Mount "/app/.next" to a persistent volume, to persist ISR cache between containers
+set -eux
 
-CMD ["node", "server.js"]
+cat << 'EOF' > entrypoint.sh
+#!/bin/sh
+set -e
+dst=/app/.next
+src=/data/.next
+dst_id_file="$dst/BUILD_ID"
+src_id_file="$src/BUILD_ID"
+
+img_build_id="$(cat "$src_id_file")"
+if [ -f "$dst_id_file" ]; then
+  old_build_id="$(cat "$dst_id_file")"
+else
+  old_build_id="<none>"
+fi
+
+if [ "$img_build_id" != "$old_build_id" ]; then
+  echo "[INIT] Build ID changed, recreating .next files"
+  echo "[INIT] Existing build ID at $dst_id_file: $old_build_id"
+  echo "[INIT] Image build ID: $img_build_id"
+
+  if [ -d "$dst" ]; then
+    rm -rf "$dst/*"
+    cp -rp "$src/." "$dst"
+  else
+    echo "[INIT] runtime .next dir $dst does not exist, no volume mount? use symlink instead"
+    ln -s "$src" "$dst"
+  fi
+else
+  echo "[INIT] Build ID unchanged, reusing existing .next files"
+  echo "[INIT] Build ID: $img_build_id"
+fi
+
+exec node server.js
+EOF
+
+chmod +x entrypoint.sh
+EOT
+
+CMD ["sh", "entrypoint.sh"]
