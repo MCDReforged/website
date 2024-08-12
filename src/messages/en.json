@@ -98,6 +98,10 @@
     },
     "plugin": {
       "sidebar": {
+        "install_command": "Installation command",
+        "install_command_tooltip": "Requires MCDReforged >= 2.13",
+        "install_command_copy": "Copy command",
+        "install_command_copied": "Copied command",
         "author": "Author",
         "repository": "Repository",
         "homepage": "Homepage",

@@ -98,6 +98,10 @@
     },
     "plugin": {
       "sidebar": {
+        "install_command": "一键安装指令",
+        "install_command_tooltip": "依赖 MCDReforged >= 2.13",
+        "install_command_copy": "复制指令",
+        "install_command_copied": "已复制指令",
         "author": "作者",
         "repository": "代码仓库",
         "homepage": "插件主页",

@@ -2,7 +2,9 @@ import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { SimplePlugin } from "@/catalogue/simple-types";
 import { Link } from "@/common/navigation";
 import { AttributeEntry } from "@/components/attribute-entry";
+import { ClickableTooltip } from "@/components/clickable-tooltip";
 import CommonCard from "@/components/common-card";
+import { CommonCopyButton } from "@/components/common-copy-button";
 import { GithubIcon } from "@/components/icons";
 import GfmMarkdown from "@/components/markdown/gfm-markdown";
 import { NaLink } from "@/components/na-link";
@@ -70,6 +72,25 @@ export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfA
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-3">
+          <div className="flex gap-1 items-center mb-1.5">
+            <ClickableTooltip openDelay={500} label={t('install_command_tooltip')}>
+              <p className="font-semibold">{t('install_command')}</p>
+            </ClickableTooltip>
+            <CommonCopyButton
+              value={`!!MCDR plugin install ${simplePlugin.id}`}
+              labelCopy={t('install_command_copy')}
+              labelCopied={t('install_command_copied')}
+            />
+          </div>
+          <pre className="whitespace-pre-wrap break-all bg-mantine-light-gray-background px-2 py-1 rounded leading-[20px]">
+            <code className="text-[14px]">
+              {'!!MCDR plugin install '}
+              <span className="text-mantine-primary-7">{simplePlugin.id}</span>
+            </code>
+          </pre>
         </div>
       </CommonCard>
 
