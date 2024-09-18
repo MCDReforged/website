@@ -9,7 +9,7 @@ export async function PluginContentIntroduction({plugin}: { plugin: AllOfAPlugin
   return (
     <>
       {/* SSR, no need to use GfmMarkdownDynamic */}
-      <GfmMarkdown allowEmbedHtml>
+      <GfmMarkdown allowEmbedHtml allowAnchor>
         {introduction}
       </GfmMarkdown>
     </>

@@ -39,6 +39,13 @@
   }
 }
 
+/* ============= Navbar overlap on slug jump fix ============= */
+
+/* https://css-tricks.com/fixed-headers-on-page-links-and-overlapping-content-oh-my/ */
+html {
+  scroll-padding-top: var(--mw-navbar-height);
+}
+
 /* ============= Utility classes ============= */
 
 .color-link {
