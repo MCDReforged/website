@@ -3,7 +3,6 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
-import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import { PluggableList } from "unified";
 import { AnchorIdSanitizeFixer } from "./anchor-id-sanitize-fixer";
@@ -41,7 +40,6 @@ export default function GfmMarkdown({children, className, allowEmbedHtml, allowA
 
   const remarkPlugins: PluggableList = [
     remarkGfm,
-    remarkBreaks,
   ]
   const rehypePlugins: PluggableList = []
   if (allowEmbedHtml) {

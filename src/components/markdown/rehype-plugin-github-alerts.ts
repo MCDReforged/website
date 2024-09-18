@@ -45,7 +45,7 @@ export interface IOptions {
     build?: DefaultBuildType
 }
 
-// fallen's modification, simple implementation for 1 less dependency
+// [fallen's modification] simple implementation for 1 less dependency
 function isElement(value: any): value is Element {
     return (
         value !== null &&
@@ -165,51 +165,15 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
         const newFirstParagraphChildren: ElementContent[] = []
 
-        if (remainingFirstParagraphChildren.length > 0) {
-            // if the alert type has a hardline break we remove it
-            // to not start the alert with a blank line
-            // meaning we start the slice at 2 to not take
-            // the br element and new line text nodes
-            if (remainingFirstParagraphChildren[0].type === 'element' &&
-                remainingFirstParagraphChildren[0].tagName === 'br') {
-                // fallen's modification start
-                const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(1, firstParagraph.children.length);
-                if (remainingChildrenWithoutLineBreak.length > 0 && remainingChildrenWithoutLineBreak[0].type === "text") {
-                    if (/^[\r\n]*$/.test(remainingChildrenWithoutLineBreak[0].value)) {
-                        // erase the 2nd child only if it contains \r\n only
-                        remainingFirstParagraphChildren.slice(1, remainingChildrenWithoutLineBreak.length);
-                    } else {
-                        // otherwise, left-trim \r\n for child[0].value
-                        remainingChildrenWithoutLineBreak[0].value = remainingChildrenWithoutLineBreak[0].value.replace(/^[\r\n]+/, "")
-                    }
-                }
-                // fallen's modification end
-                newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak)
-            } else {
-                // if the first line of the blockquote has no hard line break
-                // after the alert type but some text, then both the type
-                // and the text will be in a single text node
-                // headerData rest contains the remaining text without the alert type
-                if (headerData.rest.trim() !== '') {
-                    const restAsTextNode: Text = {
-                        type: 'text',
-                        value: headerData.rest
-                    }
-                    remainingFirstParagraphChildren.unshift(restAsTextNode)
-                }
-                // if no hard line break (br) take all the remaining
-                // and add them to new paragraph to mimick the initial structure
-                newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
-            }
-        } else {
-            if (headerData.rest.trim() !== '') {
-                const restAsTextNode: Text = {
-                    type: 'text',
-                    value: headerData.rest
-                }
-                newFirstParagraphChildren.push(restAsTextNode)
-            }
+        // [fallen's modification start] make it simple
+        if (headerData.rest.trim() !== '') {
+            newFirstParagraphChildren.push({
+                type: 'text',
+                value: headerData.rest.replace(/^[\r\n]+/, ""),
+            })
         }
+        newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
+        // [fallen's modification end]
 
         if (newFirstParagraphChildren.length > 0) {
             const lineBreak: Text = {
