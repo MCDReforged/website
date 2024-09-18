@@ -5,6 +5,7 @@ import { siteConfig } from "@/site/config";
 import { pick } from "@/utils/i18n-utils";
 import { ColorSchemeScript } from '@mantine/core'
 import "@/styles/globals.css";
+import "@/styles/variables.css";
 import { clsx } from "clsx";
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from "next-intl";

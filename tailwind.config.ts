@@ -32,7 +32,7 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       spacing: {
-        'navbar-height': '56px',
+        'navbar-height': 'var(--mw-navbar-height)',
         'sidebar-width': '20rem',
       }
     },
