@@ -1,15 +1,18 @@
 import { clsx } from "clsx";
 import Markdown from "react-markdown";
+import { rehypeGithubAlerts } from "rehype-github-alerts";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { PluggableList } from "unified";
 import { AnchorIdSanitizeFixer } from "./anchor-id-sanitize-fixer";
+import { alerts } from "./gfm-markdown-alerts";
 import { HighlightJsHookDynamic } from "./highlight-js-hook-dynamic";
 import { MermaidHook } from "./mermaid-hook";
 import { imageHeightFixer, mermaidTransformer } from "./rehype-plugins";
 import "@/styles/github-markdown.css"
+import "@/styles/github-markdown-alert.css"
 
 interface GfmMarkdownProps {
   children: string,
@@ -49,6 +52,7 @@ export default function GfmMarkdown({children, className, allowEmbedHtml, allowA
   if (allowEmbedHtml) {
     rehypePlugins.push(imageHeightFixer)
   }
+  rehypePlugins.push([rehypeGithubAlerts, {alerts: alerts}])
   rehypePlugins.push(mermaidTransformer)
 
   return (

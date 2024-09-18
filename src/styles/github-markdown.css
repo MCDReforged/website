@@ -16,6 +16,29 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/* fallen's modification: add --base-size variables definitions */
+.markdown-body {
+  --base-size-2: 0.125rem;
+  --base-size-4: 0.25rem;
+  --base-size-6: 0.375rem;
+  --base-size-8: 0.5rem;
+  --base-size-12: 0.75rem;
+  --base-size-16: 1rem;
+  --base-size-20: 1.25rem;
+  --base-size-24: 1.5rem;
+  --base-size-28: 1.75rem;
+  --base-size-32: 2rem;
+  --base-size-36: 2.25rem;
+  --base-size-40: 2.5rem;
+  --base-size-44: 2.75rem;
+  --base-size-48: 3rem;
+  --base-size-64: 4rem;
+  --base-size-80: 5rem;
+  --base-size-96: 6rem;
+  --base-size-112: 7rem;
+  --base-size-128: 8rem;
+}
+
 [data-mantine-color-scheme="dark"] .markdown-body {
   /*dark*/
   color-scheme: dark;
