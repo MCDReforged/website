@@ -30,6 +30,15 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
 
+      - name: Store Git Info
+        run: |
+          cat > git-info.json <<EOF
+          {
+            "branch": "$(git rev-parse --abbrev-ref HEAD)",
+            "commitHash": "$(git rev-parse HEAD)"
+          }
+          EOF
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
