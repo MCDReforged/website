@@ -1,15 +1,16 @@
 import { clsx } from "clsx";
 import Markdown from "react-markdown";
-import { rehypeGithubAlerts } from "rehype-github-alerts";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
+import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import { PluggableList } from "unified";
 import { AnchorIdSanitizeFixer } from "./anchor-id-sanitize-fixer";
 import { alerts } from "./gfm-markdown-alerts";
 import { HighlightJsHookDynamic } from "./highlight-js-hook-dynamic";
 import { MermaidHook } from "./mermaid-hook";
+import { rehypeGithubAlerts } from "./rehype-plugin-github-alerts";
 import { imageHeightFixer, mermaidTransformer } from "./rehype-plugins";
 import "@/styles/github-markdown.css"
 import "@/styles/github-markdown-alert.css"
@@ -38,7 +39,10 @@ function CheckMarkdownFeatures(text: string): FeatureFlags {
 export default function GfmMarkdown({children, className, allowEmbedHtml, allowAnchor, ...markdownProps}: GfmMarkdownProps) {
   const flags = CheckMarkdownFeatures(children)
 
-  const remarkPlugins: PluggableList = [remarkGfm]
+  const remarkPlugins: PluggableList = [
+    remarkGfm,
+    remarkBreaks,
+  ]
   const rehypePlugins: PluggableList = []
   if (allowEmbedHtml) {
     rehypePlugins.push(rehypeRaw)
@@ -57,7 +61,6 @@ export default function GfmMarkdown({children, className, allowEmbedHtml, allowA
 
   return (
     <div className={clsx("markdown-body", className)}>
-      {allowAnchor && <AnchorIdSanitizeFixer/>}
       <Markdown
         {...markdownProps}
         remarkPlugins={remarkPlugins}
@@ -67,6 +70,7 @@ export default function GfmMarkdown({children, className, allowEmbedHtml, allowA
       </Markdown>
       {flags.hasCodeBlock && <HighlightJsHookDynamic ignoredLanguages={['mermaid']}/>}
       {flags.hasMermaid && <MermaidHook/>}
+      {allowAnchor && <AnchorIdSanitizeFixer/>}
     </div>
   )
 }

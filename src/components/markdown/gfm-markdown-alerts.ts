@@ -1,4 +1,4 @@
-import { IAlert } from "rehype-github-alerts";
+import { IAlert } from "./rehype-plugin-github-alerts";
 
 // https://github.com/orgs/community/discussions/16925
 export const alerts: Array<IAlert> = [
