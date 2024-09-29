@@ -82,7 +82,7 @@ async function DownloadSection({release, className}: { release: ReleaseInfo, cla
   )
 }
 
-async function ReleaseDescription({description}: { description: string | undefined | null }) {
+async function ReleaseDescription({description, repository}: { description: string | undefined | null, repository: string }) {
   const t = await getTranslations('page.plugin.release')
   if (description === null || description === undefined) {
     return <NoneText>{t('release_body_nothing')}</NoneText>
@@ -90,7 +90,7 @@ async function ReleaseDescription({description}: { description: string | undefin
 
   return (
     <div>
-      <GfmMarkdown allowEmbedHtml>
+      <GfmMarkdown allowEmbedHtml repository={repository}>
         {description || ''}
       </GfmMarkdown>
     </div>
@@ -138,7 +138,7 @@ export async function ReleaseDisplay({plugin, release}: { plugin: SimplePlugin, 
           <span className="ml-1">{t('release_notes')}</span>
         </ContentDivider>
 
-        <ReleaseDescription description={release.description}/>
+        <ReleaseDescription description={release.description} repository={plugin.repos}/>
       </div>
     </>
   )

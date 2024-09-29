@@ -4,6 +4,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
+import remarkGithub, { Options as RemarkGithubOptions } from "remark-github";
 import { PluggableList } from "unified";
 import { AnchorIdSanitizeFixer } from "./anchor-id-sanitize-fixer";
 import { alerts } from "./gfm-markdown-alerts";
@@ -19,6 +20,7 @@ interface GfmMarkdownProps {
   className?: string,
   allowEmbedHtml?: boolean
   allowAnchor?: boolean
+  repository?: string
   [_: string]: any
 }
 
@@ -35,12 +37,21 @@ function CheckMarkdownFeatures(text: string): FeatureFlags {
   }
 }
 
-export default function GfmMarkdown({children, className, allowEmbedHtml, allowAnchor, ...markdownProps}: GfmMarkdownProps) {
+export default function GfmMarkdown(
+  {
+    children, className, allowEmbedHtml, allowAnchor, repository,
+    ...markdownProps
+  }: GfmMarkdownProps
+) {
   const flags = CheckMarkdownFeatures(children)
 
   const remarkPlugins: PluggableList = [
     remarkGfm,
   ]
+  if (repository) {
+    remarkPlugins.push([remarkGithub, {repository} as RemarkGithubOptions])
+  }
+
   const rehypePlugins: PluggableList = []
   if (allowEmbedHtml) {
     rehypePlugins.push(rehypeRaw)

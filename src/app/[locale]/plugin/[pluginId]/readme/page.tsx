@@ -36,7 +36,11 @@ async function PluginContentReadme({plugin}: { plugin: AllOfAPlugin }) {
 
   return (
     <div>
-      <GfmMarkdown allowEmbedHtml allowAnchor>{readme}</GfmMarkdown>  {/* SSR, no need to use GfmMarkdownDynamic */}
+      {/* SSR, no need to use GfmMarkdownDynamic */}
+      <GfmMarkdown allowEmbedHtml allowAnchor repository={plugin.plugin.repository}>
+        {readme}
+      </GfmMarkdown>
+
       <p className="mt-5 text-end text-sm text-mantine-dimmed">
         {t('readme_source')}
         {readmeSrc}
