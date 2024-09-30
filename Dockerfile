@@ -18,6 +18,9 @@ set -eux
 cp -r /app/.next/standalone /out
 cp -r /app/.next/static /out/.next/static
 cp -r /app/public /out/public
+if [ -f /app/git-info.json ]; then
+  cp /app/git-info.json /out/git-info.json
+fi
 ls -la /out
 
 mv /out/.next /out_next
