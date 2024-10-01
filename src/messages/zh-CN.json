@@ -117,6 +117,10 @@
         "releases": "发行版",
         "dependencies": "依赖"
       },
+      "introduction": {
+        "plugin_catalogue": "插件仓库",
+        "introduction_source": "介绍文本来源："
+      },
       "readme": {
         "no_readme": "无自述文件",
         "readme_source": "自述文件来源："

@@ -52,6 +52,7 @@ export interface PluginInfo {
   related_path: string
   labels: string[]
   introduction: LangDict
+  introduction_urls: LangDict
 }
 
 export interface ReleaseSummary {

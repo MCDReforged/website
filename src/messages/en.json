@@ -117,6 +117,10 @@
         "releases": "Releases",
         "dependencies": "Dependencies"
       },
+      "introduction": {
+        "plugin_catalogue": "Plugin Catalogue",
+        "introduction_source": "Introduction source: "
+      },
       "readme": {
         "no_readme": "No README",
         "readme_source": "README source: "
