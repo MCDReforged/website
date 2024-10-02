@@ -4,7 +4,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
-import remarkGithub, { Options as RemarkGithubOptions } from "remark-github";
+import remarkGithub, { defaultBuildUrl, Options as RemarkGithubOptions } from "remark-github";
 import { PluggableList } from "unified";
 import { AnchorIdSanitizeFixer } from "./anchor-id-sanitize-fixer";
 import { alerts } from "./gfm-markdown-alerts";
@@ -49,7 +49,16 @@ export default function GfmMarkdown(
     remarkGfm,
   ]
   if (repository) {
-    remarkPlugins.push([remarkGithub, {repository} as RemarkGithubOptions])
+    // https://github.com/remarkjs/remark-github
+    remarkPlugins.push([remarkGithub, {
+      repository,
+      buildUrl(values) {
+        if (values.type === 'commit' && values.hash.length !== 40  /* SHA-1 */) {
+          return false
+        }
+        return defaultBuildUrl(values)
+      },
+    } as RemarkGithubOptions])
   }
 
   const rehypePlugins: PluggableList = []
@@ -65,7 +74,7 @@ export default function GfmMarkdown(
   if (allowEmbedHtml) {
     rehypePlugins.push(imageHeightFixer)
   }
-  rehypePlugins.push([rehypeGithubAlerts, {alerts: alerts}])
+  rehypePlugins.push([rehypeGithubAlerts, {alerts}])
   rehypePlugins.push(mermaidTransformer)
 
   return (
