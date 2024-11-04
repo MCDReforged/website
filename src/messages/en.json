@@ -25,12 +25,21 @@
       "copied": "Copied"
     },
     "plugin_label": {
-      "information": "information",
-      "tool": "tool",
-      "management": "management",
-      "api": "API",
-      "handler": "handler",
-      "__unknown": "unknown"
+      "name": {
+        "information": "information",
+        "tool": "tool",
+        "management": "management",
+        "api": "API",
+        "handler": "handler",
+        "__unknown": "unknown"
+      },
+      "description": {
+        "information": "Collects and displays information for users",
+        "tool": "A useful tool, or a game helper",
+        "management": "Manages files or other stuffs on the server",
+        "api": "Functions as an API or library that provides common functionalities to other plugins",
+        "handler": "Provides a custom server handler"
+      }
     },
     "plugin_dependencies": {
       "title_plugin": "MCDR Plugin Dependencies",

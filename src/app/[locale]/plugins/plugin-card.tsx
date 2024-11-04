@@ -137,7 +137,7 @@ export function PluginCard({plugin}: {plugin: SimplePlugin}) {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap gap-1.5 items-center self-end">
               {plugin.labels.map((label, index) =>
-                <PluginLabel key={index} label={label}/>
+                <PluginLabel key={index} label={label} descPos="bottom"/>
               )}
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">

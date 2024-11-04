@@ -77,7 +77,7 @@ export function ControlCard({everything}: { everything: SimpleEverything }) {
                 defaultChecked={ds.selectedLabels.includes(label)}
                 value={label}
                 radius="sm"
-                label={<PluginLabel label={label}/>}
+                label={<PluginLabel label={label} descPos="right"/>}
                 onChange={event => onLabelFilterCheckboxChanged(label, event.currentTarget.checked)}
               />
               <p>{amount}x</p>

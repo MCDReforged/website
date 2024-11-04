@@ -25,12 +25,21 @@
       "copied": "已复制"
     },
     "plugin_label": {
-      "information": "信息",
-      "tool": "工具",
-      "management": "管理",
-      "api": "API",
-      "handler": "服务端处理器",
-      "__unknown": "未知"
+      "name": {
+        "information": "信息",
+        "tool": "工具",
+        "management": "管理",
+        "api": "API",
+        "handler": "服务端处理器",
+        "__unknown": "未知"
+      },
+      "description": {
+        "information": "获取并显示各类信息的插件",
+        "tool": "实用工具 / 游戏助手型插件",
+        "management": "管理服务端的文件等各种事务",
+        "api": "作为一个 API 或一个依赖库，为其他插件提供功能支持",
+        "handler": "提供一个自定义服务端处理器"
+      }
     },
     "plugin_dependencies": {
       "title_plugin": "MCDR 插件依赖",

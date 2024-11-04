@@ -1,7 +1,8 @@
-import { Badge } from "@mantine/core";
+import { Badge, FloatingPosition } from "@mantine/core";
 import { Icon, IconAffiliate, IconInfoCircle, IconPlugConnected, IconQuestionMark, IconTools, IconUserCog } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import React from "react";
+import { ClickableTooltip } from "../clickable-tooltip";
 
 interface LabelConfig {
   id: string
@@ -51,18 +52,35 @@ const labelConfigMapping: LabelConfigMapping = labelConfigs.reduce((obj: LabelCo
   return obj
 }, {})
 
-export function PluginLabel({label}: {label: string}) {
-  const t = useTranslations('component.plugin_label')
+interface PluginLabelProps {
+  label: string
+  descPos?: FloatingPosition
+}
+
+export function PluginLabel({label, descPos}: PluginLabelProps) {
+  const tName = useTranslations('component.plugin_label.name')
+  const tDesc = useTranslations('component.plugin_label.description')
 
   const cfg = labelConfigMapping[label] ?? unknownConfig
-  return <Badge
-    classNames={{root: "px-2 border-1 border-solid font-medium text-[12px]"}}
-    variant="light-bordered"
-    color={cfg.color}
-    radius="md"
-    size="22"
-    leftSection={<cfg.icon size={16}/>}
-  >
-    {cfg === unknownConfig ? `(${t(cfg.id)}) ${label}` : t(cfg.id)}
-  </Badge >
+  let badge = (
+    <Badge
+      classNames={{root: "px-2 border-1 border-solid font-medium text-[12px]"}}
+      variant="light-bordered"
+      color={cfg.color}
+      radius="md"
+      size="22"
+      leftSection={<cfg.icon size={16}/>}
+    >
+      {cfg === unknownConfig ? `(${tName(cfg.id)}) ${label}` : tName(cfg.id)}
+    </Badge >
+  )
+
+  if (cfg !== unknownConfig) {
+    badge = (
+      <ClickableTooltip label={tDesc(cfg.id)} position={descPos} openDelay={500}>
+        {badge}
+      </ClickableTooltip>
+    )
+  }
+  return badge
 }
