@@ -29,6 +29,7 @@
       "tool": "工具",
       "management": "管理",
       "api": "API",
+      "handler": "服务端处理器",
       "__unknown": "未知"
     },
     "plugin_dependencies": {

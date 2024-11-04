@@ -29,6 +29,7 @@
       "tool": "tool",
       "management": "management",
       "api": "API",
+      "handler": "handler",
       "__unknown": "unknown"
     },
     "plugin_dependencies": {

@@ -38,6 +38,9 @@ const localeToMcdrLang: {[locale: string]: string} = {
 }
 
 export function translateLangDict(locale: string, message: LangDict, englishFallback: boolean = true): string | undefined {
+  if (message === undefined || message === null) {
+    return undefined
+  }
   const lang = localeToMcdrLang[locale]
   if (lang === undefined) {
     return undefined

@@ -3,4 +3,5 @@ export const pluginLabels: string[] = [
  	"tool",
  	"management",
  	"api",
+ 	"handler",
 ]

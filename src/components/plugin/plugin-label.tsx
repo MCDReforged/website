@@ -1,5 +1,5 @@
 import { Badge } from "@mantine/core";
-import { Icon, IconInfoCircle, IconPlugConnected, IconQuestionMark, IconTools, IconUserCog } from "@tabler/icons-react";
+import { Icon, IconAffiliate, IconInfoCircle, IconPlugConnected, IconQuestionMark, IconTools, IconUserCog } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -32,12 +32,17 @@ const labelConfigs: LabelConfig[] = [
     id: 'api',
     color: 'yellow.7',
     icon: IconPlugConnected,
-  }
+  },
+  {
+    id: 'handler',
+    color: 'violet.5',
+    icon: IconAffiliate,
+  },
 ]
 
 const unknownConfig: LabelConfig = {
   id: '__unknown',
-  color: 'default',
+  color: 'dark.4',
   icon: IconQuestionMark,
 }
 
@@ -58,6 +63,6 @@ export function PluginLabel({label}: {label: string}) {
     size="22"
     leftSection={<cfg.icon size={16}/>}
   >
-    {t(cfg.id)}
+    {cfg === unknownConfig ? `(${t(cfg.id)}) ${label}` : t(cfg.id)}
   </Badge >
 }
