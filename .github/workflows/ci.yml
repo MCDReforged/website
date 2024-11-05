@@ -1,4 +1,4 @@
-name: Docker image
+name: CI
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   image:
+    name: Docker image
     runs-on: ubuntu-latest
 
     steps:
@@ -48,3 +49,20 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    name: Website deploy
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs:
+      - image
+    steps:
+      - name: Deploy with SSH
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          port: ${{ secrets.DEPLOY_SSH_PORT }}
+          username: ${{ secrets.DEPLOY_SSH_USERNAME }}
+          fingerprint: ${{ secrets.DEPLOY_SSH_FINGERPRINT }}
+          key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          script: ${{ secrets.DEPLOY_SSH_SCRIPT }}
