@@ -1,6 +1,7 @@
 import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { CommonContentLayout } from "@/components/layout/common-content-layout";
+import { staticParamsMaxSize } from "@/utils/build-utils";
 import { Divider } from "@mantine/core";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
@@ -20,7 +21,7 @@ export async function generateMetadata({params: {locale, pluginId}}: {params: {l
 
 export async function generateStaticParams() {
   const everything = await getEverything()
-  return Object.keys(everything.plugins).map(pluginId => ({pluginId}))
+  return Object.keys(everything.plugins).map(pluginId => ({pluginId})).slice(0, staticParamsMaxSize)
 }
 
 interface LayoutProps {

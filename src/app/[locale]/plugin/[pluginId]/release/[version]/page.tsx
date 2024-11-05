@@ -1,6 +1,7 @@
 import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin, ReleaseInfo } from "@/catalogue/meta-types";
+import { staticParamsMaxSize } from "@/utils/build-utils";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ReleaseDisplay } from "./release-display";
@@ -45,7 +46,7 @@ export async function generateStaticParams({params}: {params: {pluginId: string}
   if (plugin.release) {
     return plugin.release.releases.map(r => {
       return {version: r.meta.version}
-    })
+    }).slice(0, staticParamsMaxSize)
   } else {
     return []
   }
