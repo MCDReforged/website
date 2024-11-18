@@ -53,7 +53,7 @@ export default async function RootLayout({
           <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
             <RouterTransition/>
 
-            <NextIntlClientProvider locale={locale} messages={pick(messages, 'layout.nav_bar')}>
+            <NextIntlClientProvider locale={locale} messages={pick(messages, ['layout.nav_bar', 'urls'])}>
               <Navbar/>
             </NextIntlClientProvider>
 

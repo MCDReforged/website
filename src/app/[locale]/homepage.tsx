@@ -1,6 +1,5 @@
 import { Link } from "@/common/navigation";
 import { McdrLogo } from "@/components/icons";
-import { siteConfig } from "@/site/config";
 import { Button, Text, ThemeIcon, Title } from '@mantine/core';
 import { Icon, IconBook2, IconDevicesCheck, IconExternalLink, IconPackage, IconPackages, IconPlant2 } from "@tabler/icons-react";
 import { clsx } from "clsx";
@@ -53,6 +52,7 @@ async function ClassicLongLogo({className}: {className?: string}) {
 
 async function Hero() {
   const t = await getTranslations('page.home')
+  const tUrls = await getTranslations('urls')
 
   const buttonWidth = 180
   const intro = (
@@ -86,7 +86,7 @@ async function Hero() {
           variant="default"
           component={Link}
           target="_blank"
-          href={siteConfig.links.docs}
+          href={tUrls('document')}
         >
           {t('docs')}
         </Button>

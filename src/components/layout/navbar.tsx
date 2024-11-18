@@ -15,10 +15,14 @@ import Link from "next/link";
 import React from "react";
 import styles from './navbar.module.css';
 
+interface UrlProvider {
+    (key: string): string
+}
+
 interface NavItem {
   icon: (props: TablerIconsProps) => React.ReactNode,
   key: string
-  href: string
+  href: (urls?: UrlProvider) => string
   isExternal: boolean
   checkActive: (pathname: string) => boolean
 }
@@ -27,21 +31,21 @@ const navItems: NavItem[] = [
   {
     icon: IconHome,
     key: 'home',
-    href: '/',
+    href: (urls) => '/',
     isExternal: false,
     checkActive: (pathname: string) => pathname === '/',
   },
   {
     icon: IconPackages,
     key: 'plugins',
-    href: '/plugins',
+    href: (urls) => '/plugins',
     isExternal: false,
     checkActive: (pathname: string) => pathname === routes.catalogue() || pathname.startsWith(routes.pluginBase() + '/'),
   },
   {
     icon: IconBook2,
     key: 'docs',
-    href: siteConfig.links.docs,
+    href: (urls) => urls ? urls('document') : siteConfig.links.docs,
     isExternal: true,
     checkActive: (pathname: string) => false,
   },
@@ -55,13 +59,14 @@ interface NavBarLinkProps {
 }
 
 function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
-  const t = useTranslations('layout.nav_bar.navigation');
+  const t = useTranslations('layout.nav_bar.navigation')
+  const tUrls = useTranslations('urls')
   const pathname = usePathname()
   const Icon = item.icon
   return (
     <NaLink
       className={clsx(styles.link, className, "hover:bg-mantine-light-gray-background")}
-      href={item.href}
+      href={item.href(tUrls)}
       data-active={item.checkActive(pathname) || undefined}
       {...props}
     >
@@ -104,7 +109,7 @@ function DesktopNavBar({className, navOpened, navToggle}: { className?: string, 
       </div>
 
       <div className="hidden sm:flex gap-3 justify-start ml-2 grow">
-        {navItems.map((item) => <NavbarLink key={item.href} item={item} showIcon={false}/>)}
+        {navItems.map((item) => <NavbarLink key={item.key} item={item} showIcon={false}/>)}
       </div>
 
       <div className="justify-end flex gap-2 items-center">
@@ -130,7 +135,7 @@ function MobileNavMenu({navOpened, setClosed}: {  navOpened: boolean, setClosed:
       <div className="flex flex-col gap-2 max-w-screen-xl mx-auto">
         {navItems.map((item) => (
           <NavbarLink
-            key={item.href} item={item}
+            key={item.key} item={item}
             className="h-[3rem] w-full"
             showIcon={true}
             onClick={setClosed}
@@ -158,7 +163,6 @@ export function Navbar() {
           <MobileNavMenu navOpened={navOpened} setClosed={navOpener.close}/>
         </div>
       </header>
-
     </>
   );
 }

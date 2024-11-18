@@ -162,5 +162,8 @@
         "meta_source_branch": "Git 的 {branch} 分支"
       }
     }
+  },
+  "urls": {
+    "document": "https://docs.mcdreforged.com/zh-cn"
   }
 }
