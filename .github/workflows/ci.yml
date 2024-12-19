@@ -53,7 +53,7 @@ jobs:
   deploy:
     name: Website deploy
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
     needs:
       - image
     steps:
@@ -65,4 +65,4 @@ jobs:
           username: ${{ secrets.DEPLOY_SSH_USERNAME }}
           fingerprint: ${{ secrets.DEPLOY_SSH_FINGERPRINT }}
           key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
-          script: ${{ secrets.DEPLOY_SSH_SCRIPT }}
+          script: ${{ secrets.DEPLOY_SSH_SCRIPT }} ${{ github.ref }}
