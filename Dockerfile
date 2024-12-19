@@ -1,13 +1,13 @@
-# ref: https://github.com/vercel/next.js/blob/33c91d9fc3299a6e24c65f26ddb5bec0ec7ea3f7/examples/with-docker/Dockerfile
+# ref: https://github.com/vercel/next.js/blob/1d5338f767b7e80a7a64e1e846da3cfc3abe1d13/examples/with-docker/Dockerfile
 FROM node:18-alpine AS base
 
 WORKDIR /app
-RUN apk add --no-cache gcompat  # https://github.com/nodejs/docker-node/tree/844b019f6d0df6d09e91c99fe90808a99bac6743#nodealpine
+RUN apk add --no-cache gcompat  # https://github.com/nodejs/docker-node/blob/efc560b6676c2ff477b27b4045443f3fb12f1632/README.md#nodealpine
 
 FROM base AS builder
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY . .
 RUN npm run build
