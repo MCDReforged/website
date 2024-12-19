@@ -20,7 +20,8 @@ function getRelease(plugin: AllOfAPlugin, version: string): ReleaseInfo | undefi
   }
 }
 
-export async function generateMetadata({params}: {params: PageParams}) {
+export async function generateMetadata(props: {params: Promise<PageParams>}) {
+  const params = await props.params
   const t = await getTranslations({locale: params.locale, namespace: 'metadata.title'})
   const plugin = await getPlugin(params.pluginId)
 
@@ -52,7 +53,8 @@ export async function generateStaticParams({params}: {params: {pluginId: string}
   }
 }
 
-export default async function Page({params}: {params: PageParams}) {
+export default async function Page(props: {params: Promise<PageParams>}) {
+  const params = await props.params;
   setRequestLocale(params.locale)
 
   const version = decodeURIComponent(params.version)

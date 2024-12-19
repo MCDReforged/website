@@ -1,7 +1,9 @@
 import { setRequestLocale } from "next-intl/server";
 import { HomePage } from "./homepage";
 
-export default function Home({params: {locale}}: { params: { locale: string } }) {
+export default async function Home(props: { params: Promise<{ locale: string }> }) {
+  const {locale} = await props.params
+
   setRequestLocale(locale);
 
   return (

@@ -9,7 +9,9 @@ import { LayoutScrollFix } from "./layout-scroll-fix";
 import { PluginContentCard } from "./plugin-content-card";
 import { Sidebar } from "./sidebar";
 
-export async function generateMetadata({params: {locale, pluginId}}: {params: {locale: string, pluginId: string}}) {
+export async function generateMetadata(props: {params: Promise<{locale: string, pluginId: string}>}) {
+  const {pluginId, locale} = await props.params
+
   const t = await getTranslations({locale, namespace: 'metadata.title'})
   const plugin = await getPlugin(pluginId)
   return {
@@ -26,10 +28,13 @@ export async function generateStaticParams() {
 
 interface LayoutProps {
   children: React.ReactNode
-  params: { pluginId: string, locale: string }
+  params: Promise<{ pluginId: string, locale: string }>
 }
 
-export default async function Layout({children, params: {locale, pluginId}}: LayoutProps) {
+export default async function Layout(props: LayoutProps) {
+  const {pluginId, locale} = await props.params
+  const {children} = props
+
   setRequestLocale(locale)
   const plugin = await getPluginOr404(pluginId)
   const everything = await getEverything()

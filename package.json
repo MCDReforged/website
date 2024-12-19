@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,7 +12,7 @@
     "@mantine/core": "^7.15.1",
     "@mantine/hooks": "^7.15.1",
     "@mantine/nprogress": "^7.15.1",
-    "@next/bundle-analyzer": "^14.2.20",
+    "@next/bundle-analyzer": "15.1.2",
     "@tabler/icons-react": "^3.26.0",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
@@ -22,11 +22,10 @@
     "hast-util-from-html": "^2.0.3",
     "highlight.js": "^11.11.0",
     "mermaid": "^11.4.1",
-    "next": "14.2.20",
+    "next": "15.1.2",
     "next-intl": "3.26.2",
-    "nuqs": "^1.20.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
@@ -38,15 +37,19 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.20",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.2",
     "postcss": "^8.4.49",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2"
   }
 }

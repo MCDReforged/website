@@ -31,13 +31,15 @@ export async function generateStaticParams() {
   return siteConfig.languages.map(locale => ({locale}))
 }
 
-export default async function RootLayout({
-  children,
-  params: {locale},
-}: {
+interface RootLayoutProps {
   children: React.ReactNode
-  params: {locale: string}
-}) {
+  params: Promise<{locale: string}>
+}
+
+export default async function RootLayout(props: RootLayoutProps) {
+  const {locale} = await props.params
+  const {children} = props
+
   setRequestLocale(locale)
   const messages = await getMessages()
 

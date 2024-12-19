@@ -28,7 +28,9 @@ async function PageContent({plugin}: { plugin: AllOfAPlugin }) {
   )
 }
 
-export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
+export default async function Page(props: { params: Promise<{ pluginId: string, locale: string }> }) {
+  const {pluginId, locale} = await props.params
+
   setRequestLocale(locale);
   const plugin = await getPluginOr404(pluginId)
 

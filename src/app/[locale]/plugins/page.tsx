@@ -7,14 +7,18 @@ import { DisplayStrategyContextProvider } from "./display-strategy-provider";
 import { PluginList } from "./plugin-list";
 import { Sidebar } from "./sidebar";
 
-export async function generateMetadata({params: {locale}}: {params: {locale: string}}) {
+export async function generateMetadata(props: {params: Promise<{locale: string}>}) {
+  const {locale} = await props.params
+
   const t = await getTranslations({locale, namespace: 'metadata.title'});
   return {
     title: t('catalogue'),
   }
 }
 
-export default async function Page({params: {locale}}: {params: {locale: string}}) {
+export default async function Page(props: {params: Promise<{locale: string}>}) {
+  const {locale} = await props.params
+
   setRequestLocale(locale)
   const messages = await getMessages()
   const everything = await getSimpleEverything()
