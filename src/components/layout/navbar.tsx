@@ -8,7 +8,7 @@ import { siteConfig } from "@/site/config";
 import { routes } from "@/site/routes";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconBook2, IconExternalLink, IconHome, IconPackages, TablerIconsProps } from "@tabler/icons-react";
+import { IconBook2, IconExternalLink, IconHome, IconPackages, IconProps } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -20,7 +20,7 @@ interface UrlProvider {
 }
 
 interface NavItem {
-  icon: (props: TablerIconsProps) => React.ReactNode,
+  icon: (props: IconProps) => React.ReactNode,
   key: string
   href: (urls?: UrlProvider) => string
   isExternal: boolean
