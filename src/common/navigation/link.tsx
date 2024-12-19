@@ -1,8 +1,8 @@
 'use client'
 
-import { i18nNavigation } from "@/common/navigation/base";
 import { onStart } from "@/common/nprogress/events";
 import { shouldTriggerStartEvent } from "@/common/nprogress/should-trigger-start-event";
+import { i18nNavigation } from "@/i18n/routing";
 import { forwardRef } from "react";
 
 export const Link = forwardRef<HTMLAnchorElement, React.ComponentProps<"a">>(function Link(

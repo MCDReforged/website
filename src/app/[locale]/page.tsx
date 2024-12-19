@@ -1,8 +1,8 @@
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { HomePage } from "./homepage";
 
 export default function Home({params: {locale}}: { params: { locale: string } }) {
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
 
   return (
     <HomePage/>

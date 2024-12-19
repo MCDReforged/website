@@ -3,7 +3,7 @@ import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { CommonContentLayout } from "@/components/layout/common-content-layout";
 import { staticParamsMaxSize } from "@/utils/build-utils";
 import { Divider } from "@mantine/core";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
 import { LayoutScrollFix } from "./layout-scroll-fix";
 import { PluginContentCard } from "./plugin-content-card";
@@ -30,7 +30,7 @@ interface LayoutProps {
 }
 
 export default async function Layout({children, params: {locale, pluginId}}: LayoutProps) {
-  unstable_setRequestLocale(locale)
+  setRequestLocale(locale)
   const plugin = await getPluginOr404(pluginId)
   const everything = await getEverything()
   const timestamp = everything.timestamp

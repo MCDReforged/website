@@ -8,7 +8,7 @@ import { prettySize } from "@/utils/unit-utils";
 import { ScrollArea } from "@mantine/core";
 import { Icon, IconCalendar, IconFileDownload, IconTag, IconWeight } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
 import { AssetDownloadButton } from "./asset-download-button";
 import { ReleaseRow } from "./release-row";
@@ -96,7 +96,7 @@ async function PluginContentReleases({plugin}: {plugin: AllOfAPlugin}) {
 }
 
 export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
   const plugin = await getPluginOr404(pluginId)
 
   return (

@@ -2,7 +2,7 @@ import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin, ReleaseInfo } from "@/catalogue/meta-types";
 import { staticParamsMaxSize } from "@/utils/build-utils";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ReleaseDisplay } from "./release-display";
 
@@ -53,7 +53,7 @@ export async function generateStaticParams({params}: {params: {pluginId: string}
 }
 
 export default async function Page({params}: {params: PageParams}) {
-  unstable_setRequestLocale(params.locale)
+  setRequestLocale(params.locale)
 
   const version = decodeURIComponent(params.version)
 

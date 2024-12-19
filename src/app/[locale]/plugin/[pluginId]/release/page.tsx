@@ -1,9 +1,9 @@
 import { redirect } from "@/common/navigation";
 import { routes } from "@/site/routes";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 
 export default function Page({params: {locale, pluginId}}: { params: { locale: string, pluginId: string } }) {
-  unstable_setRequestLocale(locale)
+  setRequestLocale(locale)
 
-  redirect(routes.pluginTab(pluginId, 'releases'))
+  redirect({href: routes.pluginTab(pluginId, 'releases'), locale})
 }

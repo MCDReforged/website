@@ -2,7 +2,7 @@ import { getPluginOr404 } from "@/catalogue/data";
 import { AllOfAPlugin } from "@/catalogue/meta-types";
 import { NoneText } from "@/components/none-text";
 import { PluginDependenciesAll } from "@/components/plugin/plugin-dependencies";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
 
 async function PageContent({plugin}: { plugin: AllOfAPlugin }) {
@@ -29,7 +29,7 @@ async function PageContent({plugin}: { plugin: AllOfAPlugin }) {
 }
 
 export default async function Page({params: {pluginId, locale}}: { params: { pluginId: string, locale: string } }) {
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
   const plugin = await getPluginOr404(pluginId)
 
   return (

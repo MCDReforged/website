@@ -2,7 +2,7 @@ import { getSimpleEverything } from "@/catalogue/data";
 import { pick } from "@/utils/i18n-utils";
 import { Divider } from "@mantine/core";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { DisplayStrategyContextProvider } from "./display-strategy-provider";
 import { PluginList } from "./plugin-list";
 import { Sidebar } from "./sidebar";
@@ -15,7 +15,7 @@ export async function generateMetadata({params: {locale}}: {params: {locale: str
 }
 
 export default async function Page({params: {locale}}: {params: {locale: string}}) {
-  unstable_setRequestLocale(locale)
+  setRequestLocale(locale)
   const messages = await getMessages()
   const everything = await getSimpleEverything()
 

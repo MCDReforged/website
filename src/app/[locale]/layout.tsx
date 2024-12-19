@@ -9,7 +9,7 @@ import "@/styles/variables.css";
 import { clsx } from "clsx";
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, unstable_setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import '@mantine/core/styles.css'
 import styles from './layout.module.css';
 import MantineThemeProvider from "./mantine-theme-provider";
@@ -38,7 +38,7 @@ export default async function RootLayout({
   children: React.ReactNode
   params: {locale: string}
 }) {
-  unstable_setRequestLocale(locale)
+  setRequestLocale(locale)
   const messages = await getMessages()
 
   // noinspection HtmlRequiredTitleElement

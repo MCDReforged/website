@@ -16,8 +16,7 @@ import { translateLangDict } from "@/utils/i18n-utils";
 import { getGitHubReposPair } from "@/utils/repos-utils";
 import { Button } from "@mantine/core";
 import { IconArrowBackUp, IconFileDownload, IconLink, IconRefresh, IconReload, IconTag, IconUser } from "@tabler/icons-react";
-import { useLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import React from "react";
 
 async function SidebarBackButton() {
@@ -44,7 +43,7 @@ async function PluginDescription({description}: {description: string}) {
 }
 
 export async function Sidebar({plugin, simplePlugin, timestamp}: {plugin: AllOfAPlugin, simplePlugin: SimplePlugin, timestamp: number}) {
-  const locale = useLocale()
+  const locale = await getLocale()
   const t = await getTranslations('page.plugin.sidebar')
 
   const textClass = 'overflow-hidden overflow-ellipsis break-words'
