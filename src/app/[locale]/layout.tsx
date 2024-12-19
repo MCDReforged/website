@@ -3,14 +3,13 @@ import { Navbar } from "@/components/layout/navbar";
 import { RouterTransition } from "@/components/layout/router-transition";
 import { siteConfig } from "@/site/config";
 import { pick } from "@/utils/i18n-utils";
-import { ColorSchemeScript } from '@mantine/core'
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core'
 import "@/styles/globals.css";
 import "@/styles/variables.css";
 import { clsx } from "clsx";
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import '@mantine/core/styles.css'
 import styles from './layout.module.css';
 import MantineThemeProvider from "./mantine-theme-provider";
 import { StatsScripts } from "./stats-scripts";
@@ -45,7 +44,10 @@ export default async function RootLayout(props: RootLayoutProps) {
 
   // noinspection HtmlRequiredTitleElement
   return (
-    <html lang={locale}>
+    <html
+      lang={locale}
+      {...mantineHtmlProps}  // https://github.com/mantinedev/mantine/issues/7008
+    >
       <head>
         <ColorSchemeScript defaultColorScheme="auto"/>
         <StatsScripts/>
