@@ -14,7 +14,7 @@ export async function Footer() {
       "max-w-screen-xl w-full",
       "py-3 px-10 mx-auto",
     )}>
-      <div className="flex flex-col sm:flex-row gap-x-20 gap-y-2 items-center justify-center *:text-sm">
+      <div className="flex flex-col md:flex-row gap-x-20 gap-y-2 items-center justify-center *:text-sm">
         <div>
           <span className="mr-2">Copyright © {year}</span>
           <NaLink href="https://fallenbreath.me" hoverColor>Fallen_Breath</NaLink>
