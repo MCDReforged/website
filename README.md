@@ -10,7 +10,7 @@ The official website of [MCDReforged](https://github.com/MCDReforged/MCDReforged
 
 - Production: https://mcdreforged.com
 - Production (backup): https://mcdreforged.vercel.app
-- Development: https://dev.mcdreforged.com (associated with the [dev](https://github.com/MCDReforged/website/tree/dev) branch)
+- Development: https://website-dev.mcdreforged.com (associated with the [dev](https://github.com/MCDReforged/website/tree/dev) branch)
 
 ## Usage
 
