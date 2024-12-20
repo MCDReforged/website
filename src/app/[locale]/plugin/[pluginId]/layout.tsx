@@ -43,7 +43,7 @@ export default async function Layout(props: LayoutProps) {
   return (
     <CommonContentLayout>
       <LayoutScrollFix pluginId={pluginId}/>
-      <div className="md:fixed md:w-sidebar-width md:h-[calc(100vh-5rem)] md:overflow-y-auto">
+      <div className="md:fixed md:w-sidebar-width md:max-h-[calc(100vh-var(--mw-navbar-height)-5rem)] md:overflow-y-auto">
         <Sidebar plugin={plugin} simplePlugin={createSimplePlugin(plugin, everything.authors)} timestamp={timestamp}/>
       </div>
       <div className="flex md:hidden">
