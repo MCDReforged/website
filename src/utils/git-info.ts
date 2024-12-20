@@ -33,7 +33,7 @@ async function tryGetGitInfoFromCommand(): Promise<GitInfo | undefined> {
     if (branch && commitHash) {
       return {
         branch, commitHash,
-        isDev: false,  // treat local development environment as isDev=false
+        isDev: false,  // treat local development environment as the prod website
       }
     }
   } catch {
