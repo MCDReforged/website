@@ -20,6 +20,15 @@
     }
   },
   "component": {
+    "dev_version_notice": {
+      "title": "Development Version Notice",
+      "line1": "You are visiting the development version of this website",
+      "line2": "<link>Click me</link> to visit the stable version"
+    },
+    "github_proxy_switch": {
+      "label": "Use GitHub Proxy",
+      "tooltip": "Use https://mirror.ghproxy.com/ to speed up plugin download in China mainland"
+    },
     "pip_install_code_highlight": {
       "copy": "Copy code",
       "copied": "Copied"
@@ -50,10 +59,6 @@
       "none": "none",
 
       "py_package_command": "Python Package Installation Command"
-    },
-    "github_proxy_switch": {
-      "label": "Use GitHub Proxy",
-      "tooltip": "Use https://mirror.ghproxy.com/ to speed up plugin download in China mainland"
     }
   },
   "page": {

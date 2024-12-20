@@ -6,6 +6,7 @@ import { promisify } from "node:util"
 interface GitInfo {
   branch: string
   commitHash: string
+  isDev: boolean
 }
 
 let cachedGitInfo: GitInfo | undefined | null = null
@@ -30,7 +31,10 @@ async function tryGetGitInfoFromCommand(): Promise<GitInfo | undefined> {
     const branch = branchResult.stdout.trim()
     const commitHash = commitHashResult.stdout.trim()
     if (branch && commitHash) {
-      return { branch, commitHash }
+      return {
+        branch, commitHash,
+        isDev: false,  // treat local development environment as isDev=false
+      }
     }
   } catch {
     return undefined
@@ -53,6 +57,7 @@ async function getGitInfoFromFile(): Promise<GitInfo | undefined> {
       const data = await fs.readFile(filePath, 'utf8')
       const gitInfo: GitInfo = JSON.parse(data)
       if (gitInfo.branch && gitInfo.commitHash) {
+        gitInfo.isDev = isDev(gitInfo.branch)
         return gitInfo
       }
     }
@@ -85,11 +90,16 @@ function gitRefToBranch(gitRef: string): string {
   return gitRef
 }
 
+function isDev(branch: string): boolean {
+  return branch !== 'master'
+}
+
 async function getGitInfoImpl(): Promise<GitInfo | undefined> {
   if (process.env.NODE_ENV === 'development') {
     return (await tryGetGitInfoFromCommand()) || {
-      branch: 'test',
+      branch: 'master',
       commitHash: 'abc',
+      isDev: false,
     }
   }
 
@@ -102,5 +112,7 @@ async function getGitInfoImpl(): Promise<GitInfo | undefined> {
   const commitHash = getEnvVar('GIT_COMMIT_HASH', 'GITHUB_SHA', 'VERCEL_GIT_COMMIT_SHA')
   const branch = gitRef ? gitRefToBranch(gitRef) : getEnvVar('VERCEL_GIT_COMMIT_REF')
 
-  return (branch && commitHash) ? {branch, commitHash} : undefined
+  return (branch && commitHash)
+    ? {branch, commitHash, isDev: isDev(branch)}
+    : undefined
 }

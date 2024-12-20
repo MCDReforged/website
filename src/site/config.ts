@@ -4,6 +4,7 @@ export const siteConfig = {
   description: 'MCDReforged official website',
   favicon: "/favicon.svg",
   links: {
+    website: "https://mcdreforged.com",
     docs: "https://docs.mcdreforged.com",
     githubMcdr: "https://github.com/MCDReforged/MCDReforged",
     githubWebsite: "https://github.com/MCDReforged/website",

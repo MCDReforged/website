@@ -1,3 +1,4 @@
+import { DevVersionNoticeServer } from "@/components/dev-version-notice-server";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { RouterTransition } from "@/components/layout/router-transition";
@@ -10,6 +11,7 @@ import { clsx } from "clsx";
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
+import React from "react";
 import styles from './layout.module.css';
 import MantineThemeProvider from "./mantine-theme-provider";
 import { StatsScripts } from "./stats-scripts";
@@ -65,6 +67,7 @@ export default async function RootLayout(props: RootLayoutProps) {
               {children}
             </main>
 
+            <DevVersionNoticeServer/>
             <Footer/>
           </div>
         </MantineThemeProvider>

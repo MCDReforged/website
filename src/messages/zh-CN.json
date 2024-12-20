@@ -20,6 +20,15 @@
     }
   },
   "component": {
+    "dev_version_notice": {
+      "title": "开发版提示",
+      "line1": "你正在访问该网站的开发版本",
+      "line2": "<link>点我</link>以访问该网站的稳定版"
+    },
+    "github_proxy_switch": {
+      "label": "使用 GitHub Proxy 加速",
+      "tooltip": "使用 https://mirror.ghproxy.com/ 来优化中国大陆地区的下载速度"
+    },
     "pip_install_code_highlight": {
       "copy": "复制代码",
       "copied": "已复制"
@@ -50,10 +59,6 @@
       "none": "无",
 
       "py_package_command": "Python 包安装指令"
-    },
-    "github_proxy_switch": {
-      "label": "使用 GitHub Proxy 加速",
-      "tooltip": "使用 https://mirror.ghproxy.com/ 来优化中国大陆地区的下载速度"
     }
   },
   "page": {
