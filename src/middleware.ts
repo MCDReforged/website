@@ -9,7 +9,13 @@ export default createMiddleware({
   defaultLocale: siteConfig.defaultLanguage,
 })
 
+// https://next-intl.dev/docs/routing/middleware#matcher-no-prefix
 export const config = {
   // Match only internationalized pathnames
-  matcher: ['/', '/(en|zh-CN)/:path*']
+  matcher: [
+    // Match all pathnames except for
+    // - … if they start with `/api`, `/_next` or `/_vercel`
+    // - … the ones containing a dot (e.g. `favicon.ico`)
+    '/((?!api|_next|_vercel|[^/]*\\..*).*)',
+  ]
 }
