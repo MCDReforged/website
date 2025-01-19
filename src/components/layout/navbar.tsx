@@ -8,7 +8,7 @@ import { siteConfig } from "@/site/config";
 import { routes } from "@/site/routes";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconBook2, IconExternalLink, IconHome, IconPackages, IconProps } from "@tabler/icons-react";
+import { IconBook2, IconChartBar, IconExternalLink, IconHome, IconPackages, IconProps } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -16,7 +16,7 @@ import React from "react";
 import styles from './navbar.module.css';
 
 interface UrlProvider {
-    (key: string): string
+  (key: string): string
 }
 
 interface NavItem {
@@ -41,6 +41,13 @@ const navItems: NavItem[] = [
     href: (urls) => '/plugins',
     isExternal: false,
     checkActive: (pathname: string) => pathname === routes.catalogue() || pathname.startsWith(routes.pluginBase() + '/'),
+  },
+  {
+    icon: IconChartBar,
+    key: 'stats',
+    href: (urls) => '/stats',
+    isExternal: false,
+    checkActive: (pathname: string) => pathname === routes.stats(),
   },
   {
     icon: IconBook2,
@@ -71,9 +78,9 @@ function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
       {...props}
     >
       <div className="flex flex-row gap-1 justify-center items-center h-full">
-        {showIcon && <Icon size={20} stroke={1.4}/>}
+        {showIcon && <Icon size={20} stroke={1.5}/>}
         <p>{t(item.key)}</p>
-        {item.isExternal && <IconExternalLink size={16} stroke={1.4}/>}
+        {item.isExternal && <IconExternalLink size={16} stroke={1.5}/>}
       </div>
     </NaLink>
   )

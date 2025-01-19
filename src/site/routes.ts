@@ -15,6 +15,8 @@ class Routes {
   pluginRelease(pluginId: string, version: string) {
     return this.plugin(pluginId) + '/release/' + version
   }
+
+  stats = () => '/stats'
 }
 
 export const routes = new Routes()

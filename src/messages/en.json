@@ -11,6 +11,7 @@
       "navigation": {
         "home": "Home",
         "plugins": "Plugins",
+        "stats": "Stats",
         "docs": "Document"
       },
       "locale_switch": {
@@ -166,9 +167,36 @@
         "meta_source_latest_release": "Latest version {version}",
         "meta_source_branch": "Git branch {branch}"
       }
+    },
+    "stats": {
+      "kind": {
+        "mcdr_instance": "MCDR Instance Count",
+        "mcdr_version": "MCDR Version",
+        "python_version": "Python Version",
+        "system_version": "Operation System",
+        "system_arch": "CPU Architecture",
+        "deployment_method": "Deployment method",
+        "country": "Country / Region"
+      },
+      "line": {
+        "total": "Total"
+      },
+      "pie": {
+        "other": "other",
+        "label": "amount"
+      }
     }
   },
   "urls": {
     "document": "https://docs.mcdreforged.com/en"
+  },
+  "utils": {
+    "iso3166": {
+      "hk": "Hong Kong",
+      "mo": "Macao, China",
+      "tw": "Taiwan, China",
+      "xx": "Unknown",
+      "t1": "Tor"
+    }
   }
 }

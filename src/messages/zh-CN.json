@@ -11,6 +11,7 @@
       "navigation": {
         "home": "主页",
         "plugins": "插件仓库",
+        "stats": "统计",
         "docs": "文档"
       },
       "locale_switch": {
@@ -166,9 +167,36 @@
         "meta_source_latest_release": "最新版本 {version}",
         "meta_source_branch": "Git 的 {branch} 分支"
       }
+    },
+    "stats": {
+      "kind": {
+        "mcdr_instance": "MCDR 运行实例数",
+        "mcdr_version": "MCDR 版本",
+        "python_version": "Python 版本",
+        "system_version": "操作系统",
+        "system_arch": "CPU 架构",
+        "deployment_method": "部署方式",
+        "country": "国家/地区"
+      },
+      "line": {
+        "total": "总数"
+      },
+      "pie": {
+        "other": "其他",
+        "label": "数量"
+      }
     }
   },
   "urls": {
     "document": "https://docs.mcdreforged.com/zh-cn"
+  },
+  "utils": {
+    "iso3166": {
+      "hk": "中国香港",
+      "mo": "中国澳门",
+      "tw": "中国台湾",
+      "xx": "未知",
+      "t1": "Tor"
+    }
   }
 }

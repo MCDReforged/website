@@ -1,5 +1,6 @@
 import { AllOfAPlugin, Everything } from "@/catalogue/meta-types";
 import { SimpleEverything } from "@/catalogue/simple-types";
+import { getCatalogueEverythingUrl, shouldReadCatalogueEverythingFromLocalFile } from "@/utils/environment-utils";
 import fs from 'fs/promises'
 import { notFound } from "next/navigation";
 import { promisify } from "node:util";
@@ -17,7 +18,7 @@ async function fileExists(filePath: string) {
 }
 
 async function devReadLocalEverything(): Promise<Everything | null> {
-  if (process.env.MW_USE_LOCAL_EVERYTHING === 'true') {
+  if (shouldReadCatalogueEverythingFromLocalFile()) {
     const localDataPath = path.join(process.cwd(), 'src', 'catalogue', 'everything.json')
     if (await fileExists(localDataPath)) {
       const content = await fs.readFile(localDataPath, 'utf8')
@@ -30,7 +31,7 @@ async function devReadLocalEverything(): Promise<Everything | null> {
 const gunzipAsync = promisify(gunzip)
 
 async function fetchEverything(): Promise<Everything> {
-  const url: string = process.env.MW_EVERYTHING_JSON_URL || 'https://raw.githubusercontent.com/MCDReforged/PluginCatalogue/meta/everything.json.gz'
+  const url: string = getCatalogueEverythingUrl()
 
   // The 2nd init param cannot be defined as a standalone global constant variable,
   // or the ISR might be broken: fetchEverything() will never be invoked after the first 2 round of requests,

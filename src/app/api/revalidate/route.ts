@@ -1,7 +1,8 @@
+import { getRevalidateCatalogueToken } from "@/utils/environment-utils";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest } from "next/server";
 
-const revalidateToken = process.env.MW_REVALIDATE_CATALOGUE_TOKEN
+const revalidateToken = getRevalidateCatalogueToken()
 
 export async function POST(request: NextRequest) {
   if (revalidateToken === undefined) {
