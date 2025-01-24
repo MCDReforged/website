@@ -22,12 +22,18 @@ Chart.register(PointElement)
 
 Chart.register(LineController)
 
+export interface LineChartValues {
+  [label: string]: number[]
+}
+
 interface LineChartProps {
   className?: string
   title: string
 
   timestamps: number[]
-  values: {[label: string]: number[]}
+  values: LineChartValues
+
+  showLegend?: boolean
 }
 
 export function LineChart(props: LineChartProps) {
@@ -45,67 +51,68 @@ export function LineChart(props: LineChartProps) {
   }
 
   return (
-    <ReactChart
-      className={clsx(props.className)}
-      type="line"
-      plugins={[]}
-      options={{
-        responsive: true,
-        interaction: {
-          intersect: false,
-          axis: 'x',
-          mode: 'nearest',
-        },
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'day',
-              displayFormats: {
-                'day': 'L',
+    <div className={clsx(props.className, 'max-h-[100vh] max-w-[100vw]')}>
+      <ReactChart
+        type="line"
+        plugins={[]}
+        options={{
+          responsive: true,
+          interaction: {
+            intersect: false,
+            axis: 'x',
+            mode: 'nearest',
+          },
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                unit: 'day',
+                displayFormats: {
+                  'day': 'L',
+                },
+                tooltipFormat: 'LLLL',
               },
-              tooltipFormat: 'LLLL',
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 10,
+              }
             },
-            ticks: {
-              autoSkip: true,
-              maxTicksLimit: 10,
-            }
+          },
+          plugins: {
+            tooltip: {
+              enabled: true,
+            },
+            title: {
+              display: true,
+              text: props.title,
+              font: {
+                size: 16,
+              },
+            },
+            legend: {
+              display: props.showLegend ?? true,
+              position: 'right',
+            },
+            decimation: {
+              enabled: true,
+            },
           }
-        },
-        plugins: {
-          tooltip: {
-            enabled: true,
-          },
-          title: {
-            display: true,
-            text: props.title,
-            font: {
-              size: 16,
-            },
-          },
-          legend: {
-            display: true,
-            position: 'right',
-          },
-          decimation: {
-            enabled: true,
-          },
-        }
-      }}
-      data={{
-        labels: props.timestamps.map(item => item * 1000),
-        datasets: Object.entries(values).map(([label, counts], idx) => {
-          return {
-            label: label,
-            data: counts,
-            tension: 0.5,
-            cubicInterpolationMode: 'monotone',
-            pointStyle: false,
-            backgroundColor: chroma(colorPalette[idx]).darken(0.3).hex(),
-            borderColor: chroma(colorPalette[idx]).brighten(0.1).hex(),
-          } as ChartDataset
-        }),
-      }}
-    />
+        }}
+        data={{
+          labels: props.timestamps.map(item => item * 1000),
+          datasets: Object.entries(values).map(([label, counts], idx) => {
+            return {
+              label: label,
+              data: counts,
+              tension: 0.5,
+              cubicInterpolationMode: 'monotone',
+              pointStyle: false,
+              backgroundColor: chroma(colorPalette[idx]).darken(0.3).hex(),
+              borderColor: chroma(colorPalette[idx]).brighten(0.1).hex(),
+            } as ChartDataset
+          }),
+        }}
+      />
+    </div>
   )
 }
