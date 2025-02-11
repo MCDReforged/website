@@ -78,6 +78,9 @@ export function LineChart(props: LineChartProps) {
               }
             },
           },
+          animation: {
+            duration: 0,
+          },
           plugins: {
             tooltip: {
               enabled: true,

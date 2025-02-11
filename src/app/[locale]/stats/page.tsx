@@ -154,7 +154,7 @@ export default async function Page() {
           {/*  <LineChart title={t('kind.python_version')} timestamps={mainTimestamps} values={pythonVersionValues} showLegend={false}/>*/}
           {/*  <LineChart title={t('kind.system_version')} timestamps={mainTimestamps} values={systemVersionValues} showLegend={false}/>*/}
           {/*</div>*/}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 flex-wrap lg:mx-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-5 flex-wrap">
             <PieChart title={t('kind.mcdr_version')} counts={extractCount('mcdr_version')}/>
             <PieChart title={t('kind.python_version')} counts={extractCount('python_version')}/>
             <PieChart title={t('kind.system_version')} counts={extractCount('system_version')}/>

@@ -175,23 +175,26 @@ export function PieChart(props: PieChartProps) {
 
   return <>
     {/* Add a wrapper container to restrict the chart's size*/}
-    <div className={clsx(props.className, 'max-h-[100vh] max-w-[100vw]')}>
+    <div className={clsx(props.className, 'max-h-[80vh] max-w-[100vw]')}>
       <ReactChart
         type="doughnut"
         plugins={[ChartDataLabels]}
         options={{
           responsive: true,
-          aspectRatio: 1.2,
+          aspectRatio: 1.1,
           layout: {
             padding: {
-              left: 20,
-              right: 20,
-              top: 20,
+              left: 15,
+              right: 15,
+              top: 10,
               bottom: 20,
             },
           },
           interaction: {
             mode: 'nearest',
+          },
+          animation: {
+            duration: 0,
           },
           plugins: {
             tooltip: {
