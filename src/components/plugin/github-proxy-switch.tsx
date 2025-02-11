@@ -2,6 +2,7 @@
 
 import { NaLink } from "@/components/na-link";
 import { useGithubProxyState } from "@/hooks/use-github-proxy-state";
+import { githubProxyHomepage } from "@/utils/github-proxy-utils";
 import { Switch, Tooltip } from "@mantine/core";
 import { IconRocket } from "@tabler/icons-react";
 import { clsx } from "clsx";
@@ -29,7 +30,7 @@ export function GithubProxySwitch({className}: {className?: string}) {
         onChange={event => setProxied(event.currentTarget.checked)}
       />
 
-      <NaLink href="https://mirror.ghproxy.com/" hoverColor>
+      <NaLink href={githubProxyHomepage} hoverColor>
         <IconRocket size={18} stroke={1.5}/>
       </NaLink>
     </div>

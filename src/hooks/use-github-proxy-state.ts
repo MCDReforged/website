@@ -1,4 +1,5 @@
 import { storeKeys } from "@/site/store-key";
+import { decorateWithGitHubProxy } from "@/utils/github-proxy-utils";
 import { useLocalStorage } from "@mantine/hooks";
 
 export function useGithubProxyState() {
@@ -24,7 +25,7 @@ export function useGithubProxyUrl(rawUrl: string) {
 
   let url = rawUrl
   if (proxied) {
-    url = 'https://mirror.ghproxy.com/' + rawUrl
+    url = decorateWithGitHubProxy(rawUrl)
   }
 
   return {proxied, url, rawUrl}
