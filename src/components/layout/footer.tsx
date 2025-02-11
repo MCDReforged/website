@@ -1,6 +1,6 @@
 import { NaLink } from "@/components/na-link";
 import { siteConfig } from "@/site/config";
-import { getGitInfo } from "@/utils/git-info";
+import { getGitInfo } from "@/site/git-info";
 import { clsx } from "clsx";
 import React from "react";
 

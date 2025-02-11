@@ -1,6 +1,6 @@
 type PluginTab = 'introduction' | 'readme' | 'releases' | 'dependencies'
 
-class Routes {
+class SiteRoutes {
   home = () => '/'
   catalogue = () => '/plugins'
 
@@ -19,4 +19,4 @@ class Routes {
   stats = () => '/stats'
 }
 
-export const routes = new Routes()
+export const routes = new SiteRoutes()

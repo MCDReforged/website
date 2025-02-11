@@ -1,4 +1,4 @@
-import { getGitInfo } from "@/utils/git-info";
+import { getGitInfo } from "@/site/git-info";
 import { MetadataRoute } from "next";
 
 export default async function robots(): Promise<MetadataRoute.Robots> {

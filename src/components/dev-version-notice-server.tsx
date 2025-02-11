@@ -1,4 +1,4 @@
-import { getGitInfo } from "@/utils/git-info";
+import { getGitInfo } from "@/site/git-info";
 import { pick } from "@/utils/i18n-utils";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
