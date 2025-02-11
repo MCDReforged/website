@@ -20,6 +20,7 @@ interface UrlProvider {
 }
 
 interface NavItem {
+  disabled?: boolean
   icon: (props: IconProps) => React.ReactNode,
   key: string
   href: (urls?: UrlProvider) => string
@@ -27,7 +28,7 @@ interface NavItem {
   checkActive: (pathname: string) => boolean
 }
 
-const navItems: NavItem[] = [
+const allNavItems: NavItem[] = [
   {
     icon: IconHome,
     key: 'home',
@@ -43,6 +44,7 @@ const navItems: NavItem[] = [
     checkActive: (pathname: string) => pathname === routes.catalogue() || pathname.startsWith(routes.pluginBase() + '/'),
   },
   {
+    disabled: true,
     icon: IconChartBar,
     key: 'stats',
     href: (urls) => '/stats',
@@ -57,6 +59,10 @@ const navItems: NavItem[] = [
     checkActive: (pathname: string) => false,
   },
 ]
+
+function getNavItems(): NavItem[] {
+  return allNavItems.filter(navItem => !navItem.disabled)
+}
 
 interface NavBarLinkProps {
   className?: string
@@ -86,7 +92,13 @@ function NavbarLink({className, showIcon, item, ...props}: NavBarLinkProps) {
   )
 }
 
-function BurgerNavMenuSwitch({className, opened, toggleOpened}: {className?: string, opened: boolean, toggleOpened: () => void}) {
+interface BurgerNavMenuSwitchProps {
+  className?: string
+  opened: boolean
+  toggleOpened: () => void
+}
+
+function BurgerNavMenuSwitch({className, opened, toggleOpened}: BurgerNavMenuSwitchProps) {
   return (
     <Burger
       className={className}
@@ -96,17 +108,23 @@ function BurgerNavMenuSwitch({className, opened, toggleOpened}: {className?: str
   )
 }
 
-function DesktopNavBar({className, navOpened, navToggle}: { className?: string, navOpened: boolean, navToggle: () => void}) {
+interface DesktopNavBarProps {
+  className?: string
+  navOpened: boolean
+  navToggle: () => void
+}
+
+function DesktopNavBar(props: DesktopNavBarProps) {
   // < 340px:   = [] OOO
   // < sm   :   = []MCDR   OOO
   // >= sm  :   = []MCDR xxx    OOO
   return (
     <div className={clsx(
-      className,
+      props.className,
       "flex flex-row flex-nowrap gap-4 items-center justify-between",
       "max-w-screen-xl w-full px-4 sm:px-6",
     )}>
-      <BurgerNavMenuSwitch className="sm:hidden" opened={navOpened} toggleOpened={navToggle}/>
+      <BurgerNavMenuSwitch className="sm:hidden" opened={props.navOpened} toggleOpened={props.navToggle}/>
 
       <div className="gap-3 justify-start max-sm:grow">
         <NaLink className="flex items-center gap-1" color="foreground" href="/">
@@ -116,7 +134,9 @@ function DesktopNavBar({className, navOpened, navToggle}: { className?: string, 
       </div>
 
       <div className="hidden sm:flex gap-3 justify-start ml-2 grow">
-        {navItems.map((item) => <NavbarLink key={item.key} item={item} showIcon={false}/>)}
+        {getNavItems().map((item) => (
+          <NavbarLink key={item.key} item={item} showIcon={false}/>
+        ))}
       </div>
 
       <div className="justify-end flex gap-2 items-center">
@@ -129,7 +149,12 @@ function DesktopNavBar({className, navOpened, navToggle}: { className?: string, 
   )
 }
 
-function MobileNavMenu({navOpened, setClosed}: {  navOpened: boolean, setClosed: () => void}) {
+interface MobileNavMenuProps {
+  navOpened: boolean
+  setClosed: () => void
+}
+
+function MobileNavMenu(props: MobileNavMenuProps) {
   return (
     <Box
       className={clsx(
@@ -137,15 +162,15 @@ function MobileNavMenu({navOpened, setClosed}: {  navOpened: boolean, setClosed:
         "border-solid border-b border-mantine-border-card",
         styles.mobileNavMenu,
       )}
-      mod={{hidden: !navOpened}}
+      mod={{hidden: !props.navOpened}}
     >
       <div className="flex flex-col gap-2 max-w-screen-xl mx-auto">
-        {navItems.map((item) => (
+        {getNavItems().map((item) => (
           <NavbarLink
             key={item.key} item={item}
             className="h-[3rem] w-full"
             showIcon={true}
-            onClick={setClosed}
+            onClick={props.setClosed}
           />
         ))}
       </div>
@@ -167,7 +192,7 @@ export function Navbar() {
       >
         <div className="scrollbar-shift-fix grow flex flex-col items-center">
           <DesktopNavBar navOpened={navOpened} navToggle={navOpener.toggle}/>
-          <MobileNavMenu navOpened={navOpened} setClosed={navOpener.close}/>
+          <MobileNavMenu  navOpened={navOpened} setClosed={navOpener.close}/>
         </div>
       </header>
     </>
