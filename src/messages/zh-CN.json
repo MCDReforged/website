@@ -28,7 +28,8 @@
     },
     "github_proxy_switch": {
       "label": "使用 GitHub Proxy 加速",
-      "tooltip": "使用 https://mirror.ghproxy.com/ 来优化中国大陆地区的下载速度"
+      "tooltip": "使用 {url} 来优化中国大陆地区的下载速度",
+      "homepage_icon": "点我访问 {url}"
     },
     "pip_install_code_highlight": {
       "copy": "复制代码",

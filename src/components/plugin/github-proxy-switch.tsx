@@ -22,7 +22,7 @@ export function GithubProxySwitch({className}: {className?: string}) {
         classNames={{label: 'select-none'}}
         color="teal"
         label={
-          <Tooltip label={t('tooltip')} openDelay={500}>
+          <Tooltip label={t('tooltip', {url: githubProxyHomepage})} openDelay={500}>
             <p>{t('label')}</p>
           </Tooltip>
         }
@@ -31,7 +31,9 @@ export function GithubProxySwitch({className}: {className?: string}) {
       />
 
       <NaLink href={githubProxyHomepage} hoverColor>
-        <IconRocket size={18} stroke={1.5}/>
+        <Tooltip label={t('homepage_icon', {url: githubProxyHomepage})} openDelay={1000}>
+          <IconRocket size={18} stroke={1.5}/>
+        </Tooltip>
       </NaLink>
     </div>
   )

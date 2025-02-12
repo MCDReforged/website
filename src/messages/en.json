@@ -28,7 +28,8 @@
     },
     "github_proxy_switch": {
       "label": "Use GitHub Proxy",
-      "tooltip": "Use https://mirror.ghproxy.com/ to speed up plugin download in China mainland"
+      "tooltip": "Use {url} to speed up plugin download in China mainland",
+      "homepage_icon": "Click me to visit {url}"
     },
     "pip_install_code_highlight": {
       "copy": "Copy code",
