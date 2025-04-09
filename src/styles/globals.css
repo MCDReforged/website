@@ -1,19 +1,7 @@
 /* ============= Layer setups ============= */
-/* https://mantine.dev/styles/mantine-styles/#css-layers */
-/* https://github.com/mantinedev/mantine/issues/6109 */
-/* https://github.com/orgs/mantinedev/discussions/1672#discussioncomment-10777394 */
-/* https://github.com/songkeys/next-app-mantine-tailwind-template/blob/b50ed8d3b8707988493ab4d0f481d5a379a109cf/src/app/globals.css */
-
-@layer tw_base, mantine, tw_components, tw_utilities;
-
-/*noinspection CssInvalidImport*/
-@import "tailwindcss/base" layer(tw_base);
-/*noinspection CssInvalidImport*/
-@import "tailwindcss/components" layer(tw_components);
-/*noinspection CssInvalidImport*/
-@import "tailwindcss/utilities" layer(tw_utilities);
-/*noinspection CssInvalidImport*/
-@import "@mantine/core/styles.layer.css";
+/* https://github.com/Songkeys/tailwind-preset-mantine */
+@import "tailwind-preset-mantine";
+@config "../../tailwind.config.ts";
 
 /* ============= Common tweaks ============= */
 

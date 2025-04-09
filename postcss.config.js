@@ -1,11 +1,7 @@
 /** @type {import('postcss-load-config').Config} */
 module.exports = {
   plugins: {
-    'postcss-import': {},
-    'tailwindcss/nesting': {},
-    tailwindcss: {},
-    autoprefixer: {},
-    // https://mantine.dev/guides/next/#postcss-setup
+    '@tailwindcss/postcss': {},
     'postcss-preset-mantine': {},
     'postcss-simple-vars': {
       variables: {
