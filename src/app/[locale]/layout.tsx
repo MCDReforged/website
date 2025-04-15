@@ -56,20 +56,22 @@ export default async function RootLayout(props: RootLayoutProps) {
       </head>
       <body className="scrollbar-shift-fix">
         <MantineThemeProvider>
-          <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
-            <RouterTransition/>
+          <NextIntlClientProvider locale={locale}>
+            <div className={clsx("relative flex flex-col min-h-screen", styles.mainContainer)}>
+              <RouterTransition/>
 
-            <NextIntlClientProvider locale={locale} messages={pick(messages, ['layout.nav_bar', 'urls'])}>
-              <Navbar/>
-            </NextIntlClientProvider>
+              <NextIntlClientProvider messages={pick(messages, ['layout.nav_bar', 'urls'])}>
+                <Navbar/>
+              </NextIntlClientProvider>
 
-            <main className="flex-grow pt-navbar-height">
-              {children}
-            </main>
+              <main className="flex-grow pt-navbar-height">
+                {children}
+              </main>
 
-            <DevVersionNoticeServer/>
-            <Footer/>
-          </div>
+              <DevVersionNoticeServer/>
+              <Footer/>
+            </div>
+          </NextIntlClientProvider>
         </MantineThemeProvider>
 
         <VercelScripts/>
