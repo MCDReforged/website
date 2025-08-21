@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
   // References for path usages
   // 1. https://nextjs.org/docs/app/api-reference/functions/revalidatePath
   // 2. https://github.com/vercel/next.js/blob/bd605245aae4c8545bdd38a597b89ad78ca3d978/packages/next/src/server/lib/patch-fetch.ts#L78
-  revalidatePath('/[locale]/plugins/p', 'layout')
+  revalidatePath('/[locale]/plugin', 'layout')
+  revalidatePath('/[locale]/plugin/[pluginId]', 'layout')
   revalidatePath('/[locale]/plugins', 'layout')
   revalidatePath('/[locale]', 'layout')
   revalidatePath('/plugins', 'layout')
