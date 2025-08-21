@@ -1,5 +1,5 @@
 # ref: https://github.com/vercel/next.js/blob/1d5338f767b7e80a7a64e1e846da3cfc3abe1d13/examples/with-docker/Dockerfile
-FROM node:18-alpine AS base
+FROM node:22-alpine AS base
 
 WORKDIR /app
 RUN apk add --no-cache gcompat  # https://github.com/nodejs/docker-node/blob/efc560b6676c2ff477b27b4045443f3fb12f1632/README.md#nodealpine
