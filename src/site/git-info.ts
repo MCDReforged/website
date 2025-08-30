@@ -22,14 +22,14 @@ async function tryGetGitInfoFromCommand(): Promise<GitInfo | undefined> {
   try {
     const execAsync = promisify(exec)
 
-    const execOptions: ExecOptions = { timeout: 1500 }
+    const execOptions: ExecOptions = { timeout: 1500, encoding: 'utf8' }
     const [branchResult, commitHashResult] = await Promise.all([
       execAsync('git rev-parse --abbrev-ref HEAD', execOptions),
       execAsync('git rev-parse HEAD', execOptions)
     ])
 
-    const branch = branchResult.stdout.trim()
-    const commitHash = commitHashResult.stdout.trim()
+    const branch = branchResult.stdout.toString().trim()
+    const commitHash = commitHashResult.stdout.toString().trim()
     if (branch && commitHash) {
       return {
         branch, commitHash,
