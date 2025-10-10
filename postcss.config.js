@@ -1,5 +1,5 @@
 /** @type {import('postcss-load-config').Config} */
-module.exports = {
+const config = {
   plugins: {
     '@tailwindcss/postcss': {},
     'postcss-preset-mantine': {},
@@ -14,3 +14,4 @@ module.exports = {
     },
   },
 }
+export default config

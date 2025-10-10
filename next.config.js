@@ -1,7 +1,10 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+import createNextBundleAnalyzer from "@next/bundle-analyzer";
+import createNextIntl from "next-intl/plugin";
+
+const withBundleAnalyzer = createNextBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
-const withNextIntl = require('next-intl/plugin')()
+const withNextIntl = createNextIntl()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer(withNextIntl({
@@ -17,4 +20,4 @@ const nextConfig = withBundleAnalyzer(withNextIntl({
   output: process.env.VERCEL ? undefined : 'standalone',
 }))
 
-module.exports = nextConfig
+export default nextConfig
