@@ -15,7 +15,7 @@ export const siteConfig = {
 
   // Files to sync:
   // - "src/messages" translation files
-  // - "config.matcher" in "src/middleware.ts"
+  // - "config.matcher" in "src/proxy.ts"
   languages: [
     'en',
     'zh-CN',

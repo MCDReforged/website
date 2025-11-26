@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   revalidatePath('/[locale]', 'layout')
   revalidatePath('/plugins', 'layout')
   revalidatePath('/', 'layout')
-  revalidateTag('catalogue')
+  revalidateTag('catalogue', 'max')
 
   const msg: string = 'All catalogue pages are revalidated'
   console.log(msg)
