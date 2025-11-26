@@ -82,7 +82,7 @@
     "plugin_list": {
       "sidebar": {
         "plugin_filter": "插件筛选",
-        "plugin_filter_name": "插件 ID / 插件名",
+        "plugin_filter_name": "插件 ID / 插件名 / 插件描述",
         "plugin_filter_author": "插件作者",
         "label_filter": "标签筛选",
         "sort_order": "排序方式",

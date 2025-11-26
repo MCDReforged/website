@@ -49,7 +49,9 @@ export function filterPlugins(plugins: SimplePlugin[], ds: DisplayStrategy) {
       const kw = ds.nameKeyword.toLowerCase()
       const id = plugin.id.toLowerCase()
       const name = plugin.name.toLowerCase()
-      if (!isSubsequence(kw, id) && !isSubsequence(kw, name)) {
+      const descriptionValues = Object.values(plugin.description).map(desc => desc.toLowerCase())
+      const matchesDescription = descriptionValues.some(desc => isSubsequence(kw, desc))
+      if (!isSubsequence(kw, id) && !isSubsequence(kw, name) && !matchesDescription) {
         return false
       }
     }

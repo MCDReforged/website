@@ -82,7 +82,7 @@
     "plugin_list": {
       "sidebar": {
         "plugin_filter": "Plugin Filter",
-        "plugin_filter_name": "ID / Name",
+        "plugin_filter_name": "ID / Name / Description",
         "plugin_filter_author": "Author",
         "label_filter": "Label Filter",
         "sort_order": "Sort order",
