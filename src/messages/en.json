@@ -97,6 +97,8 @@
           "recentUpdate": "Last Update"
         },
         "sort_reversed": "Reversed",
+        "expand": "Expand",
+        "collapse": "Collapse",
 
         "stats": "Statistics",
         "sync_at": "Synced at",

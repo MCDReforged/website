@@ -2,7 +2,8 @@
 
 import { SimpleEverything } from "@/catalogue/simple-types";
 import { clsx } from "clsx";
-import { useState } from "react";
+import React, { useState } from "react";
+import { ExpandButton } from "./sidebar-common";
 import { ControlCard } from "./sidebar-control";
 import { StatsCard } from "./sidebar-stats";
 
@@ -11,8 +12,21 @@ export function Sidebar({everything}: { everything: SimpleEverything }) {
 
   return (
     <div className="mx-[8px] flex flex-col gap-5">
-      <ControlCard everything={everything} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-      <StatsCard everything={everything} className={clsx(isExpanded ? 'block' : 'hidden', 'md:block')}/>
+      <ControlCard
+        everything={everything}
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+      />
+      <StatsCard
+        everything={everything}
+        className={clsx(isExpanded ? 'block' : 'hidden', 'md:block')}
+      />
+      {isExpanded && <ExpandButton
+        buttonVariant="light"
+        className="md:hidden"
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+      />}
     </div>
   )
 }

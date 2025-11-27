@@ -97,6 +97,8 @@
           "recentUpdate": "最近更新"
         },
         "sort_reversed": "逆序",
+        "expand": "展开",
+        "collapse": "收起",
 
         "stats": "统计信息",
         "sync_at": "数据同步于",

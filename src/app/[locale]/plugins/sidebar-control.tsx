@@ -3,14 +3,14 @@
 import { SimpleEverything } from "@/catalogue/simple-types";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { pluginLabels } from "@/site/catalogue";
-import { ActionIcon, Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
-import { IconChevronDown, IconChevronUp, IconFilter, IconUser } from "@tabler/icons-react";
+import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
+import { IconFilter, IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 import React, { useContext } from "react";
 import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
-import { CardSection, SidebarCard } from "./sidebar-common";
+import { CardSection, ExpandButton, SidebarCard } from "./sidebar-common";
 
 function FilterTextInput({Icon, onChanged, label, placeholder, defaultValue}: {
   Icon: typeof IconFilter, onChanged: (_: string) => void, label: string, placeholder: string, defaultValue: string
@@ -70,12 +70,7 @@ export function ControlCard({everything, isExpanded, setIsExpanded}: ControlCard
   return (
     <SidebarCard>
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
-          <p className="text-lg font-bold">{t('plugin_filter')}</p>
-          <ActionIcon className="md:hidden" variant="transparent" onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? <IconChevronUp /> : <IconChevronDown />}
-          </ActionIcon>
-        </div>
+        <p className="text-lg font-bold mb-2">{t('plugin_filter')}</p>
         <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} defaultValue={ds.nameKeyword} label={t('plugin_filter_name')} placeholder="backup"/>
         <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} defaultValue={ds.authorKeyword} label={t('plugin_filter_author')} placeholder="fallen"/>
       </div>
@@ -124,6 +119,14 @@ export function ControlCard({everything, isExpanded, setIsExpanded}: ControlCard
           />
         </CardSection>
       </div>
+
+      {!isExpanded && <ExpandButton
+        buttonVariant="subtle"
+        className="md:hidden"
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+      />}
+
     </SidebarCard>
   )
 }
