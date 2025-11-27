@@ -3,10 +3,11 @@
 import { SimpleEverything } from "@/catalogue/simple-types";
 import { PluginLabel } from "@/components/plugin/plugin-label";
 import { pluginLabels } from "@/site/catalogue";
-import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
-import { IconFilter, IconUser } from "@tabler/icons-react";
+import { ActionIcon, Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
+import { IconChevronDown, IconChevronUp, IconFilter, IconUser } from "@tabler/icons-react";
+import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 import { CardSection, SidebarCard } from "./sidebar-common";
@@ -59,52 +60,65 @@ export function ControlCard({everything}: { everything: SimpleEverything }) {
     ds.sortReversed = checked
     updateDs()
   }
+  const [isExpanded, setIsExpanded] = useState(false)
 
   return (
     <SidebarCard>
-      <CardSection title={t('plugin_filter')} className="gap-0.5">
+      <div className="flex flex-col">
+        <div className="flex justify-between items-center">
+          <p className="text-lg font-bold">{t('plugin_filter')}</p>
+          <ActionIcon className="md:hidden" variant="transparent" onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? <IconChevronUp /> : <IconChevronDown />}
+          </ActionIcon>
+        </div>
         <FilterTextInput Icon={IconFilter} onChanged={onNameFilterTextChanged} defaultValue={ds.nameKeyword} label={t('plugin_filter_name')} placeholder="backup"/>
         <FilterTextInput Icon={IconUser} onChanged={onAuthorFilterTextChanged} defaultValue={ds.authorKeyword} label={t('plugin_filter_author')} placeholder="fallen"/>
-      </CardSection>
+      </div>
 
-      <CardSection title={t('label_filter')} className="gap-1">
-        {pluginLabels.map(label => {
-          const amount = filteredPlugins.filter(plugin => plugin.labels.includes(label)).length
-          return (
-            <div key={label} className="flex flex-row justify-between items-center">
-              <
-                Checkbox
-                defaultChecked={ds.selectedLabels.includes(label)}
-                value={label}
-                radius="sm"
-                label={<PluginLabel label={label} descPos="right"/>}
-                onChange={event => onLabelFilterCheckboxChanged(label, event.currentTarget.checked)}
-              />
-              <p>{amount}x</p>
+      <div className={clsx(
+        'flex flex-col gap-5',
+        isExpanded ? 'flex' : 'hidden',
+        'md:flex',
+      )}>
+        <CardSection title={t('label_filter')} className="gap-1">
+          {pluginLabels.map(label => {
+            const amount = filteredPlugins.filter(plugin => plugin.labels.includes(label)).length
+            return (
+              <div key={label} className="flex flex-row justify-between items-center">
+                <
+                  Checkbox
+                  defaultChecked={ds.selectedLabels.includes(label)}
+                  value={label}
+                  radius="sm"
+                  label={<PluginLabel label={label} descPos="right"/>}
+                  onChange={event => onLabelFilterCheckboxChanged(label, event.currentTarget.checked)}
+                />
+                <p>{amount}x</p>
+              </div>
+            )
+          })}
+        </CardSection>
+
+        <CardSection title={t('sort_order')} className="gap-1.5">
+          <RadioGroup defaultValue={ds.sortOrder ?? sortOrderDefault} onChange={onSortOrderRatioSet}>
+            <div className="flex flex-col gap-1.5">
+              {sortOrders.map(so => (
+                <Radio
+                  key={so} value={so}
+                  classNames={{label: 'text-[15px]'}}
+                  label={t(`sort_order_type.${so}`)}
+                />
+              ))}
             </div>
-          )
-        })}
-      </CardSection>
-
-      <CardSection title={t('sort_order')} className="gap-1.5">
-        <RadioGroup defaultValue={ds.sortOrder ?? sortOrderDefault} onChange={onSortOrderRatioSet}>
-          <div className="flex flex-col gap-1.5">
-            {sortOrders.map(so => (
-              <Radio
-                key={so} value={so}
-                classNames={{label: 'text-[15px]'}}
-                label={t(`sort_order_type.${so}`)}
-              />
-            ))}
-          </div>
-        </RadioGroup>
-        <Switch
-          className="mt-1"
-          label={t('sort_reversed')}
-          checked={ds.sortReversed}
-          onChange={event => onSortReversedCheckboxSet(event.currentTarget.checked)}
-        />
-      </CardSection>
+          </RadioGroup>
+          <Switch
+            className="mt-1"
+            label={t('sort_reversed')}
+            checked={ds.sortReversed}
+            onChange={event => onSortReversedCheckboxSet(event.currentTarget.checked)}
+          />
+        </CardSection>
+      </div>
     </SidebarCard>
   )
 }
