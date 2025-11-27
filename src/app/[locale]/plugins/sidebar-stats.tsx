@@ -1,15 +1,17 @@
+'use client'
+
 import { SimpleEverything } from "@/catalogue/simple-types";
 import { AttributeEntry } from "@/components/attribute-entry";
 import { ClickableTooltip } from "@/components/clickable-tooltip";
 import { TimeAgoDynamic } from "@/components/time-ago-dynamic";
 import { prettyNumber } from "@/utils/unit-utils";
 import { IconFileDownload, IconPackages, IconRefresh, IconUsers } from "@tabler/icons-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { CardSection, SidebarCard } from "./sidebar-common";
 
-export async function StatsCard({everything}: { everything: SimpleEverything }) {
-  const t = await getTranslations('page.plugin_list.sidebar')
+export function StatsCard({everything, className}: { everything: SimpleEverything, className?: string }) {
+  const t = useTranslations('page.plugin_list.sidebar')
 
   const allPlugins = Object.values(everything.plugins)
   const authorAmount = everything.authors.amount
@@ -18,7 +20,7 @@ export async function StatsCard({everything}: { everything: SimpleEverything }) 
   const downloadSumNeat = prettyNumber(downloadSum, 1)
 
   return (
-    <SidebarCard>
+    <SidebarCard className={className}>
       <CardSection title={t('stats')} className="gap-1.5">
         <div className="grid grid-cols-2 gap-3">
           <AttributeEntry Icon={IconRefresh} label={t('sync_at')}>

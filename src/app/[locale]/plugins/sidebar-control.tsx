@@ -7,7 +7,7 @@ import { ActionIcon, Checkbox, Radio, RadioGroup, Switch, TextInput } from "@man
 import { IconChevronDown, IconChevronUp, IconFilter, IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
 import { CardSection, SidebarCard } from "./sidebar-common";
@@ -29,7 +29,13 @@ function FilterTextInput({Icon, onChanged, label, placeholder, defaultValue}: {
   )
 }
 
-export function ControlCard({everything}: { everything: SimpleEverything }) {
+interface ControlCardProps {
+  everything: SimpleEverything
+  isExpanded: boolean
+  setIsExpanded: (isExpanded: boolean) => void
+}
+
+export function ControlCard({everything, isExpanded, setIsExpanded}: ControlCardProps) {
   const t = useTranslations('page.plugin_list.sidebar')
   const {dsHolder: {value: ds}, setDsHolder} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const allPlugins = Object.values(everything.plugins)
@@ -60,7 +66,6 @@ export function ControlCard({everything}: { everything: SimpleEverything }) {
     ds.sortReversed = checked
     updateDs()
   }
-  const [isExpanded, setIsExpanded] = useState(false)
 
   return (
     <SidebarCard>
