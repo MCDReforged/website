@@ -1,4 +1,5 @@
 import { SimplePlugin } from "@/catalogue/simple-types";
+import { translateLangDict } from "@/utils/i18n-utils";
 import { Dispatch, SetStateAction } from "react";
 
 interface SortOrderConfig {
@@ -43,14 +44,13 @@ function isSubsequence(keyword: string, s: string) {
   return idx === keyword.length;
 }
 
-export function filterPlugins(plugins: SimplePlugin[], ds: DisplayStrategy) {
+export function filterPlugins(plugins: SimplePlugin[], ds: DisplayStrategy, locale: string) {
   return plugins.filter((plugin: SimplePlugin) => {
     if (ds.nameKeyword !== '') {
       const kw = ds.nameKeyword.toLowerCase()
       const id = plugin.id.toLowerCase()
       const name = plugin.name.toLowerCase()
-      const descriptionValues = Object.values(plugin.description).map(desc => desc.toLowerCase())
-      const matchesDescription = descriptionValues.some(desc => desc.toLowerCase().includes(kw.toLowerCase()))
+      const matchesDescription = (translateLangDict(locale, plugin.description) || '').toLowerCase().includes(kw.toLowerCase())
       if (!isSubsequence(kw, id) && !isSubsequence(kw, name) && !matchesDescription) {
         return false
       }

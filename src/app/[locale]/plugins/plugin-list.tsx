@@ -3,6 +3,7 @@
 import { SimpleEverything, SimplePlugin } from "@/catalogue/simple-types";
 import { Pagination } from "@mantine/core";
 import { useScrollIntoView } from "@mantine/hooks";
+import { useLocale } from "next-intl";
 import React, { useContext, useEffect, useState } from 'react';
 import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
@@ -17,13 +18,14 @@ let defaultCurrentPage = 1
 export function PluginList({everything}: {everything: SimpleEverything}) {
   const {dsHolder: {value: ds}} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
   const [currentPage, setPageDirect] = useState(defaultCurrentPage)
+  const locale = useLocale()
 
   function setPage(p: number) {
     defaultCurrentPage = p
     setPageDirect(p)
   }
 
-  const plugins: SimplePlugin[] = filterPlugins(Object.values(everything.plugins), ds)
+  const plugins: SimplePlugin[] = filterPlugins(Object.values(everything.plugins), ds, locale)
     .sort((a: SimplePlugin, b: SimplePlugin) => {
       let ret: number
       if (ds.sortOrder === 'downloads' || !ds.sortOrder && 'downloads' == sortOrderDefault) {
@@ -45,7 +47,7 @@ export function PluginList({everything}: {everything: SimpleEverything}) {
   const paginatedPlugins: SimplePlugin[] = plugins.slice((effectivePage - 1) * pluginsPerPage, effectivePage * pluginsPerPage)
 
   useEffect(() => {
-    let clampedPage = Math.max(1, Math.min(currentPage, totalPages))
+    const clampedPage = Math.max(1, Math.min(currentPage, totalPages))
     if (clampedPage !== currentPage) {
       setPage(clampedPage)
     }

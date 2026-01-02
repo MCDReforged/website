@@ -6,7 +6,7 @@ import { pluginLabels } from "@/site/catalogue";
 import { Checkbox, Radio, RadioGroup, Switch, TextInput } from "@mantine/core";
 import { IconFilter, IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useContext } from "react";
 import { DisplayStrategyContextValue, filterPlugins, sortOrderDefault, sortOrders } from "./display-strategy";
 import { DisplayStrategyContext } from "./display-strategy-provider";
@@ -38,8 +38,9 @@ interface ControlCardProps {
 export function ControlCard({everything, isExpanded, setIsExpanded}: ControlCardProps) {
   const t = useTranslations('page.plugin_list.sidebar')
   const {dsHolder: {value: ds}, setDsHolder} = useContext<DisplayStrategyContextValue>(DisplayStrategyContext)
+  const locale = useLocale()
   const allPlugins = Object.values(everything.plugins)
-  const filteredPlugins = filterPlugins(allPlugins, ds)
+  const filteredPlugins = filterPlugins(allPlugins, ds, locale)
 
   const updateDs = () => setDsHolder({value: ds})
   const onNameFilterTextChanged = (text: string) => {
