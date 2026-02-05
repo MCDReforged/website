@@ -10,11 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mantine/core": "^8.3.10",
-    "@mantine/hooks": "^8.3.10",
-    "@mantine/nprogress": "^8.3.10",
-    "@next/bundle-analyzer": "16.1.1",
-    "@tabler/icons-react": "^3.36.0",
+    "@mantine/core": "^8.3.14",
+    "@mantine/hooks": "^8.3.14",
+    "@mantine/nprogress": "^8.3.14",
+    "@next/bundle-analyzer": "16.1.6",
+    "@tabler/icons-react": "^3.36.1",
     "@types/chroma-js": "^3.1.2",
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
@@ -24,16 +24,16 @@
     "chroma-js": "^3.2.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
-    "github-markdown-css": "^5.8.1",
+    "github-markdown-css": "^5.9.0",
     "hast-util-from-html": "^2.0.3",
     "highlight.js": "^11.11.1",
     "i18n-iso-countries": "^7.14.0",
     "mermaid": "^11.12.2",
-    "next": "16.1.1",
-    "next-intl": "4.7.0",
-    "react": "19.2.3",
+    "next": "16.1.6",
+    "next-intl": "4.8.2",
+    "react": "19.2.4",
     "react-chartjs-2": "^5.3.1",
-    "react-dom": "19.2.3",
+    "react-dom": "19.2.4",
     "react-markdown": "^10.1.0",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
@@ -41,15 +41,15 @@
     "remark-gfm": "^4.0.1",
     "remark-github": "^12.0.0",
     "tailwind-preset-mantine": "^3.0.3",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.13",
     "@types/react-dom": "19.2.3",
     "eslint": "^9",
-    "eslint-config-next": "16.1.1",
+    "eslint-config-next": "16.1.6",
     "postcss": "^8.5.6",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
@@ -57,7 +57,7 @@
     "typescript": "^5"
   },
   "overrides": {
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.13",
     "@types/react-dom": "19.2.3"
   },
   "type": "module"
