@@ -9,5 +9,5 @@ interface DataList {
 interface GetDataResponse {
 	start: number
 	end: number
-  data: {[key: string]: DataList[]}
+  data: {[key: string]: DataList[]} | string
 }

@@ -8,7 +8,11 @@ import { pick } from "@/utils/i18n-utils";
 import { getCountryCodeName } from "@/utils/iso-3166-utils";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import { promisify } from "node:util";
+import { gunzip } from "node:zlib";
 import React from "react";
+
+const gunzipAsync = promisify(gunzip)
 
 function getSecondsUntilNextHour(): number {
   const now = new Date()
@@ -52,7 +56,11 @@ export default async function Page() {
   const messages = await getMessages()
   const t = await getTranslations('page.stats')
 
-  const url = 'https://telemetry.mcdreforged.com/api/data'
+  // hack for stupid nextjs fetch cache 2mb limit
+  // see also: https://github.com/vercel/next.js/discussions/48324#discussioncomment-5970103
+  const url = new URL('https://telemetry.mcdreforged.com/api/data')
+  url.searchParams.set('compress_data_with_gzip_base64', 'true')
+
   const fetchRsp = await fetch(url, {
     headers: {
       'Authorization': `Bearer ${getTelemetryApiToken()}`,
@@ -67,6 +75,12 @@ export default async function Page() {
     return <div>Telemetry data fetching failed</div>
   }
   const rsp = (await fetchRsp.json()) as GetDataResponse
+
+  if (typeof rsp.data === 'string') {
+    rsp.data = JSON.parse(
+      (await gunzipAsync(Buffer.from(rsp.data as string, 'base64'))).toString('utf-8')
+    )
+  }
 
   const mainTimestamps = rsp.data['mcdr_instance'][0].timestamps
 
