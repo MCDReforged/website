@@ -31,11 +31,11 @@ async function mapCountryCode(counts: Counts): Promise<Counts> {
 async function getLatestPluginDownloadCounts(): Promise<NestedCounts> {
   const everything = await getEverything()
   const counts: NestedCounts = { keyCounts: {}, subkeyCounts: {} }
-  for (let [pluginId, plugin] of Object.entries(everything.plugins)) {
+  for (const [pluginId, plugin] of Object.entries(everything.plugins)) {
     counts.keyCounts[pluginId] = 0
     counts.subkeyCounts[pluginId] = {}
-    for (let releaseInfo of (plugin.release?.releases || [])) {
-      let downloadCount = releaseInfo.asset.download_count
+    for (const releaseInfo of (plugin.release?.releases || [])) {
+      const downloadCount = releaseInfo.asset.download_count
       counts.keyCounts[pluginId] += downloadCount
       counts.subkeyCounts[pluginId][releaseInfo.meta.version] = downloadCount
     }
@@ -44,7 +44,7 @@ async function getLatestPluginDownloadCounts(): Promise<NestedCounts> {
   const topN = 20
   const topNPlugins = Object.entries(counts.keyCounts).sort((a, b) => a[1] - b[1]).reverse().slice(0, topN).map(([pluginId, _]) => pluginId)
   const topNCounts: NestedCounts = { keyCounts: {}, subkeyCounts: {} }
-  for (let pluginId of topNPlugins) {
+  for (const pluginId of topNPlugins) {
     topNCounts.keyCounts[pluginId] = counts.keyCounts[pluginId]
     topNCounts.subkeyCounts[pluginId] = counts.subkeyCounts[pluginId]
   }
@@ -81,8 +81,9 @@ export default async function Page() {
       (await gunzipAsync(Buffer.from(rsp.data as string, 'base64'))).toString('utf-8')
     )
   }
+  const rspData = rsp.data as DataListDict
 
-  const mainTimestamps = rsp.data['mcdr_instance'][0].timestamps
+  const mainTimestamps = rspData['mcdr_instance'][0].timestamps
 
   function extraLineChartSubkeyValues(key: string, keyType: 'key' | 'subkey', withTotal: boolean): LineChartValues {
     const values: LineChartValues = {}
@@ -90,7 +91,7 @@ export default async function Page() {
     if (withTotal) {
       values[t('line.total')] = sumValues
     }
-    rsp.data[key].forEach(dataList => {
+    rspData[key].forEach(dataList => {
       const valueKey = keyType === 'key' ? dataList.key : dataList.subkey
       if (valueKey) {
         values[valueKey] ??= mainTimestamps.map(() => 0)
@@ -111,11 +112,11 @@ export default async function Page() {
   }
 
   function extractCount(kind: string): NestedCounts {
-    let counts: NestedCounts = {
+    const counts: NestedCounts = {
       keyCounts: {},
       subkeyCounts: {},
     }
-    rsp.data[kind].forEach(dataList => {
+    rspData[kind].forEach(dataList => {
       const key = dataList.key
       const subkey = dataList.subkey
       if (!key) {

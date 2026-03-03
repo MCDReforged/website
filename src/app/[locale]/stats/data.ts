@@ -6,8 +6,12 @@ interface DataList {
  	values: number[]
 }
 
+interface DataListDict {
+	[key: string]: DataList[]
+}
+
 interface GetDataResponse {
 	start: number
 	end: number
-  data: {[key: string]: DataList[]} | string
+  data: DataListDict | string
 }
