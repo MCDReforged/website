@@ -134,7 +134,8 @@
         "introduction": "介绍",
         "readme": "自述文件",
         "releases": "发行版",
-        "dependencies": "依赖"
+        "dependencies": "依赖",
+        "update_report": "更新问题"
       },
       "introduction": {
         "plugin_catalogue": "插件仓库",
@@ -169,6 +170,12 @@
         "meta_source": "元数据来源：{src}",
         "meta_source_latest_release": "最新版本 {version}",
         "meta_source_branch": "Git 的 {branch} 分支"
+      },
+      "update_report": {
+        "failures": "失败",
+        "warnings": "警告",
+        "error_type": "异常类型",
+        "error_message": "异常信息"
       }
     },
     "stats": {

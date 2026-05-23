@@ -1,4 +1,4 @@
-type PluginTab = 'introduction' | 'readme' | 'releases' | 'dependencies'
+export type PluginTab = 'introduction' | 'readme' | 'releases' | 'dependencies' | 'alerts'
 
 class SiteRoutes {
   home = () => '/'

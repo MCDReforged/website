@@ -134,7 +134,8 @@
         "introduction": "Introduction",
         "readme": "README",
         "releases": "Releases",
-        "dependencies": "Dependencies"
+        "dependencies": "Dependencies",
+        "update_report": "Update Problems"
       },
       "introduction": {
         "plugin_catalogue": "Plugin Catalogue",
@@ -169,6 +170,12 @@
         "meta_source": "Metadata source: {src}",
         "meta_source_latest_release": "Latest version {version}",
         "meta_source_branch": "Git branch {branch}"
+      },
+      "update_report": {
+        "failures": "Failures",
+        "warnings": "Warnings",
+        "error_type": "Error type",
+        "error_message": "Error message"
       }
     },
     "stats": {

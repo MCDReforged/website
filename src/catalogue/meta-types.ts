@@ -29,6 +29,7 @@ export interface AllOfAPlugin {
   plugin: PluginInfo
   release: ReleaseSummary | null
   repository: RepositoryInfo | null
+  update_report: PluginUpdateReport | null
 }
 
 export interface MetaInfo {
@@ -98,4 +99,15 @@ export interface RepositoryInfo {
 
 	readme: string | null
 	readme_url: string | null
+}
+
+export interface PluginUpdateReport {
+  failures: PluginUpdateReportEntry[]
+  warnings: PluginUpdateReportEntry[]
+}
+
+export interface PluginUpdateReportEntry {
+  message: string
+  error_type: string | null
+  error_message: string | null
 }

@@ -5,15 +5,15 @@ import { getLocale, getMessages } from "next-intl/server";
 import React from "react";
 import { PluginContentCardTabs } from "./plugin-content-card-tabs";
 
-export async function PluginContentCard({pluginId, children}: { pluginId: string, children: React.ReactNode }) {
+export async function PluginContentCard({pluginId, hasUpdateReport, children}: { pluginId: string, hasUpdateReport: boolean, children: React.ReactNode }) {
   const locale = await getLocale()
   const messages = await getMessages()
 
   return (
-    <CommonCard className="mx-[8px] md:mx-3 pb-6 pt-2">
+    <CommonCard className="mx-2 md:mx-3 pb-6 pt-2">
       <div>
         <NextIntlClientProvider locale={locale} messages={pick(messages, 'page.plugin.tabs')}>
-          <PluginContentCardTabs pluginId={pluginId}/>
+          <PluginContentCardTabs pluginId={pluginId} hasUpdateReport={hasUpdateReport}/>
         </NextIntlClientProvider>
         <div className="py-2 px-1 sm:px-4">
           {children}

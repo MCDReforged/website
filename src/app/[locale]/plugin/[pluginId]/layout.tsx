@@ -1,5 +1,6 @@
 import { createSimplePlugin } from "@/catalogue/conversion";
 import { getEverything, getPlugin, getPluginOr404 } from "@/catalogue/data";
+import { hasPluginUpdateReport } from "@/catalogue/update-report";
 import { CommonContentLayout } from "@/components/layout/common-content-layout";
 import { staticParamsMaxSize } from "@/utils/build-utils";
 import { Divider } from "@mantine/core";
@@ -50,7 +51,7 @@ export default async function Layout(props: LayoutProps) {
         <Divider className="w-full m-6" variant="dashed"/>
       </div>
       <div className="md:pl-sidebar-width">
-        <PluginContentCard pluginId={pluginId}>
+        <PluginContentCard pluginId={pluginId} hasUpdateReport={hasPluginUpdateReport(plugin)}>
           {children}
         </PluginContentCard>
       </div>
