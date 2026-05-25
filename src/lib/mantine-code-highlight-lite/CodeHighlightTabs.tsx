@@ -104,10 +104,11 @@ const varsResolver = createVarsResolver<CodeHighlightTabsFactory>((_, { maxColla
   root: { '--ch-max-collapsed-height': rem(maxCollapsedHeight) },
 }));
 
-export const CodeHighlightTabs = factory<CodeHighlightTabsFactory>((_props, ref) => {
+export const CodeHighlightTabs = factory<CodeHighlightTabsFactory>((_props) => {
   const { hljs } = useContext(HighlightContext);
   const props = useProps('CodeHighlightTabs', defaultProps, _props);
   const {
+    ref,
     classNames,
     className,
     style,

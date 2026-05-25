@@ -30,10 +30,10 @@ const defaultProps: Partial<InlineCodeHighlightProps> = {
   language: 'tsx',
 };
 
-export const InlineCodeHighlight = factory<InlineCodeHighlightFactory>((_props, ref) => {
+export const InlineCodeHighlight = factory<InlineCodeHighlightFactory>((_props) => {
   const { hljs } = useContext(HighlightContext);
   const props = useProps('InlineCodeHighlight', defaultProps, _props);
-  const { classNames, className, style, styles, unstyled, vars, code, language, ...others } = props;
+  const { ref, classNames, className, style, styles, unstyled, vars, code, language, ...others } = props;
 
   const getStyles = useStyles<InlineCodeHighlightFactory>({
     name: 'InlineCodeHighlight',

@@ -46,9 +46,10 @@ const defaultProps: Partial<CodeHighlightProps> = {
   withCopyButton: true,
 };
 
-export const CodeHighlight = factory<CodeHighlightFactory>((_props, ref) => {
+export const CodeHighlight = factory<CodeHighlightFactory>((_props) => {
   const props = useProps('CodeHighlight', defaultProps, _props);
   const {
+    ref,
     classNames,
     className,
     style,
