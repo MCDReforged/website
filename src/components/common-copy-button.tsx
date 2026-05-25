@@ -27,7 +27,7 @@ export function CommonCopyButton(props: CommonCopyButtonProps) {
               onClick={copy}
               size="sm"
             >
-              <Icon size={iconSize} color={copied ? 'green' : undefined}/>
+              <Icon size={iconSize} color={copied ? 'green' : 'var(--mantine-color-dimmed)'}/>
             </ActionIcon>
           </Tooltip>
         )

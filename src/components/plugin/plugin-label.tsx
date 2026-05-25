@@ -64,7 +64,8 @@ export function PluginLabel({label, descPos}: PluginLabelProps) {
   const cfg = labelConfigMapping[label] ?? unknownConfig
   let badge = (
     <Badge
-      classNames={{root: "px-2 border-1 border-solid font-medium text-[12px]"}}
+      classNames={{root: "px-2 border-1 border-solid text-[12px]"}}
+      fw={500}
       variant="light-bordered"
       color={cfg.color}
       radius="md"

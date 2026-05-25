@@ -12,6 +12,12 @@ export const variantColorResolver: VariantColorsResolver = (input) => {
     })
     result.border = `${rem(1)} solid ${rgba(parsedColor.value, 0.7)}`
     result.color = darken(parsedColor.value, 0.1)
+
+    // Mantine 9 changed the `light` variant to use solid colors instead of transparency.
+    // Restore the Mantine 8.x-style transparent backgrounds explicitly.
+    result.background = rgba(parsedColor.value, 0.1)
+    result.hover = rgba(parsedColor.value, 0.12)
+
   } else {
     result = defaultVariantColorsResolver(input)
   }
@@ -25,4 +31,6 @@ export const siteTheme = createTheme({
   primaryColor: 'indigo',
   cursorType: 'pointer',
   variantColorResolver: variantColorResolver,
+  // Mantine 9.x changed defaultRadius from 'sm' (4px) to 'md' (8px); keep the previous value
+  defaultRadius: 'sm',
 })
