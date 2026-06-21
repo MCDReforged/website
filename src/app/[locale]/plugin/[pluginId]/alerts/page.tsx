@@ -97,6 +97,9 @@ async function PageContent({plugin}: { plugin: AllOfAPlugin }) {
 
   return (
     <div className="flex flex-col gap-6">
+      <p className="rounded-sm border px-3 py-2 text-sm text-mantine-dimmed" style={{borderColor: 'var(--mantine-color-default-border)'}}>
+        {t('note')}
+      </p>
       <ReportSection title={t('failures')} entries={report.failures} kind="failure" texts={texts}/>
       <ReportSection title={t('warnings')} entries={report.warnings} kind="warning" texts={texts}/>
     </div>

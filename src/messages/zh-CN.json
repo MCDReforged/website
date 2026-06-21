@@ -172,6 +172,7 @@
         "meta_source_branch": "Git 的 {branch} 分支"
       },
       "update_report": {
+        "note": "这些信息来自插件仓库的更新检查，用于帮助插件作者和维护者定位元数据、发布包或仓库同步问题。它并不表示插件无法安装或使用；普通用户可以安全地忽略本页。",
         "failures": "失败",
         "warnings": "警告",
         "error_type": "异常类型",

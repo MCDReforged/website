@@ -172,6 +172,7 @@
         "meta_source_branch": "Git branch {branch}"
       },
       "update_report": {
+        "note": "These messages come from the plugin catalogue update check. They are intended for plugin authors and maintainers diagnosing metadata, release package, or repository sync problems. They do not mean the plugin cannot be installed or used; regular users can safely ignore this page.",
         "failures": "Failures",
         "warnings": "Warnings",
         "error_type": "Error type",
