@@ -47,6 +47,7 @@ contributing guidelines from `raw.githubusercontent.com`.
 | Variable | Required | Description |
 | --- | --- | --- |
 | `MW_CATALOGUE_REPO` | no | catalogue repository, defaults to `MCDReforged/PluginCatalogue` |
+| `MW_CATALOGUE_BRANCH` | no | the catalogue's default branch, defaults to `master` |
 | `MW_GITHUB_API_BASE` | no | GitHub API base url, defaults to `https://api.github.com` |
 | `MW_DISABLE_PLUGIN_SUBMISSION` | no | set to `true` to turn the feature off |
 

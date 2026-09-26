@@ -1,7 +1,7 @@
 import { getEverything } from '@/catalogue/data'
 import { CommonContentLayout } from '@/components/layout/common-content-layout'
 import { getGuidelines } from '@/server/guidelines'
-import { getCatalogueRepo, getGithubApiBase, isPluginSubmissionEnabled } from '@/utils/environment-utils'
+import { getCatalogueBranch, getCatalogueRepo, getGithubApiBase, isPluginSubmissionEnabled } from '@/utils/environment-utils'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import React from 'react'
 import { SubmitWizard } from './submit-wizard'
@@ -29,6 +29,7 @@ export default async function Page(props: { params: Promise<{ locale: string }> 
         guidelines={guidelines}
         enabled={isPluginSubmissionEnabled()}
         catalogueRepo={getCatalogueRepo()}
+        catalogueBranch={getCatalogueBranch()}
         apiBase={getGithubApiBase()}
         catalogueIds={catalogueIds}
       />

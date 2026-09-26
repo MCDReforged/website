@@ -3,7 +3,7 @@
 import { toPluginRelative } from '@/utils/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
 import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/utils/github-api'
-import { getRepoDetail, getRepoInfo, resolvePluginCandidate } from '@/submit/repo'
+import { getRepoDetail, resolvePluginCandidate } from '@/submit/repo'
 import { firstExistingRawFile, rawFileExists } from '@/utils/github-raw'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
@@ -51,9 +51,11 @@ const STEP_GUIDELINES = 1
 const STEP_DETAILS = 2
 const STEP_REVIEW = 3
 
-export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, catalogueIds }: {
+export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBranch, apiBase, catalogueIds }: {
   guidelines: Guidelines | null
   enabled: boolean
+  /** the catalogue's default branch, which a submission targets */
+  catalogueBranch: string
   /** ids already in the catalogue, from the site's cached catalogue data */
   catalogueIds: string[]
   /** the catalogue submissions are prepared for, e.g. `MCDReforged/PluginCatalogue` */
@@ -107,23 +109,20 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
     const name = catalogueRepo.split('/')[1]
     const forkFullName = `${loginValue}/${name}`
     const isCatalogueItself = forkFullName.toLowerCase() === catalogueRepo.toLowerCase()
-    const [catalogue, forkFile] = await Promise.all([
-      getRepoInfo(catalogueRepo),
-      // a fork carries the catalogue's own files, so one of these proves it exists — and costs no
-      // api quota. A miss proves nothing (the file could be missing, or the network could be down),
-      // which is why the wording never claims the fork is absent.
-      isCatalogueItself
-        ? Promise.resolve(null)
-        : firstExistingRawFile(forkFullName, 'HEAD', FORK_PROBE_FILES),
-    ])
+    // A fork carries the catalogue's own files, so one of these proves it exists — and costs no api
+    // quota. A miss proves nothing (the file could be missing, or the network could be down), which
+    // is why the wording never claims the fork is absent.
+    const forkFile = isCatalogueItself
+      ? null
+      : await firstExistingRawFile(forkFullName, 'HEAD', FORK_PROBE_FILES)
     // A fork that is merely behind is harmless (a pull request is diffed from the merge base), but
     // commits the catalogue does not have ride along into the pull request, so they are worth one
     // api call to detect. `compare` answers both directions at once, which no file probe can.
     let forkAheadBy = 0
     if (forkFile !== null) {
-      const branch = catalogue.default_branch
       const compare = await githubRequest<GithubCompare>(
-        `/repos/${catalogueRepo}/compare/${encodeURIComponent(branch)}...${loginValue}:${encodeURIComponent(branch)}`,
+        `/repos/${catalogueRepo}/compare/${encodeURIComponent(catalogueBranch)}`
+        + `...${loginValue}:${encodeURIComponent(catalogueBranch)}`,
       ).catch(() => null)
       forkAheadBy = compare?.ahead_by ?? 0
     }
@@ -132,9 +131,8 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
       login: loginValue,
       forkExists: forkFile !== null,
       forkAheadBy,
-      branch: catalogue.default_branch,
     })
-  }, [catalogueRepo])
+  }, [catalogueBranch, catalogueRepo])
 
   const describeError = useCallback((err: unknown) => {
     if (err instanceof GithubApiError) {
@@ -390,7 +388,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
   // without the fork lookup the link assumes the fork exists, which is what the steps below tell the
   // user to create; the branch is the catalogue's, and master is what every catalogue checked uses
   const targetRepo = forkStatus !== null ? (ownsCatalogue ? catalogueRepo : forkName) : `${login}/${catalogueName}`
-  const catalogueBranch = forkStatus?.branch ?? 'master'
   const newFileUrl = canSubmit && pluginInfoJson !== null && submissionPath.length > 0 && targetRepo.length > 0
     ? buildNewFileUrl(targetRepo, catalogueBranch, submissionPath, pluginInfoJson)
     : null

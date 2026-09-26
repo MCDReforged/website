@@ -162,6 +162,4 @@ export interface ForkStatus {
   forkExists: boolean
   /** commits in the fork that the catalogue does not have; they ride along into the pull request */
   forkAheadBy: number
-  /** the branch a new file has to be created on: the fork's default branch, or the catalogue's */
-  branch: string
 }
