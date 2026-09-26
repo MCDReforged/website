@@ -37,6 +37,7 @@ import {
 } from '@tabler/icons-react'
 import { GfmMarkdownDynamic } from '@/components/markdown/gfm-markdown-dynamic'
 import { useLocale, useTranslations } from 'next-intl'
+import { useMediaQuery } from '@mantine/hooks'
 import React, { useCallback, useEffect, useState } from 'react'
 import { SubmissionReportView } from './submission-report'
 
@@ -77,6 +78,8 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
   const t = useTranslations('page.submit')
   const tLabel = useTranslations('component.plugin_label')
   const locale = useLocale()
+  // four labelled steps do not fit a phone in a row, they wrap into a ragged mess
+  const isNarrow = useMediaQuery('(max-width: 48em)')
 
   const [session, setSession] = useState<SessionResponse | null>(null)
   const [sessionLoading, setSessionLoading] = useState(true)
@@ -354,7 +357,12 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
         </Alert>
       )}
 
-      <Stepper active={step} onStepClick={setStep} allowNextStepsSelect={false}>
+      <Stepper
+        active={step}
+        onStepClick={setStep}
+        allowNextStepsSelect={false}
+        orientation={isNarrow ? 'vertical' : 'horizontal'}
+      >
         <Stepper.Step label={t('steps.select')} allowStepClick={false}>
           <Stack gap="md" mt="md">
             {session?.authenticated ? (
@@ -516,23 +524,24 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
             <div>
               <Stack gap="xs" mt={4}>
                 {authors.map((author, index) => (
-                  <Group key={index} align="flex-end" gap="xs" wrap="nowrap">
+                  <Group key={index} align="flex-end" gap="xs" wrap={isNarrow ? 'wrap' : 'nowrap'}>
                     <TextInput
-                      label={index === 0 ? t('details.authors') : undefined}
+                      label={index === 0 || isNarrow ? t('details.authors') : undefined}
                       value={author.name}
                       onChange={event => setAuthors(previous => previous.map((a, i) => i === index ? { ...a, name: event.currentTarget.value } : a))}
-                      style={{ flex: 1 }}
+                      style={{ flex: 1, minWidth: isNarrow ? '100%' : undefined }}
                       required
                     />
                     <TextInput
-                      label={index === 0 ? t('details.author_link') : undefined}
+                      label={index === 0 || isNarrow ? t('details.author_link') : undefined}
                       value={author.link ?? ''}
                       onChange={event => setAuthors(previous => previous.map((a, i) => i === index ? { ...a, link: event.currentTarget.value } : a))}
-                      style={{ flex: 1 }}
+                      style={{ flex: 1, minWidth: isNarrow ? '100%' : undefined }}
                     />
                     <Button
                       variant="subtle"
                       color="red"
+                      className={isNarrow ? 'ml-auto' : undefined}
                       onClick={() => setAuthors(previous => previous.filter((_, i) => i !== index))}
                       aria-label={t('details.remove_author')}
                     >
@@ -657,7 +666,7 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                       <Paper withBorder p="md">
                         <Group justify="space-between" mb="xs">
                           <Text fw={500}>{t('review.preview')}</Text>
-                          <Badge variant="light">{`plugins/${validation.pluginInfo.id}/plugin_info.json`}</Badge>
+                          <Badge variant="light" tt="none">{`plugins/${validation.pluginInfo.id}/plugin_info.json`}</Badge>
                         </Group>
                         <Code block>{JSON.stringify(validation.pluginInfo, null, 4)}</Code>
                       </Paper>
