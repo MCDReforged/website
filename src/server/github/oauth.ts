@@ -4,8 +4,11 @@ import { GithubUser, githubRequest } from './client'
 const AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
 const TOKEN_URL = 'https://github.com/login/oauth/access_token'
 
-/** Least privilege scope: read public repos, fork public repos, open PRs on public repos. */
-export const OAUTH_SCOPE = 'public_repo'
+/**
+ * No scope is requested at all. The flow only reads public repositories, and GitHub's default for
+ * a scope-less token is "read-only access to public information". Opening the pull request happens
+ * on github.com itself, so this app never asks for write access to anything.
+ */
 
 export function isOAuthConfigured(): boolean {
   return getGithubOAuthClientId() !== undefined && getGithubOAuthClientSecret() !== undefined
@@ -29,7 +32,6 @@ export function buildAuthorizeUrl(redirectUri: string, state: string): string {
   const url = new URL(AUTHORIZE_URL)
   url.searchParams.set('client_id', clientId)
   url.searchParams.set('redirect_uri', redirectUri)
-  url.searchParams.set('scope', OAUTH_SCOPE)
   url.searchParams.set('state', state)
   return url.toString()
 }

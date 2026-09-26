@@ -1,4 +1,4 @@
-import { GithubApiError, GithubGitTree, GithubRepo, encodeRepoPath, githubRequest, sleep } from '@/server/github/client'
+import { GithubApiError, GithubGitTree, GithubRepo, encodeRepoPath, githubRequest } from '@/server/github/client'
 import {
   asString,
   AuthorLinkContext,
@@ -276,6 +276,7 @@ export async function getRepoDetail(
 
 // ---- fork helpers ---- //
 
+/** `null` when the repository does not exist (or is not visible to this token). */
 export async function tryGetRepo(token: string, fullName: string): Promise<GithubRepo | null> {
   try {
     return await getRepoInfo(token, fullName)
@@ -284,36 +285,5 @@ export async function tryGetRepo(token: string, fullName: string): Promise<Githu
       return null
     }
     throw error
-  }
-}
-
-export async function ensureFork(
-  token: string,
-  upstream: string,
-  forkFullName: string,
-  timeoutMs: number = 15000,
-): Promise<void> {
-  const existing = await tryGetRepo(token, forkFullName)
-  if (existing !== null) {
-    if (!existing.fork || existing.parent?.full_name?.toLowerCase() !== upstream.toLowerCase()) {
-      throw new Error(
-        `A repository named ${forkFullName} already exists but is not a fork of ${upstream}. ` +
-        'Please rename or delete it, then try again.',
-      )
-    }
-    return
-  }
-
-  await githubRequest(`/repos/${upstream}/forks`, { token, method: 'POST', body: {} })
-
-  const deadline = Date.now() + timeoutMs
-  for (;;) {
-    if (await tryGetRepo(token, forkFullName) !== null) {
-      return
-    }
-    if (Date.now() > deadline) {
-      throw new Error(`Timed out waiting for the fork ${forkFullName} to be created, please retry in a moment.`)
-    }
-    await sleep(500)
   }
 }

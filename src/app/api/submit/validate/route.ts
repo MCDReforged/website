@@ -1,6 +1,5 @@
 import { handleRouteError, jsonError } from '@/server/api-utils'
 import { getSession } from '@/server/session'
-import { createSubmissionPr } from '@/server/submit/create-pr'
 import { SubmitForm } from '@/server/submit/types'
 import { validateSubmission } from '@/server/submit/validate'
 import { isPluginSubmissionEnabled } from '@/utils/environment-utils'
@@ -41,6 +40,10 @@ function parseSubmitForm(raw: unknown): SubmitForm {
   }
 }
 
+/**
+ * Runs the catalogue's checks against a submission and reports what the catalogue would show.
+ * Nothing is created: the pull request itself is opened on github.com by the user.
+ */
 export async function POST(request: NextRequest) {
   if (!isPluginSubmissionEnabled()) {
     return jsonError(503, 'Plugin submission is not enabled on this deployment')
@@ -57,17 +60,8 @@ export async function POST(request: NextRequest) {
     return jsonError(400, 'Invalid JSON body')
   }
 
-  const form = parseSubmitForm(body.form)
-  const dryRun = body.dryRun !== false
-
   try {
-    const validation = await validateSubmission(session.token, form)
-    if (dryRun || validation.errors.length > 0 || validation.pluginInfo === null) {
-      return NextResponse.json({ dryRun: true, ...validation })
-    }
-
-    const result = await createSubmissionPr(session.token, session.login, validation.pluginInfo)
-    return NextResponse.json({ dryRun: false, result })
+    return NextResponse.json(await validateSubmission(session.token, parseSubmitForm(body.form)))
   } catch (error) {
     return handleRouteError(error)
   }

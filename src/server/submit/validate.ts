@@ -45,8 +45,17 @@ const LICENSE_FILE_REGEX = /^(licen[cs]e|copying)([-.].*)?$/i
  * API use the repository's default branch, which saves a `GET /repos/{repo}` round trip.
  */
 export async function fetchExistingPluginIds(token: string, upstream: string): Promise<string[]> {
-  const entries = await githubRequest<{ name: string, type: string }[]>(`/repos/${upstream}/contents/plugins`, { token })
-  return entries.filter(entry => entry.type === 'dir').map(entry => entry.name)
+  try {
+    const entries = await githubRequest<{ name: string, type: string }[]>(`/repos/${upstream}/contents/plugins`, { token })
+    return entries.filter(entry => entry.type === 'dir').map(entry => entry.name)
+  } catch (error) {
+    // a catalogue without a plugins directory has nothing to collide with; the catalogue's own
+    // check remains the authority on duplicate ids, so this must not block a submission
+    if (error instanceof GithubApiError && error.status === 404) {
+      return []
+    }
+    throw error
+  }
 }
 
 function normalizeIntroduction(introduction: Record<string, string> | undefined): Record<string, string> {

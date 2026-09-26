@@ -84,7 +84,7 @@
         "review": "确认"
       },
       "login": {
-        "hint": "授权后本站将可以列出你的公开仓库、fork 目录库，并以你的身份发起 Pull Request。",
+        "hint": "本站会向 GitHub 申请只读读取你的公开仓库，用于列出仓库并校验提交内容。Pull Request 在 GitHub 网站上创建，因此本站不会索取任何写权限。",
         "button": "使用 GitHub 登录",
         "logged_in_as": "已登录：{login}",
         "logout": "退出登录"
@@ -138,9 +138,23 @@
         "tab_report": "报告",
         "tab_json": "JSON",
         "unavailable": "暂无内容，请先修正上方的问题。",
-        "preview": "将添加到插件仓库的文件",
-        "submit": "创建 Pull Request",
-        "submitting": "正在创建 Pull Request..."
+        "preview": "将添加到插件仓库的文件"
+      },
+      "submit": {
+        "title": "提交到目录库",
+        "fork_step": "1. 创建 {repo} 的 fork",
+        "fork_button": "在 GitHub 上创建 fork",
+        "fork_exists": "你已经有 {repo} 了，可以跳过这一步。",
+        "fork_conflict": "你的账号下已有名为 {repo} 的仓库，但它不是目录库的 fork。GitHub 会给新建的 fork 换个名字，方便的话请先把它改名或删除。",
+        "direct_hint": "你对 {repo} 有写权限，文件会直接创建在那里，不需要 fork。",
+        "file_step": "2. 在 {repo} 中新建 {path}",
+        "file_button": "在 GitHub 上创建文件",
+        "copy": "复制 plugin_info.json",
+        "copied": "已复制",
+        "file_hint": "路径和内容都已经填好。提交时选择「Create a new branch for this commit and start a pull request」，GitHub 会顺带把 PR 建好。",
+        "order_hint": "请先做第 1 步：fork 还没建好时，第 2 个链接不能用。",
+        "loading": "正在检查你的 fork…",
+        "blocked": "请先修正上面的问题再提交。"
       },
       "report": {
         "plugin_info_title": "插件信息",
@@ -162,13 +176,6 @@
           "dependencies": "依赖",
           "homepage": "主页"
         }
-      },
-      "result": {
-        "title": "Pull Request 已创建！",
-        "open_pr": "打开 Pull Request #{number}",
-        "created_fork": "分支 `{branch}` 已推送到你 fork 的目录库。",
-        "created_direct": "分支 `{branch}` 已推送到目录库。",
-        "again": "再提交一个插件"
       },
       "issues": {
         "id_invalid": "`{id}` 不是合法的插件 ID。请使用小写字母、数字和下划线，以字母开头，且不超过 64 个字符。",

@@ -1,9 +1,9 @@
 'use client'
 
 import { routes } from '@/site/routes'
-import type { Guidelines, PluginCandidate, PluginInfoAuthor, RepoDetail, RepoListItem, SubmitIssue, ValidationResult } from '@/server/submit/types'
 import { toPluginRelative } from '@/utils/plugin-path-utils'
-import { parseRepoSpec } from '@/utils/github-repo-utils'
+import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, parseRepoSpec } from '@/utils/github-repo-utils'
+import { ForkStatus, Guidelines, PluginCandidate, PluginInfoAuthor, RepoDetail, RepoListItem, SubmitIssue, ValidationResult } from '@/server/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/server/submit/types'
 import {
   Alert,
@@ -12,6 +12,7 @@ import {
   Badge,
   Button,
   Code,
+  CopyButton,
   Divider,
   Group,
   Loader,
@@ -31,8 +32,10 @@ import {
   IconBrandGithub,
   IconCheck,
   IconCircleCheck,
+  IconCopy,
   IconExternalLink,
-  IconGitPullRequest,
+  IconFileText,
+  IconGitFork,
   IconPlus,
   IconTrash,
 } from '@tabler/icons-react'
@@ -47,18 +50,6 @@ interface SessionResponse {
   authenticated: boolean
   catalogueRepo: string
   user?: { login: string, name: string | null, avatarUrl: string | null }
-}
-
-interface CreatePrResult {
-  prUrl: string
-  prNumber: number
-  branch: string
-  targetRepo: string
-  forked: boolean
-}
-
-interface SubmitResponse extends ValidationResult {
-  result?: CreatePrResult
 }
 
 async function api<T>(url: string, init?: RequestInit): Promise<T> {
@@ -108,10 +99,10 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
   const [step, setStep] = useState(STEP_SELECT)
   const [validation, setValidation] = useState<ValidationResult | null>(null)
   const [validating, setValidating] = useState(false)
-  const [prResult, setPrResult] = useState<CreatePrResult | null>(null)
-  const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [oauthError, setOauthError] = useState<string | null>(null)
+  /** where the submitter's own fork of the catalogue stands */
+  const [forkStatus, setForkStatus] = useState<ForkStatus | null>(null)
 
   // ---- session ---- //
   useEffect(() => {
@@ -123,6 +114,9 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
         setSession(data)
         // always start on the first step, even when already signed in, so that signing out stays reachable
         setStep(STEP_SELECT)
+        if (data.authenticated) {
+          void api<ForkStatus>('/api/submit/fork-status').then(setForkStatus).catch(() => setForkStatus(null))
+        }
       })
       .catch(err => setError(err.message))
       .finally(() => setSessionLoading(false))
@@ -210,7 +204,6 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
     setLabels([])
     setIntroduction({})
     setValidation(null)
-    setPrResult(null)
   }, [])
 
   const onSelectRepo = useCallback((value: string) => {
@@ -273,11 +266,11 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
     introduction,
   }), [repo, branch, relatedPath, pluginId, authors, labels, introduction])
 
-  const callSubmit = useCallback(async (dryRun: boolean) => {
-    return api<SubmitResponse>('/api/submit', {
+  const callValidate = useCallback(async () => {
+    return api<ValidationResult>('/api/submit/validate', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ dryRun, form: buildForm() }),
+      body: JSON.stringify({ form: buildForm() }),
     })
   }, [buildForm])
 
@@ -285,32 +278,14 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
     setValidating(true)
     setError(null)
     try {
-      const data = await callSubmit(true)
-      setValidation(data)
+      setValidation(await callValidate())
       setStep(STEP_REVIEW)
     } catch (err) {
       setError((err as Error).message)
     } finally {
       setValidating(false)
     }
-  }, [callSubmit])
-
-  const createPullRequest = useCallback(async () => {
-    setBusy(true)
-    setError(null)
-    try {
-      const data = await callSubmit(false)
-      if (data.result) {
-        setPrResult(data.result)
-      } else {
-        setValidation(data)
-      }
-    } catch (err) {
-      setError((err as Error).message)
-    } finally {
-      setBusy(false)
-    }
-  }, [callSubmit])
+  }, [callValidate])
 
   const loginHref = `/api/auth/github/login?next=${encodeURIComponent(`/${locale}${routes.submit()}`)}`
   // the catalogue ships one guideline file per language; prefer the one the server could actually load
@@ -339,6 +314,21 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
     : pluginIdError === 'not_found' ? t('details.plugin_id_not_found')
       : pluginIdError === 'invalid' ? t('details.plugin_id_invalid')
         : pluginIdError
+
+  // ---- handing the commit over to github ---- //
+  const catalogueRepo = session?.catalogueRepo ?? 'MCDReforged/PluginCatalogue'
+  const catalogueName = catalogueRepo.split('/')[1]
+  const forkName = forkStatus !== null ? `${forkStatus.login}/${catalogueName}` : ''
+  const canSubmit = validation !== null && validation.errors.length === 0 && validation.pluginInfo !== null
+  // the json is written the way the catalogue already formats its files
+  const pluginInfoJson = validation?.pluginInfo ? buildPluginInfoJson(validation.pluginInfo) : null
+  const submissionPath = validation?.pluginInfo ? `plugins/${validation.pluginInfo.id}/plugin_info.json` : ''
+  // a maintainer commits to the catalogue itself, anyone else to their own fork of it
+  const directToCatalogue = forkStatus?.canPushToCatalogue === true
+  const targetRepo = forkStatus === null ? null : directToCatalogue ? catalogueRepo : forkName
+  const newFileUrl = canSubmit && pluginInfoJson !== null && submissionPath.length > 0 && forkStatus !== null && targetRepo !== null
+    ? buildNewFileUrl(targetRepo, forkStatus.branch, submissionPath, pluginInfoJson)
+    : null
 
   if (sessionLoading) {
     return <Group justify="center" p="xl"><Loader/></Group>
@@ -414,8 +404,10 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                     if (typed.length === 0 || typed === repo) {
                       return
                     }
-                    // still narrowing the list down, the user is about to pick an option
-                    if (repoData.some(item => item.value.toLowerCase().startsWith(typed.toLowerCase()))) {
+                    // still narrowing the list down: a listed repository starts with what was typed
+                    // and is longer, so the user is about to pick it from the dropdown
+                    if (repoData.some(item => item.value.length > typed.length
+                      && item.value.toLowerCase().startsWith(typed.toLowerCase()))) {
                       return
                     }
                     // a pasted url is the same repository, reduce it to owner/repository
@@ -651,28 +643,6 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
 
         <Stepper.Step label={t('steps.review')}>
           <Stack gap="md" mt="md">
-            {prResult ? (
-              <>
-                <Alert color="green" icon={<IconCircleCheck/>}>{t('result.title')}</Alert>
-                <Button
-                  component="a"
-                  href={prResult.prUrl}
-                  target="_blank"
-                  leftSection={<IconGitPullRequest size={18}/>}
-                  rightSection={<IconExternalLink size={16}/>}
-                  w="fit-content"
-                >
-                  {t('result.open_pr', { number: prResult.prNumber })}
-                </Button>
-                <Text size="sm" c="dimmed">
-                  {t(prResult.forked ? 'result.created_fork' : 'result.created_direct', { branch: prResult.branch })}
-                </Text>
-                <Button variant="default" w="fit-content" onClick={() => window.location.reload()}>
-                  {t('result.again')}
-                </Button>
-              </>
-            ) : (
-              <>
                 {validation && validation.errors.length > 0 && (
                   <Alert color="red" title={t('review.errors')} icon={<IconAlertTriangle/>}>
                     {issues(validation.errors)}
@@ -697,13 +667,13 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                   </Tabs.Panel>
 
                   <Tabs.Panel value="json" pt="md">
-                    {validation?.pluginInfo ? (
+                    {pluginInfoJson !== null ? (
                       <Paper withBorder p="md">
                         <Group justify="space-between" mb="xs">
                           <Text fw={500}>{t('review.preview')}</Text>
-                          <Badge variant="light" tt="none">{`plugins/${validation.pluginInfo.id}/plugin_info.json`}</Badge>
+                          <Badge variant="light" tt="none">{submissionPath}</Badge>
                         </Group>
-                        <Code block>{JSON.stringify(validation.pluginInfo, null, 4)}</Code>
+                        <Code block>{pluginInfoJson}</Code>
                       </Paper>
                     ) : (
                       <Text size="sm" c="dimmed">{t('review.unavailable')}</Text>
@@ -711,19 +681,87 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                   </Tabs.Panel>
                 </Tabs>
 
+                {/* The commit itself happens on github.com: this app never asks for write access,
+                    so the pull request is opened by the user in github's own editor. */}
+                {canSubmit && pluginInfoJson !== null ? (
+                  <Paper withBorder p="md">
+                    <Stack gap="sm">
+                      <Text fw={500}>{t('submit.title')}</Text>
+
+                      {directToCatalogue ? (
+                        <Text size="sm">{t('submit.direct_hint', { repo: catalogueRepo })}</Text>
+                      ) : (
+                        <div>
+                          <Text size="sm" fw={500}>{t('submit.fork_step', { repo: catalogueRepo })}</Text>
+                          {forkStatus?.forkExists && forkStatus.forkOfCatalogue ? (
+                            <Text size="sm" c="dimmed">{t('submit.fork_exists', { repo: forkName })}</Text>
+                          ) : (
+                            <Stack gap="xs" mt={4} align="flex-start">
+                              <Button
+                                component="a"
+                                href={buildForkUrl(catalogueRepo)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant="light"
+                                leftSection={<IconGitFork size={18}/>}
+                                rightSection={<IconExternalLink size={16}/>}
+                              >
+                                {t('submit.fork_button')}
+                              </Button>
+                              {forkStatus?.forkExists && !forkStatus.forkOfCatalogue && (
+                                <Alert color="yellow" icon={<IconAlertTriangle/>} p="xs">
+                                  {t('submit.fork_conflict', { repo: forkName })}
+                                </Alert>
+                              )}
+                            </Stack>
+                          )}
+                        </div>
+                      )}
+
+                      <div>
+                        <Text size="sm" fw={500}>{t('submit.file_step', { path: submissionPath, repo: targetRepo ?? '' })}</Text>
+                        {newFileUrl !== null ? (
+                          <Group mt={4}>
+                            <Button
+                              component="a"
+                              href={newFileUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              leftSection={<IconFileText size={18}/>}
+                              rightSection={<IconExternalLink size={16}/>}
+                            >
+                              {t('submit.file_button')}
+                            </Button>
+                            <CopyButton value={pluginInfoJson} timeout={2000}>
+                              {({ copied, copy }) => (
+                                <Button
+                                  variant="default"
+                                  onClick={copy}
+                                  leftSection={copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
+                                >
+                                  {copied ? t('submit.copied') : t('submit.copy')}
+                                </Button>
+                              )}
+                            </CopyButton>
+                          </Group>
+                        ) : (
+                          <Text size="sm" c="dimmed">{t('submit.loading')}</Text>
+                        )}
+                        <Text size="sm" c="dimmed" mt={4}>{t('submit.file_hint')}</Text>
+                      </div>
+
+                      {!directToCatalogue && (
+                        <Text size="xs" c="dimmed">{t('submit.order_hint')}</Text>
+                      )}
+                    </Stack>
+                  </Paper>
+                ) : (
+                  <Alert color="gray" icon={<IconAlertTriangle/>}>{t('submit.blocked')}</Alert>
+                )}
+
                 <Group>
                   <Button variant="default" onClick={() => setStep(STEP_DETAILS)}>{t('actions.back')}</Button>
-                  <Button
-                    onClick={createPullRequest}
-                    disabled={!validation || validation.errors.length > 0}
-                    loading={busy}
-                    leftSection={<IconGitPullRequest size={18}/>}
-                  >
-                    {busy ? t('review.submitting') : t('review.submit')}
-                  </Button>
                 </Group>
-              </>
-            )}
           </Stack>
         </Stepper.Step>
 

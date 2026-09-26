@@ -82,10 +82,6 @@ export function encodeRepoPath(path: string): string {
   return path.split('/').map(encodeURIComponent).join('/')
 }
 
-export function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 // ---- Minimal API response shapes ---- //
 
 export interface GithubUser {

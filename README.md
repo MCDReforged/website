@@ -35,9 +35,10 @@ npm run build
 ## Plugin submission
 
 The website can let users sign in with GitHub, pick a plugin repository, validate the
-`plugin_info.json` it is about to add, and open a submission pull request to the plugin
-catalogue. The feature is optional: without the environment variables below the submission
-page just shows a notice.
+`plugin_info.json` it is about to add, and then hand the commit over to github.com: the wizard
+links to the fork page and to a "create file" page that already carries the path and the file
+content, so the pull request is opened entirely in github's own editor. The feature is optional:
+without the environment variables below the submission page just shows a notice.
 
 Create a GitHub OAuth App, then configure:
 
@@ -57,8 +58,8 @@ Register these callback URLs on the OAuth App:
 - `https://website-dev.mcdreforged.com/api/auth/github/callback`
 - `http://localhost:3000/api/auth/github/callback`
 
-The requested scope is `public_repo`: list the user's public repositories, fork the catalogue,
-and open a pull request on the user's behalf. The access token is kept in an encrypted,
-httpOnly cookie and is never exposed to the browser; every GitHub call is proxied by the
-server. When the user can already push to the catalogue, the branch is created in the
-catalogue itself instead of a fork.
+No scope is requested at all, so the consent screen asks for read-only access to public
+information and the app can never write anything: listing the user's public repositories and
+checking a submission is everything it does. The access token is kept in an encrypted, httpOnly
+cookie and is never exposed to the browser; every GitHub call is proxied by the server, and it is
+used for reads only.

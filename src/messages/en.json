@@ -84,7 +84,7 @@
         "review": "Review"
       },
       "login": {
-        "hint": "You will be asked to grant access to your public repositories, so that this site can list them, fork the catalogue, and open the pull request on your behalf.",
+        "hint": "This site asks GitHub for read-only access to your public repositories, so that it can list them and check your submission. The pull request is opened on github.com, so no write access is ever requested.",
         "button": "Sign in with GitHub",
         "logged_in_as": "Signed in as {login}",
         "logout": "Sign out"
@@ -138,9 +138,23 @@
         "tab_report": "Report",
         "tab_json": "JSON",
         "unavailable": "Nothing to show yet, please fix the problems above.",
-        "preview": "The file that will be added to the plugin catalogue",
-        "submit": "Create pull request",
-        "submitting": "Creating pull request..."
+        "preview": "The file that will be added to the plugin catalogue"
+      },
+      "submit": {
+        "title": "Submit to the catalogue",
+        "fork_step": "1. Create a fork of {repo}",
+        "fork_button": "Create the fork on GitHub",
+        "fork_exists": "You already have {repo}, so you can skip this step.",
+        "fork_conflict": "You have a repository named {repo}, but it is not a fork of the catalogue. GitHub would create the fork under a different name, so rename or delete it first if you can.",
+        "direct_hint": "You can write to {repo}, so the file goes straight there and no fork is needed.",
+        "file_step": "2. Create {path} in {repo}",
+        "file_button": "Create the file on GitHub",
+        "copy": "Copy plugin_info.json",
+        "copied": "Copied",
+        "file_hint": "The path and the content are filled in for you. When you commit, pick \"Create a new branch for this commit and start a pull request\" and GitHub opens the pull request.",
+        "order_hint": "Do step 1 first: the second link only works once your fork exists.",
+        "loading": "Checking your fork...",
+        "blocked": "Fix the problems listed above before submitting."
       },
       "report": {
         "plugin_info_title": "Plugin info",
@@ -162,13 +176,6 @@
           "dependencies": "Dependencies",
           "homepage": "Homepage"
         }
-      },
-      "result": {
-        "title": "Pull request created!",
-        "open_pr": "Open pull request #{number}",
-        "created_fork": "The branch `{branch}` was pushed to your fork of the catalogue.",
-        "created_direct": "The branch `{branch}` was pushed to the catalogue repository.",
-        "again": "Submit another plugin"
       },
       "issues": {
         "id_invalid": "`{id}` is not a valid plugin id. Use lowercase letters, digits and underscores, start with a letter, and keep it within 64 characters.",

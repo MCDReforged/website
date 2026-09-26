@@ -1,9 +1,10 @@
+import type { PluginInfoJson } from '@/server/submit/types'
+
 /**
- * Reading a repository out of what a user typed or pasted.
+ * GitHub repository identifiers and urls.
  *
- * The submission form only ever wants `owner/repository`, but people paste urls: the repository
- * page, a tree url for a branch, the address bar while browsing an issue. All of those name the
- * same repository, so they are accepted and reduced to `owner/repository`.
+ * Reading a repository out of what a user typed or pasted is the first job here; the last one is
+ * building the urls that hand the rest of the submission over to github.com.
  */
 
 /** GitHub owner and repository names: letters, digits, `-`, `_` and `.`. */
@@ -88,7 +89,6 @@ export function demo(): void {
   accept('https://github.com/alex3236/mcdr-submit-test.git', 'alex3236/mcdr-submit-test')
   accept('git@github.com:alex3236/mcdr-submit-test.git', 'alex3236/mcdr-submit-test')
 
-  // names with the characters github allows
   accept('my-org/my.repo_name', 'my-org/my.repo_name')
   // empty segments are dropped rather than rejected, they are a typo either way
   accept('alex3236//mcdr-submit-test', 'alex3236/mcdr-submit-test')
@@ -104,5 +104,75 @@ export function demo(): void {
   reject('/mcdr-submit-test')
   reject('-bad/name')
 
+  // ---- submission links ---- //
+  const fail = (what: string, value: unknown) => {
+    throw new Error(`repo spec demo failed: ${what}: ${JSON.stringify(value)}`)
+  }
+
+  const forkUrl = buildForkUrl('MCDReforged/PluginCatalogue')
+  if (forkUrl !== 'https://github.com/MCDReforged/PluginCatalogue/fork') {
+    fail('fork url', forkUrl)
+  }
+
+  const json = buildPluginInfoJson({
+    id: 'my_plugin',
+    authors: [{ name: 'Me' }],
+    repository: 'https://github.com/me/plugin',
+    branch: 'master',
+    related_path: '.',
+    labels: ['tool'],
+    introduction: { en_us: 'README.md' },
+  })
+  if (!json.endsWith('\n') || !json.includes('\n    "id"')) {
+    fail('plugin_info.json should be indented json ending in a newline', json)
+  }
+  if (JSON.parse(json).id !== 'my_plugin') {
+    fail('plugin_info.json does not round trip', json)
+  }
+
+  const newFileUrl = new URL(buildNewFileUrl(
+    'alex3236/PluginCatalogue', 'master', 'plugins/my_plugin/plugin_info.json', json,
+  ))
+  if (newFileUrl.origin + newFileUrl.pathname !== 'https://github.com/alex3236/PluginCatalogue/new/master') {
+    fail('new file url', newFileUrl.href)
+  }
+  if (newFileUrl.searchParams.get('filename') !== 'plugins/my_plugin/plugin_info.json') {
+    fail('filename parameter', newFileUrl.searchParams.get('filename'))
+  }
+  // whatever github reads back out of the url has to be the file we mean to commit
+  if (newFileUrl.searchParams.get('value') !== json) {
+    fail('value parameter does not round trip', newFileUrl.searchParams.get('value'))
+  }
+
   console.log('repo spec demo passed')
+}
+
+// ---- submission links ---- //
+
+const GITHUB_WEB = 'https://github.com'
+
+/**
+ * The page that creates a fork of the catalogue under the signed-in account.
+ *
+ * Deliberately without query parameters: github's fork flow runs on this url and rejects the
+ * `filename` / `value` parameters of the file editor, so the fork has to be a step of its own.
+ */
+export function buildForkUrl(catalogueRepo: string): string {
+  return `${GITHUB_WEB}/${catalogueRepo}/fork`
+}
+
+/**
+ * The "create a file" page of a repository the user can write to, with the path and the content
+ * filled in. That is either their fork, or the catalogue itself for its maintainers. Only usable
+ * once the target repository exists — github's fork flow does not carry these parameters.
+ */
+export function buildNewFileUrl(targetRepo: string, branch: string, path: string, content: string): string {
+  const encodedPath = path.split('/').map(encodeURIComponent).join('/')
+  return `${GITHUB_WEB}/${targetRepo}/new/${encodeURIComponent(branch)}`
+    + `?filename=${encodedPath}&value=${encodeURIComponent(content)}`
+}
+
+/** The file to be committed, matching the formatting the catalogue already uses. */
+export function buildPluginInfoJson(pluginInfo: PluginInfoJson): string {
+  return JSON.stringify(pluginInfo, null, 4) + '\n'
 }
