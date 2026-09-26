@@ -26,7 +26,7 @@ function buildPrBody(pluginInfo: PluginInfoJson): string {
   return [
     '### New plugin submission',
     '',
-    '| | |',
+    '| Field | Value |',
     '| --- | --- |',
     `| Plugin ID | \`${pluginInfo.id}\` |`,
     `| Repository | ${pluginInfo.repository} |`,
