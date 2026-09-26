@@ -6,7 +6,7 @@ import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '
 import { getRepoDetail, getRepoInfo, resolvePluginCandidate } from '@/submit/repo'
 import { firstExistingRawFile, rawFileExists } from '@/utils/github-raw'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
-import { ForkStatus, Guidelines, PluginCandidate, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
+import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
 import {
   Alert,
@@ -196,42 +196,38 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
   }, [defaultAuthors])
 
   /**
-   * What is left when the API cannot list the repository: the metadata file is still reachable by
-   * path, so the branch is probed (master / main, plus whatever was asked for) and the id, authors
-   * and the usual readme are recovered from raw. No API call, no quota.
+   * The plugin id is never typed by hand: it is whatever the `mcdreforged.plugin.json` at
+   * `relatedPath` declares, so a manually typed path has to be resolved against the repository.
    */
-  const recoverWithFiles = useCallback(async (repoFullName: string, branchHint: string | null | undefined) => {
-    const tries = [branchHint, 'master', 'main']
-      .filter((candidate): candidate is string => typeof candidate === 'string' && candidate.trim().length > 0)
+  const resolveRelatedPath = useCallback(async (repoFullName: string, branchName: string, path: string) => {
     setResolving(true)
+    setPluginIdError(null)
     try {
-      for (const candidate of tries) {
-        let found: PluginCandidate | null = null
-        try {
-          found = await resolvePluginCandidate(repoFullName, candidate, '.')
-        } catch {
-          continue
-        }
-        if (!found?.metadata.id) {
-          continue
-        }
-        setBranch(candidate)
-        setRelatedPath('.')
-        setPluginId(found.metadata.id)
-        setPluginIdError(null)
+      const candidate = await resolvePluginCandidate(repoFullName, branchName, path, login)
+      if (candidate?.metadata.id) {
+        setPluginId(candidate.metadata.id)
+        setAuthors(candidate.metadata.authors?.length ? candidate.metadata.authors : defaultAuthors(repoFullName))
         setIdFromFile(true)
-        setAuthors(found.metadata.authors?.length ? found.metadata.authors : defaultAuthors(repoFullName))
         // the catalogue wants an introduction, and the plugin's own readme is the usual answer
-        const readme = await rawFileExists(repoFullName, candidate, 'README.md').catch(() => false)
-        if (readme) {
+        const ownReadme = path === '.' ? 'README.md' : `${path}/README.md`
+        const hasReadme = await rawFileExists(repoFullName, branchName, ownReadme).catch(() => false)
+        if (hasReadme) {
           setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
         }
-        return
+      } else {
+        setPluginId('')
+        // nothing readable there means the branch or the directory is wrong; a file that is there
+        // but declares an unusable id is a different problem, and says so
+        setPluginIdError(candidate === null || candidate.error === 'unreadable' ? 'not_found' : 'invalid')
+        setIdFromFile(false)
       }
+    } catch (err) {
+      setPluginId('')
+      setPluginIdError(describeError(err))
     } finally {
       setResolving(false)
     }
-  }, [defaultAuthors])
+  }, [login, describeError, defaultAuthors])
 
   const loadDetail = useCallback(async (repoFullName: string, branchName?: string | null) => {
     setDetailLoading(true)
@@ -250,14 +246,19 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
       setDetail(null)
       // nothing could be read: the submission does not depend on it, so the fields are typed in by
       // hand instead of leaving the wizard stuck here
-      setBranch(previous => previous ?? 'master')
-      setRelatedPath(previous => previous ?? '.')
+      // the api cannot list the repository, but the form already says where the plugin is: the
+      // branch and the directory are the only place worth reading, and if the file is not there
+      // the user's own fields are what need fixing
+      const fallbackBranch = branchName ?? 'master'
+      const fallbackPath = '.'
+      setBranch(previous => previous ?? fallbackBranch)
+      setRelatedPath(previous => previous ?? fallbackPath)
       setAuthors(previous => previous.length > 0 ? previous : defaultAuthors(repoFullName))
-      void recoverWithFiles(repoFullName, branchName)
+      void resolveRelatedPath(repoFullName, fallbackBranch, fallbackPath)
     } finally {
       setDetailLoading(false)
     }
-  }, [applyCandidate, login, describeError, defaultAuthors, recoverWithFiles])
+  }, [applyCandidate, login, describeError, defaultAuthors, resolveRelatedPath])
 
   /**
    * `introduction` values in `plugin_info.json` are relative to the plugin directory, so the picker
@@ -301,32 +302,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
       loadDetail(repo, value)
     }
   }, [repo, loadDetail])
-
-  /**
-   * The plugin id is never typed by hand: it is whatever the `mcdreforged.plugin.json` at
-   * `relatedPath` declares, so a manually typed path has to be resolved against the repository.
-   */
-  const resolveRelatedPath = useCallback(async (repoFullName: string, branchName: string, path: string) => {
-    setResolving(true)
-    setPluginIdError(null)
-    try {
-      const candidate = await resolvePluginCandidate(repoFullName, branchName, path, login)
-      if (candidate?.metadata.id) {
-        setPluginId(candidate.metadata.id)
-        setAuthors(candidate.metadata.authors ?? [])
-        setIdFromFile(true)
-      } else {
-        setPluginId('')
-        setPluginIdError(candidate === null ? 'not_found' : 'invalid')
-        setIdFromFile(false)
-      }
-    } catch (err) {
-      setPluginId('')
-      setPluginIdError(describeError(err))
-    } finally {
-      setResolving(false)
-    }
-  }, [login, describeError])
 
   const onRelatedPathBlur = useCallback(() => {
     if (!repo || !branch || !relatedPath) {
@@ -545,6 +520,13 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
                       description={t('repo.branch_hint')}
                       value={branch ?? ''}
                       onChange={event => setBranch(event.currentTarget.value.trim())}
+                      onBlur={event => {
+                        // the branch decides where the metadata is read from, so a change re-reads it
+                        const value = event.currentTarget.value.trim()
+                        if (repo !== null && value.length > 0) {
+                          void resolveRelatedPath(repo, value, relatedPath ?? '.')
+                        }
+                      }}
                       required
                     />
                     <TextInput
