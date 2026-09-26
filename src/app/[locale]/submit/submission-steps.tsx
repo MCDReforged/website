@@ -134,14 +134,14 @@ export function SubmissionSteps({
                     >
                       {t('step_fork_button')}
                     </Button>
-                    <Text size="xs" c="dimmed">{t('step_fork_or_open')}</Text>
+                    <Text size="sm" c="dimmed">{t('step_fork_or_open')}</Text>
                   </>
                 )}
                 {/* a fork that is behind is harmless — a pull request is diffed from the merge base —
                     but extra commits travel with it */}
                 {forkAheadBy > 0 && (
                   <Alert color="yellow" icon={<IconAlertTriangle size={16}/>} p="xs">
-                    <Text size="xs">{t('fork_ahead', { repo: forkName, count: forkAheadBy })}</Text>
+                    <Text size="sm">{t('fork_ahead', { repo: forkName, count: forkAheadBy })}</Text>
                   </Alert>
                 )}
               </Stack>
