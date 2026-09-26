@@ -4,9 +4,9 @@ import { toPluginRelative } from '@/utils/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
 import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/utils/github-api'
 import { getRepoDetail, getRepoInfo, resolvePluginCandidate } from '@/submit/repo'
-import { firstExistingRawFile } from '@/utils/github-raw'
+import { firstExistingRawFile, rawFileExists } from '@/utils/github-raw'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
-import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
+import { ForkStatus, Guidelines, PluginCandidate, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
 import {
   Alert,
@@ -15,13 +15,13 @@ import {
   Badge,
   Button,
   Code,
-  Divider,
   Group,
   Loader,
   MultiSelect,
   Checkbox,
   Paper,
   Select,
+  Divider,
   Stack,
   Stepper,
   Tabs,
@@ -195,6 +195,44 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
     }
   }, [defaultAuthors])
 
+  /**
+   * What is left when the API cannot list the repository: the metadata file is still reachable by
+   * path, so the branch is probed (master / main, plus whatever was asked for) and the id, authors
+   * and the usual readme are recovered from raw. No API call, no quota.
+   */
+  const recoverWithFiles = useCallback(async (repoFullName: string, branchHint: string | null | undefined) => {
+    const tries = [branchHint, 'master', 'main']
+      .filter((candidate): candidate is string => typeof candidate === 'string' && candidate.trim().length > 0)
+    setResolving(true)
+    try {
+      for (const candidate of tries) {
+        let found: PluginCandidate | null = null
+        try {
+          found = await resolvePluginCandidate(repoFullName, candidate, '.')
+        } catch {
+          continue
+        }
+        if (!found?.metadata.id) {
+          continue
+        }
+        setBranch(candidate)
+        setRelatedPath('.')
+        setPluginId(found.metadata.id)
+        setPluginIdError(null)
+        setIdFromFile(true)
+        setAuthors(found.metadata.authors?.length ? found.metadata.authors : defaultAuthors(repoFullName))
+        // the catalogue wants an introduction, and the plugin's own readme is the usual answer
+        const readme = await rawFileExists(repoFullName, candidate, 'README.md').catch(() => false)
+        if (readme) {
+          setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
+        }
+        return
+      }
+    } finally {
+      setResolving(false)
+    }
+  }, [defaultAuthors])
+
   const loadDetail = useCallback(async (repoFullName: string, branchName?: string | null) => {
     setDetailLoading(true)
     setError(null)
@@ -215,10 +253,11 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
       setBranch(previous => previous ?? 'master')
       setRelatedPath(previous => previous ?? '.')
       setAuthors(previous => previous.length > 0 ? previous : defaultAuthors(repoFullName))
+      void recoverWithFiles(repoFullName, branchName)
     } finally {
       setDetailLoading(false)
     }
-  }, [applyCandidate, login, describeError, defaultAuthors])
+  }, [applyCandidate, login, describeError, defaultAuthors, recoverWithFiles])
 
   /**
    * `introduction` values in `plugin_info.json` are relative to the plugin directory, so the picker

@@ -128,7 +128,7 @@
       },
       "review": {
         "skipped_report": "未生成报告：检查未执行。",
-        "skipped": "GitHub API 当前不可用（配额用尽或网络不通），因此部分检查未能执行。插件元数据、介绍文件、许可证与 id 占用情况已直接通过仓库文件检查；发行版检查与插件目录建议未能执行。",
+        "skipped": "GitHub API 当前不可用（配额用尽或网络不通），部分检查未能执行。",
         "skipped_title": "未执行检查",
         "errors": "请先修正以下问题",
         "warnings": "提示",
@@ -152,7 +152,7 @@
         "step_fork_or_open": "已经 fork 过？在 GitHub 上打开它，跳到下一步。",
         "step_file_hint": "在你的 fork 中创建插件数据。使用此按钮快速创建：",
         "step_file_button": "在 GitHub 上创建文件",
-        "step_file_manual": "或者手动来：在你的 fork 页面点 <addFile>Add file</addFile>，再选 <createFile>Create new file</createFile>，把上面的路径与内容粘进去。",
+        "step_file_manual": "在你的 fork 仓库中，点击 <addFile>Add file</addFile>，选择 <createFile>Create new file</createFile>，粘贴以下路径路径与内容。",
         "step_commit_hint": "点右上角的 <commit>Commit changes...</commit>。提交信息保持默认即可。",
         "step_pr_hint": "在弹出的对话框里选 <option>Create a new branch for this commit and start a pull request</option>，然后点 <propose>Propose changes</propose>，最后点 <create>Create pull request</create>。",
         "no_permission_note": "本页不会向你的 GitHub 账号索取任何权限。绿色按钮是 GitHub 上这些按钮的样子（名称按 GitHub 英文界面）；如果你的界面是中文，按位置找同样的按钮即可。",

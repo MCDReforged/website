@@ -196,7 +196,7 @@ export function SubmissionSteps({
                 </CopyButton>
               </Group>
 
-              <Divider label={t('or_manual')} labelPosition="left" my={2}/>
+              <Text size="sm">{t('or_manual')}</Text>
 
               <Text size="xs" c="dimmed">
                 {t.rich('step_file_manual', {
