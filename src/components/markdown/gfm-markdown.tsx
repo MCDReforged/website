@@ -11,7 +11,7 @@ import { alerts } from "./gfm-markdown-alerts";
 import { HighlightJsHookDynamic } from "./highlight-js-hook-dynamic";
 import { MermaidHook } from "./mermaid-hook";
 import { rehypeGithubAlerts } from "./rehype-plugin-github-alerts";
-import { imageHeightFixer, mermaidTransformer } from "./rehype-plugins";
+import { imageHeightFixer, mermaidTransformer, relativeUrlRewriter } from "./rehype-plugins";
 import "@/styles/github-markdown.css"
 import "@/styles/github-markdown-alert.css"
 
@@ -21,6 +21,8 @@ interface GfmMarkdownProps {
   allowEmbedHtml?: boolean
   allowAnchor?: boolean
   repository?: string
+  /** when set, relative links and images are resolved against this url instead of this website */
+  relativeLinkBase?: string
   [_: string]: any
 }
 
@@ -39,7 +41,7 @@ function CheckMarkdownFeatures(text: string): FeatureFlags {
 
 export default function GfmMarkdown(
   {
-    children, className, allowEmbedHtml, allowAnchor, repository,
+    children, className, allowEmbedHtml, allowAnchor, repository, relativeLinkBase,
     ...markdownProps
   }: GfmMarkdownProps
 ) {
@@ -73,6 +75,10 @@ export default function GfmMarkdown(
   }
   if (allowEmbedHtml) {
     rehypePlugins.push(imageHeightFixer)
+  }
+  if (relativeLinkBase) {
+    // after the sanitizer, so that it only ever adds the base url to already allowed urls
+    rehypePlugins.push([relativeUrlRewriter, { baseUrl: relativeLinkBase }])
   }
   rehypePlugins.push([rehypeGithubAlerts, {alerts}])
   rehypePlugins.push(mermaidTransformer)

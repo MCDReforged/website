@@ -3,7 +3,8 @@
     "title": {
       "catalogue": "Plugin Catalogue",
       "plugin": "{name} - Plugin Catalogue",
-      "plugin_release": "{name} v{version} - Plugin Catalogue"
+      "plugin_release": "{name} v{version} - Plugin Catalogue",
+      "submit": "Submit Plugin"
     }
   },
   "layout": {
@@ -12,7 +13,8 @@
         "home": "Home",
         "plugins": "Plugins",
         "stats": "Stats",
-        "docs": "Document"
+        "docs": "Document",
+        "submit": "Submit Plugin"
       },
       "locale_switch": {
         "en": "English",
@@ -64,6 +66,131 @@
     }
   },
   "page": {
+    "submit": {
+      "title": "Submit a Plugin",
+      "description": "This wizard helps you open a pull request to the plugin catalogue to get your plugin listed.",
+      "target": "Submissions are opened against {repo}",
+      "guidelines": {
+        "hint": "The catalogue has a few requirements for new plugins. Please read the guidelines before continuing.",
+        "link": "Read {file}",
+        "source": "View the original on GitHub",
+        "ack": "I have read the contributing guidelines and confirm that my plugin meets them"
+      },
+      "disabled": "Plugin submission is not enabled on this deployment.",
+      "steps": {
+        "select": "Repository",
+        "guidelines": "Guidelines",
+        "details": "Plugin info",
+        "review": "Review"
+      },
+      "login": {
+        "hint": "You will be asked to grant access to your public repositories, so that this site can list them, fork the catalogue, and open the pull request on your behalf.",
+        "button": "Sign in with GitHub",
+        "logged_in_as": "Signed in as {login}",
+        "logout": "Sign out"
+      },
+      "oauth_errors": {
+        "state_mismatch": "The sign-in attempt expired or was tampered with. Please try again.",
+        "exchange_failed": "GitHub rejected the sign-in attempt. Please try again.",
+        "disabled": "Plugin submission is not enabled on this deployment."
+      },
+      "repo": {
+        "select": "Repository",
+        "search_placeholder": "owner/repository",
+        "nothing_found": "No repository found",
+        "truncated": "Only your 300 most recently pushed repositories are listed.",
+        "branch": "Branch",
+        "related_path": "Plugin directory",
+        "related_path_hint": "The directory that contains mcdreforged.plugin.json, `.` for the repository root",
+        "no_candidates": "No mcdreforged.plugin.json was found in this branch. Check the branch, or type the path manually.",
+        "candidates_truncated": "This repository declares more plugins than can be listed here. Type the plugin directory manually if yours is missing.",
+        "tree_truncated": "This repository is very large, so the file listing may be incomplete."
+      },
+      "details": {
+        "plugin_id": "Plugin ID",
+        "plugin_id_hint": "To change it, edit the id field in mcdreforged.plugin.json in your repository.",
+        "plugin_id_placeholder": "Waiting for the plugin directory",
+        "plugin_id_not_found": "No mcdreforged.plugin.json was found at this path",
+        "plugin_id_invalid": "mcdreforged.plugin.json declares an invalid id",
+        "authors": "Authors",
+        "author_link": "Link",
+        "add_author": "Add author",
+        "remove_author": "Remove author",
+        "labels": "Labels",
+        "labels_hint": "Pick every category that applies.",
+        "introduction": "Introduction",
+        "introduction_hint": "Pick an introduction file for each language you support; at least one language is required.",
+        "introduction_placeholder": "docs/introduction.md",
+        "introduction_lang": {
+          "en_us": "English",
+          "zh_cn": "Simplified Chinese"
+        }
+      },
+      "actions": {
+        "next": "Next",
+        "back": "Back",
+        "check": "Check"
+      },
+      "review": {
+        "errors": "Please fix the following problems",
+        "warnings": "Warnings",
+        "tab_report": "Report",
+        "tab_json": "JSON",
+        "unavailable": "Nothing to show yet, please fix the problems above.",
+        "preview": "The file that will be added to the plugin catalogue",
+        "submit": "Create pull request",
+        "submitting": "Creating pull request..."
+      },
+      "report": {
+        "plugin_info_title": "Plugin info",
+        "metadata_title": "Plugin metadata",
+        "repository": "Repository",
+        "authors": "Authors",
+        "license": "License",
+        "labels": "Labels",
+        "introduction": "Introduction",
+        "meta": "Meta",
+        "latest_release": "Latest release",
+        "not_detected": "Not detected",
+        "none": "None",
+        "metadata": {
+          "name": "Name",
+          "version": "Version",
+          "authors": "Authors",
+          "description": "Description",
+          "dependencies": "Dependencies",
+          "homepage": "Homepage"
+        }
+      },
+      "result": {
+        "title": "Pull request created!",
+        "open_pr": "Open pull request #{number}",
+        "created_fork": "The branch `{branch}` was pushed to your fork of the catalogue.",
+        "created_direct": "The branch `{branch}` was pushed to the catalogue repository.",
+        "again": "Submit another plugin"
+      },
+      "issues": {
+        "id_invalid": "`{id}` is not a valid plugin id. Use lowercase letters, digits and underscores, start with a letter, and keep it within 64 characters.",
+        "id_exists": "A plugin with the id `{id}` is already in the catalogue.",
+        "id_mismatch": "The id does not match mcdreforged.plugin.json, which declares `{expected}`.",
+        "id_too_short": "`{id}` is shorter than 3 characters, which the catalogue discourages.",
+        "id_similar": "`{existing}` is very similar to this plugin id (distance {distance}).",
+        "repo_invalid": "The repository is invalid.",
+        "related_path_invalid": "`{path}` is not a valid directory path inside the repository.",
+        "branch_not_found": "The branch `{branch}` does not exist in this repository.",
+        "plugin_json_missing": "`{path}` was not found in this branch.",
+        "plugin_json_unreadable": "`{path}` could not be parsed as JSON.",
+        "description_missing": "`{path}` does not declare a description.",
+        "introduction_missing": "Provide an introduction for at least one language.",
+        "introduction_path_not_found": "The {language} introduction file `{path}` does not exist in this branch.",
+        "label_invalid": "`{label}` is not a known label.",
+        "labels_missing": "No label selected. Labels describe what your plugin does.",
+        "authors_invalid": "Author number {indexes} has an empty name.",
+        "authors_missing": "No author declared. A link is optional, but a GitHub link helps maintainers verify ownership.",
+        "no_license": "No open source license was detected at the repository root. We recommend adding one to protect your work.",
+        "no_release": "No release with a tag matching the plugin version and a .mcdr/.pyz asset was found. The catalogue can only show released plugins."
+      }
+    },
     "home": {
       "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server",
       "description_alt": "This is a python based Minecraft server control tool",

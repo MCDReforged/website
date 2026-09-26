@@ -93,3 +93,32 @@ export function mermaidTransformer(): (tree: Root) => Root {
     return tree
   }
 }
+
+const ABSOLUTE_URL_REGEX = /^[a-z][a-z0-9+.-]*:/i
+
+function isRelativeUrl(url: unknown): url is string {
+  return typeof url === 'string'
+    && url.length > 0
+    && !url.startsWith('#')
+    && !url.startsWith('/')  // also covers protocol relative `//host` urls
+    && !ABSOLUTE_URL_REGEX.test(url)
+}
+
+/**
+ * Points the relative links and images of an external document back at its repository, e.g.
+ * `CONTRIBUTING_zh_cn.md` -> `https://github.com/owner/repo/blob/HEAD/CONTRIBUTING_zh_cn.md`.
+ * Without this, `remark-github` leaves them relative and they resolve against this website.
+ */
+export function relativeUrlRewriter(options: { baseUrl: string }): (tree: Root) => Root {
+  const base = options.baseUrl.endsWith('/') ? options.baseUrl : options.baseUrl + '/'
+  return (tree: Root): Root => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName === 'a' && isRelativeUrl(node.properties.href)) {
+        node.properties.href = base + node.properties.href
+      } else if (node.tagName === 'img' && isRelativeUrl(node.properties.src)) {
+        node.properties.src = base + node.properties.src
+      }
+    })
+    return tree
+  }
+}
