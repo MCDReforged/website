@@ -2,17 +2,14 @@
 
 import {
   Alert,
-  Anchor,
   Button,
   Code,
   CopyButton,
-  Divider,
   Group,
   Paper,
   Stack,
   Text,
   ThemeIcon,
-  useComputedColorScheme,
 } from '@mantine/core'
 import {
   IconAlertTriangle,
@@ -24,9 +21,6 @@ import {
 } from '@tabler/icons-react'
 import React from 'react'
 import { useTranslations } from 'next-intl'
-
-/** GitHub's own button green, light and dark. */
-const GH_GREEN = { light: '#1f883d', dark: '#238636' }
 
 /**
  * A GitHub button, drawn rather than linked.
@@ -40,15 +34,14 @@ function GhButton({ children, caret = false, radio = false }: {
   caret?: boolean
   radio?: boolean
 }) {
-  const scheme = useComputedColorScheme('light')
   return (
     <span
-      className="inline-flex items-center gap-[3px] rounded-md px-[7px] py-[1px] text-[11px] font-semibold whitespace-nowrap"
+      className="inline-flex items-center gap-[3px] rounded-sm px-[8px] py-[4px] text-[11px] font-semibold whitespace-nowrap"
       style={radio
         ? { border: '1px solid var(--mantine-color-default-border)' }
-        : { backgroundColor: GH_GREEN[scheme], color: '#ffffff' }}
+        : { backgroundColor: '#347d39', color: '#ffffff' }}
     >
-      {radio && <span className="mr-[2px] inline-block h-[9px] w-[9px] rounded-full border-2 border-current"/>}
+      {radio && <span className="mr-[2px] inline-block h-[9px] w-[9px] rounded-sm border-2 border-current"/>}
       {children}
       {caret && <span className="ml-[1px] text-[9px]">▾</span>}
     </span>
@@ -105,8 +98,6 @@ export function SubmissionSteps({
   directHint: string | null
 }) {
   const t = useTranslations('page.submit.submit')
-  // a branch named after the plugin, instead of github's `patch-1`
-  const branchSuggestion = `submit/${path.split('/')[1] ?? 'plugin'}`
 
   return (
     <Paper withBorder p="md">
@@ -182,30 +173,16 @@ export function SubmissionSteps({
                     {t('step_file_button')}
                   </Button>
                 )}
-                <CopyButton value={jsonValue} timeout={2000}>
-                  {({ copied, copy }) => (
-                    <Button
-                      variant={fileUrl === null ? 'light' : 'default'}
-                      size="xs"
-                      onClick={copy}
-                      leftSection={copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
-                    >
-                      {copied ? t('copied') : t('copy')}
-                    </Button>
-                  )}
-                </CopyButton>
               </Group>
 
-              <Text size="sm">{t('or_manual')}</Text>
-
-              <Text size="xs" c="dimmed">
+              <Text size="sm" c="dimmed">
                 {t.rich('step_file_manual', {
                   addFile: chunks => <GhButton caret>{chunks}</GhButton>,
                   createFile: chunks => <GhButton>{chunks}</GhButton>,
                 })}
               </Text>
               <Group gap="xs">
-                <Text size="xs" c="dimmed">{t('path')}</Text>
+                <Text size="sm" c="dimmed">{t('path')}</Text>
                 <Code>{path}</Code>
                 <CopyButton value={path} timeout={2000}>
                   {({ copied, copy }) => (
@@ -221,12 +198,28 @@ export function SubmissionSteps({
                   )}
                 </CopyButton>
               </Group>
+
+              <Group gap="xs">  
+                <CopyButton value={jsonValue} timeout={2000}>
+                    {({ copied, copy }) => (
+                      <Button
+                        variant={fileUrl === null ? 'light' : 'default'}
+                        size="xs"
+                        onClick={copy}
+                        leftSection={copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
+                      >
+                        {copied ? t('copied') : t('copy')}
+                      </Button>
+                    )}
+                </CopyButton>
+              </Group>
             </Stack>
           </Step>
 
           <Step n={3}>
             <Text size="sm">
               {t.rich('step_commit_hint', {
+                option: chunks => <GhButton radio>{chunks}</GhButton>,
                 commit: chunks => <GhButton>{chunks}</GhButton>,
               })}
             </Text>
@@ -235,24 +228,12 @@ export function SubmissionSteps({
           <Step n={4}>
             <Text size="sm">
               {t.rich('step_pr_hint', {
-                option: chunks => <GhButton radio>{chunks}</GhButton>,
                 propose: chunks => <GhButton>{chunks}</GhButton>,
                 create: chunks => <GhButton>{chunks}</GhButton>,
               })}
             </Text>
-            <Group gap="xs" mt={6}>
-              <Text size="xs" c="dimmed">{t('branch_hint')}</Text>
-              <Code>{branchSuggestion}</Code>
-            </Group>
           </Step>
         </Stack>
-
-        <Text size="xs" c="dimmed">{t('no_permission_note')}</Text>
-
-        <Anchor href={forkUrl} target="_blank" rel="noopener noreferrer" size="xs" w="fit-content">
-          {t('open_on_github', { repo: forkName })}
-          <IconExternalLink size={12} className="inline align-baseline ml-1"/>
-        </Anchor>
       </Stack>
     </Paper>
   )

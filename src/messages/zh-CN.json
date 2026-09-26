@@ -143,7 +143,7 @@
         "fork_button": "在 GitHub 上创建 fork",
         "copy": "复制 plugin_info.json",
         "copied": "已复制",
-        "direct_hint": "你对 {repo} 有写权限，文件会直接创建在那里，不需要 fork。",
+        "direct_hint": "你的 GitHub 名下已存在 fork 仓库 {repo}。",
         "blocked": "请先修正上面的问题再提交。",
         "step_fork_hint": "先确认你已有 {repo} 的 fork。如果你 fork 过，直接打开你的 fork：",
         "step_fork_exists": "你已经有 {repo} 了。",
@@ -152,15 +152,11 @@
         "step_fork_or_open": "已经 fork 过？在 GitHub 上打开它，跳到下一步。",
         "step_file_hint": "在你的 fork 中创建插件数据。使用此按钮快速创建：",
         "step_file_button": "在 GitHub 上创建文件",
-        "step_file_manual": "在你的 fork 仓库中，点击 <addFile>Add file</addFile>，选择 <createFile>Create new file</createFile>，粘贴以下路径路径与内容。",
-        "step_commit_hint": "点右上角的 <commit>Commit changes...</commit>。提交信息保持默认即可。",
-        "step_pr_hint": "在弹出的对话框里选 <option>Create a new branch for this commit and start a pull request</option>，然后点 <propose>Propose changes</propose>，最后点 <create>Create pull request</create>。",
-        "no_permission_note": "本页不会向你的 GitHub 账号索取任何权限。绿色按钮是 GitHub 上这些按钮的样子（名称按 GitHub 英文界面）；如果你的界面是中文，按位置找同样的按钮即可。",
-        "open_on_github": "在 GitHub 上打开 {repo}",
+        "step_file_manual": "或者手动完成：在你的 fork 仓库中，点击 <addFile>Add file</addFile>，选择 <createFile>Create new file</createFile>，粘贴以下路径与内容：",
+        "step_commit_hint": "点击右上角的 <commit>Commit changes...</commit>，在弹出的对话框中，选择 <option>Create a new branch for this commit and start a pull request</option>。",
+        "step_pr_hint": "点击 <propose>Propose changes</propose>，然后点击 <create>Create pull request</create>。",
         "path": "路径",
-        "copy_path": "复制路径",
-        "or_manual": "或者手动完成",
-        "branch_hint": "建议的分支名："
+        "copy_path": "复制路径"
       },
       "report": {
         "not_checked": "未检查",
