@@ -2,6 +2,7 @@
 
 import { routes } from '@/site/routes'
 import type { Guidelines, PluginCandidate, PluginInfoAuthor, RepoDetail, RepoListItem, SubmitIssue, ValidationResult } from '@/server/submit/types'
+import { toPluginRelative } from '@/utils/plugin-path-utils'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/server/submit/types'
 import {
   Alert,
@@ -144,12 +145,17 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
   // ---- repository detail ---- //
   const applyCandidate = useCallback((relatedPathValue: string, source: RepoDetail) => {
     setRelatedPath(relatedPathValue)
-    setPluginIdError(null)
     const candidate = source.candidates.find(c => c.relatedPath === relatedPathValue)
-    if (candidate?.metadata.id) {
-      setPluginId(candidate.metadata.id)
-    }
+    // always overwritten: switching to a candidate without a usable id must not keep the previous one
+    setPluginId(candidate?.metadata.id ?? '')
+    setPluginIdError(candidate !== undefined && !candidate.validId ? 'invalid' : null)
     setAuthors(candidate?.metadata.authors ?? [])
+
+    // the catalogue recommends pointing the introduction at the plugin's own readme
+    const ownReadme = relatedPathValue === '.' ? 'README.md' : `${relatedPathValue}/README.md`
+    if (source.mdFiles.includes(ownReadme)) {
+      setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
+    }
   }, [])
 
   const loadDetail = useCallback(async (repoFullName: string, branchName?: string | null) => {
@@ -168,9 +174,6 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
       } else {
         setRelatedPath(null)
       }
-      if (data.mdFiles.includes('README.md')) {
-        setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
-      }
     } catch (err) {
       setError((err as Error).message)
       setDetail(null)
@@ -178,6 +181,17 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
       setDetailLoading(false)
     }
   }, [applyCandidate])
+
+  /**
+   * `introduction` values in `plugin_info.json` are relative to the plugin directory, so the picker
+   * offers them in that form, including `../` for files outside of it.
+   */
+  const mdCandidates = React.useMemo(() => {
+    if (detail === null || relatedPath === null || relatedPath.length === 0) {
+      return []
+    }
+    return detail.mdFiles.map(path => toPluginRelative(relatedPath, path))
+  }, [detail, relatedPath])
 
   const onSelectRepo = useCallback((value: string | null) => {
     setRepo(value)
@@ -560,7 +574,7 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                   <Autocomplete
                     key={language}
                     label={t(`details.introduction_lang.${language}`)}
-                    data={detail?.mdFiles ?? []}
+                    data={mdCandidates}
                     value={introduction[language] ?? ''}
                     onChange={value => setIntroduction(previous => {
                       const next = { ...previous }

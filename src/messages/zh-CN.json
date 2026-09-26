@@ -119,7 +119,7 @@
         "labels": "分类标签",
         "labels_hint": "选择所有适用的分类。",
         "introduction": "插件介绍",
-        "introduction_hint": "为每种支持的语言选择介绍文件；至少提供一种语言的介绍文件。",
+        "introduction_hint": "为每种支持的语言选择介绍文件；至少提供一种语言的介绍文件。路径相对于插件目录。",
         "introduction_placeholder": "docs/introduction.md",
         "introduction_lang": {
           "en_us": "English",

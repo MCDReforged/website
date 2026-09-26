@@ -14,8 +14,11 @@ const REPO_LIST_PER_PAGE = 100
 const BRANCH_MAX_PAGES = 2
 const MAX_PLUGIN_CANDIDATES = 20
 const MAX_MD_FILES = 300
-/** `a/b/c.md` has 3 segments; deeper markdown is not offered as an introduction source. */
-const MAX_MD_SEGMENTS = 4
+/**
+ * Markdown depth limit, measured from the repository root. Generous on purpose: the plugin's own
+ * directory counts towards it, and a nested plugin must not lose the files sitting next to it.
+ */
+const MAX_MD_SEGMENTS = 6
 
 const IGNORED_SEGMENTS = new Set([
   'node_modules', '.git', '.github', '.venv', 'venv', 'env', 'site-packages', '__pycache__',

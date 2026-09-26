@@ -31,7 +31,8 @@ function getSecret(): string {
 }
 
 export function isSubmissionConfigured(): boolean {
-  return getSessionSecret() !== undefined
+  // `!!` and not `!== undefined`: an empty value would pass the guard here and then throw in getSecret()
+  return !!getSessionSecret()
 }
 
 export function sealSession(session: Session): string {

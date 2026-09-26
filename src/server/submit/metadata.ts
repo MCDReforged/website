@@ -35,25 +35,6 @@ export function asString(value: unknown): string | undefined {
   return typeof value === 'string' && value.trim().length > 0 ? value.trim() : undefined
 }
 
-/** `owner/name` or `.` */
-export function normalizeRelatedPath(value: string): string {
-  const trimmed = (value ?? '').trim().replace(/^\/+/, '').replace(/\/+$/, '')
-  return trimmed.length === 0 ? '.' : trimmed
-}
-
-/**
- * Rejects paths that could escape the repository when fed to the GitHub contents API.
- */
-export function isSafeRelatedPath(path: string): boolean {
-  if (path === '.') {
-    return true
-  }
-  if (path.length === 0 || path.startsWith('/') || path.includes('\\') || path.includes('\0')) {
-    return false
-  }
-  return path.split('/').every(segment => segment.length > 0 && segment !== '.' && segment !== '..')
-}
-
 export interface AuthorLinkContext {
   /**
    * Canonical GitHub logins that are known to belong to the plugin, e.g. the repository owner
@@ -205,14 +186,7 @@ export function demo(): void {
     { name: 'Someone' },
   ], 'mixed list')
 
-  // path safety
-  assert(isSafeRelatedPath('.'), true, 'root')
-  assert(isSafeRelatedPath('src/plugin'), true, 'nested')
-  assert(isSafeRelatedPath('../etc'), false, 'traversal')
-  assert(isSafeRelatedPath('a/../../b'), false, 'nested traversal')
-  assert(isSafeRelatedPath('a//b'), false, 'empty segment')
-  assert(isSafeRelatedPath('/abs'), false, 'absolute')
-  assert(isSafeRelatedPath('a\\b'), false, 'backslash')
+  // path handling (normalisation, safety, plugin relative resolution) lives in @/utils/plugin-path-utils
 
   console.log('metadata demo passed')
 }

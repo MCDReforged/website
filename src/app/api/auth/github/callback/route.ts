@@ -10,6 +10,7 @@ import {
   unsealOAuthState,
 } from '@/server/session'
 import { getSiteBaseUrl, isPluginSubmissionEnabled } from '@/utils/environment-utils'
+import { safeRedirectPath } from '@/utils/redirect-utils'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -46,7 +47,8 @@ export async function GET(request: NextRequest) {
     return fail('exchange_failed')
   }
 
-  const response = NextResponse.redirect(new URL(savedState.next, baseUrl))
+  // re-checked here as well: a state cookie sealed by an older build must not be able to redirect off site
+  const response = NextResponse.redirect(new URL(safeRedirectPath(savedState.next, '/submit'), baseUrl))
   response.cookies.set(
     SESSION_COOKIE,
     sealSession({ token, login: user.login, name: user.name, avatarUrl: user.avatar_url }),

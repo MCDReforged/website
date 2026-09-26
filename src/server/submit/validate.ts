@@ -1,13 +1,13 @@
 import { GithubApiError, GithubGitTree, GithubRelease, githubRequest } from '@/server/github/client'
 import { getCatalogueRepo } from '@/utils/environment-utils'
+import { isSafeRelatedPath, normalizeRelatedPath, resolvePluginRelative } from '@/utils/plugin-path-utils'
+import { parseReleaseTagVersion } from '@/utils/plugin-version-utils'
 import { closestId } from './levenshtein'
 import {
   asString,
   getDescriptionText,
   getPluginId,
-  isSafeRelatedPath,
   isValidPluginId,
-  normalizeRelatedPath,
   PLUGIN_ID_RECOMMENDED_MIN_LENGTH,
   RawPluginMetadata,
 } from './metadata'
@@ -31,20 +31,11 @@ const ID_SIMILARITY_THRESHOLD = 3
 
 /**
  * Mirrors the catalogue's release rules: a release is usable when it is not a pre-release, its tag
- * is `<version>` / `v<version>` / `<id>-<version>` / `<id>-v<version>`, and it carries a `.mcdr` or
- * `.pyz` asset. The catalogue does not require the tag to match the current metadata version, so
- * neither do we; a matching release simply has to exist.
+ * parses as a version for this plugin id, and it carries a `.mcdr` or `.pyz` asset. The catalogue
+ * does not require the tag to match the current metadata version, so neither do we; a matching
+ * release simply has to exist.
  */
 const RELEASE_SCAN_LIMIT = 100
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
-function parseTagVersion(tag: string, id: string): string | null {
-  const match = new RegExp(`^(?:${escapeRegExp(id)}-)?v?(\\d[0-9A-Za-z.+-]*)$`).exec(tag)
-  return match === null ? null : match[1]
-}
 
 /** `LICENSE`, `LICENSE.md`, `LICENSE-MIT`, `COPYING`, `LICENCE` ... at the repository root. */
 const LICENSE_FILE_REGEX = /^(licen[cs]e|copying)([-.].*)?$/i
@@ -99,7 +90,7 @@ function matchRelease(releases: GithubRelease[], id: string): ReleaseCheck | nul
     if (release.draft || release.prerelease) {
       continue
     }
-    const version = parseTagVersion(release.tag_name, id)
+    const version = parseReleaseTagVersion(release.tag_name, id)
     if (version === null) {
       continue
     }
@@ -263,7 +254,9 @@ export async function validateSubmission(token: string, form: SubmitForm): Promi
   }
 
   for (const [language, path] of Object.entries(introduction)) {
-    if (!blobs.has(path)) {
+    // `introduction` is relative to `related_path` in the catalogue, and may walk out of it
+    const resolved = resolvePluginRelative(relatedPath, path)
+    if (resolved === null || !blobs.has(resolved)) {
       errors.push({ code: 'introduction_path_not_found', params: { language, path } })
     }
   }

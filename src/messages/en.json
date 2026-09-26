@@ -119,7 +119,7 @@
         "labels": "Labels",
         "labels_hint": "Pick every category that applies.",
         "introduction": "Introduction",
-        "introduction_hint": "Pick an introduction file for each language you support; at least one language is required.",
+        "introduction_hint": "Pick an introduction file for each language you support; at least one language is required. Paths are relative to the plugin directory.",
         "introduction_placeholder": "docs/introduction.md",
         "introduction_lang": {
           "en_us": "English",

@@ -1,6 +1,6 @@
 import { handleRouteError, jsonError } from '@/server/api-utils'
 import { getSession } from '@/server/session'
-import { isSafeRelatedPath, normalizeRelatedPath } from '@/server/submit/metadata'
+import { isSafeRelatedPath, normalizeRelatedPath } from '@/utils/plugin-path-utils'
 import { resolvePluginCandidate, splitRepo } from '@/server/submit/repo'
 import { isPluginSubmissionEnabled } from '@/utils/environment-utils'
 import { NextRequest, NextResponse } from 'next/server'

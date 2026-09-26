@@ -2,6 +2,7 @@
 
 import type { SubmitIssue, SubmissionReport } from '@/server/submit/types'
 import { Anchor, Text, Table } from '@mantine/core'
+import { resolvePluginRelative } from '@/utils/plugin-path-utils'
 import { IconAlertTriangle, IconCircleCheck } from '@tabler/icons-react'
 import { useTranslations } from 'next-intl'
 import React from 'react'
@@ -91,9 +92,9 @@ export function SubmissionReportView(
   const treeUrl = report.relatedPath === '.'
     ? `${repoBase}/tree/${report.branch}`
     : `${repoBase}/tree/${report.branch}/${report.relatedPath}`
-  const blobUrl = (path: string) => report.relatedPath === '.'
-    ? `${repoBase}/blob/${report.branch}/${path}`
-    : `${repoBase}/blob/${report.branch}/${report.relatedPath}/${path}`
+  // introduction values are relative to the plugin directory, so resolve them into a clean repository path
+  const blobUrl = (path: string) =>
+    `${repoBase}/blob/${report.branch}/${resolvePluginRelative(report.relatedPath, path) ?? path}`
 
   // warnings also mark a row, the same way the catalogue report shows ⚠️ for its warnings
   const hasIssue = (code: SubmitIssue['code']) =>
