@@ -1,5 +1,5 @@
-import { GithubApiError, GithubGitTree, GithubRelease, githubRequest } from '@/server/github/client'
-import { getCatalogueRepo } from '@/utils/environment-utils'
+import { GithubApiError, GithubGitTree, GithubRelease, githubRequest } from '@/utils/github-api'
+
 import { isSafeRelatedPath, normalizeRelatedPath, resolvePluginRelative } from '@/utils/plugin-path-utils'
 import { parseReleaseTagVersion } from '@/utils/plugin-version-utils'
 import { closestId } from './levenshtein'
@@ -44,9 +44,9 @@ const LICENSE_FILE_REGEX = /^(licen[cs]e|copying)([-.].*)?$/i
  * The catalogue asks for a fresh id list on the default branch. Omitting `ref` makes the contents
  * API use the repository's default branch, which saves a `GET /repos/{repo}` round trip.
  */
-export async function fetchExistingPluginIds(token: string, upstream: string): Promise<string[]> {
+export async function fetchExistingPluginIds(upstream: string): Promise<string[]> {
   try {
-    const entries = await githubRequest<{ name: string, type: string }[]>(`/repos/${upstream}/contents/plugins`, { token })
+    const entries = await githubRequest<{ name: string, type: string }[]>(`/repos/${upstream}/contents/plugins`)
     return entries.filter(entry => entry.type === 'dir').map(entry => entry.name)
   } catch (error) {
     // a catalogue without a plugins directory has nothing to collide with; the catalogue's own
@@ -113,12 +113,11 @@ function matchRelease(releases: GithubRelease[], id: string): ReleaseCheck | nul
 }
 
 /** Reads the release list once; no release can match when the plugin declares no version at all. */
-async function findRelease(token: string, repo: string, id: string, version: string | undefined): Promise<ReleaseCheck | null> {
+async function findRelease(repo: string, id: string, version: string | undefined): Promise<ReleaseCheck | null> {
   if (!version) {
     return null
   }
   const releases = await githubRequest<GithubRelease[]>(`/repos/${repo}/releases`, {
-    token,
     query: { per_page: RELEASE_SCAN_LIMIT },
   })
   return matchRelease(releases, id)
@@ -159,7 +158,7 @@ function buildMetadataReport(metadata: RawPluginMetadata): ReportMetadata {
   }
 }
 
-export async function validateSubmission(token: string, form: SubmitForm): Promise<ValidationResult> {
+export async function validateSubmission(form: SubmitForm, catalogueRepo: string): Promise<ValidationResult> {
   const errors: SubmitIssue[] = []
   const warnings: SubmitIssue[] = []
 
@@ -208,7 +207,7 @@ export async function validateSubmission(token: string, form: SubmitForm): Promi
   }
 
   // ---- catalogue uniqueness (1 API call) ---- //
-  const existingIds = await fetchExistingPluginIds(token, getCatalogueRepo())
+  const existingIds = await fetchExistingPluginIds(catalogueRepo)
   if (errors.every(issue => issue.code !== 'id_invalid')) {
     if (existingIds.includes(id)) {
       errors.push({ code: 'id_exists', params: { id } })
@@ -223,7 +222,7 @@ export async function validateSubmission(token: string, form: SubmitForm): Promi
   // ---- repository tree (1 API call) ---- //
   let tree: GithubGitTree
   try {
-    tree = await fetchTree(token, repo, branch)
+    tree = await fetchTree(repo, branch)
   } catch (error) {
     if (error instanceof GithubApiError && error.status === 404) {
       errors.push({ code: 'branch_not_found', params: { branch } })
@@ -245,7 +244,7 @@ export async function validateSubmission(token: string, form: SubmitForm): Promi
   if (!blobs.has(pluginJsonPath)) {
     errors.push({ code: 'plugin_json_missing', params: { path: pluginJsonPath } })
   } else {
-    const parsed = await readPluginMetadata(token, repo, branch, pluginJsonPath)
+    const parsed = await readPluginMetadata(repo, branch, pluginJsonPath)
     if (parsed === null) {
       errors.push({ code: 'plugin_json_unreadable', params: { path: pluginJsonPath } })
     } else {
@@ -272,7 +271,7 @@ export async function validateSubmission(token: string, form: SubmitForm): Promi
 
   // ---- releases (1 API call, skipped when no version is known) ---- //
   const version = metadata === null ? undefined : asString(metadata.version)
-  const release = await findRelease(token, repo, id, version)
+  const release = await findRelease(repo, id, version)
   if (metadata !== null && release === null) {
     warnings.push({ code: 'no_release' })
   }

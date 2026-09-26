@@ -1,5 +1,6 @@
 import { CommonContentLayout } from '@/components/layout/common-content-layout'
-import { getGuidelines } from '@/server/submit/guidelines'
+import { getGuidelines } from '@/server/guidelines'
+import { getCatalogueRepo, getGithubApiBase, isPluginSubmissionEnabled } from '@/utils/environment-utils'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import React from 'react'
 import { SubmitWizard } from './submit-wizard'
@@ -19,7 +20,12 @@ export default async function Page(props: { params: Promise<{ locale: string }> 
 
   return (
     <CommonContentLayout>
-      <SubmitWizard guidelines={guidelines}/>
+      <SubmitWizard
+        guidelines={guidelines}
+        enabled={isPluginSubmissionEnabled()}
+        catalogueRepo={getCatalogueRepo()}
+        apiBase={getGithubApiBase()}
+      />
     </CommonContentLayout>
   )
 }

@@ -152,15 +152,6 @@ export interface Guidelines {
   baseUrl: string
 }
 
-export interface RepoListItem {
-  fullName: string
-  name: string
-  owner: string
-  private: boolean
-  fork: boolean
-  defaultBranch: string
-  pushedAt: string | null
-}
 
 /** Where the user's own fork of the catalogue stands */
 export interface ForkStatus {
@@ -168,8 +159,6 @@ export interface ForkStatus {
   forkExists: boolean
   /** the repository under the user's account is a fork of the configured catalogue */
   forkOfCatalogue: boolean
-  /** the user can already write to the catalogue, so no fork is needed at all */
-  canPushToCatalogue: boolean
   /** the branch a new file has to be created on: the fork's default branch, or the catalogue's */
   branch: string
 }

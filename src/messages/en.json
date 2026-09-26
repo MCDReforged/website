@@ -77,30 +77,21 @@
         "ack": "I have read the contributing guidelines and confirm that my plugin meets them"
       },
       "disabled": "Plugin submission is not enabled on this deployment.",
+      "rate_limited": "GitHub limits anonymous requests to 60 per hour per address, and this one is used up. Wait a bit, or try again from another network.",
       "steps": {
         "select": "Repository",
         "guidelines": "Guidelines",
         "details": "Plugin info",
         "review": "Review"
       },
-      "login": {
-        "hint": "This site asks GitHub for read-only access to your public repositories, so that it can list them and check your submission. The pull request is opened on github.com, so no write access is ever requested.",
-        "button": "Sign in with GitHub",
-        "logged_in_as": "Signed in as {login}",
-        "logout": "Sign out"
-      },
-      "oauth_errors": {
-        "state_mismatch": "The sign-in attempt expired or was tampered with. Please try again.",
-        "exchange_failed": "GitHub rejected the sign-in attempt. Please try again.",
-        "disabled": "Plugin submission is not enabled on this deployment."
-      },
       "repo": {
         "select": "Repository",
-        "select_hint": "Pick from the list, or enter it manually",
+        "select_hint": "Paste a github.com repository url, or type owner/repository",
         "invalid": "Enter owner/repository, or paste a github.com repository url.",
         "search_placeholder": "owner/repository",
-        "truncated": "Only your 300 most recently pushed repositories are listed; type the name manually for anything older.",
         "branch": "Branch",
+        "login": "Your GitHub account",
+        "login_hint": "The fork is created under this account; it defaults to the plugin repository owner.",
         "related_path": "Plugin directory",
         "related_path_hint": "The directory that contains mcdreforged.plugin.json, `.` for the repository root",
         "no_candidates": "No mcdreforged.plugin.json was found in this branch. Check the branch, or type the path manually.",
@@ -146,12 +137,12 @@
         "fork_button": "Create the fork on GitHub",
         "fork_exists": "You already have {repo}, so you can skip this step.",
         "fork_conflict": "You have a repository named {repo}, but it is not a fork of the catalogue. GitHub would create the fork under a different name, so rename or delete it first if you can.",
-        "direct_hint": "You can write to {repo}, so the file goes straight there and no fork is needed.",
         "file_step": "2. Create {path} in {repo}",
         "file_button": "Create the file on GitHub",
         "copy": "Copy plugin_info.json",
         "copied": "Copied",
         "file_hint": "The path and the content are filled in for you. When you commit, pick \"Create a new branch for this commit and start a pull request\" and GitHub opens the pull request.",
+        "direct_hint": "You own {repo}, so the file is created there directly and no fork is needed.",
         "order_hint": "Do step 1 first: the second link only works once your fork exists.",
         "loading": "Checking your fork...",
         "blocked": "Fix the problems listed above before submitting."

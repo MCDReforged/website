@@ -1,5 +1,5 @@
 import { getCatalogueRepo } from '@/utils/environment-utils'
-import { Guidelines } from './types'
+import { Guidelines } from '@/submit/types'
 
 /** The catalogue ships one guideline file per supported language. */
 const GUIDELINES_FILES: Record<string, string> = {

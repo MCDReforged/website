@@ -1,4 +1,4 @@
-import type { PluginInfoJson } from '@/server/submit/types'
+import type { PluginInfoJson } from '@/submit/types'
 
 /**
  * GitHub repository identifiers and urls.

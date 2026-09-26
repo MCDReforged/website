@@ -1,4 +1,4 @@
-import { GithubApiError, GithubGitTree, GithubRepo, encodeRepoPath, githubRequest } from '@/server/github/client'
+import { GithubApiError, GithubGitTree, GithubRepo, encodeRepoPath, githubRequest } from '@/utils/github-api'
 import {
   asString,
   AuthorLinkContext,
@@ -7,10 +7,8 @@ import {
   normalizeAuthors,
   RawPluginMetadata,
 } from './metadata'
-import { PluginCandidate, RepoDetail, RepoListItem } from './types'
+import { PluginCandidate, RepoDetail } from './types'
 
-const REPO_LIST_MAX_PAGES = 3
-const REPO_LIST_PER_PAGE = 100
 const BRANCH_MAX_PAGES = 2
 const MAX_PLUGIN_CANDIDATES = 20
 const MAX_MD_FILES = 300
@@ -53,59 +51,20 @@ function depthOf(path: string): number {
   return segments(path).length
 }
 
-export async function listUserRepos(token: string): Promise<{ repos: RepoListItem[], truncated: boolean }> {
-  const repos: RepoListItem[] = []
-  let truncated = false
-
-  for (let page = 1; page <= REPO_LIST_MAX_PAGES; page++) {
-    const pageRepos = await githubRequest<GithubRepo[]>('/user/repos', {
-      token,
-      query: {
-        // all three: plenty of plugins live in an organization repository the user can push to
-        // without being listed as an explicit collaborator on it
-        affiliation: 'owner,collaborator,organization_member',
-        sort: 'pushed',
-        direction: 'desc',
-        per_page: REPO_LIST_PER_PAGE,
-        page,
-      },
-    })
-    for (const repo of pageRepos) {
-      repos.push({
-        fullName: repo.full_name,
-        name: repo.name,
-        owner: repo.owner.login,
-        private: repo.private,
-        fork: repo.fork,
-        defaultBranch: repo.default_branch,
-        pushedAt: repo.pushed_at,
-      })
-    }
-    if (pageRepos.length < REPO_LIST_PER_PAGE) {
-      return { repos, truncated }
-    }
-    if (page === REPO_LIST_MAX_PAGES) {
-      truncated = true
-    }
-  }
-  return { repos, truncated }
+export async function getRepoInfo(repo: string): Promise<GithubRepo> {
+  return githubRequest<GithubRepo>(`/repos/${repo}`)
 }
 
-export async function getRepoInfo(token: string, repo: string): Promise<GithubRepo> {
-  return githubRequest<GithubRepo>(`/repos/${repo}`, { token })
-}
-
-export async function fetchTree(token: string, repo: string, branch: string): Promise<GithubGitTree> {
+export async function fetchTree(repo: string, branch: string): Promise<GithubGitTree> {
   return githubRequest<GithubGitTree>(`/repos/${repo}/git/trees/${encodeURIComponent(branch)}`, {
-    token,
     query: { recursive: 1 },
   })
 }
 
-export async function readRepoFile(token: string, repo: string, branch: string, path: string): Promise<string | null> {
+export async function readRepoFile(repo: string, branch: string, path: string): Promise<string | null> {
   const file = await githubRequest<{ content?: string, encoding?: string }>(
     `/repos/${repo}/contents/${encodeRepoPath(path)}`,
-    { token, query: { ref: branch } },
+    { query: { ref: branch } },
   )
   if (file.encoding !== 'base64' || typeof file.content !== 'string') {
     return null
@@ -114,12 +73,11 @@ export async function readRepoFile(token: string, repo: string, branch: string, 
 }
 
 export async function readPluginMetadata(
-  token: string,
   repo: string,
   branch: string,
   path: string,
 ): Promise<RawPluginMetadata | null> {
-  const content = await readRepoFile(token, repo, branch, path)
+  const content = await readRepoFile(repo, branch, path)
   if (content === null) {
     return null
   }
@@ -131,11 +89,10 @@ export async function readPluginMetadata(
   }
 }
 
-async function listBranches(token: string, repo: string): Promise<string[]> {
+async function listBranches(repo: string): Promise<string[]> {
   const branches: string[] = []
   for (let page = 1; page <= BRANCH_MAX_PAGES; page++) {
     const pageBranches = await githubRequest<{ name: string }[]>(`/repos/${repo}/branches`, {
-      token,
       query: { per_page: 100, page },
     })
     branches.push(...pageBranches.map(b => b.name))
@@ -201,7 +158,6 @@ function toCandidate(
 
 /** Reads `relatedPath/mcdreforged.plugin.json` and turns it into a candidate. */
 export async function resolvePluginCandidate(
-  token: string,
   repo: string,
   branch: string | undefined,
   relatedPath: string,
@@ -211,12 +167,12 @@ export async function resolvePluginCandidate(
   const owner = splitRepo(repo)?.[0] ?? repo
   const selectedBranch = branch && branch.length > 0
     ? branch
-    : (await getRepoInfo(token, repo)).default_branch
+    : (await getRepoInfo(repo)).default_branch
   const pluginJsonPath = relatedPath === '.' ? 'mcdreforged.plugin.json' : `${relatedPath}/mcdreforged.plugin.json`
   const context = authorContext(owner, viewerLogin)
 
   try {
-    const metadata = await readPluginMetadata(token, repo, selectedBranch, pluginJsonPath)
+    const metadata = await readPluginMetadata(repo, selectedBranch, pluginJsonPath)
     return toCandidate(relatedPath, metadata, context)
   } catch (error) {
     if (error instanceof GithubApiError && error.status === 404) {
@@ -227,19 +183,18 @@ export async function resolvePluginCandidate(
 }
 
 export async function getRepoDetail(
-  token: string,
   repo: string,
   branch?: string,
   viewerLogin?: string,
 ): Promise<RepoDetail> {
-  const repoInfo = await getRepoInfo(token, repo)
+  const repoInfo = await getRepoInfo(repo)
   const defaultBranch = repoInfo.default_branch
   const selectedBranch = branch && branch.length > 0 ? branch : defaultBranch
   const context = authorContext(repoInfo.owner?.login, viewerLogin)
 
   const [branches, tree] = await Promise.all([
-    listBranches(token, repo),
-    fetchTree(token, repo, selectedBranch),
+    listBranches(repo),
+    fetchTree(repo, selectedBranch),
   ])
   if (!branches.includes(defaultBranch)) {
     branches.unshift(defaultBranch)
@@ -252,7 +207,7 @@ export async function getRepoDetail(
   const candidates = await Promise.all(allCandidatePaths.slice(0, MAX_PLUGIN_CANDIDATES).map(async path => {
     const relatedPath = dirOf(path)
     try {
-      const metadata = await readPluginMetadata(token, repo, selectedBranch, path)
+      const metadata = await readPluginMetadata(repo, selectedBranch, path)
       return toCandidate(relatedPath, metadata, context)
     } catch (error) {
       if (error instanceof GithubApiError) {
@@ -276,10 +231,10 @@ export async function getRepoDetail(
 
 // ---- fork helpers ---- //
 
-/** `null` when the repository does not exist (or is not visible to this token). */
-export async function tryGetRepo(token: string, fullName: string): Promise<GithubRepo | null> {
+/** `null` when the repository does not exist, or is not public. */
+export async function tryGetRepo(fullName: string): Promise<GithubRepo | null> {
   try {
-    return await getRepoInfo(token, fullName)
+    return await getRepoInfo(fullName)
   } catch (error) {
     if (error instanceof GithubApiError && error.status === 404) {
       return null

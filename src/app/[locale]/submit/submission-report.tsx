@@ -1,6 +1,6 @@
 'use client'
 
-import type { SubmitIssue, SubmissionReport } from '@/server/submit/types'
+import type { SubmitIssue, SubmissionReport } from '@/submit/types'
 import { Anchor, Text, Table } from '@mantine/core'
 import { resolvePluginRelative } from '@/utils/plugin-path-utils'
 import { IconAlertTriangle, IconCircleCheck } from '@tabler/icons-react'
