@@ -435,6 +435,11 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                     {detail.candidates.length === 0 && (
                       <Alert color="yellow" icon={<IconAlertTriangle/>}>{t('repo.no_candidates')}</Alert>
                     )}
+                    {/* the plugin id itself lives two steps ahead, so the reason the next button is
+                        disabled has to be shown here, next to the directory that was picked */}
+                    {pluginIdErrorMessage !== undefined && (
+                      <Alert color="yellow" icon={<IconAlertTriangle/>}>{pluginIdErrorMessage}</Alert>
+                    )}
                     {detail.candidatesTruncated && <Text size="xs" c="dimmed">{t('repo.candidates_truncated')}</Text>}
                     {detail.treeTruncated && <Text size="xs" c="dimmed">{t('repo.tree_truncated')}</Text>}
                   </>
