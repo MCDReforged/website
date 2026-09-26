@@ -78,8 +78,8 @@
       },
       "disabled": "Plugin submission is not enabled on this deployment.",
       "rate_limited": "GitHub limits anonymous requests to 60 per hour per address, and this one is used up. Wait a bit, or try again from another network.",
-        "network_error": "GitHub could not be reached. Check your connection, or continue anyway: the file is created on github.com either way.",
-        "api_unreachable": "The GitHub API could not be reached. If this keeps happening, try again later.",
+      "network_error": "GitHub could not be reached. Check your connection, or continue anyway: the file is created on github.com either way.",
+      "api_unreachable": "The GitHub API could not be reached. If this keeps happening, try again later.",
       "steps": {
         "select": "Repository",
         "guidelines": "Guidelines",
@@ -119,10 +119,7 @@
         "introduction": "Introduction",
         "introduction_hint": "Pick an introduction file for each language you support; at least one language is required. Paths are relative to the plugin directory.",
         "introduction_placeholder": "docs/introduction.md",
-        "introduction_lang": {
-          "en_us": "English",
-          "zh_cn": "Simplified Chinese"
-        }
+        "introduction_lang": {"en_us": "English", "zh_cn": "Simplified Chinese"}
       },
       "actions": {
         "next": "Next",
@@ -142,21 +139,28 @@
       },
       "submit": {
         "fork_ahead": "Your fork {repo} has {count} commit(s) the catalogue does not have. They will be part of the pull request; if you would rather not include them, deal with them in your fork first (sync it, or reset its default branch) and come back.",
-        "fork_hint": "First check whether you already have a fork of {repo}; create one if you do not:",
-        "fork_open": "Open {repo}",
-        "fork_or_open": "Already have one? Open it on GitHub and skip this step.",
         "title": "Submit to the catalogue",
         "fork_button": "Create the fork on GitHub",
-        "fork_exists": "You already have {repo}, so you can skip this step.",
-        "file_step": "2. Create {path} in {repo}",
-        "file_button": "Create the file on GitHub",
         "copy": "Copy plugin_info.json",
         "copied": "Copied",
-        "file_hint": "The path and the content are filled in for you. When you commit, pick \"Create a new branch for this commit and start a pull request\" and GitHub opens the pull request.",
         "direct_hint": "You own {repo}, so the file is created there directly and no fork is needed.",
-        "order_hint": "Do step 1 first: the second link only works once your fork exists.",
-        "loading": "Checking your fork...",
-        "blocked": "Fix the problems listed above before submitting."
+        "blocked": "Fix the problems listed above before submitting.",
+        "step_fork_hint": "First make sure you have a fork of {repo}. If you already forked it, open your fork instead:",
+        "step_fork_exists": "You already have {repo}.",
+        "step_fork_open": "Open {repo}",
+        "step_fork_button": "Create the fork on GitHub",
+        "step_fork_or_open": "Already forked it? Open it on GitHub and skip this step.",
+        "step_file_hint": "Create the plugin file in your fork. The first button fills in the path and the content for you:",
+        "step_file_button": "Create the file on GitHub",
+        "step_file_manual": "Or do it yourself: in your fork click <addFile>Add file</addFile>, then <createFile>Create new file</createFile>, and paste the path and the content from above.",
+        "step_commit_hint": "Click <commit>Commit changes...</commit> in the top right corner. The commit message can stay as it is.",
+        "step_pr_hint": "In the dialog choose <option>Create a new branch for this commit and start a pull request</option>, then click <propose>Propose changes</propose> and finally <create>Create pull request</create>.",
+        "no_permission_note": "This page never asks for access to your GitHub account. The green buttons are what GitHub's own buttons look like; the names follow GitHub's English interface.",
+        "open_on_github": "Open {repo} on GitHub",
+        "path": "Path",
+        "copy_path": "Copy path",
+        "or_manual": "or do it by hand",
+        "branch_hint": "Suggested branch name:"
       },
       "report": {
         "not_checked": "Not checked",
@@ -171,14 +175,7 @@
         "latest_release": "Latest release",
         "not_detected": "Not detected",
         "none": "None",
-        "metadata": {
-          "name": "Name",
-          "version": "Version",
-          "authors": "Authors",
-          "description": "Description",
-          "dependencies": "Dependencies",
-          "homepage": "Homepage"
-        }
+        "metadata": {"name": "Name", "version": "Version", "authors": "Authors", "description": "Description", "dependencies": "Dependencies", "homepage": "Homepage"}
       },
       "issues": {
         "release_unchecked": "The release check needs the GitHub API, which is unavailable right now, so releases were not checked.",

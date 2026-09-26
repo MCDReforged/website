@@ -15,7 +15,6 @@ import {
   Badge,
   Button,
   Code,
-  CopyButton,
   Divider,
   Group,
   Loader,
@@ -33,10 +32,7 @@ import {
 import {
   IconAlertTriangle,
   IconCheck,
-  IconCopy,
   IconExternalLink,
-  IconFileText,
-  IconGitFork,
   IconPlus,
   IconTrash,
 } from '@tabler/icons-react'
@@ -45,6 +41,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useMediaQuery } from '@mantine/hooks'
 import React, { useCallback, useEffect, useState } from 'react'
 import { SubmissionReportView } from './submission-report'
+import { SubmissionSteps } from './submission-steps'
 
 /** Files a catalogue fork is expected to carry; any of them proves the fork exists. */
 const FORK_PROBE_FILES = ['README.md', 'readme.md', 'CONTRIBUTING.md', 'CONTRIBUTING_zh_cn.md']
@@ -738,96 +735,20 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
                   </Tabs.Panel>
                 </Tabs>
 
-                {/* The commit itself happens on github.com: this app never asks for write access,
-                    so the pull request is opened by the user in github's own editor. */}
+                {/* Every step below happens in github's own interface, and none of it needs a
+                    credential: the wizard only says which buttons to press, and where. */}
                 {canSubmit && pluginInfoJson !== null ? (
-                  <Paper withBorder p="md">
-                    <Stack gap="sm">
-                      <Text fw={500}>{t('submit.title')}</Text>
-
-                      {ownsCatalogue ? (
-                        <Text size="sm">{t('submit.direct_hint', { repo: catalogueRepo })}</Text>
-                      ) : (
-                        <div>
-                          <Text size="sm" fw={500}>{t('submit.fork_hint', { repo: catalogueRepo })}</Text>
-                          {/* the probe proves a fork exists, never that it does not: an unreachable
-                              network looks exactly like a missing repository, so the wording stays
-                              neutral and always offers a way to open an existing fork */}
-                          {forkStatus?.forkExists ? (
-                            <Stack gap={4} mt={4} align="flex-start">
-                              <Text size="sm" c="dimmed">{t('submit.fork_exists', { repo: forkName })}</Text>
-                              {/* being behind is harmless (the diff starts at the merge base), extra
-                                  commits are not: they land in the pull request too */}
-                              {forkStatus.forkAheadBy > 0 && (
-                                <Alert color="yellow" icon={<IconAlertTriangle/>} p="xs">
-                                  {t('submit.fork_ahead', { repo: forkName, count: forkStatus.forkAheadBy })}
-                                </Alert>
-                              )}
-                              <Button
-                                component="a"
-                                href={`https://github.com/${forkName}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                variant="subtle"
-                                size="compact-sm"
-                                rightSection={<IconExternalLink size={14}/>}
-                              >
-                                {t('submit.fork_open', { repo: forkName })}
-                              </Button>
-                            </Stack>
-                          ) : (
-                            <Stack gap={4} mt={4} align="flex-start">
-                              <Button
-                                component="a"
-                                href={buildForkUrl(catalogueRepo)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                variant="light"
-                                leftSection={<IconGitFork size={18}/>}
-                                rightSection={<IconExternalLink size={16}/>}
-                              >
-                                {t('submit.fork_button')}
-                              </Button>
-                              <Text size="xs" c="dimmed">{t('submit.fork_or_open')}</Text>
-                            </Stack>
-                          )}
-                      </div>
-                      )}
-                      <div>
-                        <Text size="sm" fw={500}>{t('submit.file_step', { path: submissionPath, repo: targetRepo })}</Text>
-                        {/* the copy button is the one path that always works, so it is never
-                            hidden; the link is a shortcut that needs a fork name to point at */}
-                        <Group mt={4}>
-                          {newFileUrl !== null && (
-                            <Button
-                              component="a"
-                              href={newFileUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              leftSection={<IconFileText size={18}/>}
-                              rightSection={<IconExternalLink size={16}/>}
-                            >
-                              {t('submit.file_button')}
-                            </Button>
-                          )}
-                          <CopyButton value={pluginInfoJson} timeout={2000}>
-                            {({ copied, copy }) => (
-                              <Button
-                                variant={newFileUrl === null ? 'light' : 'default'}
-                                onClick={copy}
-                                leftSection={copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
-                              >
-                                {copied ? t('submit.copied') : t('submit.copy')}
-                              </Button>
-                            )}
-                          </CopyButton>
-                        </Group>
-                        <Text size="sm" c="dimmed" mt={4}>{t('submit.file_hint')}</Text>
-                      </div>
-
-                      {!ownsCatalogue && <Text size="xs" c="dimmed">{t('submit.order_hint')}</Text>}
-                    </Stack>
-                  </Paper>
+                  <SubmissionSteps
+                    catalogueRepo={catalogueRepo}
+                    forkName={forkName}
+                    forkExists={forkStatus?.forkExists === true}
+                    forkAheadBy={forkStatus?.forkAheadBy ?? 0}
+                    forkUrl={buildForkUrl(catalogueRepo)}
+                    fileUrl={newFileUrl}
+                    path={submissionPath}
+                    jsonValue={pluginInfoJson}
+                    directHint={ownsCatalogue ? t('submit.direct_hint', { repo: catalogueRepo }) : null}
+                  />
                 ) : (
                   <Alert color="gray" icon={<IconAlertTriangle/>}>{t('submit.blocked')}</Alert>
                 )}

@@ -78,8 +78,8 @@
       },
       "disabled": "当前部署未启用插件提交功能。",
       "rate_limited": "GitHub 对匿名请求的限制是每地址每小时 60 次，现在已用尽。请稍后再试，或换个网络环境。",
-        "network_error": "无法连接 GitHub。请检查网络，或者直接继续：文件照样会在 GitHub 上创建。",
-        "api_unreachable": "无法访问 GitHub API。如果一直如此，请稍后再试。",
+      "network_error": "无法连接 GitHub。请检查网络，或者直接继续：文件照样会在 GitHub 上创建。",
+      "api_unreachable": "无法访问 GitHub API。如果一直如此，请稍后再试。",
       "steps": {
         "select": "选择仓库",
         "guidelines": "贡献指南",
@@ -119,10 +119,7 @@
         "introduction": "插件介绍",
         "introduction_hint": "为每种支持的语言选择介绍文件；至少提供一种语言的介绍文件。路径相对于插件目录。",
         "introduction_placeholder": "docs/introduction.md",
-        "introduction_lang": {
-          "en_us": "English",
-          "zh_cn": "简体中文"
-        }
+        "introduction_lang": {"en_us": "English", "zh_cn": "简体中文"}
       },
       "actions": {
         "next": "下一步",
@@ -142,21 +139,28 @@
       },
       "submit": {
         "fork_ahead": "你的 fork {repo} 里有 {count} 个目录库没有的提交，它们会一起出现在 Pull Request 里。如果不想带上，请先在 fork 里处理这些提交（同步，或重置默认分支）再回来。",
-        "fork_hint": "先确认你是否已有 {repo} 的 fork；没有就创建一个：",
-        "fork_open": "打开 {repo}",
-        "fork_or_open": "已经有 fork 的话，在 GitHub 上打开它，跳过这一步。",
         "title": "提交到目录库",
         "fork_button": "在 GitHub 上创建 fork",
-        "fork_exists": "你已经有 {repo} 了，可以跳过这一步。",
-        "file_step": "2. 在 {repo} 中新建 {path}",
-        "file_button": "在 GitHub 上创建文件",
         "copy": "复制 plugin_info.json",
         "copied": "已复制",
-        "file_hint": "路径和内容都已经填好。提交时选择「Create a new branch for this commit and start a pull request」，GitHub 会顺带把 PR 建好。",
         "direct_hint": "你对 {repo} 有写权限，文件会直接创建在那里，不需要 fork。",
-        "order_hint": "请先做第 1 步：fork 还没建好时，第 2 个链接不能用。",
-        "loading": "正在检查你的 fork…",
-        "blocked": "请先修正上面的问题再提交。"
+        "blocked": "请先修正上面的问题再提交。",
+        "step_fork_hint": "先确认你已有 {repo} 的 fork。如果你 fork 过，直接打开你的 fork：",
+        "step_fork_exists": "你已经有 {repo} 了。",
+        "step_fork_open": "打开 {repo}",
+        "step_fork_button": "在 GitHub 上创建 fork",
+        "step_fork_or_open": "已经 fork 过？在 GitHub 上打开它，跳到下一步。",
+        "step_file_hint": "在你的 fork 中创建插件数据。使用此按钮快速创建：",
+        "step_file_button": "在 GitHub 上创建文件",
+        "step_file_manual": "或者手动来：在你的 fork 页面点 <addFile>Add file</addFile>，再选 <createFile>Create new file</createFile>，把上面的路径与内容粘进去。",
+        "step_commit_hint": "点右上角的 <commit>Commit changes...</commit>。提交信息保持默认即可。",
+        "step_pr_hint": "在弹出的对话框里选 <option>Create a new branch for this commit and start a pull request</option>，然后点 <propose>Propose changes</propose>，最后点 <create>Create pull request</create>。",
+        "no_permission_note": "本页不会向你的 GitHub 账号索取任何权限。绿色按钮是 GitHub 上这些按钮的样子（名称按 GitHub 英文界面）；如果你的界面是中文，按位置找同样的按钮即可。",
+        "open_on_github": "在 GitHub 上打开 {repo}",
+        "path": "路径",
+        "copy_path": "复制路径",
+        "or_manual": "或者手动完成",
+        "branch_hint": "建议的分支名："
       },
       "report": {
         "not_checked": "未检查",
@@ -171,14 +175,7 @@
         "latest_release": "最新发行版",
         "not_detected": "未检测到",
         "none": "无",
-        "metadata": {
-          "name": "名称",
-          "version": "版本",
-          "authors": "作者",
-          "description": "描述",
-          "dependencies": "依赖",
-          "homepage": "主页"
-        }
+        "metadata": {"name": "名称", "version": "版本", "authors": "作者", "description": "描述", "dependencies": "依赖", "homepage": "主页"}
       },
       "issues": {
         "release_unchecked": "发行版检查需要 GitHub API，当前不可用，因此未检查发行版。",
