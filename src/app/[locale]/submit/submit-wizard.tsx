@@ -768,7 +768,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
                     fileUrl={newFileUrl}
                     path={submissionPath}
                     jsonValue={pluginInfoJson}
-                    directHint={ownsCatalogue ? t('submit.direct_hint', { repo: catalogueRepo }) : null}
                   />
                 ) : (
                   <Alert color="gray" icon={<IconAlertTriangle/>}>{t('submit.blocked')}</Alert>

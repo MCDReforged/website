@@ -81,7 +81,6 @@ export function SubmissionSteps({
   fileUrl,
   path,
   jsonValue,
-  directHint,
 }: {
   catalogueRepo: string
   /** `{login}/{catalogueName}`, where the file has to end up */
@@ -94,8 +93,6 @@ export function SubmissionSteps({
   fileUrl: string | null
   path: string
   jsonValue: string
-  /** shown instead of the fork step when the submitter owns the catalogue */
-  directHint: string | null
 }) {
   const t = useTranslations('page.submit.submit')
 
@@ -105,12 +102,7 @@ export function SubmissionSteps({
         <Text fw={500}>{t('title')}</Text>
 
         <Stack gap="lg">
-          {directHint !== null ? (
-            <Step n={1}>
-              <Text size="sm">{directHint}</Text>
-            </Step>
-          ) : (
-            <Step n={1}>
+          <Step n={1}>
               <Text size="sm">{t('step_fork_hint', { repo: catalogueRepo })}</Text>
               <Stack gap={6} mt="xs" align="flex-start">
                 {forkExists ? (
@@ -154,7 +146,6 @@ export function SubmissionSteps({
                 )}
               </Stack>
             </Step>
-          )}
 
           <Step n={2}>
             <Text size="sm">{t('step_file_hint')}</Text>
