@@ -96,7 +96,8 @@
       },
       "repo": {
         "select": "Repository",
-        "select_hint": "Pick one from the list, or enter owner/repository",
+        "select_hint": "Pick from the list, or enter it manually",
+        "invalid": "Enter owner/repository, or paste a github.com repository url.",
         "search_placeholder": "owner/repository",
         "truncated": "Only your 300 most recently pushed repositories are listed; type the name manually for anything older.",
         "branch": "Branch",

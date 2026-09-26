@@ -3,6 +3,7 @@
 import { routes } from '@/site/routes'
 import type { Guidelines, PluginCandidate, PluginInfoAuthor, RepoDetail, RepoListItem, SubmitIssue, ValidationResult } from '@/server/submit/types'
 import { toPluginRelative } from '@/utils/plugin-path-utils'
+import { parseRepoSpec } from '@/utils/github-repo-utils'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/server/submit/types'
 import {
   Alert,
@@ -417,7 +418,13 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                     if (repoData.some(item => item.value.toLowerCase().startsWith(typed.toLowerCase()))) {
                       return
                     }
-                    onSelectRepo(typed)
+                    // a pasted url is the same repository, reduce it to owner/repository
+                    const parsed = parseRepoSpec(typed)
+                    if (parsed === null) {
+                      setError(t('repo.invalid'))
+                      return
+                    }
+                    onSelectRepo(parsed)
                   }}
                   disabled={reposLoading}
                 />

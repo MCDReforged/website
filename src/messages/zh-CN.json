@@ -96,7 +96,8 @@
       },
       "repo": {
         "select": "仓库",
-        "select_hint": "从列表中选择，或填写 owner/repository",
+        "select_hint": "从列表中选择，或手动输入",
+        "invalid": "请填写 owner/repository，或粘贴 github.com 仓库链接。",
         "search_placeholder": "owner/repository",
         "truncated": "仅列出了最近推送的 300 个仓库；更早的仓库请直接填写名称。",
         "branch": "分支",
