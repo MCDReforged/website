@@ -89,6 +89,8 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
   const [reposLoaded, setReposLoaded] = useState(false)
 
   const [repo, setRepo] = useState<string | null>(null)
+  /** what is in the repository box, which may not be a repository yet */
+  const [repoText, setRepoText] = useState('')
   const [detail, setDetail] = useState<RepoDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
 
@@ -196,8 +198,8 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
     return detail.mdFiles.map(path => toPluginRelative(relatedPath, path))
   }, [detail, relatedPath])
 
-  const onSelectRepo = useCallback((value: string | null) => {
-    setRepo(value)
+  /** Drops everything that belonged to the previous repository selection. */
+  const clearSelection = useCallback(() => {
     setDetail(null)
     setBranch(null)
     setRelatedPath(null)
@@ -208,10 +210,14 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
     setIntroduction({})
     setValidation(null)
     setPrResult(null)
-    if (value) {
-      loadDetail(value)
-    }
-  }, [loadDetail])
+  }, [])
+
+  const onSelectRepo = useCallback((value: string) => {
+    setRepo(value)
+    setRepoText(value)
+    clearSelection()
+    loadDetail(value)
+  }, [clearSelection, loadDetail])
 
   const onSelectBranch = useCallback((value: string | null) => {
     setBranch(value)
@@ -383,15 +389,37 @@ export function SubmitWizard({ guidelines }: { guidelines: Guidelines | null }) 
                   </Group>
                 </Alert>
 
-                <Select
+                {/* an autocomplete, not a select: a repository the listing does not return can still
+                    be typed in by hand */}
+                <Autocomplete
                   label={t('repo.select')}
+                  description={t('repo.select_hint')}
                   placeholder={t('repo.search_placeholder')}
-                  searchable
                   data={repoData}
-                  value={repo}
-                  onChange={onSelectRepo}
+                  value={repoText}
+                  onChange={value => {
+                    setRepoText(value)
+                    if (value !== repo) {
+                      // typing a different name invalidates the selection; the detail is loaded once
+                      // a full owner/name has been picked or typed
+                      setRepo(null)
+                      clearSelection()
+                    }
+                  }}
+                  onOptionSubmit={onSelectRepo}
+                  onBlur={event => {
+                    // read the input, not the state: the box is what the user actually typed
+                    const typed = event.currentTarget.value.trim()
+                    if (typed.length === 0 || typed === repo) {
+                      return
+                    }
+                    // still narrowing the list down, the user is about to pick an option
+                    if (repoData.some(item => item.value.toLowerCase().startsWith(typed.toLowerCase()))) {
+                      return
+                    }
+                    onSelectRepo(typed)
+                  }}
                   disabled={reposLoading}
-                  nothingFoundMessage={t('repo.nothing_found')}
                 />
                 {reposLoading && <Loader size="sm"/>}
                 {reposTruncated && <Text size="xs" c="dimmed">{t('repo.truncated')}</Text>}

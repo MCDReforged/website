@@ -96,9 +96,9 @@
       },
       "repo": {
         "select": "Repository",
+        "select_hint": "Pick one from the list, or enter owner/repository",
         "search_placeholder": "owner/repository",
-        "nothing_found": "No repository found",
-        "truncated": "Only your 300 most recently pushed repositories are listed.",
+        "truncated": "Only your 300 most recently pushed repositories are listed; type the name manually for anything older.",
         "branch": "Branch",
         "related_path": "Plugin directory",
         "related_path_hint": "The directory that contains mcdreforged.plugin.json, `.` for the repository root",

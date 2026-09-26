@@ -61,7 +61,9 @@ export async function listUserRepos(token: string): Promise<{ repos: RepoListIte
     const pageRepos = await githubRequest<GithubRepo[]>('/user/repos', {
       token,
       query: {
-        affiliation: 'owner,collaborator',
+        // all three: plenty of plugins live in an organization repository the user can push to
+        // without being listed as an explicit collaborator on it
+        affiliation: 'owner,collaborator,organization_member',
         sort: 'pushed',
         direction: 'desc',
         per_page: REPO_LIST_PER_PAGE,

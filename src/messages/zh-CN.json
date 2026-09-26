@@ -96,9 +96,9 @@
       },
       "repo": {
         "select": "仓库",
+        "select_hint": "从列表中选择，或填写 owner/repository",
         "search_placeholder": "owner/repository",
-        "nothing_found": "没有找到仓库",
-        "truncated": "仅列出了最近推送的 300 个仓库。",
+        "truncated": "仅列出了最近推送的 300 个仓库；更早的仓库请直接填写名称。",
         "branch": "分支",
         "related_path": "插件目录",
         "related_path_hint": "包含 mcdreforged.plugin.json 的目录，仓库根目录填 `.`",
