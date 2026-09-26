@@ -85,6 +85,8 @@
         "review": "Review"
       },
       "repo": {
+        "manual_notice": "The repository could not be read, so nothing was checked and no plugin list is available. Fill the fields in by hand.",
+        "branch_hint": "The branch the plugin lives on; check it, since the repository could not be read",
         "select": "Repository",
         "select_hint": "Paste a github.com repository url, or type owner/repository",
         "invalid": "Enter owner/repository, or paste a github.com repository url.",
@@ -99,6 +101,8 @@
         "tree_truncated": "This repository is very large, so the file listing may be incomplete."
       },
       "details": {
+        "plugin_id_manual_placeholder": "The id declared by mcdreforged.plugin.json",
+        "plugin_id_hint_manual": "Nothing could be read from mcdreforged.plugin.json, so enter the id exactly as that file declares it.",
         "plugin_id": "Plugin ID",
         "plugin_id_hint": "To change it, edit the id field in mcdreforged.plugin.json in your repository.",
         "plugin_id_placeholder": "Waiting for the plugin directory",
@@ -124,6 +128,9 @@
         "check": "Check"
       },
       "review": {
+        "skipped_report": "No report: the checks were skipped.",
+        "skipped": "GitHub's anonymous request limit is used up, so the checks could not run. You can still submit: the catalogue runs its own checks on the pull request.",
+        "skipped_title": "Nothing was checked",
         "errors": "Please fix the following problems",
         "warnings": "Warnings",
         "tab_report": "Report",

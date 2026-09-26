@@ -118,7 +118,14 @@ export function normalizeAuthors(metadata: RawPluginMetadata, context: AuthorLin
     }
   }
 
-  return authors.map(author => applyAuthorLinkPolicy(author, context))
+  const resolved = authors.map(author => applyAuthorLinkPolicy(author, context))
+  if (resolved.length > 0) {
+    return resolved
+  }
+  // nothing declared: the repository owner is the author the catalogue should credit, and the
+  // first preferred login is that owner
+  const owner = context.preferredLogins?.[0]
+  return owner === undefined ? [] : [{ name: owner, link: `https://github.com/${owner}` }]
 }
 
 /** Best effort plain-text description, preferring English then Chinese. */
@@ -181,6 +188,10 @@ export function demo(): void {
     [{ name: 'Someone' }],
     'unknown repo url is dropped, not guessed',
   )
+  // no declared author at all: the repository owner is used, with their profile
+  assert(normalizeAuthors({}, ctx), [{ name: 'alex3236', link: 'https://github.com/alex3236' }], 'owner as default author')
+  assert(normalizeAuthors({ name: 'my_plugin' }, {}), [], 'no owner known, no invented author')
+
   assert(normalizeAuthors({ authors: ['Alex3236', { name: 'Someone' }] }, ctx), [
     { name: 'Alex3236', link: 'https://github.com/alex3236' },
     { name: 'Someone' },

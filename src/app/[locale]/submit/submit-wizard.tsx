@@ -1,10 +1,10 @@
 'use client'
 
 import { toPluginRelative } from '@/utils/plugin-path-utils'
-import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, parseRepoSpec } from '@/utils/github-repo-utils'
+import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
 import { GithubApiError, setGithubApiBase } from '@/utils/github-api'
 import { getRepoDetail, getRepoInfo, resolvePluginCandidate, tryGetRepo } from '@/submit/repo'
-import { validateSubmission } from '@/submit/validate'
+import { buildPluginInfo, validateSubmission } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
 import {
@@ -84,6 +84,10 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
   const [validation, setValidation] = useState<ValidationResult | null>(null)
   const [validating, setValidating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  /** the checks could not run at all (no API access): the submission still can, unchecked */
+  const [skippedCheck, setSkippedCheck] = useState(false)
+  /** the id was read out of a `mcdreforged.plugin.json`, so it stays read-only */
+  const [idFromFile, setIdFromFile] = useState(false)
   /** the github account that will own the fork, taken from the plugin repository unless edited */
   const [login, setLogin] = useState('')
   /** where that account's fork of the catalogue stands */
@@ -130,12 +134,10 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     }
     let cancelled = false
     setCheckingFork(true)
+    // a failure here only means the shortcut link cannot be pointed at an existing fork, which is
+    // not something the user has to act on: the step notices already explain the situation
     loadForkStatus(login)
-      .catch(err => {
-        if (!cancelled) {
-          setError(describeError(err))
-        }
-      })
+      .catch(() => undefined)
       .finally(() => {
         if (!cancelled) {
           setCheckingFork(false)
@@ -144,6 +146,12 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     return () => { cancelled = true }
   }, [login, forkStatus, loadForkStatus, describeError])
 
+  /** the repository owner, credited with their profile, is the author to offer when none is known */
+  const defaultAuthors = useCallback((repoFullName: string): PluginInfoAuthor[] => {
+    const author = ownerAuthor(repoFullName)
+    return author === null ? [] : [author]
+  }, [])
+
   // ---- repository detail ---- //
   const applyCandidate = useCallback((relatedPathValue: string, source: RepoDetail) => {
     setRelatedPath(relatedPathValue)
@@ -151,14 +159,15 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     // always overwritten: switching to a candidate without a usable id must not keep the previous one
     setPluginId(candidate?.metadata.id ?? '')
     setPluginIdError(candidate !== undefined && !candidate.validId ? 'invalid' : null)
-    setAuthors(candidate?.metadata.authors ?? [])
+    setAuthors(candidate?.metadata.authors?.length ? candidate.metadata.authors : defaultAuthors(source.repo))
+    setIdFromFile(typeof candidate?.metadata.id === 'string' && candidate.metadata.id.length > 0)
 
     // the catalogue recommends pointing the introduction at the plugin's own readme
     const ownReadme = relatedPathValue === '.' ? 'README.md' : `${relatedPathValue}/README.md`
     if (source.mdFiles.includes(ownReadme)) {
       setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
     }
-  }, [])
+  }, [defaultAuthors])
 
   const loadDetail = useCallback(async (repoFullName: string, branchName?: string | null) => {
     setDetailLoading(true)
@@ -175,10 +184,15 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     } catch (err) {
       setError(describeError(err))
       setDetail(null)
+      // nothing could be read: the submission does not depend on it, so the fields are typed in by
+      // hand instead of leaving the wizard stuck here
+      setBranch(previous => previous ?? 'master')
+      setRelatedPath(previous => previous ?? '.')
+      setAuthors(previous => previous.length > 0 ? previous : defaultAuthors(repoFullName))
     } finally {
       setDetailLoading(false)
     }
-  }, [applyCandidate, login, describeError])
+  }, [applyCandidate, login, describeError, defaultAuthors])
 
   /**
    * `introduction` values in `plugin_info.json` are relative to the plugin directory, so the picker
@@ -202,6 +216,8 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     setLabels([])
     setIntroduction({})
     setValidation(null)
+    setSkippedCheck(false)
+    setIdFromFile(false)
   }, [])
 
   const onSelectRepo = useCallback((value: string) => {
@@ -233,9 +249,11 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
       if (candidate?.metadata.id) {
         setPluginId(candidate.metadata.id)
         setAuthors(candidate.metadata.authors ?? [])
+        setIdFromFile(true)
       } else {
         setPluginId('')
         setPluginIdError(candidate === null ? 'not_found' : 'invalid')
+        setIdFromFile(false)
       }
     } catch (err) {
       setPluginId('')
@@ -271,9 +289,18 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     setError(null)
     try {
       setValidation(await validateSubmission(buildForm() as SubmitForm, catalogueRepo))
+      setSkippedCheck(false)
       setStep(STEP_REVIEW)
     } catch (err) {
-      setError(describeError(err))
+      if (err instanceof GithubApiError && err.rateLimited) {
+        // the checks are the only part that needs api access, so a used up quota must not stop the
+        // wizard: the file is created on github.com either way
+        setValidation(null)
+        setSkippedCheck(true)
+        setStep(STEP_REVIEW)
+      } else {
+        setError(describeError(err))
+      }
     } finally {
       setValidating(false)
     }
@@ -295,7 +322,10 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     </Stack>
   )
 
-  const canLeaveDetails = repo !== null && branch !== null && relatedPath !== null && pluginId.trim().length > 0
+  // the id is read from the plugin repository, which is two steps ahead, so leaving the first step
+  // cannot depend on it; the check button does
+  const canLeaveDetails = repo !== null && (branch ?? '').trim().length > 0 && relatedPath !== null
+  const canCheck = canLeaveDetails && pluginId.trim().length > 0
   const pluginIdErrorMessage = pluginIdError === null ? undefined
     : pluginIdError === 'not_found' ? t('details.plugin_id_not_found')
       : pluginIdError === 'invalid' ? t('details.plugin_id_invalid')
@@ -304,17 +334,23 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
   // ---- handing the commit over to github ---- //
   const catalogueName = catalogueRepo.split('/')[1]
   const forkName = forkStatus !== null ? `${forkStatus.login}/${catalogueName}` : ''
-  const canSubmit = validation !== null && validation.errors.length === 0 && validation.pluginInfo !== null
+  // when the checks could not run, the form still describes a complete file: nothing about creating
+  // it on github.com needs the api
+  const pluginInfo = validation?.pluginInfo ?? (skippedCheck ? buildPluginInfo(buildForm() as SubmitForm) : null)
+  const canSubmit = pluginInfo !== null && (validation === null || validation.errors.length === 0)
   // the json is written the way the catalogue already formats its files
-  const pluginInfoJson = validation?.pluginInfo ? buildPluginInfoJson(validation.pluginInfo) : null
-  const submissionPath = validation?.pluginInfo ? `plugins/${validation.pluginInfo.id}/plugin_info.json` : ''
+  const pluginInfoJson = pluginInfo !== null ? buildPluginInfoJson(pluginInfo) : null
+  const submissionPath = pluginInfo !== null ? `plugins/${pluginInfo.id}/plugin_info.json` : ''
   // the catalogue's owner needs no fork: forking a repository you own is not possible, and the
   // file can be created there directly. Everyone else commits to their own fork.
   const ownsCatalogue = forkStatus !== null
     && catalogueRepo.split('/')[0].toLowerCase() === forkStatus.login.toLowerCase()
-  const targetRepo = ownsCatalogue ? catalogueRepo : forkName
-  const newFileUrl = canSubmit && pluginInfoJson !== null && submissionPath.length > 0 && forkStatus !== null
-    ? buildNewFileUrl(targetRepo, forkStatus.branch, submissionPath, pluginInfoJson)
+  // without the fork lookup the link assumes the fork exists, which is what the steps below tell the
+  // user to create; the branch is the catalogue's, and master is what every catalogue checked uses
+  const targetRepo = forkStatus !== null ? (ownsCatalogue ? catalogueRepo : forkName) : `${login}/${catalogueName}`
+  const catalogueBranch = forkStatus?.branch ?? 'master'
+  const newFileUrl = canSubmit && pluginInfoJson !== null && submissionPath.length > 0 && targetRepo.length > 0
+    ? buildNewFileUrl(targetRepo, catalogueBranch, submissionPath, pluginInfoJson)
     : null
 
   if (!enabled) {
@@ -382,7 +418,7 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
             {detailLoading && <Loader size="sm"/>}
 
 
-                {detail && (
+                {detail ? (
                   <>
                     <Select
                       label={t('repo.branch')}
@@ -427,8 +463,37 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                     {detail.candidates.length === 0 && (
                       <Alert color="yellow" icon={<IconAlertTriangle/>}>{t('repo.no_candidates')}</Alert>
                     )}
-                    {/* the fork has to live under the submitter's own account, and the plugin
-                        repository's owner is that account in almost every case */}
+                    {detail.candidatesTruncated && <Text size="xs" c="dimmed">{t('repo.candidates_truncated')}</Text>}
+                    {detail.treeTruncated && <Text size="xs" c="dimmed">{t('repo.tree_truncated')}</Text>}
+                  </>
+                ) : repo !== null && !detailLoading ? (
+                  <>
+                    {/* the repository could not be read, so the fields are typed in by hand: none of
+                        this is needed to create the file on github.com */}
+                    <Alert color="yellow" icon={<IconAlertTriangle/>} p="xs">
+                      <Text size="xs">{t('repo.manual_notice')}</Text>
+                    </Alert>
+                    <TextInput
+                      label={t('repo.branch')}
+                      description={t('repo.branch_hint')}
+                      value={branch ?? ''}
+                      onChange={event => setBranch(event.currentTarget.value.trim())}
+                      required
+                    />
+                    <TextInput
+                      label={t('repo.related_path')}
+                      description={t('repo.related_path_hint')}
+                      value={relatedPath ?? ''}
+                      onChange={event => setRelatedPath(event.currentTarget.value.length === 0 ? null : event.currentTarget.value)}
+                      required
+                    />
+                  </>
+                ) : null}
+
+                {/* the fork has to live under the submitter's own account, and the plugin
+                    repository's owner is that account in almost every case */}
+                {repo !== null && !detailLoading && (
+                  <>
                     <TextInput
                       label={t('repo.login')}
                       description={t('repo.login_hint')}
@@ -439,14 +504,13 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                       }}
                     />
                     {checkingFork && <Loader size="sm"/>}
-                    {/* the plugin id itself lives two steps ahead, so the reason the next button is
-                        disabled has to be shown here, next to the directory that was picked */}
-                    {pluginIdErrorMessage !== undefined && (
-                      <Alert color="yellow" icon={<IconAlertTriangle/>}>{pluginIdErrorMessage}</Alert>
-                    )}
-                    {detail.candidatesTruncated && <Text size="xs" c="dimmed">{t('repo.candidates_truncated')}</Text>}
-                    {detail.treeTruncated && <Text size="xs" c="dimmed">{t('repo.tree_truncated')}</Text>}
                   </>
+                )}
+
+                {/* the plugin id itself lives two steps ahead, so the reason the next button is
+                    disabled has to be shown here, next to the directory that was picked */}
+                {pluginIdErrorMessage !== undefined && (
+                  <Alert color="yellow" icon={<IconAlertTriangle/>}>{pluginIdErrorMessage}</Alert>
                 )}
 
             <Group>
@@ -493,10 +557,12 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
           <Stack gap="md" mt="md">
             <TextInput
               label={t('details.plugin_id')}
-              description={t('details.plugin_id_hint')}
+              description={t(idFromFile ? 'details.plugin_id_hint' : 'details.plugin_id_hint_manual')}
               value={pluginId}
-              readOnly
-              placeholder={t('details.plugin_id_placeholder')}
+              // read-only while it is known to match mcdreforged.plugin.json, typed in otherwise
+              readOnly={idFromFile}
+              onChange={event => setPluginId(event.currentTarget.value.trim())}
+              placeholder={idFromFile ? t('details.plugin_id_placeholder') : t('details.plugin_id_manual_placeholder')}
               error={pluginIdErrorMessage}
               rightSection={resolving ? <Loader size="xs"/> : undefined}
               required
@@ -590,13 +656,18 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
 
             <Group>
               <Button variant="default" onClick={() => setStep(STEP_SELECT)}>{t('actions.back')}</Button>
-              <Button onClick={goToReview} disabled={!canLeaveDetails} loading={validating}>{t('actions.check')}</Button>
+              <Button onClick={goToReview} disabled={!canCheck} loading={validating}>{t('actions.check')}</Button>
             </Group>
           </Stack>
         </Stepper.Step>
 
         <Stepper.Step label={t('steps.review')}>
           <Stack gap="md" mt="md">
+                {skippedCheck && (
+                  <Alert color="yellow" icon={<IconAlertTriangle/>} title={t('review.skipped_title')}>
+                    {t('review.skipped')}
+                  </Alert>
+                )}
                 {validation && validation.errors.length > 0 && (
                   <Alert color="red" title={t('review.errors')} icon={<IconAlertTriangle/>}>
                     {issues(validation.errors)}
@@ -617,7 +688,7 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                   <Tabs.Panel value="report" pt="md">
                     {validation?.report
                       ? <SubmissionReportView report={validation.report} errors={validation.errors} warnings={validation.warnings}/>
-                      : <Text size="sm" c="dimmed">{t('review.unavailable')}</Text>}
+                      : <Text size="sm" c="dimmed">{t(skippedCheck ? 'review.skipped_report' : 'review.unavailable')}</Text>}
                   </Tabs.Panel>
 
                   <Tabs.Panel value="json" pt="md">

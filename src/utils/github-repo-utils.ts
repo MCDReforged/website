@@ -1,4 +1,4 @@
-import type { PluginInfoJson } from '@/submit/types'
+import type { PluginInfoAuthor, PluginInfoJson } from '@/submit/types'
 
 /**
  * GitHub repository identifiers and urls.
@@ -144,6 +144,14 @@ export function demo(): void {
     fail('value parameter does not round trip', newFileUrl.searchParams.get('value'))
   }
 
+  const owner = ownerAuthor('alex3236/mcdr-submit-test')
+  if (owner?.name !== 'alex3236' || owner?.link !== 'https://github.com/alex3236') {
+    fail('owner author', owner)
+  }
+  if (ownerAuthor('not a repo') !== null) {
+    fail('owner author for an unusable spec', ownerAuthor('not a repo'))
+  }
+
   console.log('repo spec demo passed')
 }
 
@@ -170,6 +178,17 @@ export function buildNewFileUrl(targetRepo: string, branch: string, path: string
   const encodedPath = path.split('/').map(encodeURIComponent).join('/')
   return `${GITHUB_WEB}/${targetRepo}/new/${encodeURIComponent(branch)}`
     + `?filename=${encodedPath}&value=${encodeURIComponent(content)}`
+}
+
+/**
+ * The author to offer when nothing else is known: the repository owner, credited with their profile.
+ * Also used when the repository cannot be read at all, so the field is never left empty for the user.
+ */
+export function ownerAuthor(repoSpec: string): PluginInfoAuthor | null {
+  const owner = parseRepoSpec(repoSpec)?.split('/')[0]
+  return owner === undefined || owner.length === 0
+    ? null
+    : { name: owner, link: `https://github.com/${owner}` }
 }
 
 /** The file to be committed, matching the formatting the catalogue already uses. */

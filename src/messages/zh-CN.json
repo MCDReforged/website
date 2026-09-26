@@ -85,6 +85,8 @@
         "review": "确认"
       },
       "repo": {
+        "manual_notice": "未能读取仓库信息，因此没有执行任何检查，也无法列出插件。请手动填写以下字段。",
+        "branch_hint": "插件所在的分支；仓库信息未能读取，请自行确认",
         "select": "仓库",
         "select_hint": "粘贴 github.com 仓库链接，或填写 owner/repository",
         "invalid": "请填写 owner/repository，或粘贴 github.com 仓库链接。",
@@ -99,6 +101,8 @@
         "tree_truncated": "仓库过大，文件列表可能不完整。"
       },
       "details": {
+        "plugin_id_manual_placeholder": "mcdreforged.plugin.json 中声明的 id",
+        "plugin_id_hint_manual": "未能读取 mcdreforged.plugin.json，请按该文件中声明的 id 填写。",
         "plugin_id": "插件 ID",
         "plugin_id_hint": "如需修改，请在仓库中修改 mcdreforged.plugin.json 中的 id 字段。",
         "plugin_id_placeholder": "等待选择插件目录",
@@ -124,6 +128,9 @@
         "check": "检查"
       },
       "review": {
+        "skipped_report": "未生成报告：检查未执行。",
+        "skipped": "GitHub 的匿名请求配额已用尽，因此没有执行检查。你仍然可以提交：请参考 Pull Request 的 CI 检查结果。",
+        "skipped_title": "未执行检查",
         "errors": "请先修正以下问题",
         "warnings": "提示",
         "tab_report": "报告",

@@ -290,15 +290,31 @@ export async function validateSubmission(form: SubmitForm, catalogueRepo: string
     metadata: metadata === null ? null : buildMetadataReport(metadata),
   }
 
-  const pluginInfo: PluginInfoJson | null = errors.length === 0 ? {
-    id,
-    authors,
-    repository: `https://github.com/${repo}`,
-    branch,
-    related_path: relatedPath,
-    labels,
-    introduction,
-  } : null
+  const pluginInfo: PluginInfoJson | null = errors.length === 0 ? buildPluginInfo(form) : null
 
   return { errors, warnings, pluginInfo, report }
+}
+
+/**
+ * The `plugin_info.json` a form describes, with nothing checked.
+ *
+ * The wizard falls back to this when the checks cannot run at all — a used up anonymous quota, or
+ * a repository that cannot be read — because submitting needs no API access: the file is created on
+ * github.com, and the catalogue runs its own checks on the pull request.
+ */
+export function buildPluginInfo(form: SubmitForm): PluginInfoJson | null {
+  const repoParts = splitRepo(form.repo ?? '')
+  const id = (form.id ?? '').trim()
+  if (repoParts === null || id.length === 0) {
+    return null
+  }
+  return {
+    id,
+    authors: normalizeAuthorsInput(form.authors).authors,
+    repository: `https://github.com/${repoParts.join('/')}`,
+    branch: (form.branch ?? '').trim(),
+    related_path: normalizeRelatedPath(form.relatedPath),
+    labels: Array.isArray(form.labels) ? form.labels : [],
+    introduction: normalizeIntroduction(form.introduction),
+  }
 }
