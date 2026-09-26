@@ -78,6 +78,8 @@
       },
       "disabled": "Plugin submission is not enabled on this deployment.",
       "rate_limited": "GitHub limits anonymous requests to 60 per hour per address, and this one is used up. Wait a bit, or try again from another network.",
+        "network_error": "GitHub could not be reached. Check your connection, or continue anyway: the file is created on github.com either way.",
+        "api_unreachable": "The GitHub API could not be reached. If this keeps happening, try again later.",
       "steps": {
         "select": "Repository",
         "guidelines": "Guidelines",
@@ -93,7 +95,7 @@
         "search_placeholder": "owner/repository",
         "branch": "Branch",
         "login": "Your GitHub account",
-        "login_hint": "The fork is created under this account; it defaults to the plugin repository owner.",
+        "login_hint": "Github account of the submitter, used to create the PR; please log in to GitHub web with this account.",
         "related_path": "Plugin directory",
         "related_path_hint": "The directory that contains mcdreforged.plugin.json, `.` for the repository root",
         "no_candidates": "No mcdreforged.plugin.json was found in this branch. Check the branch, or type the path manually.",
@@ -129,7 +131,7 @@
       },
       "review": {
         "skipped_report": "No report: the checks were skipped.",
-        "skipped": "GitHub's anonymous request limit is used up, so the API is unavailable. The plugin metadata, introduction files, license and id availability were still checked straight from the repository files; the release check and the plugin directory suggestions could not run.",
+        "skipped": "The GitHub API is unavailable right now, so some checks could not run. The plugin metadata, introduction files, license and id availability were still checked straight from the repository files; the release check and the plugin directory suggestions could not run.",
         "skipped_title": "Nothing was checked",
         "errors": "Please fix the following problems",
         "warnings": "Warnings",
@@ -139,11 +141,12 @@
         "preview": "The file that will be added to the plugin catalogue"
       },
       "submit": {
+        "fork_hint": "First check whether you already have a fork of {repo}; create one if you do not:",
+        "fork_open": "Open {repo}",
+        "fork_or_open": "Already have one? Open it on GitHub and skip this step.",
         "title": "Submit to the catalogue",
-        "fork_step": "1. Create a fork of {repo}",
         "fork_button": "Create the fork on GitHub",
         "fork_exists": "You already have {repo}, so you can skip this step.",
-        "fork_conflict": "You have a repository named {repo}, but it is not a fork of the catalogue. GitHub would create the fork under a different name, so rename or delete it first if you can.",
         "file_step": "2. Create {path} in {repo}",
         "file_button": "Create the file on GitHub",
         "copy": "Copy plugin_info.json",
@@ -178,6 +181,7 @@
       },
       "issues": {
         "release_unchecked": "The release check needs the GitHub API, which is unavailable right now, so releases were not checked.",
+        "files_unchecked": "The repository files could not be read, so the metadata, introduction, license and id checks were skipped.",
         "id_invalid": "`{id}` is not a valid plugin id. Use lowercase letters, digits and underscores, start with a letter, and keep it within 64 characters.",
         "id_exists": "A plugin with the id `{id}` is already in the catalogue.",
         "id_mismatch": "The id does not match mcdreforged.plugin.json, which declares `{expected}`.",

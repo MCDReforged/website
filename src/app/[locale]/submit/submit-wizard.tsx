@@ -3,7 +3,8 @@
 import { toPluginRelative } from '@/utils/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
 import { GithubApiError, setGithubApiBase } from '@/utils/github-api'
-import { getRepoDetail, getRepoInfo, resolvePluginCandidate, tryGetRepo } from '@/submit/repo'
+import { getRepoDetail, getRepoInfo, resolvePluginCandidate } from '@/submit/repo'
+import { firstExistingRawFile } from '@/utils/github-raw'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
@@ -45,14 +46,19 @@ import { useMediaQuery } from '@mantine/hooks'
 import React, { useCallback, useEffect, useState } from 'react'
 import { SubmissionReportView } from './submission-report'
 
+/** Files a catalogue fork is expected to carry; any of them proves the fork exists. */
+const FORK_PROBE_FILES = ['README.md', 'readme.md', 'CONTRIBUTING.md', 'CONTRIBUTING_zh_cn.md']
+
 const STEP_SELECT = 0
 const STEP_GUIDELINES = 1
 const STEP_DETAILS = 2
 const STEP_REVIEW = 3
 
-export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
+export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, catalogueIds }: {
   guidelines: Guidelines | null
   enabled: boolean
+  /** ids already in the catalogue, from the site's cached catalogue data */
+  catalogueIds: string[]
   /** the catalogue submissions are prepared for, e.g. `MCDReforged/PluginCatalogue` */
   catalogueRepo: string
   /** a self hosted github api, for deployments that do not talk to api.github.com */
@@ -104,22 +110,32 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     const name = catalogueRepo.split('/')[1]
     const forkFullName = `${loginValue}/${name}`
     const isCatalogueItself = forkFullName.toLowerCase() === catalogueRepo.toLowerCase()
-    const [catalogue, fork] = await Promise.all([
+    const [catalogue, forkFile] = await Promise.all([
       getRepoInfo(catalogueRepo),
-      // the owner of the catalogue has nothing to fork, and no fork to look up
-      isCatalogueItself ? Promise.resolve(null) : tryGetRepo(forkFullName),
+      // a fork carries the catalogue's own files, so one of these proves it exists — and costs no
+      // api quota. A miss proves nothing (the file could be missing, or the network could be down),
+      // which is why the wording never claims the fork is absent.
+      isCatalogueItself
+        ? Promise.resolve(null)
+        : firstExistingRawFile(forkFullName, 'HEAD', FORK_PROBE_FILES),
     ])
     setForkStatus({
       login: loginValue,
-      forkExists: fork !== null,
-      forkOfCatalogue: fork?.parent?.full_name?.toLowerCase() === catalogueRepo.toLowerCase(),
+      forkExists: forkFile !== null,
       branch: catalogue.default_branch,
     })
   }, [catalogueRepo])
 
-  const describeError = useCallback((err: unknown) => err instanceof GithubApiError && err.rateLimited
-    ? t('rate_limited')
-    : (err as Error).message, [t])
+  const describeError = useCallback((err: unknown) => {
+    if (err instanceof GithubApiError) {
+      return err.rateLimited ? t('rate_limited') : t('api_unreachable')
+    }
+    // a blocked or offline request rejects with a TypeError, whose message is for developers
+    if (err instanceof TypeError) {
+      return t('network_error')
+    }
+    return (err as Error).message
+  }, [t])
 
   const [checkingFork, setCheckingFork] = useState(false)
 
@@ -288,27 +304,24 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
     setValidating(true)
     setError(null)
     try {
-      setValidation(await validateSubmission(buildForm() as SubmitForm, catalogueRepo))
+      setValidation(await validateSubmission(buildForm() as SubmitForm, catalogueRepo, catalogueIds))
       setSkippedCheck(false)
       setStep(STEP_REVIEW)
-    } catch (err) {
-      if (err instanceof GithubApiError && err.rateLimited) {
-        // a used up quota must not stop the wizard: the file is created on github.com either way,
-        // and most of the checks only need the repository files, which have no quota
-        setSkippedCheck(true)
-        try {
-          setValidation(await validateWithoutApi(buildForm() as SubmitForm, catalogueRepo))
-        } catch {
-          setValidation(null)
-        }
-        setStep(STEP_REVIEW)
-      } else {
-        setError(describeError(err))
+    } catch {
+      // Nothing that reaches here means the submission is wrong — the checks report problems as
+      // issue lists. It means the API is unreachable or out of quota, and the submission does not
+      // depend on it: fall back to the file-only checks, and to the form alone if those fail too.
+      setSkippedCheck(true)
+      try {
+        setValidation(await validateWithoutApi(buildForm() as SubmitForm, catalogueRepo, catalogueIds))
+      } catch {
+        setValidation(null)
       }
+      setStep(STEP_REVIEW)
     } finally {
       setValidating(false)
     }
-  }, [buildForm, catalogueRepo, describeError])
+  }, [buildForm, catalogueRepo, catalogueIds])
 
   // the catalogue ships one guideline file per language; prefer the one the server could actually load
   const guidelinesFile = guidelines?.fileName
@@ -495,8 +508,9 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                 ) : null}
 
                 {/* the fork has to live under the submitter's own account, and the plugin
-                    repository's owner is that account in almost every case */}
-                {repo !== null && !detailLoading && (
+                    repository's owner is that account in almost every case. It stays visible even
+                    when nothing could be read, because the file link is built from it. */}
+                {repo !== null && (
                   <>
                     <TextInput
                       label={t('repo.login')}
@@ -721,11 +735,27 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                         <Text size="sm">{t('submit.direct_hint', { repo: catalogueRepo })}</Text>
                       ) : (
                         <div>
-                          <Text size="sm" fw={500}>{t('submit.fork_step', { repo: catalogueRepo })}</Text>
-                          {forkStatus?.forkExists && forkStatus.forkOfCatalogue ? (
-                            <Text size="sm" c="dimmed">{t('submit.fork_exists', { repo: forkName })}</Text>
+                          <Text size="sm" fw={500}>{t('submit.fork_hint', { repo: catalogueRepo })}</Text>
+                          {/* the probe proves a fork exists, never that it does not: an unreachable
+                              network looks exactly like a missing repository, so the wording stays
+                              neutral and always offers a way to open an existing fork */}
+                          {forkStatus?.forkExists ? (
+                            <Stack gap={4} mt={4} align="flex-start">
+                              <Text size="sm" c="dimmed">{t('submit.fork_exists', { repo: forkName })}</Text>
+                              <Button
+                                component="a"
+                                href={`https://github.com/${forkName}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant="subtle"
+                                size="compact-sm"
+                                rightSection={<IconExternalLink size={14}/>}
+                              >
+                                {t('submit.fork_open', { repo: forkName })}
+                              </Button>
+                            </Stack>
                           ) : (
-                            <Stack gap="xs" mt={4} align="flex-start">
+                            <Stack gap={4} mt={4} align="flex-start">
                               <Button
                                 component="a"
                                 href={buildForkUrl(catalogueRepo)}
@@ -737,19 +767,17 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                               >
                                 {t('submit.fork_button')}
                               </Button>
-                              {forkStatus?.forkExists && !forkStatus.forkOfCatalogue && (
-                                <Alert color="yellow" icon={<IconAlertTriangle/>} p="xs">
-                                  {t('submit.fork_conflict', { repo: forkName })}
-                                </Alert>
-                              )}
+                              <Text size="xs" c="dimmed">{t('submit.fork_or_open')}</Text>
                             </Stack>
                           )}
                       </div>
                       )}
                       <div>
                         <Text size="sm" fw={500}>{t('submit.file_step', { path: submissionPath, repo: targetRepo })}</Text>
-                        {newFileUrl !== null ? (
-                          <Group mt={4}>
+                        {/* the copy button is the one path that always works, so it is never
+                            hidden; the link is a shortcut that needs a fork name to point at */}
+                        <Group mt={4}>
+                          {newFileUrl !== null && (
                             <Button
                               component="a"
                               href={newFileUrl}
@@ -760,21 +788,19 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
                             >
                               {t('submit.file_button')}
                             </Button>
-                            <CopyButton value={pluginInfoJson} timeout={2000}>
-                              {({ copied, copy }) => (
-                                <Button
-                                  variant="default"
-                                  onClick={copy}
-                                  leftSection={copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
-                                >
-                                  {copied ? t('submit.copied') : t('submit.copy')}
-                                </Button>
-                              )}
-                            </CopyButton>
-                          </Group>
-                        ) : (
-                          <Text size="sm" c="dimmed">{t('submit.loading')}</Text>
-                        )}
+                          )}
+                          <CopyButton value={pluginInfoJson} timeout={2000}>
+                            {({ copied, copy }) => (
+                              <Button
+                                variant={newFileUrl === null ? 'light' : 'default'}
+                                onClick={copy}
+                                leftSection={copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
+                              >
+                                {copied ? t('submit.copied') : t('submit.copy')}
+                              </Button>
+                            )}
+                          </CopyButton>
+                        </Group>
                         <Text size="sm" c="dimmed" mt={4}>{t('submit.file_hint')}</Text>
                       </div>
 

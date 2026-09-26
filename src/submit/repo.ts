@@ -1,4 +1,5 @@
-import { GithubApiError, GithubGitTree, GithubRepo, encodeRepoPath, githubRequest } from '@/utils/github-api'
+import { GithubApiError, GithubGitTree, GithubRepo, githubRequest } from '@/utils/github-api'
+import { readRawFile } from '@/utils/github-raw'
 import {
   asString,
   AuthorLinkContext,
@@ -61,15 +62,14 @@ export async function fetchTree(repo: string, branch: string): Promise<GithubGit
   })
 }
 
+/**
+ * A file in a repository, read from `raw.githubusercontent.com`.
+ *
+ * A known path needs no API: raw has no request quota, so this works even when the API is
+ * unavailable or exhausted, and it is one request less on every submission.
+ */
 export async function readRepoFile(repo: string, branch: string, path: string): Promise<string | null> {
-  const file = await githubRequest<{ content?: string, encoding?: string }>(
-    `/repos/${repo}/contents/${encodeRepoPath(path)}`,
-    { query: { ref: branch } },
-  )
-  if (file.encoding !== 'base64' || typeof file.content !== 'string') {
-    return null
-  }
-  return Buffer.from(file.content, 'base64').toString('utf8')
+  return readRawFile(repo, branch, path)
 }
 
 export async function readPluginMetadata(
@@ -229,16 +229,3 @@ export async function getRepoDetail(
   }
 }
 
-// ---- fork helpers ---- //
-
-/** `null` when the repository does not exist, or is not public. */
-export async function tryGetRepo(fullName: string): Promise<GithubRepo | null> {
-  try {
-    return await getRepoInfo(fullName)
-  } catch (error) {
-    if (error instanceof GithubApiError && error.status === 404) {
-      return null
-    }
-    throw error
-  }
-}

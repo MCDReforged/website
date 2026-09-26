@@ -99,8 +99,10 @@ export function SubmissionReportView(
   // warnings also mark a row, the same way the catalogue report shows ⚠️ for its warnings
   const hasIssue = (code: SubmitIssue['code']) =>
     errors.some(issue => issue.code === code) || warnings.some(issue => issue.code === code)
-  // the release lookup needs the api; when it never ran, the row must say so rather than "not found"
+  // the release lookup needs the api, and the licence probe needs the files; when a check never ran,
+  // its row must say so rather than claim it found nothing
   const releaseUnchecked = hasIssue('release_unchecked')
+  const filesUnchecked = hasIssue('files_unchecked')
   const metadata = report.metadata
 
   return (
@@ -131,7 +133,9 @@ export function SubmissionReportView(
           valid={report.license.detected}
           value={report.license.detected
             ? <Text size="sm" ff="monospace">{report.license.files.join(', ')}</Text>
-            : <Text size="sm" c="yellow.7">{t('not_detected')}</Text>}
+            : filesUnchecked
+              ? <Text size="sm" c="dimmed">{t('not_checked')}</Text>
+              : <Text size="sm" c="yellow.7">{t('not_detected')}</Text>}
         />
         <Row
           label={t('labels')}

@@ -57,6 +57,7 @@ export type SubmitIssueCode =
   | 'no_license'
   | 'no_release'
   | 'release_unchecked'
+  | 'files_unchecked'
 
 /**
  * A validation finding. `code` is translated on the client, `params` are interpolated into the message.
@@ -157,9 +158,8 @@ export interface Guidelines {
 /** Where the user's own fork of the catalogue stands */
 export interface ForkStatus {
   login: string
+  /** a file probe found the repository; a miss is unknown, not proof of absence */
   forkExists: boolean
-  /** the repository under the user's account is a fork of the configured catalogue */
-  forkOfCatalogue: boolean
   /** the branch a new file has to be created on: the fork's default branch, or the catalogue's */
   branch: string
 }

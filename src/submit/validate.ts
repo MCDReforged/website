@@ -11,7 +11,7 @@ import {
   PLUGIN_ID_RECOMMENDED_MIN_LENGTH,
   RawPluginMetadata,
 } from './metadata'
-import { fetchTree, readPluginMetadata, splitRepo } from './repo'
+import { fetchTree, splitRepo } from './repo'
 import { firstExistingRawFile, rawFileExists, readRawFile } from '@/utils/github-raw'
 import {
   INTRODUCTION_LANGUAGES,
@@ -45,20 +45,6 @@ const LICENSE_FILE_REGEX = /^(licen[cs]e|copying)([-.].*)?$/i
  * The catalogue asks for a fresh id list on the default branch. Omitting `ref` makes the contents
  * API use the repository's default branch, which saves a `GET /repos/{repo}` round trip.
  */
-export async function fetchExistingPluginIds(upstream: string): Promise<string[]> {
-  try {
-    const entries = await githubRequest<{ name: string, type: string }[]>(`/repos/${upstream}/contents/plugins`)
-    return entries.filter(entry => entry.type === 'dir').map(entry => entry.name)
-  } catch (error) {
-    // a catalogue without a plugins directory has nothing to collide with; the catalogue's own
-    // check remains the authority on duplicate ids, so this must not block a submission
-    if (error instanceof GithubApiError && error.status === 404) {
-      return []
-    }
-    throw error
-  }
-}
-
 function normalizeIntroduction(introduction: Record<string, string> | undefined): Record<string, string> {
   const result: Record<string, string> = {}
   for (const language of INTRODUCTION_LANGUAGES) {
@@ -229,144 +215,57 @@ function collectLocalIssues(form: SubmitForm): LocalChecks {
   }
 }
 
-export async function validateSubmission(form: SubmitForm, catalogueRepo: string): Promise<ValidationResult> {
-  const local = collectLocalIssues(form)
-  const { errors, warnings, repo, id, branch, relatedPath, introduction, labels, authors } = local
-
-  if (repo === null) {
-    return { errors, warnings, pluginInfo: null, report: null }
-  }
-  if (!local.relatedPathIsSafe) {
-    // every remaining check resolves files under this path, none of them can be meaningful
-    return { errors, warnings, pluginInfo: null, report: null }
-  }
-
-  // ---- catalogue uniqueness (1 API call) ---- //
-  const existingIds = await fetchExistingPluginIds(catalogueRepo)
-  if (errors.every(issue => issue.code !== 'id_invalid')) {
-    if (existingIds.includes(id)) {
-      errors.push({ code: 'id_exists', params: { id } })
-    } else {
-      const closest = closestId(id, existingIds)
-      if (closest !== null && closest.distance < ID_SIMILARITY_THRESHOLD) {
-        warnings.push({ code: 'id_similar', params: { existing: closest.id, distance: closest.distance } })
-      }
-    }
-  }
-
-  // ---- repository tree (1 API call) ---- //
-  let tree: GithubGitTree
-  try {
-    tree = await fetchTree(repo, branch)
-  } catch (error) {
-    if (error instanceof GithubApiError && error.status === 404) {
-      errors.push({ code: 'branch_not_found', params: { branch } })
-      return { errors, warnings, pluginInfo: null, report: null }
-    }
-    throw error
-  }
-
-  const license = detectLicense(tree)
-  if (!license.detected) {
-    warnings.push({ code: 'no_license' })
-  }
-
-  const blobs = new Set(tree.tree.filter(entry => entry.type === 'blob').map(entry => entry.path))
-  const pluginJsonPath = relatedPath === '.' ? 'mcdreforged.plugin.json' : `${relatedPath}/mcdreforged.plugin.json`
-
-  // ---- plugin metadata (1 API call) ---- //
-  let metadata: RawPluginMetadata | null = null
-  if (!blobs.has(pluginJsonPath)) {
-    errors.push({ code: 'plugin_json_missing', params: { path: pluginJsonPath } })
-  } else {
-    const parsed = await readPluginMetadata(repo, branch, pluginJsonPath)
-    if (parsed === null) {
-      errors.push({ code: 'plugin_json_unreadable', params: { path: pluginJsonPath } })
-    } else {
-      metadata = parsed
-      const declaredId = getPluginId(parsed)
-      if (declaredId === null) {
-        errors.push({ code: 'id_invalid', params: { id: String(parsed.id ?? '') } })
-      } else if (declaredId !== id) {
-        errors.push({ code: 'id_mismatch', params: { expected: declaredId, actual: id } })
-      }
-      if (getDescriptionText(parsed) === undefined) {
-        errors.push({ code: 'description_missing', params: { path: pluginJsonPath } })
-      }
-    }
-  }
-
-  for (const [language, path] of Object.entries(introduction)) {
-    // `introduction` is relative to `related_path` in the catalogue, and may walk out of it
-    const resolved = resolvePluginRelative(relatedPath, path)
-    if (resolved === null || !blobs.has(resolved)) {
-      errors.push({ code: 'introduction_path_not_found', params: { language, path } })
-    }
-  }
-
-  // ---- releases (1 API call, skipped when no version is known) ---- //
-  const version = metadata === null ? undefined : asString(metadata.version)
-  const release = await findRelease(repo, id, version)
-  if (metadata !== null && release === null) {
-    warnings.push({ code: 'no_release' })
-  }
-
-  const report: SubmissionReport = {
-    repo,
-    repository: `https://github.com/${repo}`,
-    branch,
-    relatedPath,
-    pluginJsonPath,
-    authors,
-    labels,
-    introduction,
-    license,
-    release,
-    metadata: metadata === null ? null : buildMetadataReport(metadata),
-  }
-
-  const pluginInfo: PluginInfoJson | null = errors.length === 0 ? buildPluginInfo(form) : null
-
-  return { errors, warnings, pluginInfo, report }
-}
-
-
-/** Licence file names worth probing when the repository tree cannot be listed. */
-const LICENSE_PROBE_NAMES = [
-  'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'LICENSE.rst',
-  'LICENCE', 'LICENCE.md', 'LICENCE.txt',
-  'COPYING', 'COPYING.md', 'COPYING.LESSER',
-]
-
 /**
- * The same submission, checked from the repository files alone.
+ * The checks themselves, from the files the submission names plus the catalogue's id list.
  *
- * `raw.githubusercontent.com` has no request quota, so everything with a *known* path can still be
- * checked when the API is unavailable: the plugin metadata, the introduction files, the licence and
- * whether the id is already taken. What needs the API is left out — the release lookup, the
- * repository tree (so no plugin directory suggestions and no similar id warning) — and the result
- * says so, through the `release_unchecked` warning.
+ * `tree` is the one thing raw cannot provide — it is a listing, not a path — and it is optional:
+ * with it the licence is read from the exact file names it contains, without it the usual names are
+ * probed. Everything else here is a raw file read, so the API being unavailable changes only how
+ * much is checked, never whether the submission can be prepared.
  */
-export async function validateWithoutApi(form: SubmitForm, catalogueRepo: string): Promise<ValidationResult> {
-  const local = collectLocalIssues(form)
+async function checkWithFiles(
+  form: SubmitForm,
+  local: LocalChecks,
+  catalogue: { repo: string, ids: string[] },
+  tree: GithubGitTree | null,
+): Promise<ValidationResult> {
   const { errors, warnings, repo, id, branch, relatedPath, introduction, labels, authors } = local
-
-  if (repo === null || !local.relatedPathIsSafe) {
-    return { errors, warnings, pluginInfo: null, report: null }
-  }
-
   const pluginJsonPath = relatedPath === '.' ? 'mcdreforged.plugin.json' : `${relatedPath}/mcdreforged.plugin.json`
 
-  // ---- plugin metadata (1 file) ---- //
-  let metadata: RawPluginMetadata | null = null
-  const rawMetadata = await readRawFile(repo, branch, pluginJsonPath)
-  if (rawMetadata === null) {
-    errors.push({ code: 'plugin_json_missing', params: { path: pluginJsonPath } })
-  } else {
+  // "the file is not there" is a finding; "we could not ask" is not, and only removes a check
+  let filesUnavailable = false
+  const attempt = async <T>(work: () => Promise<T>): Promise<T | undefined> => {
     try {
-      metadata = JSON.parse(rawMetadata) as RawPluginMetadata
+      return await work()
     } catch {
-      errors.push({ code: 'plugin_json_unreadable', params: { path: pluginJsonPath } })
+      filesUnavailable = true
+      return undefined
+    }
+  }
+
+  // ---- is the id free? one file request, plus the catalogue list the site already caches ---- //
+  if (repo !== null && errors.every(issue => issue.code !== 'id_invalid')) {
+    if (await attempt(() => rawFileExists(catalogue.repo, 'HEAD', `plugins/${id}/plugin_info.json`)) === true) {
+      errors.push({ code: 'id_exists', params: { id } })
+    }
+    const closest = closestId(id, catalogue.ids)
+    if (closest !== null && closest.distance < ID_SIMILARITY_THRESHOLD) {
+      warnings.push({ code: 'id_similar', params: { existing: closest.id, distance: closest.distance } })
+    }
+  }
+
+  // ---- plugin metadata, read from the file itself ---- //
+  let metadata: RawPluginMetadata | null = null
+  if (repo !== null) {
+    const rawMetadata = await attempt(() => readRawFile(repo, branch, pluginJsonPath))
+    if (rawMetadata === null) {
+      errors.push({ code: 'plugin_json_missing', params: { path: pluginJsonPath } })
+    } else if (typeof rawMetadata === 'string') {
+      try {
+        metadata = JSON.parse(rawMetadata) as RawPluginMetadata
+      } catch {
+        errors.push({ code: 'plugin_json_unreadable', params: { path: pluginJsonPath } })
+      }
     }
   }
   if (metadata !== null) {
@@ -381,32 +280,53 @@ export async function validateWithoutApi(form: SubmitForm, catalogueRepo: string
     }
   }
 
-  // ---- introduction files (1 file each) ---- //
-  for (const [language, path] of Object.entries(introduction)) {
-    const resolved = resolvePluginRelative(relatedPath, path)
-    if (resolved === null || !(await rawFileExists(repo, branch, resolved))) {
-      errors.push({ code: 'introduction_path_not_found', params: { language, path } })
+  // ---- introduction files, resolved against the plugin directory ---- //
+  if (repo !== null) {
+    for (const [language, path] of Object.entries(introduction)) {
+      const resolved = resolvePluginRelative(relatedPath, path)
+      if (resolved === null) {
+        errors.push({ code: 'introduction_path_not_found', params: { language, path } })
+        continue
+      }
+      if (await attempt(() => rawFileExists(repo, branch, resolved)) === false) {
+        errors.push({ code: 'introduction_path_not_found', params: { language, path } })
+      }
     }
   }
 
-  // ---- licence (a few probes at the repository root) ---- //
-  const licenceFile = await firstExistingRawFile(repo, branch, LICENSE_PROBE_NAMES)
-  const license: LicenseCheck = { detected: licenceFile !== null, files: licenceFile === null ? [] : [licenceFile] }
-  if (!license.detected) {
+  // ---- licence: exact names when the tree could be listed, the usual names otherwise ---- //
+  let license: LicenseCheck | null = null
+  if (tree !== null) {
+    license = detectLicense(tree)
+  } else if (repo !== null) {
+    const licenceFile = await attempt(() => firstExistingRawFile(repo, branch, LICENSE_PROBE_NAMES))
+    // `undefined` means the probe could not run; `null` means it ran and found nothing
+    if (licenceFile !== undefined) {
+      license = { detected: licenceFile !== null, files: licenceFile === null ? [] : [licenceFile] }
+    }
+  }
+  if (license !== null && !license.detected) {
     warnings.push({ code: 'no_license' })
   }
 
-  // ---- is the id free? (1 file, instead of listing the catalogue) ---- //
-  if (errors.every(issue => issue.code !== 'id_invalid')) {
-    if (await rawFileExists(catalogueRepo, 'HEAD', `plugins/${id}/plugin_info.json`)) {
-      errors.push({ code: 'id_exists', params: { id } })
+  // ---- releases: the one check that has no file to read ---- //
+  let release: ReleaseCheck | null = null
+  if (tree === null) {
+    // saying nothing would read as "all clear"
+    warnings.push({ code: 'release_unchecked' })
+  } else if (repo !== null) {
+    release = await attempt(() => findRelease(repo, id, metadata === null ? undefined : asString(metadata.version))) ?? null
+    if (metadata !== null && release === null && !filesUnavailable) {
+      warnings.push({ code: 'no_release' })
     }
   }
 
-  // the release lookup and the tree scan need the API; saying nothing would read as "all clear"
-  warnings.push({ code: 'release_unchecked' })
+  if (filesUnavailable) {
+    // saying nothing would read as "all clear"
+    warnings.push({ code: 'files_unchecked' })
+  }
 
-  const report: SubmissionReport = {
+  const report: SubmissionReport | null = repo === null ? null : {
     repo,
     repository: `https://github.com/${repo}`,
     branch,
@@ -415,8 +335,8 @@ export async function validateWithoutApi(form: SubmitForm, catalogueRepo: string
     authors,
     labels,
     introduction,
-    license,
-    release: null,
+    license: license ?? { detected: false, files: [] },
+    release,
     metadata: metadata === null ? null : buildMetadataReport(metadata),
   }
 
@@ -428,13 +348,62 @@ export async function validateWithoutApi(form: SubmitForm, catalogueRepo: string
   }
 }
 
-/**
- * The `plugin_info.json` a form describes, with nothing checked.
- *
- * The wizard falls back to this when the checks cannot run at all — a used up anonymous quota, or
- * a repository that cannot be read — because submitting needs no API access: the file is created on
- * github.com, and the catalogue runs its own checks on the pull request.
- */
+function unusable(form: SubmitForm): ValidationResult | null {
+  const local = collectLocalIssues(form)
+  if (local.repo !== null && local.relatedPathIsSafe) {
+    return null
+  }
+  return { errors: local.errors, warnings: local.warnings, pluginInfo: null, report: null }
+}
+
+/** The full check: one API call for the repository tree (plus one for the releases). */
+export async function validateSubmission(
+  form: SubmitForm,
+  catalogueRepo: string,
+  catalogueIds: string[],
+): Promise<ValidationResult> {
+  const unusableResult = unusable(form)
+  if (unusableResult !== null) {
+    return unusableResult
+  }
+  const local = collectLocalIssues(form)
+  let tree: GithubGitTree
+  try {
+    tree = await fetchTree(local.repo!, local.branch)
+  } catch (error) {
+    if (error instanceof GithubApiError && error.status === 404) {
+      return {
+        errors: [...local.errors, { code: 'branch_not_found', params: { branch: local.branch } }],
+        warnings: local.warnings,
+        pluginInfo: null,
+        report: null,
+      }
+    }
+    throw error
+  }
+  return checkWithFiles(form, local, { repo: catalogueRepo, ids: catalogueIds }, tree)
+}
+
+/** The same submission with no API at all: every file with a known path, read from raw. */
+export async function validateWithoutApi(
+  form: SubmitForm,
+  catalogueRepo: string,
+  catalogueIds: string[],
+): Promise<ValidationResult> {
+  const unusableResult = unusable(form)
+  if (unusableResult !== null) {
+    return unusableResult
+  }
+  return checkWithFiles(form, collectLocalIssues(form), { repo: catalogueRepo, ids: catalogueIds }, null)
+}
+
+/** Licence file names worth probing when the repository tree cannot be listed. */
+const LICENSE_PROBE_NAMES = [
+  'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'LICENSE.rst',
+  'LICENCE', 'LICENCE.md', 'LICENCE.txt',
+  'COPYING', 'COPYING.md', 'COPYING.LESSER',
+]
+
 export function buildPluginInfo(form: SubmitForm): PluginInfoJson | null {
   const repoParts = splitRepo(form.repo ?? '')
   const id = (form.id ?? '').trim()

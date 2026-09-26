@@ -13,24 +13,21 @@ export function rawFileUrl(repo: string, ref: string, path: string): string {
   return `${RAW_BASE}/${repo}/${encodeURIComponent(ref)}/${encodedPath}`
 }
 
-/** The file's text, or `null` when it is not there (or cannot be fetched at all). */
+/**
+ * The file's text, or `null` when the file is not there.
+ *
+ * A network failure is *not* the same answer and is left to propagate: "the file is missing" is a
+ * finding, "we could not ask" is not.
+ */
 export async function readRawFile(repo: string, ref: string, path: string): Promise<string | null> {
-  try {
-    const response = await fetch(rawFileUrl(repo, ref, path), { cache: 'no-store' })
-    return response.ok ? await response.text() : null
-  } catch {
-    return null
-  }
+  const response = await fetch(rawFileUrl(repo, ref, path), { cache: 'no-store' })
+  return response.ok ? await response.text() : null
 }
 
 /** Whether the file exists. Cheaper than reading it when only existence matters. */
 export async function rawFileExists(repo: string, ref: string, path: string): Promise<boolean> {
-  try {
-    const response = await fetch(rawFileUrl(repo, ref, path), { method: 'HEAD', cache: 'no-store' })
-    return response.ok
-  } catch {
-    return false
-  }
+  const response = await fetch(rawFileUrl(repo, ref, path), { method: 'HEAD', cache: 'no-store' })
+  return response.ok
 }
 
 /** The first of `paths` that exists, or `null` when none does. */
@@ -75,12 +72,18 @@ export async function demo(): Promise<void> {
     if (await rawFileExists('a/b', 'master', 'missing.json')) {
       fail('existence of a missing file', calls)
     }
+    // a broken network must not read as "the file is not there"
     respond = () => { throw new Error('network down') }
-    if (await readRawFile('a/b', 'master', 'LICENSE') !== null) {
-      fail('read with a broken network', calls)
-    }
-    if (await rawFileExists('a/b', 'master', 'LICENSE')) {
-      fail('existence with a broken network', calls)
+    for (const attempt of [() => readRawFile('a/b', 'master', 'LICENSE'), () => rawFileExists('a/b', 'master', 'LICENSE')]) {
+      let threw = false
+      try {
+        await attempt()
+      } catch {
+        threw = true
+      }
+      if (!threw) {
+        fail('a network failure should propagate, not be reported as a missing file', calls)
+      }
     }
 
     // existence uses HEAD, and the first hit wins
