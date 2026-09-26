@@ -56,6 +56,7 @@ export type SubmitIssueCode =
   | 'authors_missing'
   | 'no_license'
   | 'no_release'
+  | 'release_unchecked'
 
 /**
  * A validation finding. `code` is translated on the client, `params` are interpolated into the message.

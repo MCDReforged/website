@@ -4,7 +4,7 @@ import { toPluginRelative } from '@/utils/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
 import { GithubApiError, setGithubApiBase } from '@/utils/github-api'
 import { getRepoDetail, getRepoInfo, resolvePluginCandidate, tryGetRepo } from '@/submit/repo'
-import { buildPluginInfo, validateSubmission } from '@/submit/validate'
+import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
 import {
@@ -293,10 +293,14 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase }: {
       setStep(STEP_REVIEW)
     } catch (err) {
       if (err instanceof GithubApiError && err.rateLimited) {
-        // the checks are the only part that needs api access, so a used up quota must not stop the
-        // wizard: the file is created on github.com either way
-        setValidation(null)
+        // a used up quota must not stop the wizard: the file is created on github.com either way,
+        // and most of the checks only need the repository files, which have no quota
         setSkippedCheck(true)
+        try {
+          setValidation(await validateWithoutApi(buildForm() as SubmitForm, catalogueRepo))
+        } catch {
+          setValidation(null)
+        }
         setStep(STEP_REVIEW)
       } else {
         setError(describeError(err))

@@ -129,7 +129,7 @@
       },
       "review": {
         "skipped_report": "No report: the checks were skipped.",
-        "skipped": "GitHub's anonymous request limit is used up, so the checks could not run. You can still submit: the catalogue runs its own checks on the pull request.",
+        "skipped": "GitHub's anonymous request limit is used up, so the API is unavailable. The plugin metadata, introduction files, license and id availability were still checked straight from the repository files; the release check and the plugin directory suggestions could not run.",
         "skipped_title": "Nothing was checked",
         "errors": "Please fix the following problems",
         "warnings": "Warnings",
@@ -155,6 +155,7 @@
         "blocked": "Fix the problems listed above before submitting."
       },
       "report": {
+        "not_checked": "Not checked",
         "plugin_info_title": "Plugin info",
         "metadata_title": "Plugin metadata",
         "repository": "Repository",
@@ -176,6 +177,7 @@
         }
       },
       "issues": {
+        "release_unchecked": "The release check needs the GitHub API, which is unavailable right now, so releases were not checked.",
         "id_invalid": "`{id}` is not a valid plugin id. Use lowercase letters, digits and underscores, start with a letter, and keep it within 64 characters.",
         "id_exists": "A plugin with the id `{id}` is already in the catalogue.",
         "id_mismatch": "The id does not match mcdreforged.plugin.json, which declares `{expected}`.",

@@ -99,6 +99,8 @@ export function SubmissionReportView(
   // warnings also mark a row, the same way the catalogue report shows ⚠️ for its warnings
   const hasIssue = (code: SubmitIssue['code']) =>
     errors.some(issue => issue.code === code) || warnings.some(issue => issue.code === code)
+  // the release lookup needs the api; when it never ran, the row must say so rather than "not found"
+  const releaseUnchecked = hasIssue('release_unchecked')
   const metadata = report.metadata
 
   return (
@@ -157,7 +159,7 @@ export function SubmissionReportView(
         <Row
           label={t('latest_release')}
           valid={report.release !== null}
-          value={report.release === null
+          value={releaseUnchecked ? t('not_checked') : report.release === null
             ? <Text size="sm" c="yellow.7">{t('none')}</Text>
             : <Text size="sm">
               {report.release.url === null

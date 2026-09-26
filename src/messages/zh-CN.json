@@ -129,7 +129,7 @@
       },
       "review": {
         "skipped_report": "未生成报告：检查未执行。",
-        "skipped": "GitHub 的匿名请求配额已用尽，因此没有执行检查。你仍然可以提交：请参考 Pull Request 的 CI 检查结果。",
+        "skipped": "GitHub 的匿名请求配额已用尽，API 当前不可用。插件元数据、介绍文件、许可证与 id 占用情况已直接通过仓库文件检查；发行版检查与插件目录建议未能执行。",
         "skipped_title": "未执行检查",
         "errors": "请先修正以下问题",
         "warnings": "提示",
@@ -155,6 +155,7 @@
         "blocked": "请先修正上面的问题再提交。"
       },
       "report": {
+        "not_checked": "未检查",
         "plugin_info_title": "插件信息",
         "metadata_title": "插件元数据",
         "repository": "仓库",
@@ -176,6 +177,7 @@
         }
       },
       "issues": {
+        "release_unchecked": "发行版检查需要 GitHub API，当前不可用，因此未检查发行版。",
         "id_invalid": "`{id}` 不是合法的插件 ID。请使用小写字母、数字和下划线，以字母开头，且不超过 64 个字符。",
         "id_exists": "目录库中已存在 ID 为 `{id}` 的插件。",
         "id_mismatch": "ID 与 mcdreforged.plugin.json 不一致，后者声明为 `{expected}`。",
