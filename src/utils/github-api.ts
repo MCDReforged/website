@@ -139,6 +139,13 @@ export interface GithubContentFile {
   encoding?: string
 }
 
+/** The shape of `GET /repos/{repo}/compare/{base}...{head}` that the submission flow needs */
+export interface GithubCompare {
+  status: 'identical' | 'ahead' | 'behind' | 'diverged'
+  ahead_by: number
+  behind_by: number
+}
+
 export interface GithubRelease {
   tag_name: string
   draft: boolean

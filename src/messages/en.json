@@ -141,6 +141,7 @@
         "preview": "The file that will be added to the plugin catalogue"
       },
       "submit": {
+        "fork_ahead": "Your fork {repo} has {count} commit(s) the catalogue does not have. They will be part of the pull request; if you would rather not include them, deal with them in your fork first (sync it, or reset its default branch) and come back.",
         "fork_hint": "First check whether you already have a fork of {repo}; create one if you do not:",
         "fork_open": "Open {repo}",
         "fork_or_open": "Already have one? Open it on GitHub and skip this step.",

@@ -2,7 +2,7 @@
 
 import { toPluginRelative } from '@/utils/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
-import { GithubApiError, setGithubApiBase } from '@/utils/github-api'
+import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/utils/github-api'
 import { getRepoDetail, getRepoInfo, resolvePluginCandidate } from '@/submit/repo'
 import { firstExistingRawFile } from '@/utils/github-raw'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
@@ -119,9 +119,22 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
         ? Promise.resolve(null)
         : firstExistingRawFile(forkFullName, 'HEAD', FORK_PROBE_FILES),
     ])
+    // A fork that is merely behind is harmless (a pull request is diffed from the merge base), but
+    // commits the catalogue does not have ride along into the pull request, so they are worth one
+    // api call to detect. `compare` answers both directions at once, which no file probe can.
+    let forkAheadBy = 0
+    if (forkFile !== null) {
+      const branch = catalogue.default_branch
+      const compare = await githubRequest<GithubCompare>(
+        `/repos/${catalogueRepo}/compare/${encodeURIComponent(branch)}...${loginValue}:${encodeURIComponent(branch)}`,
+      ).catch(() => null)
+      forkAheadBy = compare?.ahead_by ?? 0
+    }
+
     setForkStatus({
       login: loginValue,
       forkExists: forkFile !== null,
+      forkAheadBy,
       branch: catalogue.default_branch,
     })
   }, [catalogueRepo])
@@ -359,9 +372,10 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
   const pluginInfoJson = pluginInfo !== null ? buildPluginInfoJson(pluginInfo) : null
   const submissionPath = pluginInfo !== null ? `plugins/${pluginInfo.id}/plugin_info.json` : ''
   // the catalogue's owner needs no fork: forking a repository you own is not possible, and the
-  // file can be created there directly. Everyone else commits to their own fork.
-  const ownsCatalogue = forkStatus !== null
-    && catalogueRepo.split('/')[0].toLowerCase() === forkStatus.login.toLowerCase()
+  // file can be created there directly. Everyone else commits to their own fork. This holds even
+  // when nothing could be read, which is why it only compares the names.
+  const ownsCatalogue = login.length > 0
+    && catalogueRepo.split('/')[0].toLowerCase() === login.toLowerCase()
   // without the fork lookup the link assumes the fork exists, which is what the steps below tell the
   // user to create; the branch is the catalogue's, and master is what every catalogue checked uses
   const targetRepo = forkStatus !== null ? (ownsCatalogue ? catalogueRepo : forkName) : `${login}/${catalogueName}`
@@ -742,6 +756,13 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, apiBase, cata
                           {forkStatus?.forkExists ? (
                             <Stack gap={4} mt={4} align="flex-start">
                               <Text size="sm" c="dimmed">{t('submit.fork_exists', { repo: forkName })}</Text>
+                              {/* being behind is harmless (the diff starts at the merge base), extra
+                                  commits are not: they land in the pull request too */}
+                              {forkStatus.forkAheadBy > 0 && (
+                                <Alert color="yellow" icon={<IconAlertTriangle/>} p="xs">
+                                  {t('submit.fork_ahead', { repo: forkName, count: forkStatus.forkAheadBy })}
+                                </Alert>
+                              )}
                               <Button
                                 component="a"
                                 href={`https://github.com/${forkName}`}

@@ -141,6 +141,7 @@
         "preview": "将添加到插件仓库的文件"
       },
       "submit": {
+        "fork_ahead": "你的 fork {repo} 里有 {count} 个目录库没有的提交，它们会一起出现在 Pull Request 里。如果不想带上，请先在 fork 里处理这些提交（同步，或重置默认分支）再回来。",
         "fork_hint": "先确认你是否已有 {repo} 的 fork；没有就创建一个：",
         "fork_open": "打开 {repo}",
         "fork_or_open": "已经有 fork 的话，在 GitHub 上打开它，跳过这一步。",

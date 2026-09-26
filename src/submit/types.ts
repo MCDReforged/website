@@ -160,6 +160,8 @@ export interface ForkStatus {
   login: string
   /** a file probe found the repository; a miss is unknown, not proof of absence */
   forkExists: boolean
+  /** commits in the fork that the catalogue does not have; they ride along into the pull request */
+  forkAheadBy: number
   /** the branch a new file has to be created on: the fork's default branch, or the catalogue's */
   branch: string
 }
