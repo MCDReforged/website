@@ -4,7 +4,7 @@ import { toPluginRelative } from '@/submit/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/submit/github-repo-utils'
 import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/submit/github'
 import { getRepoDetail, resolvePluginCandidate } from '@/submit/repo'
-import { firstExistingRawFile, rawFileExists } from '@/submit/github'
+import { rawFileExists } from '@/submit/github'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
@@ -43,7 +43,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { SubmissionReportView } from './submission-report'
 import { SubmissionSteps } from './submission-steps'
 
-const FORK_PROBE_FILES = ['README.md', 'readme.md', 'CONTRIBUTING.md', 'CONTRIBUTING_zh_cn.md']
+const FORK_PROBE_FILE = '.gitignore'
 
 const STEP_SELECT = 0
 const STEP_GUIDELINES = 1
@@ -95,12 +95,12 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
     const name = catalogueRepo.split('/')[1]
     const forkFullName = `${loginValue}/${name}`
     const isCatalogueItself = forkFullName.toLowerCase() === catalogueRepo.toLowerCase()
-    const forkFile = isCatalogueItself
-      ? null
-      : await firstExistingRawFile(forkFullName, 'HEAD', FORK_PROBE_FILES)
+    const forkExists = isCatalogueItself
+      ? false
+      : await rawFileExists(forkFullName, 'HEAD', FORK_PROBE_FILE)
     // a fork that is merely behind is harmless, but commits the catalogue lacks ride along
     let forkAheadBy = 0
-    if (forkFile !== null) {
+    if (forkExists) {
       const compare = await githubRequest<GithubCompare>(
         `/repos/${catalogueRepo}/compare/${CATALOGUE_BRANCH}`
         + `...${loginValue}:${CATALOGUE_BRANCH}`,
@@ -110,7 +110,7 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
 
     setForkStatus({
       login: loginValue,
-      forkExists: forkFile !== null,
+      forkExists,
       forkAheadBy,
     })
   }, [catalogueRepo])
