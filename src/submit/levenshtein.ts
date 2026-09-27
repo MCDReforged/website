@@ -1,6 +1,3 @@
-/**
- * Classic Levenshtein distance, used for the catalogue's "ids should not be too similar" guideline.
- */
 export function levenshteinDistance(a: string, b: string): number {
   if (a === b) {
     return 0
@@ -31,7 +28,6 @@ export function levenshteinDistance(a: string, b: string): number {
   return previous[b.length]
 }
 
-/** Returns the closest candidate and its distance, or null when there is nothing to compare against. */
 export function closestId(target: string, candidates: string[]): { id: string, distance: number } | null {
   const lower = target.toLowerCase()
   let best: { id: string, distance: number } | null = null
@@ -45,24 +41,4 @@ export function closestId(target: string, candidates: string[]): { id: string, d
     }
   }
   return best
-}
-
-/** Self check: `node -e "import('./src/server/submit/levenshtein.ts').then(m => m.demo())"` */
-export function demo(): void {
-  const assert = (actual: unknown, expected: unknown, what: string) => {
-    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-      throw new Error(`levenshtein demo failed: ${what}: ${JSON.stringify(actual)} !== ${JSON.stringify(expected)}`)
-    }
-  }
-
-  assert(levenshteinDistance('', ''), 0, 'empty')
-  assert(levenshteinDistance('abc', ''), 3, 'empty b')
-  assert(levenshteinDistance('kitten', 'sitting'), 3, 'classic')
-  assert(levenshteinDistance('flaw', 'lawn'), 2, 'classic 2')
-  assert(levenshteinDistance('ABC', 'abc'), 3, 'case sensitive')
-
-  assert(closestId('quick_backup', ['quickbackupm', 'advanced_calculator']), { id: 'quickbackupm', distance: 2 }, 'closest')
-  assert(closestId('tool', ['tool']), null, 'exact match is skipped')
-
-  console.log('levenshtein demo passed')
 }

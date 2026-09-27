@@ -22,13 +22,6 @@ import {
 import React from 'react'
 import { useTranslations } from 'next-intl'
 
-/**
- * A GitHub button, drawn rather than linked.
- *
- * Every step below happens in github's interface, and a new user has to *find* the button we are
- * talking about, so the instructions show what it looks like instead of only naming it. These are
- * not interactive: the buttons this page actually offers are Mantine buttons.
- */
 function GhButton({ children, caret = false, radio = false }: {
   children: React.ReactNode
   caret?: boolean
@@ -56,7 +49,6 @@ function StepNumber({ n }: { n: number }) {
   )
 }
 
-/** One numbered step: the badge on the left, the instructions on the right. */
 function Step({ n, children }: { n: number, children: React.ReactNode }) {
   return (
     <Group align="flex-start" wrap="nowrap" gap="sm">
@@ -66,12 +58,6 @@ function Step({ n, children }: { n: number, children: React.ReactNode }) {
   )
 }
 
-/**
- * The last step: everything that happens on github.com.
- *
- * None of it needs a credential — the catalogue's checks already ran, and what is left is telling
- * the user which buttons to press and where.
- */
 export function SubmissionSteps({
   catalogueRepo,
   forkName,
@@ -83,13 +69,10 @@ export function SubmissionSteps({
   jsonValue,
 }: {
   catalogueRepo: string
-  /** `{login}/{catalogueName}`, where the file has to end up */
   forkName: string
   forkExists: boolean
-  /** commits in the fork that the catalogue does not have; they ride along into the pull request */
   forkAheadBy: number
   forkUrl: string
-  /** `null` when no shortcut can be built: the manual path and the copy button still work */
   fileUrl: string | null
   path: string
   jsonValue: string

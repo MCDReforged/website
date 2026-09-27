@@ -2,7 +2,7 @@
 
 import type { SubmitIssue, SubmissionReport } from '@/submit/types'
 import { Anchor, Text, Table } from '@mantine/core'
-import { resolvePluginRelative } from '@/utils/plugin-path-utils'
+import { resolvePluginRelative } from '@/submit/plugin-path-utils'
 import { IconAlertTriangle, IconCircleCheck } from '@tabler/icons-react'
 import { useTranslations } from 'next-intl'
 import React from 'react'
@@ -16,7 +16,6 @@ function CheckIcon({ valid }: { valid: boolean }) {
 interface RowProps {
   label: React.ReactNode
   value: React.ReactNode
-  /** `null` renders a plain dash, like the catalogue PR report does */
   valid: boolean | null
 }
 
@@ -47,7 +46,6 @@ function Empty() {
   return <Text size="sm" c="dimmed">-</Text>
 }
 
-/** One language of a translated value: a small monospace language code, then the content. */
 function LangLine({ language, children }: { language: string, children: React.ReactNode }) {
   return (
     <Text size="sm">
@@ -80,10 +78,6 @@ function Description({ value, fallback }: { value: string | Record<string, strin
   )
 }
 
-/**
- * Mirrors the catalogue's own pull request validation report: a row per plugin_info field with a
- * validity icon, followed by the plugin's own metadata.
- */
 export function SubmissionReportView(
   { report, errors, warnings }: { report: SubmissionReport, errors: SubmitIssue[], warnings: SubmitIssue[] },
 ) {
@@ -92,15 +86,11 @@ export function SubmissionReportView(
   const treeUrl = report.relatedPath === '.'
     ? `${repoBase}/tree/${report.branch}`
     : `${repoBase}/tree/${report.branch}/${report.relatedPath}`
-  // introduction values are relative to the plugin directory, so resolve them into a clean repository path
   const blobUrl = (path: string) =>
     `${repoBase}/blob/${report.branch}/${resolvePluginRelative(report.relatedPath, path) ?? path}`
 
-  // warnings also mark a row, the same way the catalogue report shows ⚠️ for its warnings
   const hasIssue = (code: SubmitIssue['code']) =>
     errors.some(issue => issue.code === code) || warnings.some(issue => issue.code === code)
-  // the release lookup needs the api, and the licence probe needs the files; when a check never ran,
-  // its row must say so rather than claim it found nothing
   const releaseUnchecked = hasIssue('release_unchecked')
   const filesUnchecked = hasIssue('files_unchecked')
   const metadata = report.metadata
@@ -184,7 +174,6 @@ export function SubmissionReportView(
               label={t('metadata.dependencies')}
               valid={null}
               value={Object.keys(metadata.dependencies).length === 0 ? <Empty/> : (
-                // `component="div"`: a `<Text>` defaults to `<p>`, which cannot contain block children
                 <>
                   {Object.entries(metadata.dependencies).map(([name, requirement]) => (
                     <Text key={name} component="div" size="sm" ff="monospace">{name}: {requirement}</Text>

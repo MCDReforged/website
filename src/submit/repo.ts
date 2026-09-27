@@ -1,5 +1,5 @@
-import { GithubApiError, GithubGitTree, GithubRepo, githubRequest } from '@/utils/github-api'
-import { readRawFile } from '@/utils/github-raw'
+import { GithubApiError, GithubGitTree, GithubRepo, githubRequest } from '@/submit/github-api'
+import { readRawFile } from '@/submit/github-raw'
 import {
   asString,
   AuthorLinkContext,
@@ -13,10 +13,6 @@ import { PluginCandidate, RepoDetail } from './types'
 const BRANCH_MAX_PAGES = 2
 const MAX_PLUGIN_CANDIDATES = 20
 const MAX_MD_FILES = 300
-/**
- * Markdown depth limit, measured from the repository root. Generous on purpose: the plugin's own
- * directory counts towards it, and a nested plugin must not lose the files sitting next to it.
- */
 const MAX_MD_SEGMENTS = 6
 
 const IGNORED_SEGMENTS = new Set([
@@ -24,7 +20,6 @@ const IGNORED_SEGMENTS = new Set([
   'dist', 'build', '.mcdreforged', '.idea', '.vscode', '.tox', '.next', 'target', 'third_party',
 ])
 
-/** GitHub owner / repository names: letters, digits, `-`, `_` and `.` only. */
 const REPO_SEGMENT_REGEX = /^[A-Za-z0-9][A-Za-z0-9_.-]*$/
 
 export function splitRepo(fullName: string): [string, string] | null {
@@ -62,12 +57,6 @@ export async function fetchTree(repo: string, branch: string): Promise<GithubGit
   })
 }
 
-/**
- * A file in a repository, read from `raw.githubusercontent.com`.
- *
- * A known path needs no API: raw has no request quota, so this works even when the API is
- * unavailable or exhausted, and it is one request less on every submission.
- */
 export async function readRepoFile(repo: string, branch: string, path: string): Promise<string | null> {
   return readRawFile(repo, branch, path)
 }
@@ -156,14 +145,12 @@ function toCandidate(
   }
 }
 
-/** Reads `relatedPath/mcdreforged.plugin.json` and turns it into a candidate. */
 export async function resolvePluginCandidate(
   repo: string,
   branch: string | undefined,
   relatedPath: string,
   viewerLogin?: string,
 ): Promise<PluginCandidate | null> {
-  // the owner login is already in `repo`, so the repo lookup is only needed for the default branch
   const owner = splitRepo(repo)?.[0] ?? repo
   const selectedBranch = branch && branch.length > 0
     ? branch
@@ -228,4 +215,3 @@ export async function getRepoDetail(
     treeTruncated: tree.truncated,
   }
 }
-

@@ -76,7 +76,6 @@
         "source": "在 GitHub 上查看原文",
         "ack": "我已阅读贡献指南，并确认我的插件符合要求"
       },
-      "disabled": "当前部署未启用插件提交功能。",
       "rate_limited": "匿名请求已达 GitHub 限额（每地址每小时 60 次），请稍后重试或更换网络环境。",
       "network_error": "无法连接 GitHub。请检查网络，或尝试继续完成向导。",
       "api_unreachable": "无法访问 GitHub API。若持续如此，请稍后重试。",

@@ -100,15 +100,11 @@ function isRelativeUrl(url: unknown): url is string {
   return typeof url === 'string'
     && url.length > 0
     && !url.startsWith('#')
-    && !url.startsWith('/')  // also covers protocol relative `//host` urls
+    && !url.startsWith('/')
     && !ABSOLUTE_URL_REGEX.test(url)
 }
 
-/**
- * Points the relative links and images of an external document back at its repository, e.g.
- * `CONTRIBUTING_zh_cn.md` -> `https://github.com/owner/repo/blob/HEAD/CONTRIBUTING_zh_cn.md`.
- * Without this, `remark-github` leaves them relative and they resolve against this website.
- */
+// without this, remark-github leaves them relative and they resolve against this website
 export function relativeUrlRewriter(options: { baseUrl: string }): (tree: Root) => Root {
   const base = options.baseUrl.endsWith('/') ? options.baseUrl : options.baseUrl + '/'
   return (tree: Root): Root => {

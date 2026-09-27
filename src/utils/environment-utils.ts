@@ -18,23 +18,11 @@ export function getTelemetryApiToken() {
   return process.env.MW_TELEMETRY_API_TOKEN || ''
 }
 
-// ---- Plugin submission ---- //
-
-/** The catalogue repository submissions are prepared for, e.g. `MCDReforged/PluginCatalogue` */
 export function getCatalogueRepo() {
   return process.env.MW_CATALOGUE_REPO || 'MCDReforged/PluginCatalogue'
 }
 
-export function getCatalogueBranch() {
-  return process.env.MW_CATALOGUE_BRANCH || 'master'
-}
-
 export function getGithubApiBase() {
   return process.env.MW_GITHUB_API_BASE || 'https://api.github.com'
-}
-
-/** Set to `true` to disable the plugin submission feature; the submit page then shows a notice. */
-export function isPluginSubmissionEnabled() {
-  return process.env.MW_DISABLE_PLUGIN_SUBMISSION !== 'true'
 }
 

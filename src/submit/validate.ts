@@ -1,7 +1,7 @@
-import { GithubApiError, GithubGitTree, GithubRelease, githubRequest } from '@/utils/github-api'
+import { GithubApiError, GithubGitTree, GithubRelease, githubRequest } from '@/submit/github-api'
 
-import { isSafeRelatedPath, normalizeRelatedPath, resolvePluginRelative } from '@/utils/plugin-path-utils'
-import { parseReleaseTagVersion } from '@/utils/plugin-version-utils'
+import { isSafeRelatedPath, normalizeRelatedPath, resolvePluginRelative } from '@/submit/plugin-path-utils'
+import { parseReleaseTagVersion } from '@/submit/plugin-version-utils'
 import { closestId } from './levenshtein'
 import {
   asString,
@@ -12,7 +12,7 @@ import {
   RawPluginMetadata,
 } from './metadata'
 import { fetchTree, splitRepo } from './repo'
-import { firstExistingRawFile, rawFileExists, readRawFile } from '@/utils/github-raw'
+import { firstExistingRawFile, rawFileExists, readRawFile } from '@/submit/github-raw'
 import {
   INTRODUCTION_LANGUAGES,
   LicenseCheck,
@@ -27,24 +27,12 @@ import {
   ValidationResult,
 } from './types'
 
-/** The catalogue warns when the id is closer than this to an existing one. */
 const ID_SIMILARITY_THRESHOLD = 3
 
-/**
- * Mirrors the catalogue's release rules: a release is usable when it is not a pre-release, its tag
- * parses as a version for this plugin id, and it carries a `.mcdr` or `.pyz` asset. The catalogue
- * does not require the tag to match the current metadata version, so neither do we; a matching
- * release simply has to exist.
- */
 const RELEASE_SCAN_LIMIT = 100
 
-/** `LICENSE`, `LICENSE.md`, `LICENSE-MIT`, `COPYING`, `LICENCE` ... at the repository root. */
 const LICENSE_FILE_REGEX = /^(licen[cs]e|copying)([-.].*)?$/i
 
-/**
- * The catalogue asks for a fresh id list on the default branch. Omitting `ref` makes the contents
- * API use the repository's default branch, which saves a `GET /repos/{repo}` round trip.
- */
 function normalizeIntroduction(introduction: Record<string, string> | undefined): Record<string, string> {
   const result: Record<string, string> = {}
   for (const language of INTRODUCTION_LANGUAGES) {
@@ -99,7 +87,6 @@ function matchRelease(releases: GithubRelease[], id: string): ReleaseCheck | nul
   return null
 }
 
-/** Reads the release list once; no release can match when the plugin declares no version at all. */
 async function findRelease(repo: string, id: string, version: string | undefined): Promise<ReleaseCheck | null> {
   if (!version) {
     return null
@@ -148,7 +135,6 @@ function buildMetadataReport(metadata: RawPluginMetadata): ReportMetadata {
 interface LocalChecks {
   errors: SubmitIssue[]
   warnings: SubmitIssue[]
-  /** `owner/name`, or `null` when the form does not name a repository */
   repo: string | null
   id: string
   branch: string
@@ -159,7 +145,6 @@ interface LocalChecks {
   authors: PluginInfoAuthor[]
 }
 
-/** Everything that can be judged from the form alone, with no request at all. */
 function collectLocalIssues(form: SubmitForm): LocalChecks {
   const errors: SubmitIssue[] = []
   const warnings: SubmitIssue[] = []
@@ -215,14 +200,6 @@ function collectLocalIssues(form: SubmitForm): LocalChecks {
   }
 }
 
-/**
- * The checks themselves, from the files the submission names plus the catalogue's id list.
- *
- * `tree` is the one thing raw cannot provide — it is a listing, not a path — and it is optional:
- * with it the licence is read from the exact file names it contains, without it the usual names are
- * probed. Everything else here is a raw file read, so the API being unavailable changes only how
- * much is checked, never whether the submission can be prepared.
- */
 async function checkWithFiles(
   form: SubmitForm,
   local: LocalChecks,
@@ -232,7 +209,6 @@ async function checkWithFiles(
   const { errors, warnings, repo, id, branch, relatedPath, introduction, labels, authors } = local
   const pluginJsonPath = relatedPath === '.' ? 'mcdreforged.plugin.json' : `${relatedPath}/mcdreforged.plugin.json`
 
-  // "the file is not there" is a finding; "we could not ask" is not, and only removes a check
   let filesUnavailable = false
   const attempt = async <T>(work: () => Promise<T>): Promise<T | undefined> => {
     try {
@@ -243,7 +219,6 @@ async function checkWithFiles(
     }
   }
 
-  // ---- is the id free? one file request, plus the catalogue list the site already caches ---- //
   if (repo !== null && errors.every(issue => issue.code !== 'id_invalid')) {
     if (await attempt(() => rawFileExists(catalogue.repo, 'HEAD', `plugins/${id}/plugin_info.json`)) === true) {
       errors.push({ code: 'id_exists', params: { id } })
@@ -254,9 +229,9 @@ async function checkWithFiles(
     }
   }
 
-  // ---- plugin metadata, read from the file itself ---- //
   let metadata: RawPluginMetadata | null = null
   if (repo !== null) {
+    // a failed read is unknown, not missing: only a definite null is reported as missing
     const rawMetadata = await attempt(() => readRawFile(repo, branch, pluginJsonPath))
     if (rawMetadata === null) {
       errors.push({ code: 'plugin_json_missing', params: { path: pluginJsonPath } })
@@ -280,7 +255,6 @@ async function checkWithFiles(
     }
   }
 
-  // ---- introduction files, resolved against the plugin directory ---- //
   if (repo !== null) {
     for (const [language, path] of Object.entries(introduction)) {
       const resolved = resolvePluginRelative(relatedPath, path)
@@ -294,13 +268,11 @@ async function checkWithFiles(
     }
   }
 
-  // ---- licence: exact names when the tree could be listed, the usual names otherwise ---- //
   let license: LicenseCheck | null = null
   if (tree !== null) {
     license = detectLicense(tree)
   } else if (repo !== null) {
     const licenceFile = await attempt(() => firstExistingRawFile(repo, branch, LICENSE_PROBE_NAMES))
-    // `undefined` means the probe could not run; `null` means it ran and found nothing
     if (licenceFile !== undefined) {
       license = { detected: licenceFile !== null, files: licenceFile === null ? [] : [licenceFile] }
     }
@@ -309,10 +281,8 @@ async function checkWithFiles(
     warnings.push({ code: 'no_license' })
   }
 
-  // ---- releases: the one check that has no file to read ---- //
   let release: ReleaseCheck | null = null
   if (tree === null) {
-    // saying nothing would read as "all clear"
     warnings.push({ code: 'release_unchecked' })
   } else if (repo !== null) {
     release = await attempt(() => findRelease(repo, id, metadata === null ? undefined : asString(metadata.version))) ?? null
@@ -322,7 +292,6 @@ async function checkWithFiles(
   }
 
   if (filesUnavailable) {
-    // saying nothing would read as "all clear"
     warnings.push({ code: 'files_unchecked' })
   }
 
@@ -356,7 +325,6 @@ function unusable(form: SubmitForm): ValidationResult | null {
   return { errors: local.errors, warnings: local.warnings, pluginInfo: null, report: null }
 }
 
-/** The full check: one API call for the repository tree (plus one for the releases). */
 export async function validateSubmission(
   form: SubmitForm,
   catalogueRepo: string,
@@ -384,7 +352,6 @@ export async function validateSubmission(
   return checkWithFiles(form, local, { repo: catalogueRepo, ids: catalogueIds }, tree)
 }
 
-/** The same submission with no API at all: every file with a known path, read from raw. */
 export async function validateWithoutApi(
   form: SubmitForm,
   catalogueRepo: string,
@@ -397,7 +364,6 @@ export async function validateWithoutApi(
   return checkWithFiles(form, collectLocalIssues(form), { repo: catalogueRepo, ids: catalogueIds }, null)
 }
 
-/** Licence file names worth probing when the repository tree cannot be listed. */
 const LICENSE_PROBE_NAMES = [
   'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'LICENSE.rst',
   'LICENCE', 'LICENCE.md', 'LICENCE.txt',

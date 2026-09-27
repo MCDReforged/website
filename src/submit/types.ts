@@ -4,28 +4,21 @@ export type PluginLabel = typeof PLUGIN_LABELS[number]
 
 export const INTRODUCTION_LANGUAGES = ['en_us', 'zh_cn'] as const
 
-export type IntroductionLanguage = typeof INTRODUCTION_LANGUAGES[number]
-
 export interface PluginInfoAuthor {
   name: string
   link?: string
 }
 
-/** The submission form as sent by the browser. Everything here is untrusted. */
 export interface SubmitForm {
-  /** `owner/name` of the plugin repository */
   repo: string
   branch: string
-  /** Directory containing `mcdreforged.plugin.json`, `.` for the repository root */
   relatedPath: string
   id: string
   authors: PluginInfoAuthor[]
   labels: string[]
-  /** language -> file path inside the plugin repository */
   introduction: Record<string, string>
 }
 
-/** Content of `plugins/<id>/plugin_info.json` */
 export interface PluginInfoJson {
   id: string
   authors: PluginInfoAuthor[]
@@ -59,9 +52,6 @@ export type SubmitIssueCode =
   | 'release_unchecked'
   | 'files_unchecked'
 
-/**
- * A validation finding. `code` is translated on the client, `params` are interpolated into the message.
- */
 export interface SubmitIssue {
   code: SubmitIssueCode
   params?: Record<string, string | number>
@@ -71,11 +61,9 @@ export interface ValidationResult {
   errors: SubmitIssue[]
   warnings: SubmitIssue[]
   pluginInfo: PluginInfoJson | null
-  /** What the catalogue would end up showing for the submitted plugin, for the review step */
   report: SubmissionReport | null
 }
 
-/** Release that the catalogue will pick up for the plugin */
 export interface ReleaseCheck {
   tag: string
   version: string
@@ -83,13 +71,11 @@ export interface ReleaseCheck {
   asset: string
 }
 
-/** Whether the repository declares an open source license, detected from the file tree (no extra API call) */
 export interface LicenseCheck {
   detected: boolean
   files: string[]
 }
 
-/** The plugin's own `mcdreforged.plugin.json`, as shown in the report */
 export interface ReportMetadata {
   id?: string
   name?: string
@@ -106,7 +92,6 @@ export interface SubmissionReport {
   branch: string
   relatedPath: string
   pluginJsonPath: string
-  /** authors as they will be written into plugin_info.json */
   authors: PluginInfoAuthor[]
   labels: string[]
   introduction: Record<string, string>
@@ -117,7 +102,6 @@ export interface SubmissionReport {
 
 export interface PluginCandidate {
   relatedPath: string
-  /** id / name / version / ... of the plugin declared by `mcdreforged.plugin.json` */
   metadata: {
     id?: string
     name?: string
@@ -126,7 +110,6 @@ export interface PluginCandidate {
     authors?: PluginInfoAuthor[]
     links?: { homepage?: string } | null
   }
-  /** true when the declared id is usable as a plugin id */
   validId: boolean
   error?: string
 }
@@ -138,28 +121,18 @@ export interface RepoDetail {
   branches: string[]
   candidates: PluginCandidate[]
   candidatesTruncated: boolean
-  /** markdown files selectable as introduction source, shallow paths first */
   mdFiles: string[]
   treeTruncated: boolean
 }
 
-/**
- * The catalogue's contributing guidelines, fetched on the server and rendered inside the wizard
- * instead of linking away to GitHub.
- */
 export interface Guidelines {
   markdown: string
   fileName: string
-  /** base url used to rewrite relative links and images inside the document */
   baseUrl: string
 }
 
-
-/** Where the user's own fork of the catalogue stands */
 export interface ForkStatus {
   login: string
-  /** a file probe found the repository; a miss is unknown, not proof of absence */
   forkExists: boolean
-  /** commits in the fork that the catalogue does not have; they ride along into the pull request */
   forkAheadBy: number
 }

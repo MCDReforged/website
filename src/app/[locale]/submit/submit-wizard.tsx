@@ -1,10 +1,10 @@
 'use client'
 
-import { toPluginRelative } from '@/utils/plugin-path-utils'
-import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/utils/github-repo-utils'
-import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/utils/github-api'
+import { toPluginRelative } from '@/submit/plugin-path-utils'
+import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/submit/github-repo-utils'
+import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/submit/github-api'
 import { getRepoDetail, resolvePluginCandidate } from '@/submit/repo'
-import { firstExistingRawFile, rawFileExists } from '@/utils/github-raw'
+import { firstExistingRawFile, rawFileExists } from '@/submit/github-raw'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
@@ -43,7 +43,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { SubmissionReportView } from './submission-report'
 import { SubmissionSteps } from './submission-steps'
 
-/** Files a catalogue fork is expected to carry; any of them proves the fork exists. */
 const FORK_PROBE_FILES = ['README.md', 'readme.md', 'CONTRIBUTING.md', 'CONTRIBUTING_zh_cn.md']
 
 const STEP_SELECT = 0
@@ -51,26 +50,20 @@ const STEP_GUIDELINES = 1
 const STEP_DETAILS = 2
 const STEP_REVIEW = 3
 
-export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBranch, apiBase, catalogueIds }: {
+const CATALOGUE_BRANCH = 'master'
+
+export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds }: {
   guidelines: Guidelines | null
-  enabled: boolean
-  /** the catalogue's default branch, which a submission targets */
-  catalogueBranch: string
-  /** ids already in the catalogue, from the site's cached catalogue data */
   catalogueIds: string[]
-  /** the catalogue submissions are prepared for, e.g. `MCDReforged/PluginCatalogue` */
   catalogueRepo: string
-  /** a self hosted github api, for deployments that do not talk to api.github.com */
   apiBase: string
 }) {
   const t = useTranslations('page.submit')
   const tLabel = useTranslations('component.plugin_label')
   const locale = useLocale()
-  // four labelled steps do not fit a phone in a row, they wrap into a ragged mess
   const isNarrow = useMediaQuery('(max-width: 48em)')
 
   const [repo, setRepo] = useState<string | null>(null)
-  /** what is in the repository box, which may not be a repository yet */
   const [repoText, setRepoText] = useState('')
   const [detail, setDetail] = useState<RepoDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -89,40 +82,26 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
   const [validation, setValidation] = useState<ValidationResult | null>(null)
   const [validating, setValidating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  /** the checks could not run at all (no API access): the submission still can, unchecked */
   const [skippedCheck, setSkippedCheck] = useState(false)
-  /** the id was read out of a `mcdreforged.plugin.json`, so it stays read-only */
   const [idFromFile, setIdFromFile] = useState(false)
-  /** the github account that will own the fork, taken from the plugin repository unless edited */
   const [login, setLogin] = useState('')
-  /** where that account's fork of the catalogue stands */
   const [forkStatus, setForkStatus] = useState<ForkStatus | null>(null)
 
-  // every github request is made by the browser itself, with no credential of any kind
   useEffect(() => { setGithubApiBase(apiBase) }, [apiBase])
 
-  /**
-   * Figures out where the submitter's fork stands, so the file link can point at the right
-   * repository, and so an existing fork can be reused instead of forking a second time.
-   */
   const loadForkStatus = useCallback(async (loginValue: string) => {
     const name = catalogueRepo.split('/')[1]
     const forkFullName = `${loginValue}/${name}`
     const isCatalogueItself = forkFullName.toLowerCase() === catalogueRepo.toLowerCase()
-    // A fork carries the catalogue's own files, so one of these proves it exists — and costs no api
-    // quota. A miss proves nothing (the file could be missing, or the network could be down), which
-    // is why the wording never claims the fork is absent.
     const forkFile = isCatalogueItself
       ? null
       : await firstExistingRawFile(forkFullName, 'HEAD', FORK_PROBE_FILES)
-    // A fork that is merely behind is harmless (a pull request is diffed from the merge base), but
-    // commits the catalogue does not have ride along into the pull request, so they are worth one
-    // api call to detect. `compare` answers both directions at once, which no file probe can.
+    // a fork that is merely behind is harmless, but commits the catalogue lacks ride along
     let forkAheadBy = 0
     if (forkFile !== null) {
       const compare = await githubRequest<GithubCompare>(
-        `/repos/${catalogueRepo}/compare/${encodeURIComponent(catalogueBranch)}`
-        + `...${loginValue}:${encodeURIComponent(catalogueBranch)}`,
+        `/repos/${catalogueRepo}/compare/${CATALOGUE_BRANCH}`
+        + `...${loginValue}:${CATALOGUE_BRANCH}`,
       ).catch(() => null)
       forkAheadBy = compare?.ahead_by ?? 0
     }
@@ -132,22 +111,19 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
       forkExists: forkFile !== null,
       forkAheadBy,
     })
-  }, [catalogueBranch, catalogueRepo])
+  }, [catalogueRepo])
 
   const describeError = useCallback((err: unknown, repo?: string | null) => {
     if (err instanceof GithubApiError) {
       if (err.rateLimited) {
         return t('rate_limited')
       }
-      // github answers 404 both for a repository that is not there and for one it will not show an
-      // unauthenticated caller, which is what a private repository looks like from here
+      // github answers 404 for a missing repository and a private one alike
       if (err.status === 404 && repo) {
         return t('repo.not_found', { repo })
       }
       return t('api_unreachable')
     }
-    // a blocked or offline request rejects with a TypeError, a timed-out one with a DOMException,
-    // and both messages are for developers
     if (err instanceof TypeError || (err instanceof DOMException && err.name === 'TimeoutError')) {
       return t('network_error')
     }
@@ -156,22 +132,18 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
 
   const [checkingFork, setCheckingFork] = useState(false)
 
-  // the login is usually inferred from the plugin repository, so this cannot wait for a blur
   useEffect(() => {
     if (login.length === 0) {
       setForkStatus(null)
       return
     }
+    // the run that set the flag may have been cancelled by this re-render, so clear it here
     if (forkStatus?.login === login) {
-      // the run that produced this status may have been cancelled by this very re-render, so the
-      // flag it set would never be cleared here; clearing it is what makes a returned guard safe
       setCheckingFork(false)
       return
     }
     let cancelled = false
     setCheckingFork(true)
-    // a failure here only means the shortcut link cannot be pointed at an existing fork, which is
-    // not something the user has to act on: the step notices already explain the situation
     loadForkStatus(login)
       .catch(() => undefined)
       .finally(() => {
@@ -182,33 +154,25 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     return () => { cancelled = true }
   }, [login, forkStatus, loadForkStatus, describeError])
 
-  /** the repository owner, credited with their profile, is the author to offer when none is known */
   const defaultAuthors = useCallback((repoFullName: string): PluginInfoAuthor[] => {
     const author = ownerAuthor(repoFullName)
     return author === null ? [] : [author]
   }, [])
 
-  // ---- repository detail ---- //
   const applyCandidate = useCallback((relatedPathValue: string, source: RepoDetail) => {
     setRelatedPath(relatedPathValue)
     const candidate = source.candidates.find(c => c.relatedPath === relatedPathValue)
-    // always overwritten: switching to a candidate without a usable id must not keep the previous one
     setPluginId(candidate?.metadata.id ?? '')
     setPluginIdError(candidate !== undefined && !candidate.validId ? 'invalid' : null)
     setAuthors(candidate?.metadata.authors?.length ? candidate.metadata.authors : defaultAuthors(source.repo))
     setIdFromFile(typeof candidate?.metadata.id === 'string' && candidate.metadata.id.length > 0)
 
-    // the catalogue recommends pointing the introduction at the plugin's own readme
     const ownReadme = relatedPathValue === '.' ? 'README.md' : `${relatedPathValue}/README.md`
     if (source.mdFiles.includes(ownReadme)) {
       setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
     }
   }, [defaultAuthors])
 
-  /**
-   * The plugin id is never typed by hand: it is whatever the `mcdreforged.plugin.json` at
-   * `relatedPath` declares, so a manually typed path has to be resolved against the repository.
-   */
   const resolveRelatedPath = useCallback(async (repoFullName: string, branchName: string, path: string) => {
     setResolving(true)
     setPluginIdError(null)
@@ -218,7 +182,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
         setPluginId(candidate.metadata.id)
         setAuthors(candidate.metadata.authors?.length ? candidate.metadata.authors : defaultAuthors(repoFullName))
         setIdFromFile(true)
-        // the catalogue wants an introduction, and the plugin's own readme is the usual answer
         const ownReadme = path === '.' ? 'README.md' : `${path}/README.md`
         const hasReadme = await rawFileExists(repoFullName, branchName, ownReadme).catch(() => false)
         if (hasReadme) {
@@ -226,8 +189,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
         }
       } else {
         setPluginId('')
-        // nothing readable there means the branch or the directory is wrong; a file that is there
-        // but declares an unusable id is a different problem, and says so
         setPluginIdError(candidate === null || candidate.error === 'unreadable' ? 'not_found' : 'invalid')
         setIdFromFile(false)
       }
@@ -254,11 +215,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     } catch (err) {
       setError(describeError(err, repoFullName))
       setDetail(null)
-      // nothing could be read: the submission does not depend on it, so the fields are typed in by
-      // hand instead of leaving the wizard stuck here
-      // the api cannot list the repository, but the form already says where the plugin is: the
-      // branch and the directory are the only place worth reading, and if the file is not there
-      // the user's own fields are what need fixing
       const fallbackBranch = branchName ?? 'master'
       const fallbackPath = '.'
       setBranch(previous => previous ?? fallbackBranch)
@@ -270,10 +226,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     }
   }, [applyCandidate, login, describeError, defaultAuthors, resolveRelatedPath])
 
-  /**
-   * `introduction` values in `plugin_info.json` are relative to the plugin directory, so the picker
-   * offers them in that form, including `../` for files outside of it.
-   */
   const mdCandidates = React.useMemo(() => {
     if (detail === null || relatedPath === null || relatedPath.length === 0) {
       return []
@@ -281,7 +233,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     return detail.mdFiles.map(path => toPluginRelative(relatedPath, path))
   }, [detail, relatedPath])
 
-  /** Drops everything that belonged to the previous repository selection. */
   const clearSelection = useCallback(() => {
     setDetail(null)
     setBranch(null)
@@ -300,8 +251,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     setRepo(value)
     setRepoText(value)
     clearSelection()
-    // the plugin repository's owner is the submitter in almost every case, and it is what the
-    // fork link needs; it stays editable for repositories living in an organization
     setLogin(previous => previous.length > 0 ? previous : value.split('/')[0])
     loadDetail(value)
   }, [clearSelection, loadDetail])
@@ -323,7 +272,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     void resolveRelatedPath(repo, branch, relatedPath)
   }, [repo, branch, relatedPath, detail, resolveRelatedPath])
 
-  // ---- form ---- //
   const buildForm = useCallback(() => ({
     repo,
     branch,
@@ -342,9 +290,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
       setSkippedCheck(false)
       setStep(STEP_REVIEW)
     } catch {
-      // Nothing that reaches here means the submission is wrong — the checks report problems as
-      // issue lists. It means the API is unreachable or out of quota, and the submission does not
-      // depend on it: fall back to the file-only checks, and to the form alone if those fail too.
       setSkippedCheck(true)
       try {
         setValidation(await validateWithoutApi(buildForm() as SubmitForm, catalogueRepo, catalogueIds))
@@ -357,14 +302,12 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     }
   }, [buildForm, catalogueRepo, catalogueIds])
 
-  // the catalogue ships one guideline file per language; prefer the one the server could actually load
   const guidelinesFile = guidelines?.fileName
     ?? (locale === 'zh-CN' ? 'CONTRIBUTING_zh_cn.md' : 'CONTRIBUTING.md')
   const guidelinesHref = guidelines !== null
     ? guidelines.baseUrl + guidelines.fileName
     : `https://github.com/${catalogueRepo}/blob/HEAD/${guidelinesFile}`
 
-  // ---- render helpers ---- //
   const issues = (list: SubmitIssue[]) => (
     <Stack gap={4}>
       {list.map((issue, index) => (
@@ -373,8 +316,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     </Stack>
   )
 
-  // the id is read from the plugin repository, which is two steps ahead, so leaving the first step
-  // cannot depend on it; the check button does
   const canLeaveDetails = repo !== null && (branch ?? '').trim().length > 0 && relatedPath !== null
   const canCheck = canLeaveDetails && pluginId.trim().length > 0
   const pluginIdErrorMessage = pluginIdError === null ? undefined
@@ -382,31 +323,18 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
       : pluginIdError === 'invalid' ? t('details.plugin_id_invalid')
         : pluginIdError
 
-  // ---- handing the commit over to github ---- //
   const catalogueName = catalogueRepo.split('/')[1]
   const forkName = forkStatus !== null ? `${forkStatus.login}/${catalogueName}` : ''
-  // when the checks could not run, the form still describes a complete file: nothing about creating
-  // it on github.com needs the api
   const pluginInfo = validation?.pluginInfo ?? (skippedCheck ? buildPluginInfo(buildForm() as SubmitForm) : null)
   const canSubmit = pluginInfo !== null && (validation === null || validation.errors.length === 0)
-  // the json is written the way the catalogue already formats its files
   const pluginInfoJson = pluginInfo !== null ? buildPluginInfoJson(pluginInfo) : null
   const submissionPath = pluginInfo !== null ? `plugins/${pluginInfo.id}/plugin_info.json` : ''
-  // the catalogue's owner needs no fork: forking a repository you own is not possible, and the
-  // file can be created there directly. Everyone else commits to their own fork. This holds even
-  // when nothing could be read, which is why it only compares the names.
   const ownsCatalogue = login.length > 0
     && catalogueRepo.split('/')[0].toLowerCase() === login.toLowerCase()
-  // without the fork lookup the link assumes the fork exists, which is what the steps below tell the
-  // user to create; the branch is the catalogue's, and master is what every catalogue checked uses
   const targetRepo = forkStatus !== null ? (ownsCatalogue ? catalogueRepo : forkName) : `${login}/${catalogueName}`
   const newFileUrl = canSubmit && pluginInfoJson !== null && submissionPath.length > 0 && targetRepo.length > 0
-    ? buildNewFileUrl(targetRepo, catalogueBranch, submissionPath, pluginInfoJson)
+    ? buildNewFileUrl(targetRepo, CATALOGUE_BRANCH, submissionPath, pluginInfoJson)
     : null
-
-  if (!enabled) {
-    return <Alert color="yellow" icon={<IconAlertTriangle/>}>{t('disabled')}</Alert>
-  }
 
   return (
     <Stack gap="lg">
@@ -457,7 +385,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
                 if (typed.length === 0 || typed === repo) {
                   return
                 }
-                // a pasted url names the same repository, reduce it to owner/repository
                 const parsed = parseRepoSpec(typed)
                 if (parsed === null) {
                   setError(t('repo.invalid'))
@@ -467,7 +394,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
               }}
             />
             {detailLoading && <Loader size="sm"/>}
-
 
                 {detail ? (
                   <>
@@ -530,7 +456,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
                       value={branch ?? ''}
                       onChange={event => setBranch(event.currentTarget.value.trim())}
                       onBlur={event => {
-                        // the branch decides where the metadata is read from, so a change re-reads it
                         const value = event.currentTarget.value.trim()
                         if (repo !== null && value.length > 0) {
                           void resolveRelatedPath(repo, value, relatedPath ?? '.')
@@ -618,7 +543,6 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
               label={t('details.plugin_id')}
               description={t(idFromFile ? 'details.plugin_id_hint' : 'details.plugin_id_hint_manual')}
               value={pluginId}
-              // read-only while it is known to match mcdreforged.plugin.json, typed in otherwise
               readOnly={idFromFile}
               onChange={event => setPluginId(event.currentTarget.value.trim())}
               placeholder={idFromFile ? t('details.plugin_id_placeholder') : t('details.plugin_id_manual_placeholder')}

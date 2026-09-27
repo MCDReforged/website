@@ -1,12 +1,9 @@
 import type { PluginInfoAuthor } from './types'
 
-/** MCDR's own plugin id rule: `[a-z][a-z0-9_]{0,63}` */
 export const PLUGIN_ID_REGEX = /^[a-z][a-z0-9_]{0,63}$/
 
-/** The catalogue asks for at least 3 characters unless there is a special reason. */
 export const PLUGIN_ID_RECOMMENDED_MIN_LENGTH = 3
 
-/** GitHub login shape, used to tell a login apart from a display name */
 const GITHUB_LOGIN_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i
 
 export interface RawPluginMetadata {
@@ -15,9 +12,7 @@ export interface RawPluginMetadata {
   version?: unknown
   description?: unknown
   authors?: unknown
-  /** legacy single/plural author field */
   author?: unknown
-  /** legacy author homepage */
   link?: unknown
   links?: { homepage?: string } | null
   dependencies?: unknown
@@ -36,11 +31,6 @@ export function asString(value: unknown): string | undefined {
 }
 
 export interface AuthorLinkContext {
-  /**
-   * Canonical GitHub logins that are known to belong to the plugin, e.g. the repository owner
-   * and the signed-in user. Only these are used to infer an author homepage, so that we never
-   * invent a link to a GitHub account that may not exist.
-   */
   preferredLogins?: string[]
 }
 
@@ -87,11 +77,6 @@ function toAuthorShape(item: unknown): AuthorShape | null {
   return null
 }
 
-/**
- * The legacy `link` field is an author homepage, but it is very often filled with the plugin
- * repository url. Such a repository url is not a homepage, so it is replaced by the author's
- * GitHub profile when we can tell what it is, and dropped otherwise.
- */
 function applyAuthorLinkPolicy(author: AuthorShape, context: AuthorLinkContext): PluginInfoAuthor {
   let link = author.link ?? ''
   if (link.length > 0 && isGithubRepoUrl(link)) {
@@ -103,7 +88,6 @@ function applyAuthorLinkPolicy(author: AuthorShape, context: AuthorLinkContext):
   return link.length > 0 ? { name: author.name, link } : { name: author.name }
 }
 
-/** Reads both the modern `authors` field and the legacy `author` / `link` fields. */
 export function normalizeAuthors(metadata: RawPluginMetadata, context: AuthorLinkContext = {}): PluginInfoAuthor[] {
   const source = metadata.authors !== undefined ? metadata.authors : metadata.author
   const items = Array.isArray(source) ? source : source === undefined || source === null ? [] : [source]
@@ -122,13 +106,10 @@ export function normalizeAuthors(metadata: RawPluginMetadata, context: AuthorLin
   if (resolved.length > 0) {
     return resolved
   }
-  // nothing declared: the repository owner is the author the catalogue should credit, and the
-  // first preferred login is that owner
   const owner = context.preferredLogins?.[0]
   return owner === undefined ? [] : [{ name: owner, link: `https://github.com/${owner}` }]
 }
 
-/** Best effort plain-text description, preferring English then Chinese. */
 export function getDescriptionText(metadata: RawPluginMetadata): string | undefined {
   const description = metadata.description
   if (typeof description === 'string') {
@@ -148,56 +129,4 @@ export function getDescriptionText(metadata: RawPluginMetadata): string | undefi
 
 export function getLinksHomepage(metadata: RawPluginMetadata): string | undefined {
   return asString(metadata.links?.homepage)
-}
-
-/** Self check: `node -e "import('./src/server/submit/metadata.ts').then(m => m.demo())"` */
-export function demo(): void {
-  const assert = (actual: unknown, expected: unknown, what: string) => {
-    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-      throw new Error(`metadata demo failed: ${what}: ${JSON.stringify(actual)} !== ${JSON.stringify(expected)}`)
-    }
-  }
-  const ctx = { preferredLogins: ['alex3236', 'AnzhiZhang'] }
-
-  // legacy `link` pointing at the plugin repository is not an author homepage
-  assert(
-    normalizeAuthors({ author: 'Alex3236', link: 'https://github.com/alex3236/UnifiedHandler' }, ctx),
-    [{ name: 'Alex3236', link: 'https://github.com/alex3236' }],
-    'repo url is replaced by the profile of the matching login',
-  )
-
-  // a real profile url is kept as is
-  assert(
-    normalizeAuthors({ authors: [{ name: 'Andy Zhang', link: 'https://github.com/AnzhiZhang' }] }, ctx),
-    [{ name: 'Andy Zhang', link: 'https://github.com/AnzhiZhang' }],
-    'profile url kept',
-  )
-
-  // a personal homepage is kept as is
-  assert(
-    normalizeAuthors({ author: 'MyFriend', link: 'https://www.myfriend.com' }, ctx),
-    [{ name: 'MyFriend', link: 'https://www.myfriend.com' }],
-    'non github homepage kept',
-  )
-
-  // unknown names never get an invented link
-  assert(normalizeAuthors({ author: 'Someone' }, ctx), [{ name: 'Someone' }], 'no invented link')
-  assert(normalizeAuthors({ author: 'Andy Zhang' }, ctx), [{ name: 'Andy Zhang' }], 'display name, no link')
-  assert(
-    normalizeAuthors({ author: 'Someone', link: 'https://github.com/someone/plugins' }, ctx),
-    [{ name: 'Someone' }],
-    'unknown repo url is dropped, not guessed',
-  )
-  // no declared author at all: the repository owner is used, with their profile
-  assert(normalizeAuthors({}, ctx), [{ name: 'alex3236', link: 'https://github.com/alex3236' }], 'owner as default author')
-  assert(normalizeAuthors({ name: 'my_plugin' }, {}), [], 'no owner known, no invented author')
-
-  assert(normalizeAuthors({ authors: ['Alex3236', { name: 'Someone' }] }, ctx), [
-    { name: 'Alex3236', link: 'https://github.com/alex3236' },
-    { name: 'Someone' },
-  ], 'mixed list')
-
-  // path handling (normalisation, safety, plugin relative resolution) lives in @/utils/plugin-path-utils
-
-  console.log('metadata demo passed')
 }

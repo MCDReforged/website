@@ -76,7 +76,6 @@
         "source": "View the original on GitHub",
         "ack": "I have read the contributing guidelines and confirm that my plugin meets them"
       },
-      "disabled": "Plugin submission is not enabled on this deployment.",
       "rate_limited": "The anonymous request limit was reached (60 per address per hour); try again later or use a different network.",
       "network_error": "GitHub could not be reached. Check your connection, or continue with the wizard.",
       "api_unreachable": "The GitHub API could not be reached. If this persists, try again later.",

@@ -21,7 +21,6 @@ interface GfmMarkdownProps {
   allowEmbedHtml?: boolean
   allowAnchor?: boolean
   repository?: string
-  /** when set, relative links and images are resolved against this url instead of this website */
   relativeLinkBase?: string
   [_: string]: any
 }
