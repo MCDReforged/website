@@ -131,7 +131,7 @@
         "skipped": "The GitHub API is unavailable right now, so some checks could not run. The plugin metadata, introduction files, license and id availability were still checked straight from the repository files; the release check and the plugin directory suggestions could not run.",
         "skipped_title": "Nothing was checked",
         "errors": "Please fix the following problems",
-        "warnings": "Warnings",
+        "warnings": "Attention",
         "tab_report": "Report",
         "tab_json": "JSON",
         "unavailable": "Nothing to show yet, please fix the problems above.",

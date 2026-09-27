@@ -131,7 +131,7 @@
         "skipped": "GitHub API 当前不可用（配额用尽或网络不通），部分检查未能执行。",
         "skipped_title": "未执行检查",
         "errors": "请先修正以下问题",
-        "warnings": "提示",
+        "warnings": "请留意",
         "tab_report": "报告",
         "tab_json": "JSON",
         "unavailable": "暂无内容，请先修正上方的问题。",
