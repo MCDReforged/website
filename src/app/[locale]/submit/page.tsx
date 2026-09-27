@@ -1,6 +1,6 @@
 import { getEverything } from '@/catalogue/data'
 import { CommonContentLayout } from '@/components/layout/common-content-layout'
-import { getGuidelines } from '@/server/guidelines'
+import { getGuidelines } from '@/submit/guidelines'
 import { getCatalogueRepo, getGithubApiBase } from '@/utils/environment-utils'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import React from 'react'
@@ -17,7 +17,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function Page(props: { params: Promise<{ locale: string }> }) {
   const { locale } = await props.params
   setRequestLocale(locale)
-  const guidelines = await getGuidelines(locale)
+  const guidelines = await getGuidelines(locale, getCatalogueRepo())
   const catalogueIds = Object.keys((await getEverything()).plugins)
 
   return (

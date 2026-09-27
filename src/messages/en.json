@@ -76,9 +76,9 @@
         "source": "View the original on GitHub",
         "ack": "I have read the contributing guidelines and confirm that my plugin meets them"
       },
-      "rate_limited": "The anonymous request limit was reached (60 per address per hour); try again later or use a different network.",
+      "rate_limited": "The anonymous request limit was reached (60 per address per hour); use a different network or try again later. You can still complete the wizard.",
       "network_error": "GitHub could not be reached. Check your connection, or continue with the wizard.",
-      "api_unreachable": "The GitHub API could not be reached. If this persists, try again later.",
+      "api_unreachable": "The GitHub API could not be reached. If this persists, try again later. You can still complete the wizard.",
       "steps": {
         "select": "Repository",
         "guidelines": "Guidelines",
@@ -86,8 +86,8 @@
         "review": "Review"
       },
       "repo": {
-        "manual_notice": "The repository could not be read, so no plugins could be listed and no checks ran. Fill in the following fields manually.",
-        "branch_hint": "The branch the plugin lives on; check it, since the repository could not be read",
+        "manual_notice": "The repository could not be read, so candidates could not be listed automatically. Fill in the following fields manually.",
+        "branch_hint": "The branch the plugin lives on",
         "select": "Repository",
         "select_hint": "Paste a github.com repository url, or type owner/repository",
         "invalid": "Enter owner/repository, or paste a github.com repository url.",
@@ -99,7 +99,7 @@
         "related_path": "Plugin directory",
         "related_path_hint": "The directory that contains mcdreforged.plugin.json, `.` for the repository root",
         "no_candidates": "No mcdreforged.plugin.json was found on this branch. Check the branch, or enter the path manually.",
-        "candidates_truncated": "This repository declares more plugins than the list can hold. If yours is missing, enter the plugin directory manually.",
+        "candidates_truncated": "There are more candidates than the list can hold. If yours is missing, enter the plugin directory manually.",
         "tree_truncated": "This repository is very large, so the file listing may be incomplete."
       },
       "details": {

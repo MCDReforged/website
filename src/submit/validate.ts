@@ -1,4 +1,4 @@
-import { GithubApiError, GithubGitTree, GithubRelease, githubRequest } from '@/submit/github-api'
+import { GithubApiError, GithubGitTree, GithubRelease, githubRequest, firstExistingRawFile, rawFileExists, readRawFile } from './github'
 
 import { isSafeRelatedPath, normalizeRelatedPath, resolvePluginRelative } from '@/submit/plugin-path-utils'
 import { parseReleaseTagVersion } from '@/submit/plugin-version-utils'
@@ -12,7 +12,6 @@ import {
   PLUGIN_ID_RECOMMENDED_MIN_LENGTH,
 } from './metadata'
 import { fetchTree, splitRepo } from './repo'
-import { firstExistingRawFile, rawFileExists, readRawFile } from '@/submit/github-raw'
 import {
   INTRODUCTION_LANGUAGES,
   LicenseCheck,

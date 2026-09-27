@@ -119,7 +119,7 @@ export interface RepoDetail {
   defaultBranch: string
   branch: string
   branches: string[]
-  candidates: PluginCandidate[]
+  candidatePaths: string[]
   candidatesTruncated: boolean
   mdFiles: string[]
   treeTruncated: boolean

@@ -2,9 +2,9 @@
 
 import { toPluginRelative } from '@/submit/plugin-path-utils'
 import { buildForkUrl, buildNewFileUrl, buildPluginInfoJson, ownerAuthor, parseRepoSpec } from '@/submit/github-repo-utils'
-import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/submit/github-api'
+import { GithubApiError, GithubCompare, githubRequest, setGithubApiBase } from '@/submit/github'
 import { getRepoDetail, resolvePluginCandidate } from '@/submit/repo'
-import { firstExistingRawFile, rawFileExists } from '@/submit/github-raw'
+import { firstExistingRawFile, rawFileExists } from '@/submit/github'
 import { buildPluginInfo, validateSubmission, validateWithoutApi } from '@/submit/validate'
 import { ForkStatus, Guidelines, PluginInfoAuthor, RepoDetail, SubmitForm, SubmitIssue, ValidationResult } from '@/submit/types'
 import { INTRODUCTION_LANGUAGES, PLUGIN_LABELS } from '@/submit/types'
@@ -162,20 +162,6 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
     return author === null ? [] : [author]
   }, [])
 
-  const applyCandidate = useCallback((relatedPathValue: string, source: RepoDetail) => {
-    setRelatedPath(relatedPathValue)
-    const candidate = source.candidates.find(c => c.relatedPath === relatedPathValue)
-    setPluginId(candidate?.metadata.id ?? '')
-    setPluginIdError(candidate !== undefined && !candidate.validId ? 'invalid' : null)
-    setAuthors(candidate?.metadata.authors?.length ? candidate.metadata.authors : defaultAuthors(source.repo))
-    setIdFromFile(typeof candidate?.metadata.id === 'string' && candidate.metadata.id.length > 0)
-
-    const ownReadme = relatedPathValue === '.' ? 'README.md' : `${relatedPathValue}/README.md`
-    if (source.mdFiles.includes(ownReadme)) {
-      setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
-    }
-  }, [defaultAuthors])
-
   const resolveRelatedPath = useCallback(async (repoFullName: string, branchName: string, path: string) => {
     const requestId = ++resolveRequestId.current
     setResolving(true)
@@ -212,19 +198,29 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
     }
   }, [login, describeError, defaultAuthors])
 
+  const applyCandidate = useCallback((relatedPathValue: string, source: RepoDetail) => {
+    setRelatedPath(relatedPathValue)
+    const ownReadme = relatedPathValue === '.' ? 'README.md' : `${relatedPathValue}/README.md`
+    if (source.mdFiles.includes(ownReadme)) {
+      setIntroduction(previous => previous.en_us ? previous : { ...previous, en_us: 'README.md' })
+    }
+    void resolveRelatedPath(source.repo, source.branch, relatedPathValue)
+  }, [resolveRelatedPath])
+
+
   const loadDetail = useCallback(async (repoFullName: string, branchName?: string | null) => {
     const requestId = ++detailRequestId.current
     setDetailLoading(true)
     setError(null)
     try {
-      const data = await getRepoDetail(repoFullName, branchName ?? undefined, login)
+      const data = await getRepoDetail(repoFullName, branchName ?? undefined)
       if (requestId !== detailRequestId.current) {
         return
       }
       setDetail(data)
       setBranch(data.branch)
-      if (data.candidates.length > 0) {
-        applyCandidate(data.candidates[0].relatedPath, data)
+      if (data.candidatePaths.length > 0) {
+        applyCandidate(data.candidatePaths[0], data)
       } else {
         setRelatedPath(null)
       }
@@ -245,7 +241,7 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
         setDetailLoading(false)
       }
     }
-  }, [applyCandidate, login, describeError, defaultAuthors, resolveRelatedPath])
+  }, [applyCandidate, describeError, defaultAuthors, resolveRelatedPath])
 
   const mdCandidates = React.useMemo(() => {
     if (detail === null || relatedPath === null || relatedPath.length === 0) {
@@ -287,11 +283,8 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
     if (!repo || !branch || !relatedPath) {
       return
     }
-    if (detail?.candidates.some(c => c.relatedPath === relatedPath)) {
-      return
-    }
     void resolveRelatedPath(repo, branch, relatedPath)
-  }, [repo, branch, relatedPath, detail, resolveRelatedPath])
+  }, [repo, branch, relatedPath, resolveRelatedPath])
 
   const buildForm = useCallback(() => ({
     repo,
@@ -427,11 +420,11 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
                       onChange={onSelectBranch}
                       searchable
                     />
-                    {detail.candidates.length > 0 ? (
+                    {detail.candidatePaths.length > 0 ? (
                       <Autocomplete
                         label={t('repo.related_path')}
                         description={t('repo.related_path_hint')}
-                        data={detail.candidates.map(c => c.relatedPath)}
+                        data={detail.candidatePaths}
                         value={relatedPath ?? ''}
                         onChange={value => {
                           setPluginIdError(null)
@@ -439,11 +432,7 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
                             setRelatedPath(null)
                             return
                           }
-                          if (detail.candidates.some(c => c.relatedPath === value)) {
-                            applyCandidate(value, detail)
-                          } else {
-                            setRelatedPath(value)
-                          }
+                          applyCandidate(value, detail)
                         }}
                         onBlur={onRelatedPathBlur}
                       />
@@ -460,7 +449,7 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
                         onBlur={onRelatedPathBlur}
                       />
                     )}
-                    {detail.candidates.length === 0 && (
+                    {detail.candidatePaths.length === 0 && (
                       <Alert color="yellow" icon={<IconAlertTriangle/>}>{t('repo.no_candidates')}</Alert>
                     )}
                     {detail.candidatesTruncated && <Text size="xs" c="dimmed">{t('repo.candidates_truncated')}</Text>}

@@ -76,9 +76,9 @@
         "source": "在 GitHub 上查看原文",
         "ack": "我已阅读贡献指南，并确认我的插件符合要求"
       },
-      "rate_limited": "匿名请求已达 GitHub 限额（每地址每小时 60 次），请稍后重试或更换网络环境。",
+      "rate_limited": "匿名请求已达 GitHub 限额（每地址每小时 60 次），更换网络环境或稍后重试。你仍可以继续完成向导。",
       "network_error": "无法连接 GitHub。请检查网络，或尝试继续完成向导。",
-      "api_unreachable": "无法访问 GitHub API。若持续如此，请稍后重试。",
+      "api_unreachable": "无法访问 GitHub API。若持续如此，请稍后重试。你仍可以继续完成向导。",
       "steps": {
         "select": "选择仓库",
         "guidelines": "贡献指南",
@@ -86,8 +86,8 @@
         "review": "确认"
       },
       "repo": {
-        "manual_notice": "未能读取仓库信息，无法列出插件，也未执行任何检查。请手动填写以下字段。",
-        "branch_hint": "插件所在的分支；仓库信息未能读取，请自行确认",
+        "manual_notice": "未能读取仓库信息，无法自动列出候选项，请手动填写以下字段。",
+        "branch_hint": "插件所在的分支",
         "select": "仓库",
         "select_hint": "粘贴 github.com 仓库链接，或填写 owner/repository",
         "invalid": "请填写 owner/repository，或粘贴 github.com 仓库链接。",
@@ -99,7 +99,7 @@
         "related_path": "插件目录",
         "related_path_hint": "包含 mcdreforged.plugin.json 的目录，仓库根目录填 `.`",
         "no_candidates": "未在该分支下找到 mcdreforged.plugin.json。请检查分支或手动填写路径。",
-        "candidates_truncated": "该仓库的插件数量超出列表上限。若你的插件不在列表中，请手动填写插件目录。",
+        "candidates_truncated": "候选项超出数量上限。若你的插件不在列表中，请手动填写插件目录。",
         "tree_truncated": "仓库过大，文件列表可能不完整。"
       },
       "details": {

@@ -1,5 +1,4 @@
-import { GithubApiError, GithubGitTree, GithubRepo, githubRequest } from '@/submit/github-api'
-import { readRawFile } from '@/submit/github-raw'
+import { GithubApiError, GithubGitTree, GithubRepo, githubRequest, readRawFile } from './github'
 import {
   asString,
   AuthorLinkContext,
@@ -171,12 +170,10 @@ export async function resolvePluginCandidate(
 export async function getRepoDetail(
   repo: string,
   branch?: string,
-  viewerLogin?: string,
 ): Promise<RepoDetail> {
   const repoInfo = await getRepoInfo(repo)
   const defaultBranch = repoInfo.default_branch
   const selectedBranch = branch && branch.length > 0 ? branch : defaultBranch
-  const context = authorContext(repoInfo.owner?.login, viewerLogin)
 
   const [branches, tree] = await Promise.all([
     listBranches(repo),
@@ -190,25 +187,13 @@ export async function getRepoDetail(
   }
 
   const allCandidatePaths = findPluginCandidates(tree)
-  const candidates = await Promise.all(allCandidatePaths.slice(0, MAX_PLUGIN_CANDIDATES).map(async path => {
-    const relatedPath = dirOf(path)
-    try {
-      const metadata = await readPluginMetadata(repo, selectedBranch, path)
-      return toCandidate(relatedPath, metadata, context)
-    } catch (error) {
-      if (error instanceof GithubApiError) {
-        return toCandidate(relatedPath, null, context, `github_${error.status}`)
-      }
-      throw error
-    }
-  }))
 
   return {
     repo,
     defaultBranch,
     branch: selectedBranch,
     branches,
-    candidates,
+    candidatePaths: allCandidatePaths.slice(0, MAX_PLUGIN_CANDIDATES).map(dirOf),
     candidatesTruncated: allCandidatePaths.length > MAX_PLUGIN_CANDIDATES,
     mdFiles: findIntroductionCandidates(tree),
     treeTruncated: tree.truncated,
