@@ -8,6 +8,14 @@
 
 const RAW_BASE = 'https://raw.githubusercontent.com'
 
+/**
+ * A file request that has not answered within this long counts as unreachable.
+ *
+ * Generous on purpose: raw is allowed to be slow, it just may not hang forever, or the caller waits
+ * on it with a spinner and no way out.
+ */
+const RAW_TIMEOUT_MS = 15_000
+
 export function rawFileUrl(repo: string, ref: string, path: string): string {
   const encodedPath = path.split('/').map(encodeURIComponent).join('/')
   return `${RAW_BASE}/${repo}/${encodeURIComponent(ref)}/${encodedPath}`
@@ -20,13 +28,20 @@ export function rawFileUrl(repo: string, ref: string, path: string): string {
  * finding, "we could not ask" is not.
  */
 export async function readRawFile(repo: string, ref: string, path: string): Promise<string | null> {
-  const response = await fetch(rawFileUrl(repo, ref, path), { cache: 'no-store' })
+  const response = await fetch(rawFileUrl(repo, ref, path), {
+    cache: 'no-store',
+    signal: AbortSignal.timeout(RAW_TIMEOUT_MS),
+  })
   return response.ok ? await response.text() : null
 }
 
 /** Whether the file exists. Cheaper than reading it when only existence matters. */
 export async function rawFileExists(repo: string, ref: string, path: string): Promise<boolean> {
-  const response = await fetch(rawFileUrl(repo, ref, path), { method: 'HEAD', cache: 'no-store' })
+  const response = await fetch(rawFileUrl(repo, ref, path), {
+    method: 'HEAD',
+    cache: 'no-store',
+    signal: AbortSignal.timeout(RAW_TIMEOUT_MS),
+  })
   return response.ok
 }
 
@@ -38,18 +53,23 @@ export async function firstExistingRawFile(repo: string, ref: string, paths: str
 
 /** Self check: `node -e "import('./src/utils/github-raw.ts').then(m => m.demo())"` */
 export async function demo(): Promise<void> {
-  const calls: { url: string, method: string }[] = []
+  const calls: { url: string, method: string, signal: unknown }[] = []
   let respond: (url: string) => Response = () => new Response('{}', { status: 200 })
   const realFetch = globalThis.fetch
   globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
     const url = String(input)
-    calls.push({ url, method: init?.method ?? 'GET' })
+    calls.push({ url, method: init?.method ?? 'GET', signal: init?.signal })
     return respond(url)
   }) as typeof fetch
 
   try {
     const fail = (what: string, value: unknown): never => {
       throw new Error(`github raw demo failed: ${what}: ${JSON.stringify(value)}`)
+    }
+
+    // every request is bounded: a raw call that never answers must not leave a caller waiting
+    if (!calls.every(call => call.signal instanceof AbortSignal)) {
+      fail('requests should carry a timeout signal', calls)
     }
 
     // paths and refs are escaped, but the separators are not

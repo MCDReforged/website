@@ -138,8 +138,9 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     if (err instanceof GithubApiError) {
       return err.rateLimited ? t('rate_limited') : t('api_unreachable')
     }
-    // a blocked or offline request rejects with a TypeError, whose message is for developers
-    if (err instanceof TypeError) {
+    // a blocked or offline request rejects with a TypeError, a timed-out one with a DOMException,
+    // and both messages are for developers
+    if (err instanceof TypeError || (err instanceof DOMException && err.name === 'TimeoutError')) {
       return t('network_error')
     }
     return (err as Error).message
@@ -154,6 +155,9 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
       return
     }
     if (forkStatus?.login === login) {
+      // the run that produced this status may have been cancelled by this very re-render, so the
+      // flag it set would never be cleared here; clearing it is what makes a returned guard safe
+      setCheckingFork(false)
       return
     }
     let cancelled = false

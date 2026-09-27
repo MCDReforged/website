@@ -37,6 +37,12 @@ const DEFAULT_API_BASE = 'https://api.github.com'
 /** One visit asks for the same tree twice; a short cache keeps it inside the anonymous quota. */
 const CACHE_TTL_MS = 60_000
 
+/**
+ * An API request that has not answered within this long counts as unreachable. Longer than the raw
+ * timeout: a repository tree or a release list is a much bigger response than a file.
+ */
+const REQUEST_TIMEOUT_MS = 30_000
+
 const cache = new Map<string, { at: number, value: unknown }>()
 
 let apiBase = DEFAULT_API_BASE
@@ -70,6 +76,7 @@ export async function githubRequest<T>(path: string, options: GithubRequestOptio
       'x-github-api-version': '2022-11-28',
     },
     cache: 'no-store',
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   })
 
   const text = await response.text()
