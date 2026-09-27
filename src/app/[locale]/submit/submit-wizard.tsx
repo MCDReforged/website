@@ -134,9 +134,17 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
     })
   }, [catalogueBranch, catalogueRepo])
 
-  const describeError = useCallback((err: unknown) => {
+  const describeError = useCallback((err: unknown, repo?: string | null) => {
     if (err instanceof GithubApiError) {
-      return err.rateLimited ? t('rate_limited') : t('api_unreachable')
+      if (err.rateLimited) {
+        return t('rate_limited')
+      }
+      // github answers 404 both for a repository that is not there and for one it will not show an
+      // unauthenticated caller, which is what a private repository looks like from here
+      if (err.status === 404 && repo) {
+        return t('repo.not_found', { repo })
+      }
+      return t('api_unreachable')
     }
     // a blocked or offline request rejects with a TypeError, a timed-out one with a DOMException,
     // and both messages are for developers
@@ -225,7 +233,7 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
       }
     } catch (err) {
       setPluginId('')
-      setPluginIdError(describeError(err))
+      setPluginIdError(describeError(err, repoFullName))
     } finally {
       setResolving(false)
     }
@@ -244,7 +252,7 @@ export function SubmitWizard({ guidelines, enabled, catalogueRepo, catalogueBran
         setRelatedPath(null)
       }
     } catch (err) {
-      setError(describeError(err))
+      setError(describeError(err, repoFullName))
       setDetail(null)
       // nothing could be read: the submission does not depend on it, so the fields are typed in by
       // hand instead of leaving the wizard stuck here
