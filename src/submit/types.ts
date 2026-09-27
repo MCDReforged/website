@@ -129,6 +129,7 @@ export interface Guidelines {
   markdown: string
   fileName: string
   baseUrl: string
+  rawBaseUrl: string
 }
 
 export interface ForkStatus {

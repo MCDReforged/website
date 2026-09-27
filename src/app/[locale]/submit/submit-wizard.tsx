@@ -39,7 +39,7 @@ import {
 import { GfmMarkdownDynamic } from '@/components/markdown/gfm-markdown-dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import { useMediaQuery } from '@mantine/hooks'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { SubmissionReportView } from './submission-report'
 import { SubmissionSteps } from './submission-steps'
 
@@ -67,6 +67,8 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
   const [repoText, setRepoText] = useState('')
   const [detail, setDetail] = useState<RepoDetail | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
+  const detailRequestId = useRef(0)
+  const resolveRequestId = useRef(0)
 
   const [branch, setBranch] = useState<string | null>(null)
   const [relatedPath, setRelatedPath] = useState<string | null>(null)
@@ -135,6 +137,7 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
   useEffect(() => {
     if (login.length === 0) {
       setForkStatus(null)
+      setCheckingFork(false)
       return
     }
     // the run that set the flag may have been cancelled by this re-render, so clear it here
@@ -174,10 +177,14 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
   }, [defaultAuthors])
 
   const resolveRelatedPath = useCallback(async (repoFullName: string, branchName: string, path: string) => {
+    const requestId = ++resolveRequestId.current
     setResolving(true)
     setPluginIdError(null)
     try {
       const candidate = await resolvePluginCandidate(repoFullName, branchName, path, login)
+      if (requestId !== resolveRequestId.current) {
+        return
+      }
       if (candidate?.metadata.id) {
         setPluginId(candidate.metadata.id)
         setAuthors(candidate.metadata.authors?.length ? candidate.metadata.authors : defaultAuthors(repoFullName))
@@ -193,18 +200,27 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
         setIdFromFile(false)
       }
     } catch (err) {
+      if (requestId !== resolveRequestId.current) {
+        return
+      }
       setPluginId('')
       setPluginIdError(describeError(err, repoFullName))
     } finally {
-      setResolving(false)
+      if (requestId === resolveRequestId.current) {
+        setResolving(false)
+      }
     }
   }, [login, describeError, defaultAuthors])
 
   const loadDetail = useCallback(async (repoFullName: string, branchName?: string | null) => {
+    const requestId = ++detailRequestId.current
     setDetailLoading(true)
     setError(null)
     try {
       const data = await getRepoDetail(repoFullName, branchName ?? undefined, login)
+      if (requestId !== detailRequestId.current) {
+        return
+      }
       setDetail(data)
       setBranch(data.branch)
       if (data.candidates.length > 0) {
@@ -213,6 +229,9 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
         setRelatedPath(null)
       }
     } catch (err) {
+      if (requestId !== detailRequestId.current) {
+        return
+      }
       setError(describeError(err, repoFullName))
       setDetail(null)
       const fallbackBranch = branchName ?? 'master'
@@ -222,7 +241,9 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
       setAuthors(previous => previous.length > 0 ? previous : defaultAuthors(repoFullName))
       void resolveRelatedPath(repoFullName, fallbackBranch, fallbackPath)
     } finally {
-      setDetailLoading(false)
+      if (requestId === detailRequestId.current) {
+        setDetailLoading(false)
+      }
     }
   }, [applyCandidate, login, describeError, defaultAuthors, resolveRelatedPath])
 
@@ -331,7 +352,9 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
   const submissionPath = pluginInfo !== null ? `plugins/${pluginInfo.id}/plugin_info.json` : ''
   const ownsCatalogue = login.length > 0
     && catalogueRepo.split('/')[0].toLowerCase() === login.toLowerCase()
-  const targetRepo = forkStatus !== null ? (ownsCatalogue ? catalogueRepo : forkName) : `${login}/${catalogueName}`
+  const targetRepo = forkStatus !== null
+    ? (ownsCatalogue ? catalogueRepo : forkName)
+    : (login.length > 0 ? `${login}/${catalogueName}` : '')
   const newFileUrl = canSubmit && pluginInfoJson !== null && submissionPath.length > 0 && targetRepo.length > 0
     ? buildNewFileUrl(targetRepo, CATALOGUE_BRANCH, submissionPath, pluginInfoJson)
     : null
@@ -509,7 +532,7 @@ export function SubmitWizard({ guidelines, catalogueRepo, apiBase, catalogueIds 
             {guidelines !== null && (
               <Paper withBorder className="overflow-hidden">
                 <div className="max-h-[60vh] overflow-y-auto p-4">
-                  <GfmMarkdownDynamic relativeLinkBase={guidelines.baseUrl} allowEmbedHtml allowAnchor>
+                  <GfmMarkdownDynamic relativeLinkBase={guidelines.baseUrl} relativeImageBase={guidelines.rawBaseUrl} allowEmbedHtml allowAnchor>
                     {guidelines.markdown}
                   </GfmMarkdownDynamic>
                 </div>

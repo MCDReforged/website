@@ -31,7 +31,7 @@ const ID_SIMILARITY_THRESHOLD = 3
 
 const RELEASE_SCAN_LIMIT = 100
 
-const LICENSE_FILE_REGEX = /^(licen[cs]e|copying)([-.].*)?$/i
+const LICENSE_FILE_REGEX = /^(licen[cs]e|copying|unlicen[cs]e)([-._].*)?$/i
 
 function normalizeIntroduction(introduction: Record<string, string> | undefined): Record<string, string> {
   const result: Record<string, string> = {}
@@ -368,6 +368,7 @@ const LICENSE_PROBE_NAMES = [
   'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'LICENSE.rst',
   'LICENCE', 'LICENCE.md', 'LICENCE.txt',
   'COPYING', 'COPYING.md', 'COPYING.LESSER',
+  'UNLICENSE', 'UNLICENCE',
 ]
 
 export function buildPluginInfo(form: SubmitForm): PluginInfoJson | null {

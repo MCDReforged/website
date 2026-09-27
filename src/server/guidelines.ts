@@ -46,5 +46,6 @@ export async function getGuidelines(locale: string): Promise<Guidelines | null> 
     markdown,
     fileName,
     baseUrl: `https://github.com/${repo}/blob/HEAD/`,
+    rawBaseUrl: `https://raw.githubusercontent.com/${repo}/HEAD/`,
   }
 }

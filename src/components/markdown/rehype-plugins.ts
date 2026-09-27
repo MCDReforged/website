@@ -105,14 +105,19 @@ function isRelativeUrl(url: unknown): url is string {
 }
 
 // without this, remark-github leaves them relative and they resolve against this website
-export function relativeUrlRewriter(options: { baseUrl: string }): (tree: Root) => Root {
-  const base = options.baseUrl.endsWith('/') ? options.baseUrl : options.baseUrl + '/'
+function withTrailingSlash(url: string): string {
+  return url.endsWith('/') ? url : url + '/'
+}
+
+export function relativeUrlRewriter(options: { linkBase: string, imageBase: string }): (tree: Root) => Root {
+  const linkBase = withTrailingSlash(options.linkBase)
+  const imageBase = withTrailingSlash(options.imageBase)
   return (tree: Root): Root => {
     visit(tree, 'element', (node) => {
       if (node.tagName === 'a' && isRelativeUrl(node.properties.href)) {
-        node.properties.href = base + node.properties.href
+        node.properties.href = linkBase + node.properties.href
       } else if (node.tagName === 'img' && isRelativeUrl(node.properties.src)) {
-        node.properties.src = base + node.properties.src
+        node.properties.src = imageBase + node.properties.src
       }
     })
     return tree

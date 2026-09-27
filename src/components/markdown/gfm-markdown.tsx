@@ -22,6 +22,7 @@ interface GfmMarkdownProps {
   allowAnchor?: boolean
   repository?: string
   relativeLinkBase?: string
+  relativeImageBase?: string
   [_: string]: any
 }
 
@@ -40,7 +41,7 @@ function CheckMarkdownFeatures(text: string): FeatureFlags {
 
 export default function GfmMarkdown(
   {
-    children, className, allowEmbedHtml, allowAnchor, repository, relativeLinkBase,
+    children, className, allowEmbedHtml, allowAnchor, repository, relativeLinkBase, relativeImageBase,
     ...markdownProps
   }: GfmMarkdownProps
 ) {
@@ -77,7 +78,7 @@ export default function GfmMarkdown(
   }
   if (relativeLinkBase) {
     // after the sanitizer, so that it only ever adds the base url to already allowed urls
-    rehypePlugins.push([relativeUrlRewriter, { baseUrl: relativeLinkBase }])
+    rehypePlugins.push([relativeUrlRewriter, { linkBase: relativeLinkBase, imageBase: relativeImageBase ?? relativeLinkBase }])
   }
   rehypePlugins.push([rehypeGithubAlerts, {alerts}])
   rehypePlugins.push(mermaidTransformer)
