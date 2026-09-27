@@ -6,7 +6,6 @@ import {
   getLinksHomepage,
   getPluginId,
   normalizeAuthors,
-  RawPluginMetadata,
 } from './metadata'
 import { PluginCandidate, RepoDetail } from './types'
 
@@ -65,14 +64,14 @@ export async function readPluginMetadata(
   repo: string,
   branch: string,
   path: string,
-): Promise<RawPluginMetadata | null> {
+): Promise<Record<string, unknown> | null> {
   const content = await readRepoFile(repo, branch, path)
   if (content === null) {
     return null
   }
   try {
     const parsed = JSON.parse(content) as unknown
-    return parsed !== null && typeof parsed === 'object' ? parsed as RawPluginMetadata : null
+    return parsed !== null && typeof parsed === 'object' ? parsed as Record<string, unknown> : null
   } catch {
     return null
   }
@@ -121,7 +120,7 @@ function authorContext(ownerLogin: string | undefined, viewerLogin: string | und
 
 function toCandidate(
   relatedPath: string,
-  metadata: RawPluginMetadata | null,
+  metadata: Record<string, unknown> | null,
   context: AuthorLinkContext,
   error?: string,
 ): PluginCandidate {

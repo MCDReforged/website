@@ -6,23 +6,11 @@ export const PLUGIN_ID_RECOMMENDED_MIN_LENGTH = 3
 
 const GITHUB_LOGIN_REGEX = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i
 
-export interface RawPluginMetadata {
-  id?: unknown
-  name?: unknown
-  version?: unknown
-  description?: unknown
-  authors?: unknown
-  author?: unknown
-  link?: unknown
-  links?: { homepage?: string } | null
-  dependencies?: unknown
-}
-
 export function isValidPluginId(id: string): boolean {
   return PLUGIN_ID_REGEX.test(id)
 }
 
-export function getPluginId(metadata: RawPluginMetadata): string | null {
+export function getPluginId(metadata: Record<string, unknown>): string | null {
   return typeof metadata.id === 'string' && isValidPluginId(metadata.id) ? metadata.id : null
 }
 
@@ -88,7 +76,7 @@ function applyAuthorLinkPolicy(author: AuthorShape, context: AuthorLinkContext):
   return link.length > 0 ? { name: author.name, link } : { name: author.name }
 }
 
-export function normalizeAuthors(metadata: RawPluginMetadata, context: AuthorLinkContext = {}): PluginInfoAuthor[] {
+export function normalizeAuthors(metadata: Record<string, unknown>, context: AuthorLinkContext = {}): PluginInfoAuthor[] {
   const source = metadata.authors !== undefined ? metadata.authors : metadata.author
   const items = Array.isArray(source) ? source : source === undefined || source === null ? [] : [source]
   const authors = items.map(toAuthorShape).filter((author): author is AuthorShape => author !== null)
@@ -110,7 +98,7 @@ export function normalizeAuthors(metadata: RawPluginMetadata, context: AuthorLin
   return owner === undefined ? [] : [{ name: owner, link: `https://github.com/${owner}` }]
 }
 
-export function getDescriptionText(metadata: RawPluginMetadata): string | undefined {
+export function getDescriptionText(metadata: Record<string, unknown>): string | undefined {
   const description = metadata.description
   if (typeof description === 'string') {
     return asString(description)
@@ -127,6 +115,10 @@ export function getDescriptionText(metadata: RawPluginMetadata): string | undefi
   return undefined
 }
 
-export function getLinksHomepage(metadata: RawPluginMetadata): string | undefined {
-  return asString(metadata.links?.homepage)
+export function getLinksHomepage(metadata: Record<string, unknown>): string | undefined {
+  const links = metadata.links
+  if (links === null || typeof links !== 'object') {
+    return undefined
+  }
+  return asString((links as Record<string, unknown>).homepage)
 }

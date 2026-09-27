@@ -6,10 +6,10 @@ import { closestId } from './levenshtein'
 import {
   asString,
   getDescriptionText,
+  getLinksHomepage,
   getPluginId,
   isValidPluginId,
   PLUGIN_ID_RECOMMENDED_MIN_LENGTH,
-  RawPluginMetadata,
 } from './metadata'
 import { fetchTree, splitRepo } from './repo'
 import { firstExistingRawFile, rawFileExists, readRawFile } from '@/submit/github-raw'
@@ -97,7 +97,7 @@ async function findRelease(repo: string, id: string, version: string | undefined
   return matchRelease(releases, id)
 }
 
-function buildMetadataReport(metadata: RawPluginMetadata): ReportMetadata {
+function buildMetadataReport(metadata: Record<string, unknown>): ReportMetadata {
   const dependencies: Record<string, string> = {}
   if (metadata.dependencies !== null && typeof metadata.dependencies === 'object') {
     for (const [key, value] of Object.entries(metadata.dependencies as Record<string, unknown>)) {
@@ -128,7 +128,7 @@ function buildMetadataReport(metadata: RawPluginMetadata): ReportMetadata {
     description: (metadata.description ?? undefined) as string | Record<string, string> | undefined,
     authors,
     dependencies,
-    homepage: asString(metadata.links?.homepage),
+    homepage: getLinksHomepage(metadata),
   }
 }
 
@@ -229,7 +229,7 @@ async function checkWithFiles(
     }
   }
 
-  let metadata: RawPluginMetadata | null = null
+  let metadata: Record<string, unknown> | null = null
   if (repo !== null) {
     // a failed read is unknown, not missing: only a definite null is reported as missing
     const rawMetadata = await attempt(() => readRawFile(repo, branch, pluginJsonPath))
@@ -237,7 +237,7 @@ async function checkWithFiles(
       errors.push({ code: 'plugin_json_missing', params: { path: pluginJsonPath } })
     } else if (typeof rawMetadata === 'string') {
       try {
-        metadata = JSON.parse(rawMetadata) as RawPluginMetadata
+        metadata = JSON.parse(rawMetadata) as Record<string, unknown>
       } catch {
         errors.push({ code: 'plugin_json_unreadable', params: { path: pluginJsonPath } })
       }
