@@ -3,7 +3,8 @@
     "title": {
       "catalogue": "Plugin Catalogue",
       "plugin": "{name} - Plugin Catalogue",
-      "plugin_release": "{name} v{version} - Plugin Catalogue"
+      "plugin_release": "{name} v{version} - Plugin Catalogue",
+      "submit": "Submit Plugin"
     }
   },
   "layout": {
@@ -12,7 +13,8 @@
         "home": "Home",
         "plugins": "Plugins",
         "stats": "Stats",
-        "docs": "Document"
+        "docs": "Document",
+        "submit": "Submit Plugin"
       },
       "locale_switch": {
         "en": "English",
@@ -64,6 +66,136 @@
     }
   },
   "page": {
+    "submit": {
+      "title": "Submit a Plugin",
+      "description": "This wizard helps you open a pull request to the plugin catalogue to get your plugin listed.",
+      "target": "Submissions are opened against {repo}",
+      "guidelines": {
+        "hint": "The catalogue has a few requirements for new plugins. Please read the guidelines before continuing.",
+        "link": "Read {file}",
+        "source": "View the original on GitHub",
+        "ack": "I have read the contributing guidelines and confirm that my plugin meets them"
+      },
+      "rate_limited": "The anonymous request limit was reached (60 per address per hour); use a different network or try again later. You can still complete the wizard.",
+      "network_error": "GitHub could not be reached. Check your connection, or continue with the wizard.",
+      "api_unreachable": "The GitHub API could not be reached. If this persists, try again later. You can still complete the wizard.",
+      "steps": {
+        "select": "Repository",
+        "guidelines": "Guidelines",
+        "details": "Plugin info",
+        "review": "Review"
+      },
+      "repo": {
+        "manual_notice": "The repository could not be read, so candidates could not be listed automatically. Fill in the following fields manually.",
+        "branch_hint": "The branch the plugin lives on",
+        "select": "Repository",
+        "select_hint": "Paste a github.com repository url, or type owner/repository",
+        "invalid": "Enter owner/repository, or paste a github.com repository url.",
+        "not_found": "Repository {repo} was not found: it does not exist, or it is private. Check the name, and that it is public.",
+        "search_placeholder": "owner/repository",
+        "branch": "Branch",
+        "login": "Your GitHub account",
+        "login_hint": "Github account of the submitter, used to create the PR; please log in to GitHub web with this account.",
+        "related_path": "Plugin directory",
+        "related_path_hint": "The directory that contains mcdreforged.plugin.json, `.` for the repository root",
+        "no_candidates": "No mcdreforged.plugin.json was found on this branch. Check the branch, or enter the path manually.",
+        "candidates_truncated": "There are more candidates than the list can hold. If yours is missing, enter the plugin directory manually.",
+        "tree_truncated": "This repository is very large, so the file listing may be incomplete."
+      },
+      "details": {
+        "plugin_id_manual_placeholder": "The id declared by mcdreforged.plugin.json",
+        "plugin_id_hint_manual": "Nothing could be read from mcdreforged.plugin.json, so enter the id exactly as that file declares it.",
+        "plugin_id": "Plugin ID",
+        "plugin_id_hint": "To change it, edit the id field in mcdreforged.plugin.json in your repository.",
+        "plugin_id_placeholder": "Waiting for the plugin directory",
+        "plugin_id_not_found": "No mcdreforged.plugin.json in the plugin directory you entered",
+        "plugin_id_invalid": "mcdreforged.plugin.json declares an invalid id",
+        "authors": "Authors",
+        "author_link": "Link",
+        "add_author": "Add author",
+        "remove_author": "Remove author",
+        "labels": "Labels",
+        "labels_hint": "Pick every category that applies.",
+        "introduction": "Introduction",
+        "introduction_hint": "Pick an introduction file for each language you support; at least one language is required. Paths are relative to the plugin directory.",
+        "introduction_placeholder": "docs/introduction.md",
+        "introduction_lang": {"en_us": "English", "zh_cn": "Simplified Chinese"}
+      },
+      "actions": {
+        "next": "Next",
+        "back": "Back",
+        "check": "Check"
+      },
+      "review": {
+        "skipped_report": "No report: the checks were skipped.",
+        "skipped": "The GitHub API is unavailable right now, so some checks could not run. The plugin metadata, introduction files, license and id availability were still checked straight from the repository files; the release check and the plugin directory suggestions could not run.",
+        "skipped_title": "Nothing was checked",
+        "errors": "Please fix the following problems",
+        "warnings": "Attention",
+        "tab_report": "Report",
+        "tab_json": "JSON",
+        "unavailable": "Nothing to show yet, please fix the problems above.",
+        "preview": "The file that will be added to the plugin catalogue"
+      },
+      "submit": {
+        "fork_ahead": "{repo} is {count} commit(s) ahead of the plugin catalogue. If you only mean to submit your plugin, deal with those commits first (sync and overwrite the changes, or reset the default branch).",
+        "title": "Submit to the catalogue",
+        "fork_button": "Create the fork on GitHub",
+        "copy": "Copy plugin_info.json",
+        "copied": "Copied",
+        "blocked": "Fix the problems listed above before submitting.",
+        "step_fork_hint": "First make sure you have a fork of {repo}.",
+        "step_fork_exists": "A fork {repo} already exists under your GitHub account.",
+        "step_fork_open": "Open {repo}",
+        "step_fork_button": "Create the fork on GitHub",
+        "step_fork_or_open": "If you already forked it, skip this step.",
+        "step_file_hint": "Create the plugin file in your fork. This button fills in the path and the content:",
+        "step_file_button": "Create the file on GitHub",
+        "step_file_manual": "Or do it yourself: in your fork, click <addFile>Add file</addFile>, choose <createFile>Create new file</createFile>, and paste the path and the content below:",
+        "step_commit_hint": "Click <commit>Commit changes...</commit> in the top right corner, then in the dialog choose <option>Create a new branch for this commit and start a pull request</option>.",
+        "step_pr_hint": "Click <propose>Propose changes</propose>, then click <create>Create pull request</create>.",
+        "path": "Path",
+        "copy_path": "Copy path"
+      },
+      "report": {
+        "not_checked": "Not checked",
+        "plugin_info_title": "Plugin info",
+        "metadata_title": "Plugin metadata",
+        "repository": "Repository",
+        "authors": "Authors",
+        "license": "License",
+        "labels": "Labels",
+        "introduction": "Introduction",
+        "meta": "Meta",
+        "latest_release": "Latest release",
+        "not_detected": "Not detected",
+        "none": "None",
+        "metadata": {"name": "Name", "version": "Version", "authors": "Authors", "description": "Description", "dependencies": "Dependencies", "homepage": "Homepage"}
+      },
+      "issues": {
+        "release_unchecked": "The release check needs the GitHub API, which is unavailable right now, so releases were not checked.",
+        "files_unchecked": "The repository files could not be read, so the metadata, introduction, license and id checks were skipped.",
+        "id_invalid": "`{id}` is not a valid plugin id. Use lowercase letters, digits and underscores, start with a letter, and keep it within 64 characters.",
+        "id_exists": "A plugin with the id `{id}` is already in the catalogue.",
+        "id_mismatch": "The id does not match mcdreforged.plugin.json, which declares `{expected}`.",
+        "id_too_short": "`{id}` is shorter than 3 characters; an id this short is not recommended.",
+        "id_similar": "`{existing}` is very similar to this plugin id (distance {distance}).",
+        "repo_invalid": "The repository is invalid.",
+        "related_path_invalid": "`{path}` is not a valid directory path inside the repository.",
+        "branch_not_found": "The branch `{branch}` does not exist in this repository.",
+        "plugin_json_missing": "No `{path}` on this branch.",
+        "plugin_json_unreadable": "`{path}` could not be parsed as JSON.",
+        "description_missing": "`{path}` does not declare a description.",
+        "introduction_missing": "Provide an introduction for at least one language.",
+        "introduction_path_not_found": "The {language} introduction file `{path}` does not exist in this branch.",
+        "label_invalid": "`{label}` is not a known label.",
+        "labels_missing": "No label was selected. Selecting at least one label is recommended to describe what the plugin does.",
+        "authors_invalid": "Author number {indexes} has an empty name.",
+        "authors_missing": "No author was declared.",
+        "no_license": "No open source license was found in the repository root; consider adding one to protect your work.",
+        "no_release": "No valid plugin release was found."
+      }
+    },
     "home": {
       "description": "A rewritten version of MCDaemon, a Python tool to control your Minecraft server",
       "description_alt": "This is a python based Minecraft server control tool",

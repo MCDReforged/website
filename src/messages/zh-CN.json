@@ -3,7 +3,8 @@
     "title": {
       "catalogue": "插件仓库",
       "plugin": "{name} - 插件仓库",
-      "plugin_release": "{name} v{version} - 插件仓库"
+      "plugin_release": "{name} v{version} - 插件仓库",
+      "submit": "提交插件"
     }
   },
   "layout": {
@@ -12,7 +13,8 @@
         "home": "主页",
         "plugins": "插件仓库",
         "stats": "统计",
-        "docs": "文档"
+        "docs": "文档",
+        "submit": "提交插件"
       },
       "locale_switch": {
         "en": "English",
@@ -64,6 +66,136 @@
     }
   },
   "page": {
+    "submit": {
+      "title": "提交插件",
+      "description": "此向导将帮助你向插件仓库提交 PR，以录入你的插件。",
+      "target": "提交目标：{repo}",
+      "guidelines": {
+        "hint": "插件仓库对新插件有一些要求，请先阅读贡献指南再继续。",
+        "link": "阅读 {file}",
+        "source": "在 GitHub 上查看原文",
+        "ack": "我已阅读贡献指南，并确认我的插件符合要求"
+      },
+      "rate_limited": "匿名请求已达 GitHub 限额（每地址每小时 60 次），更换网络环境或稍后重试。你仍可以继续完成向导。",
+      "network_error": "无法连接 GitHub。请检查网络，或尝试继续完成向导。",
+      "api_unreachable": "无法访问 GitHub API。若持续如此，请稍后重试。你仍可以继续完成向导。",
+      "steps": {
+        "select": "选择仓库",
+        "guidelines": "贡献指南",
+        "details": "插件信息",
+        "review": "确认"
+      },
+      "repo": {
+        "manual_notice": "未能读取仓库信息，无法自动列出候选项，请手动填写以下字段。",
+        "branch_hint": "插件所在的分支",
+        "select": "仓库",
+        "select_hint": "粘贴 github.com 仓库链接，或填写 owner/repository",
+        "invalid": "请填写 owner/repository，或粘贴 github.com 仓库链接。",
+        "not_found": "找不到仓库 {repo}：它不存在，或者是私有仓库。请检查仓库名，并确认它是公开的。",
+        "search_placeholder": "owner/repository",
+        "branch": "分支",
+        "login": "你的 GitHub 账号",
+        "login_hint": "提交者的 GitHub 账号，用于创建 PR；请先用此账号登录 GitHub 网页端。",
+        "related_path": "插件目录",
+        "related_path_hint": "包含 mcdreforged.plugin.json 的目录，仓库根目录填 `.`",
+        "no_candidates": "未在该分支下找到 mcdreforged.plugin.json。请检查分支或手动填写路径。",
+        "candidates_truncated": "候选项超出数量上限。若你的插件不在列表中，请手动填写插件目录。",
+        "tree_truncated": "仓库过大，文件列表可能不完整。"
+      },
+      "details": {
+        "plugin_id_manual_placeholder": "mcdreforged.plugin.json 中声明的 id",
+        "plugin_id_hint_manual": "未能读取 mcdreforged.plugin.json，请按该文件中声明的 id 填写。",
+        "plugin_id": "插件 ID",
+        "plugin_id_hint": "如需修改，请在仓库中修改 mcdreforged.plugin.json 中的 id 字段。",
+        "plugin_id_placeholder": "等待选择插件目录",
+        "plugin_id_not_found": "所填插件目录下未找到 mcdreforged.plugin.json",
+        "plugin_id_invalid": "mcdreforged.plugin.json 中的 id 不合法",
+        "authors": "作者",
+        "author_link": "链接",
+        "add_author": "添加作者",
+        "remove_author": "删除作者",
+        "labels": "分类标签",
+        "labels_hint": "选择所有适用的分类。",
+        "introduction": "插件介绍",
+        "introduction_hint": "为每种支持的语言选择介绍文件；至少提供一种语言的介绍文件。路径相对于插件目录。",
+        "introduction_placeholder": "docs/introduction.md",
+        "introduction_lang": {"en_us": "English", "zh_cn": "简体中文"}
+      },
+      "actions": {
+        "next": "下一步",
+        "back": "上一步",
+        "check": "检查"
+      },
+      "review": {
+        "skipped_report": "未生成报告：检查未执行。",
+        "skipped": "GitHub API 当前不可用（配额用尽或网络不通），部分检查未能执行。",
+        "skipped_title": "未执行检查",
+        "errors": "请先修正以下问题",
+        "warnings": "请留意",
+        "tab_report": "报告",
+        "tab_json": "JSON",
+        "unavailable": "暂无内容，请先修正上方的问题。",
+        "preview": "将添加到插件仓库的文件"
+      },
+      "submit": {
+        "fork_ahead": "{repo} 领先插件仓库 {count} 个提交。若你只是想提交插件，请先处理这些提交（同步并覆盖更改，或重置默认分支）。",
+        "title": "提交到插件仓库",
+        "fork_button": "在 GitHub 上创建 fork",
+        "copy": "复制 plugin_info.json",
+        "copied": "已复制",
+        "blocked": "请先修正上面的问题再提交。",
+        "step_fork_hint": "先确认你已有 {repo} 的 fork。",
+        "step_fork_exists": "你的 GitHub 名下已存在 fork 仓库 {repo}。",
+        "step_fork_open": "打开 {repo}",
+        "step_fork_button": "在 GitHub 上创建 fork",
+        "step_fork_or_open": "若你已经 fork 过，请跳过此步。",
+        "step_file_hint": "在你的 fork 中创建插件文件。可用此按钮自动填写路径与内容：",
+        "step_file_button": "在 GitHub 上创建文件",
+        "step_file_manual": "或者手动完成：在你的 fork 仓库中，点击 <addFile>Add file</addFile>，选择 <createFile>Create new file</createFile>，粘贴以下路径与内容：",
+        "step_commit_hint": "点击右上角的 <commit>Commit changes...</commit>，在弹出的对话框中，选择 <option>Create a new branch for this commit and start a pull request</option>。",
+        "step_pr_hint": "点击 <propose>Propose changes</propose>，然后点击 <create>Create pull request</create>。",
+        "path": "路径",
+        "copy_path": "复制路径"
+      },
+      "report": {
+        "not_checked": "未检查",
+        "plugin_info_title": "插件信息",
+        "metadata_title": "插件元数据",
+        "repository": "仓库",
+        "authors": "作者",
+        "license": "许可证",
+        "labels": "分类标签",
+        "introduction": "介绍",
+        "meta": "元数据文件",
+        "latest_release": "最新发行版",
+        "not_detected": "未检测到",
+        "none": "无",
+        "metadata": {"name": "名称", "version": "版本", "authors": "作者", "description": "描述", "dependencies": "依赖", "homepage": "主页"}
+      },
+      "issues": {
+        "release_unchecked": "发行版检查需要 GitHub API，当前不可用，因此未检查发行版。",
+        "files_unchecked": "无法读取仓库文件，因此跳过了元数据、介绍文件、许可证与 id 占用检查。",
+        "id_invalid": "`{id}` 不是合法的插件 ID。请使用小写字母、数字和下划线，以字母开头，且不超过 64 个字符。",
+        "id_exists": "插件仓库中已存在 ID 为 `{id}` 的插件。",
+        "id_mismatch": "ID 与 mcdreforged.plugin.json 不一致，后者声明为 `{expected}`。",
+        "id_too_short": "`{id}` 少于 3 个字符，不建议使用过短的 ID。",
+        "id_similar": "`{existing}` 与本插件 ID 过于相似（编辑距离 {distance}）。",
+        "repo_invalid": "仓库无效。",
+        "related_path_invalid": "`{path}` 不是仓库内的合法目录路径。",
+        "branch_not_found": "该仓库中不存在分支 `{branch}`。",
+        "plugin_json_missing": "该分支下未找到 `{path}`。",
+        "plugin_json_unreadable": "`{path}` 无法解析为 JSON。",
+        "description_missing": "`{path}` 未声明 description。",
+        "introduction_missing": "请至少为一种语言提供插件介绍。",
+        "introduction_path_not_found": "{language} 的介绍文件 `{path}` 在该分支下不存在。",
+        "label_invalid": "`{label}` 不是已知的分类标签。",
+        "labels_missing": "未选择分类标签。建议至少选择一个分类标签以说明插件用途。",
+        "authors_invalid": "第 {indexes} 位作者的名称是空的。",
+        "authors_missing": "未声明作者。",
+        "no_license": "未在仓库根目录检测到开源许可证，建议添加以保护你的作品。",
+        "no_release": "未找到合法的插件 Release。"
+      }
+    },
     "home": {
       "description": "MCDaemon 的重置版本，用于控制 Minecraft 服务器的一个 Python 工具",
       "description_alt": "这是一个基于 Python 的 Minecraft 服务端控制工具",

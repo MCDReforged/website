@@ -17,3 +17,12 @@ export function getRevalidateCatalogueToken() {
 export function getTelemetryApiToken() {
   return process.env.MW_TELEMETRY_API_TOKEN || ''
 }
+
+export function getCatalogueRepo() {
+  return process.env.MW_CATALOGUE_REPO || 'MCDReforged/PluginCatalogue'
+}
+
+export function getGithubApiBase() {
+  return process.env.MW_GITHUB_API_BASE || 'https://api.github.com'
+}
+

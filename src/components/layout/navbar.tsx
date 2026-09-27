@@ -8,7 +8,7 @@ import { siteConfig } from "@/site/config";
 import { routes } from "@/site/routes";
 import { Box, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconBook2, IconChartBar, IconExternalLink, IconHome, IconPackages, IconProps } from "@tabler/icons-react";
+import { IconBook2, IconChartBar, IconExternalLink, IconGitPullRequest, IconHome, IconPackages, IconProps } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -50,6 +50,13 @@ const allNavItems: NavItem[] = [
     href: (urls) => '/stats',
     isExternal: false,
     checkActive: (pathname: string) => pathname === routes.stats(),
+  },
+  {
+    icon: IconGitPullRequest,
+    key: 'submit',
+    href: (urls) => routes.submit(),
+    isExternal: false,
+    checkActive: (pathname: string) => pathname === routes.submit(),
   },
   {
     icon: IconBook2,

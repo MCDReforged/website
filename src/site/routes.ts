@@ -17,6 +17,8 @@ class SiteRoutes {
   }
 
   stats = () => '/stats'
+
+  submit = () => '/submit'
 }
 
 export const routes = new SiteRoutes()

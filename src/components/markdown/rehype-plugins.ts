@@ -93,3 +93,33 @@ export function mermaidTransformer(): (tree: Root) => Root {
     return tree
   }
 }
+
+const ABSOLUTE_URL_REGEX = /^[a-z][a-z0-9+.-]*:/i
+
+function isRelativeUrl(url: unknown): url is string {
+  return typeof url === 'string'
+    && url.length > 0
+    && !url.startsWith('#')
+    && !url.startsWith('/')
+    && !ABSOLUTE_URL_REGEX.test(url)
+}
+
+// without this, remark-github leaves them relative and they resolve against this website
+function withTrailingSlash(url: string): string {
+  return url.endsWith('/') ? url : url + '/'
+}
+
+export function relativeUrlRewriter(options: { linkBase: string, imageBase: string }): (tree: Root) => Root {
+  const linkBase = withTrailingSlash(options.linkBase)
+  const imageBase = withTrailingSlash(options.imageBase)
+  return (tree: Root): Root => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName === 'a' && isRelativeUrl(node.properties.href)) {
+        node.properties.href = linkBase + node.properties.href
+      } else if (node.tagName === 'img' && isRelativeUrl(node.properties.src)) {
+        node.properties.src = imageBase + node.properties.src
+      }
+    })
+    return tree
+  }
+}
